@@ -71,9 +71,11 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
   flex: 1;
 }
 .week-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-width: var(--tap);
   min-height: var(--tap);
-  font-size: 1.5rem;
   line-height: 1;
   border: 1px solid var(--border);
   background: var(--surface);
@@ -81,6 +83,7 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
   border-radius: var(--radius);
   cursor: pointer;
 }
+.week-arrow svg { display: block; }
 .week-arrow:disabled { color: #b8bcc2; cursor: default; }
 .week-arrow:active:not(:disabled) { background: var(--bg); }
 

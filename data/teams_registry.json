@@ -1,0 +1,786 @@
+{
+  "T_001": {
+    "normalized_name": "חוגי בנות דדו",
+    "display_name": "חוגי בנות דדו",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_002": {
+    "normalized_name": "טרום קט סל בנים דקלים",
+    "display_name": "טרום קט סל בנים דקלים",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_003": {
+    "normalized_name": "טרום קט סל גוש חרוד",
+    "display_name": "טרום קט סל גוש חרוד",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_004": {
+    "normalized_name": "קט סל א חרוד",
+    "display_name": "קט סל א חרוד",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_005": {
+    "normalized_name": "ילדים לאומית",
+    "display_name": "ילדים לאומית",
+    "category": "kids",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_006": {
+    "normalized_name": "טרום קט סל בנות מרכז",
+    "display_name": "טרום קט סל בנות מרכז",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_007": {
+    "normalized_name": "טרום קט סל הרי הגלבוע",
+    "display_name": "טרום קט סל הרי הגלבוע",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_008": {
+    "normalized_name": "טרום קט סל כפר יחזקאל גבע גדעונה",
+    "display_name": "טרום קט סל כפר יחזקאל/גבע/גדעונה",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_009": {
+    "normalized_name": "נערות א על",
+    "display_name": "נערות א על",
+    "category": "girls_youth",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_010": {
+    "normalized_name": "קט סל א דדו",
+    "display_name": "קט סל א דדו",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_011": {
+    "normalized_name": "קט סל ב בנות",
+    "display_name": "קט סל ב בנות",
+    "category": "mini_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_012": {
+    "normalized_name": "חוגי גן חובה שלפים",
+    "display_name": "חוגי גן חובה שלפים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_013": {
+    "normalized_name": "חוגי בנים עין הנציב",
+    "display_name": "חוגי בנים עין הנציב",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_014": {
+    "normalized_name": "חוגי גוש חרוד א ב בנים",
+    "display_name": "חוגי גוש חרוד א-ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_015": {
+    "normalized_name": "ילדות א צעירות",
+    "display_name": "ילדות א צעירות",
+    "category": "girls_kids",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_016": {
+    "normalized_name": "חוגי שלפים רשפים שלוחות א ב בנים",
+    "display_name": "חוגי שלפים/רשפים/שלוחות-א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_017": {
+    "normalized_name": "טרום קט סל בנות מערב",
+    "display_name": "טרום קט סל בנות מערב",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_018": {
+    "normalized_name": "קט סל ב חרוד",
+    "display_name": "קט סל ב חרוד",
+    "category": "mini_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_019": {
+    "normalized_name": "קט סל ב מרכז",
+    "display_name": "קט סל ב מרכז",
+    "category": "mini_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_020": {
+    "normalized_name": "חוגי בנות גוש חרוד",
+    "display_name": "חוגי בנות גוש חרוד",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_021": {
+    "normalized_name": "חוגי בנים כפר יחזקאל גדעונה גבע",
+    "display_name": "חוגי בנים כפר יחזקאל/גדעונה/גבע",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_022": {
+    "normalized_name": "חוגי גוש חרוד גן חובה",
+    "display_name": "חוגי גוש חרוד גן חובה",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_023": {
+    "normalized_name": "חוגי צרכים מיוחדים",
+    "display_name": "חוגי צרכים מיוחדים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_024": {
+    "normalized_name": "ילדים א מזרח",
+    "display_name": "ילדים א מזרח",
+    "category": "kids_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_025": {
+    "normalized_name": "ילדים א מערב",
+    "display_name": "ילדים א מערב",
+    "category": "kids_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_026": {
+    "normalized_name": "חוגי טירת צבי בנים א ב",
+    "display_name": "חוגי טירת צבי בנים א/ב",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_027": {
+    "normalized_name": "טרום קט סל בנות מזרח",
+    "display_name": "טרום קט סל בנות מזרח",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_028": {
+    "normalized_name": "טרום קט סל רימון בנים",
+    "display_name": "טרום קט סל רימון בנים",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_029": {
+    "normalized_name": "ילדים א צעירים",
+    "display_name": "ילדים א צעירים",
+    "category": "kids_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_030": {
+    "normalized_name": "ילדים ב שקד",
+    "display_name": "ילדים ב שקד",
+    "category": "kids_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_031": {
+    "normalized_name": "נוער על",
+    "display_name": "נוער על",
+    "category": "juniors",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_032": {
+    "normalized_name": "נערות ב על",
+    "display_name": "נערות ב על",
+    "category": "girls_youth",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_033": {
+    "normalized_name": "קט סל א בנות מערב",
+    "display_name": "קט סל א בנות מערב",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_034": {
+    "normalized_name": "ילדים ב חרוד",
+    "display_name": "ילדים ב חרוד",
+    "category": "kids_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_035": {
+    "normalized_name": "נוער ארצית",
+    "display_name": "נוער ארצית",
+    "category": "juniors",
+    "tier": "ארצית",
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_036": {
+    "normalized_name": "ילדות א בוגרות",
+    "display_name": "ילדות א בוגרות",
+    "category": "girls_kids",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_037": {
+    "normalized_name": "נוער שקד",
+    "display_name": "נוער שקד",
+    "category": "juniors",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_038": {
+    "normalized_name": "נערים ט לאומית",
+    "display_name": "נערים ט לאומית",
+    "category": "youth_9",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_039": {
+    "normalized_name": "נערים לאומית",
+    "display_name": "נערים לאומית",
+    "category": "youth",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_040": {
+    "normalized_name": "נערים ארצית",
+    "display_name": "נערים ארצית",
+    "category": "youth",
+    "tier": "ארצית",
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_041": {
+    "normalized_name": "ליגה ב עמק המעיינות",
+    "display_name": "ליגה ב עמק המעיינות",
+    "category": "league",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-02"
+  },
+  "T_042": {
+    "normalized_name": "הפועל העמק",
+    "display_name": "הפועל העמק",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_043": {
+    "normalized_name": "נשים לאומית",
+    "display_name": "נשים לאומית",
+    "category": "women",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_044": {
+    "normalized_name": "חוגי דדו א ב בנים",
+    "display_name": "חוגי דדו א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_045": {
+    "normalized_name": "טרום קט סל דדו",
+    "display_name": "טרום קט סל דדו",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_046": {
+    "normalized_name": "חוגי בנות ביהס דקלים",
+    "display_name": "חוגי בנות ביה\"ס דקלים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_047": {
+    "normalized_name": "חוגי גן חובה גן נר",
+    "display_name": "חוגי גן חובה גן נר",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_048": {
+    "normalized_name": "טרום קט סל מולדת רמת צבי",
+    "display_name": "טרום קט סל מולדת/רמת צבי",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_049": {
+    "normalized_name": "ילדים ב מערב",
+    "display_name": "ילדים ב מערב",
+    "category": "kids_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_050": {
+    "normalized_name": "קט סל א בנות מזרח",
+    "display_name": "קט סל א בנות מזרח",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_051": {
+    "normalized_name": "קט סל א מרכז",
+    "display_name": "קט סל א מרכז",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_052": {
+    "normalized_name": "קט סל ב הרי הגלבוע",
+    "display_name": "קט סל ב הרי הגלבוע",
+    "category": "mini_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_053": {
+    "normalized_name": "חוגי בנות גן נר",
+    "display_name": "חוגי בנות גן נר",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_054": {
+    "normalized_name": "חוגי בנים א ב חפציבה בית אלפא",
+    "display_name": "חוגי בנים א/ב חפציבה/בית אלפא",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_055": {
+    "normalized_name": "קט סל א רימון",
+    "display_name": "קט סל א רימון",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_056": {
+    "normalized_name": "קט סל א שקד",
+    "display_name": "קט סל א שקד",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_057": {
+    "normalized_name": "קט סל ב גן נר",
+    "display_name": "קט סל ב גן נר",
+    "category": "mini_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_058": {
+    "normalized_name": "חוגי בנות כפר יחזקאל גבע גדעונה",
+    "display_name": "חוגי בנות כפר יחזקאל/גבע/גדעונה",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_059": {
+    "normalized_name": "נוער לאומית",
+    "display_name": "נוער לאומית",
+    "category": "juniors",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_060": {
+    "normalized_name": "טרום קט סל מרכז",
+    "display_name": "טרום קט סל מרכז",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_061": {
+    "normalized_name": "נערים ט מערב",
+    "display_name": "נערים ט מערב",
+    "category": "youth_9",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_062": {
+    "normalized_name": "קט סל א גן נר",
+    "display_name": "קט סל א גן נר",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_063": {
+    "normalized_name": "ילדים ב מזרח",
+    "display_name": "ילדים ב מזרח",
+    "category": "kids_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_064": {
+    "normalized_name": "נערים ט מזרח",
+    "display_name": "נערים ט מזרח",
+    "category": "youth_9",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_065": {
+    "normalized_name": "נערים ט שקד",
+    "display_name": "נערים ט שקד",
+    "category": "youth_9",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-03"
+  },
+  "T_066": {
+    "normalized_name": "חוגי גן נר א ב בנים",
+    "display_name": "חוגי גן נר א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-04"
+  },
+  "T_067": {
+    "normalized_name": "טרום קט סל גן נר בנים",
+    "display_name": "טרום קט סל גן נר בנים",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-04"
+  },
+  "T_068": {
+    "normalized_name": "חוג דקלים א ב בנים",
+    "display_name": "חוג דקלים א-ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_069": {
+    "normalized_name": "חוגי בית השיטה א ב בנים",
+    "display_name": "חוגי בית השיטה א-ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_070": {
+    "normalized_name": "חוגי גן חובה דדו",
+    "display_name": "חוגי גן חובה דדו",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_071": {
+    "normalized_name": "חוגי מולדת רמת צבי א ב בנים",
+    "display_name": "חוגי מולדת/רמת צבי א-ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_072": {
+    "normalized_name": "טרום שקד ביכורה",
+    "display_name": "טרום שקד/ביכורה",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_073": {
+    "normalized_name": "חוגי בנות שלפים",
+    "display_name": "חוגי בנות שלפים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_074": {
+    "normalized_name": "טרום בנות קט סל מזרח",
+    "display_name": "טרום בנות קט סל מזרח",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_075": {
+    "normalized_name": "חוגי בנות מבוגרות",
+    "display_name": "חוגי בנות מבוגרות",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_076": {
+    "normalized_name": "נוער מערב",
+    "display_name": "נוער מערב",
+    "category": "juniors",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_077": {
+    "normalized_name": "נערים מחוזית",
+    "display_name": "נערים מחוזית",
+    "category": "youth",
+    "tier": "מחוזית",
+    "sport": "basketball",
+    "first_seen": "2026-09-06"
+  },
+  "T_078": {
+    "normalized_name": "טרום קט סל דקלים",
+    "display_name": "טרום קט סל דקלים",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_079": {
+    "normalized_name": "טרום גוש חרוד",
+    "display_name": "טרום גוש חרוד",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_080": {
+    "normalized_name": "חוגי ביכורה בנים א ב",
+    "display_name": "חוגי ביכורה בנים א/ב",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_081": {
+    "normalized_name": "חוגי בנות בית אלפא חפציבה ניר דוד מסילות",
+    "display_name": "חוגי בנות בית אלפא/חפציבה/ניר דוד/מסילות",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_082": {
+    "normalized_name": "חוגי בנות בית השיטה",
+    "display_name": "חוגי בנות בית השיטה",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_083": {
+    "normalized_name": "חוגי בנות מעלה גלבוע",
+    "display_name": "חוגי בנות מעלה גלבוע",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_084": {
+    "normalized_name": "חוגי בנים א ג כפר יחזקאל גדעונה גבע",
+    "display_name": "חוגי בנים א-ג כפר יחזקאל/גדעונה/גבע",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_085": {
+    "normalized_name": "חוגי בנות שקד",
+    "display_name": "חוגי בנות שקד",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_086": {
+    "normalized_name": "חוגי בית אלפא חפציבה א ב בנים",
+    "display_name": "חוגי בית אלפא/חפציבה א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_087": {
+    "normalized_name": "טרום קט סל רימון",
+    "display_name": "טרום קט סל רימון",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_088": {
+    "normalized_name": "חוגי בנות מירב",
+    "display_name": "חוגי בנות מירב",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_089": {
+    "normalized_name": "חוגי בנים מעלה גלבוע מיטל מירב א ב בנים",
+    "display_name": "חוגי בנים מעלה גלבוע/מיטל/מירב א-ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_090": {
+    "normalized_name": "חוגי בנות מולדת רמת צבי",
+    "display_name": "חוגי בנות מולדת/רמת צבי",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-07"
+  },
+  "T_091": {
+    "normalized_name": "חוגי בנות א ב נעורה",
+    "display_name": "חוגי בנות א-ב נעורה",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_092": {
+    "normalized_name": "טרום קט סל בנים גן נר מגן שאול נורית",
+    "display_name": "טרום קט סל בנים גן נר/מגן שאול/נורית",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_093": {
+    "normalized_name": "חוגי בנות ג ד נעורה",
+    "display_name": "חוגי בנות ג-ד נעורה",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_094": {
+    "normalized_name": "טרום מולדת רמת צבי",
+    "display_name": "טרום מולדת/רמת צבי",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_095": {
+    "normalized_name": "חוגי בנות נעורה ה ו",
+    "display_name": "חוגי בנות נעורה ה-ו",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_096": {
+    "normalized_name": "חוגי בנים א ב גן נר מגן שאול נורית",
+    "display_name": "חוגי בנים א/ב גן נר/מגן שאול/נורית",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_097": {
+    "normalized_name": "חוגי בנים שדה אליהו א ב בנים",
+    "display_name": "חוגי בנים שדה אליהו א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  },
+  "T_098": {
+    "normalized_name": "חוגי א ב בנים אומן",
+    "display_name": "חוגי א-ב בנים אומן",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-08"
+  }
+}

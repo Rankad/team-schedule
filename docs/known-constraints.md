@@ -61,5 +61,25 @@ the calendar private or switch systems, fall back to the Excel importer.
 ## Environment
 - Development on Windows 11, PowerShell primary shell. Scripts must work there
   and in the Linux GitHub Actions runner.
-- Not a git repository yet — initialize before real code lands (a repo is also
-  required for the Action + Pages).
+- Git repo initialized 2026-09-02 (`main` branch, no remote yet). `.gitattributes`
+  forces LF endings so Python scripts behave identically on Windows and the
+  Linux runner.
+- Python pinned to 3.13 locally and in CI. `zoneinfo` (stdlib) needs the
+  `tzdata` package on Windows — it is pulled in transitively; keep an eye on it
+  if imports fail on a clean machine.
+
+## Parser / naming (discovered building Phase 1)
+- The `.ics` feed's event `LOCATION` and `SUMMARY` still carry trailing spaces
+  and dash variants exactly like the Excel — cleaning (`clean.py`) is required
+  for both sources.
+- Tier detection only knows `לאומית` / `ארצית` / `מחוזית`. The premier-league
+  marker `על` (as in `נוער על`, `נערות א על`) is currently NOT captured as a
+  tier — pending stakeholder input at the gate.
+- `הפועל העמק` appears as a *left-side* (team) name, so it is currently minted as
+  a followable team and only flagged `team_name_has_club_token`. It is an
+  external club; the gate must decide keep / relabel / filter.
+- Same-team spelling variants beyond the six proven pairs exist (word order,
+  filler `קט סל`, `בנים` suffix) — see decision-log DL-011. Not auto-merged.
+- `data/teams_registry.json` currently committed is a **provisional seed** built
+  from the single sample week; `T_NNN` numbering will change if the naming rules
+  change at the gate. Safe to delete and regenerate until Phase 2 locks it.

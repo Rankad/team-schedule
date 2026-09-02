@@ -60,5 +60,17 @@ server, no database, $0/month. See `docs/architecture.md` and
 - Tasks: `wa.me` "share to WhatsApp" button (free, no API); optionally an ICS
   feed per team; email later. Decide any paid WhatsApp mechanism only here.
 
+## Progress log
+- **2026-09-02 — Phase 0 done** (except the stakeholder tasks in
+  `docs/PHASE-0-USER-TASKS.md`: API key, GitHub repo, secret, manual run).
+  Repo skeleton, venv + deps, `build.yml` (manual trigger only), fixtures
+  (`calendar_week.json` from the `.ics` feed = 215 events; `sample_week.xlsx`).
+- **2026-09-02 — Phase 1 done, at the gate.** `calendar_source.py`, `clean.py`,
+  `parse_title.py`, `classify.py`, `resolve.py` + provisional
+  `data/teams_registry.json` (98 teams from the sample week). 91 tests green.
+  Non-team split: blocked_hall 3, volleyball 9, judo 1, gymnastics 1, unknown 1.
+  **Awaiting stakeholder sign-off** on team naming / edge cases (DL-011, the
+  `על` tier gap, `הפועל העמק`) before Phase 2.
+
 ## Immediate next step
-Start Phase 0 + Phase 1.
+Stakeholder review of the Phase 1 parser output, then Phase 2.

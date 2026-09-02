@@ -105,3 +105,50 @@
 - **Why:** Removes the biggest friction point; not needed until push/WhatsApp.
 - **Status:** Accepted.
 - **Risk:** Low. Selection is per-device (documented limitation).
+
+## DL-009 — `calendar_week.json` fixture captured from the `.ics` feed, not the API
+- **Date:** 2026-09-02
+- **Context:** The test fixture is supposed to be a real Google Calendar API
+  `events.list` capture, but we have no API key yet (that is a stakeholder task
+  — `docs/PHASE-0-USER-TASKS.md`).
+- **Decision:** Build the fixture from the keyless public `.ics` feed and
+  reshape each event to mirror the API item shape (`id`, `summary`, `location`,
+  `start.dateTime`, `end.dateTime`, `status`, `updated`, `sequence`). Documented
+  in `tests/fixtures/README.md`.
+- **Validation:** 215 events for 02–08/09/2026; per-day counts, 150 distinct
+  summaries and 41 distinct locations all match `docs/mvp-spec.md` sample facts
+  exactly — so the `.ics` data is equivalent to the API data for parser work.
+- **Follow-up:** re-capture from the real API once the key exists and diff.
+- **Risk:** Low. Field-name mapping (`id` = iCal `UID`; `updated` =
+  `LAST-MODIFIED`) is the only place the two could differ.
+
+## DL-010 — Team identity key folds `-` and `/` to spaces
+- **Date:** 2026-09-02
+- **Context:** `docs/mvp-spec.md` §4.5 says the identity key collapses
+  whitespace, unifies dash variants, treats `א/ב` ≡ `א-ב`, strips surrounding
+  punctuation. Real data also varies a plain space vs a hyphen between the same
+  name parts (e.g. `שלוחות א/ב בנים` vs `שלוחות-א/ב בנים`).
+- **Decision:** In `normalize_name` (identity only — display name keeps the
+  original), also replace every `-` and `/` between name parts with a space
+  before collapsing. This makes all six proven §4.5 pairs collapse and folds the
+  space/hyphen variants too.
+- **Why:** The source text is hand-entered; separator noise is exactly the kind
+  of variation the identity key must absorb. No case was found where two truly
+  different teams differ only by a space vs a dash.
+- **Status:** Accepted (implementation decision). Revisit if a real collision
+  appears.
+- **Risk:** Low.
+
+## DL-011 — Word-order / filler-word team-name variants are NOT auto-merged (yet)
+- **Date:** 2026-09-02
+- **Context:** The sample week has several team names that are almost certainly
+  the same team written differently, but not in the §4.5 "proven pairs" list:
+  `טרום קט סל גוש חרוד` vs `טרום גוש חרוד`; `טרום קט סל בנות מזרח` vs
+  `טרום בנות קט סל מזרח`; `טרום קט סל רימון` vs `טרום קט סל רימון בנים`;
+  `טרום קט סל מולדת/רמת צבי` vs `טרום מולדת/רמת צבי`.
+- **Decision:** Do NOT add heuristic word-order / filler-word merging now. It
+  risks false merges and is outside the approved spec. Surface the list at the
+  Phase 1 stakeholder gate; add explicit alias rules only with sign-off.
+- **Status:** Pending stakeholder gate.
+- **Risk:** Medium — until resolved, a parent following one spelling misses
+  sessions filed under the other. Mitigation: the gate; then an alias table.

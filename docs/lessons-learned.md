@@ -33,6 +33,35 @@
 - **Apply:** Before building an importer for a file, inspect the source site's
   requests (DevTools / network log) for an underlying API or feed.
 
+## LL-005 — Naive substring replace for "protected" tokens corrupts real separators
+- **Date:** 2026-09-02
+- **Context:** `parse_title` protects age-range tokens (`א-ב`, `ה-ו`, …) so the
+  hyphen inside them is not used as the team/coach split point. First
+  implementation did `text.replace("א-ב", …)`.
+- **What we learned:** `בית אלפא-בן רצין` contains the substring `א-ב`
+  (end of "אלפא" + hyphen + start of "בן"), so the real separator hyphen got
+  protected and the coach was swallowed into the team name.
+- **Apply:** Match "standalone" tokens only — bounded by non-letters
+  (`(?<![^\W\d_])א-ב(?![^\W\d_])`). Added a regression test.
+
+## LL-006 — The keyless `.ics` feed is a faithful stand-in for the API
+- **Date:** 2026-09-02
+- **Context:** Needed an offline test fixture but have no API key yet.
+- **What we learned:** Filtering the public `.ics` feed to the sample week gives
+  exactly 215 events with per-day counts, distinct-summary count (150) and
+  distinct-location count (41) identical to both the Excel export and the
+  `docs/mvp-spec.md` sample facts. The `.ics` feed carries `UID`, `SEQUENCE`,
+  `LAST-MODIFIED`, `STATUS` — enough to mimic the API item shape.
+- **Apply:** The `.ics` fallback in `calendar_source.py` is a real fallback, not
+  a downgrade. Still re-capture from the API once the key exists, to confirm the
+  `id` field maps cleanly.
+
+## LL-007 — Console still mangles Hebrew; inspect via files
+- **Date:** 2026-09-02
+- **Context:** Re-confirmed LL-003 while debugging the parser on Windows.
+- **Apply:** All parser inspection during this phase wrote UTF-8 report files to
+  the scratchpad and read them back, never printed Hebrew to the terminal.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

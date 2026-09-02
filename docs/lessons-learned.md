@@ -168,6 +168,68 @@
   as a duplicate-check trigger. Applies to writing-plans and any brief that adds
   named functions to an existing file.
 
+## LL-016 — GitHub Pages: public repo, Actions not branch-mode, one workflow
+- **Date:** 2026-09-02 (Phase 3 deploy)
+- **Context:** Enabling the daily cron + deploying the static site to GitHub Pages.
+- **What we learned (each a wall we hit):**
+  - **Free GitHub Pages needs a *public* repo.** A private repo shows only
+    "Upgrade or make this repository public"; Pro (~$4/mo) would break the
+    $0/month rule. Cloudflare Pages is the private-repo alternative. Stakeholder
+    chose public — nothing sensitive is in the repo (API key is an Actions
+    secret; no user data).
+  - **Branch-mode Pages can only serve repo root or `/docs`.** The site is in
+    `public/` and `/docs` holds the PM docs — so deploy via **GitHub Actions**
+    (`upload-pages-artifact` on `public/` → `deploy-pages`), no file moves.
+  - **`actions/configure-pages` can't create the Pages site from a private repo**
+    — first run failed `Resource not accessible by integration`. Fix: go public,
+    then Settings → Pages → Source = "GitHub Actions" once by hand.
+  - **A `GITHUB_TOKEN` push does not trigger other workflows.** So a separate
+    `on: push` deploy workflow would never fire after the build job commits data.
+    Solution: **one workflow, two jobs** — `build-data` (cron/manual only) then
+    `deploy` (`needs: build-data`, fresh `main` checkout).
+  - **Scheduled workflows auto-disable after 60 days of repo inactivity.** Quiet
+    weeks (no schedule change ⇒ no data commit) can pause the cron. Added a
+    monthly keepalive commit to `.github/keepalive.log`.
+- **Apply:** For any static-site-from-a-subfolder on GitHub Pages: public repo,
+  Actions deploy, single workflow, keepalive. See DL-026.
+
+## LL-017 — A "site is broken" report was correct behaviour over sparse data
+- **Date:** 2026-09-02 (post-launch)
+- **Context:** A parent reported "I only see the remaining days of the week, not
+  the full week."
+- **What we learned:** The site had **no** past-day filtering — it rendered every
+  day present in `public/data/schedule.json`. The current week genuinely had
+  almost no sessions on Sun–Tue (season started mid-week; 3 / 3 / 0 sessions
+  across *all* teams, then ~46 on Wednesday). The "bug" was the club's calendar.
+  Reproducing against the committed JSON (per-day counts) showed this in a minute
+  and stopped a pointless hunt through `app.js`.
+- **Apply:** For any user report about what the live site shows, first reproduce
+  against `public/data/*.json` (and, if needed, the calendar) before reading the
+  renderer. The source data is dirty and sparse by nature — assume the data
+  before assuming the code. (Extends LL-010.)
+
+## LL-018 — Headless-harness test blocks: block-scope them, and fake the clock
+- **Date:** 2026-09-02 (earlier-days toggle)
+- **Context:** `tests/site_smoke.js` runs the whole real `app.js` inside one
+  `(async () => { … })()` with many `const` locals. New test code was added as
+  bare `{ … }` blocks using `var`.
+- **What we learned:**
+  - `var` in a nested `{}` hoists to the function scope and **collides** with an
+    existing `const` of the same name — Node throws `SyntaxError: Identifier
+    'other' has already been declared` and the *entire* harness fails to parse,
+    so you see neither RED nor GREEN. Use `const`/`let` inside the block (it is
+    modern Node, not `app.js`); a block-scoped `const other` legally shadows an
+    outer one.
+  - To test "today"-dependent logic, inject a clock: `class FakeDate extends
+    Date` that returns a fixed instant for `new Date()` only when an override is
+    set (default = real time, so existing tests are untouched), installed as
+    `global.Date` before `require('app.js')`, built from **local** noon so
+    `todayYmd()`'s local getters round-trip, and reset to `null` (plus restore
+    any followed-team state) before the pre-existing test sections run.
+- **Apply:** Extend the smoke harness with self-contained `{ const … }` blocks;
+  add the `FakeDate` seam whenever a feature branches on the current date.
+  (Extends LL-011.)
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

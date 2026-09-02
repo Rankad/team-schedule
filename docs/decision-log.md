@@ -197,3 +197,44 @@
   parents may want them. The flag stays so it is easy to find/relabel later.
 - **Status:** Accepted.
 - **Risk:** Low.
+
+## DL-015 — The build job's `git commit` step is guarded (small deviation from mvp-spec §7)
+- **Date:** 2026-09-02 (Phase 2)
+- **Context:** `docs/mvp-spec.md` §7 step 7 implies `fetch_and_build.py` always
+  runs `git add -A && git commit`. That would make local dev runs and the test
+  suite create commits.
+- **Decision:** The commit step is OFF by default and only runs with the
+  `--commit` flag or `BUILD_COMMIT=1`. It still commits *only if the working
+  tree changed*. The GitHub Action passes `--commit`; the workflow then does
+  `git push` (a no-op when nothing was committed). Everything else in §7 is
+  unchanged.
+- **Why:** Keeps the pipeline safe to run anywhere. A script that commits as a
+  side effect is a footgun for a non-coder maintainer running it by hand.
+- **Status:** Accepted.
+- **Risk:** Low.
+
+## DL-016 — First-ever run (no prior snapshot) reports zero changes
+- **Date:** 2026-09-02 (Phase 2)
+- **Context:** `changes.json` is a delta against `data/snapshot.json` from the
+  previous run. On the very first run that file does not exist.
+- **Decision:** With no prior snapshot, `changes.json` is empty (`changes: []`),
+  not "every session added". "What changed since last time" is meaningless when
+  there is no last time; flooding the change banner with ~200 "added" entries on
+  day one would be noise.
+- **Status:** Accepted. From the second run on, diffing is normal.
+- **Risk:** Low.
+
+## DL-017 — `teams.json` lists only teams that have a session in the current window
+- **Date:** 2026-09-02 (Phase 2)
+- **Context:** `data/teams_registry.json` keeps every team ever seen (never
+  deleted, DL-012). The rolling window is ~today−7d … today+28d.
+- **Decision:** `teams.json` (which feeds the picker) contains one row per team
+  that has at least one session in the served window, with coaches aggregated
+  across that window and a representative `sample_note`. A team with no sessions
+  in the window is absent from the picker for that period but keeps its
+  `team_id` forever in the registry and reappears automatically when it next has
+  a session.
+- **Why:** The picker should only offer teams a parent can actually see a
+  schedule for right now.
+- **Status:** Accepted.
+- **Risk:** Low.

@@ -62,6 +62,29 @@
 - **Apply:** All parser inspection during this phase wrote UTF-8 report files to
   the scratchpad and read them back, never printed Hebrew to the terminal.
 
+## LL-008 — Pin the one non-deterministic value so output is byte-stable
+- **Date:** 2026-09-02 (Phase 2)
+- **Context:** The build must produce byte-identical JSON for identical input so
+  "commit only if changed" actually works and the diff stays quiet.
+- **What we learned:** Everything is naturally deterministic except
+  `generated_at`. Making it a caller-supplied parameter (`--now`), sorting every
+  output array on a stable key, and serialising with `sort_keys=True` +
+  fixed indent + trailing newline was enough. Tests pin `--now` and compare
+  whole files.
+- **Apply:** Isolate the clock/RNG at the edge; pass it in. Never sprinkle
+  `datetime.now()` through the pipeline.
+
+## LL-009 — A golden fixture is the cheap regression anchor for a second data source
+- **Date:** 2026-09-02 (Phase 2)
+- **Context:** Phase 4 adds an Excel importer that must produce the *same*
+  normalized sessions as the calendar path.
+- **What we learned:** Locking `tests/fixtures/expected_sessions.json` now (the
+  full 215-session normalized output over `calendar_week.json`) means Phase 4
+  just has to match it modulo the `id` field — no re-litigating parser
+  behaviour.
+- **Apply:** When two code paths must agree, freeze the shared output as a
+  fixture from the first path before building the second.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

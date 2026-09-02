@@ -74,7 +74,21 @@ server, no database, $0/month. See `docs/architecture.md` and
   by regression tests), DL-013 (`על` added as a tier — T_009 / T_031 / T_032),
   DL-014 (`הפועל העמק` kept as a team). Registry regenerated. 101 tests green.
   **STOPPED again at the gate — Phase 2 not started.**
+- **2026-09-02 — Phase 2 done (TDD).** `scripts/build_outputs.py` (weeks
+  bucketed by Sunday `week_key`, the four `public/data/*.json` builders,
+  canonical deterministic JSON), `scripts/diff.py` (match by event `id`;
+  added / removed / time_changed / location_changed / team_changed; non-team
+  rows ignored; window-filtered), `scripts/fetch_and_build.py` (orchestration;
+  guarded commit — DL-015). Golden fixture `tests/fixtures/expected_sessions.json`
+  (215 sessions) locked + reproduction test. `.github/workflows/build.yml`
+  updated (runs the real entrypoint + `--commit` + push; still
+  `workflow_dispatch` only — no cron). Decisions DL-015/016/017.
+  146 tests green. 430-event run ≈ 0.03 s. No live API call — verified offline
+  against `calendar_week.json`.
+  **Phase 3 NOT started** (no site, no cron, no deploy).
 
 ## Immediate next step
-Coordinator go-ahead for Phase 2 (`build_outputs.py`, `diff.py`,
-`fetch_and_build.py`, `public/data/*.json`).
+Stakeholder runs the `Build schedule data` workflow manually
+(`workflow_dispatch`) once to verify against the LIVE Google Calendar API:
+expect ~215 events for the current week's window and a commit to
+`public/data/`. Then Phase 3 (static site) behind its approval gate.

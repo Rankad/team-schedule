@@ -318,3 +318,83 @@
   `.toggle*` and `.coach-group-head` CSS.
 - **Status:** Accepted.
 - **Risk:** Low. Reversible. Covered by `tests/site_smoke.js`.
+
+## DL-022 — Shareable link (not named profiles) for restoring followed teams
+- **Date:** 2026-09-02 (Phase 3, export/share scope pulled forward)
+- **Context:** Followed teams live only in `localStorage` per device (DL-007). A
+  parent who opens the app on a second phone, or a second parent in the same
+  family, has to re-find every team. The stakeholder approved a **link-only**
+  mechanism — no named/saved profiles, no accounts, no server.
+- **Decision:**
+  - **Write:** a "🔗 שתף את הקבוצות שלי" action under the followed-teams chips
+    builds `location.origin + location.pathname + '?teams=' + followed.join(',')`,
+    copies it, and additionally calls `navigator.share` when available. Hidden
+    when nothing is followed.
+  - **Read (on load):** if `?teams=` is present, each id that exists in
+    `teams.json` is **merged** into the existing followed list (union, de-duped —
+    never replaces). Unknown ids are ignored silently. Then
+    `history.replaceState` strips the query string so a refresh does not re-apply
+    it. A non-blocking toast reports what happened
+    ("נוספו N קבוצות למעקב" / "כבר עוקב אחרי הקבוצות בקישור").
+  - Pure functions `buildTeamsLink()`, `parseTeamsParam()`, `applyTeamsParam()`
+    are exposed on `window` and unit-tested.
+- **Why merge, not replace:** a link is additive sharing ("also follow my
+  teams"), and replacing would silently destroy the recipient's own selection.
+- **Status:** Accepted.
+- **Risk:** Low. Link contains only opaque team ids, no personal data.
+
+## DL-023 — Four "get my schedule out" actions on the weekly view
+- **Date:** 2026-09-02 (Phase 3)
+- **Context:** Parents want the week outside the app — in a WhatsApp message, in
+  their phone calendar, as a screenshot. Approved scope: Copy as text, Share,
+  Add to calendar (.ics), Save as image. All client-side, $0, no API.
+- **Decision:** A compact action row (📋 העתק · 📤 שתף · 📅 יומן · 🖼️ תמונה)
+  shows on "My Week" only when ≥1 team is followed **and** the visible week has
+  ≥1 session. Each acts on the currently visible week + followed teams, reusing
+  the same filter/sort as the on-screen list (`weekSessionsFor`).
+  - **Empty week:** the row is hidden (no "export nothing" button). The pure
+    builders still return a minimal payload if called directly
+    (`buildWeekText` → "אין אימונים בשבוע זה"; `buildICS` → an event-less
+    VCALENDAR) so behaviour is defined, just not surfaced.
+  - **Copy:** `navigator.clipboard.writeText` with a `<textarea>` +
+    `execCommand('copy')` fallback.
+  - **Share:** `navigator.share({title,text})` when present (AbortError from
+    user-cancel is swallowed); otherwise copy the text **and** open
+    `https://wa.me/?text=…` in a new `rel="noopener"` tab.
+  - **Image share:** download always; additionally `navigator.share({files})`
+    when `navigator.canShare({files:[…]})` is true (mobile).
+  - Builders `buildWeekText(sunday)`, `buildICS(sunday)`, `drawWeekImage(sunday)`
+    exposed on `window` and unit-tested.
+- **Status:** Accepted. (Phase 5's "share to WhatsApp" + optional ICS items,
+  pulled into Phase 3 at stakeholder request — see execution-plan.)
+- **Risk:** Low.
+
+## DL-024 — "Save as image" is hand-drawn on `<canvas>` — no html2canvas / no library
+- **Date:** 2026-09-02 (Phase 3)
+- **Context:** The site has a hard "no build step, no framework, no external
+  libraries/CDNs" constraint. `html2canvas` / `dom-to-image` would violate it and
+  add ~40–200 KB.
+- **Decision:** `drawWeekImage(sunday)` builds the PNG directly with the Canvas
+  2D API — a fixed 480 px-wide layout, `devicePixelRatio` scaling, `ctx.direction
+  = 'rtl'` + `ctx.textAlign = 'right'`, height grows with content, long lines are
+  ellipsised via `measureText`. ~100 lines, one function. If Hebrew canvas text
+  or layout had ballooned past ~150 lines it would have been shipped as a partial
+  — it did not.
+- **Status:** Accepted.
+- **Risk:** Low–medium. Canvas Hebrew shaping/bidi is browser-dependent; needs a
+  real-device visual check (see lessons-learned). The other three exports
+  (text/share/ICS) do not depend on canvas.
+
+## DL-025 — ICS emits DTSTART/DTEND as UTC "Z" instants (no VTIMEZONE)
+- **Date:** 2026-09-02 (Phase 3)
+- **Context:** Session `start`/`end` carry a `+03:00` offset. An ICS event can
+  express local time either as `TZID=Asia/Jerusalem` + a full VTIMEZONE block, or
+  as a converted UTC `...Z` instant.
+- **Decision:** Convert to UTC `Z` (`new Date(start)` → UTC components). It is
+  unambiguous, needs no (error-prone, DST-rule-bearing) VTIMEZONE block, and
+  every calendar client renders it in the user's local zone correctly. `UID` is
+  `<gcal event id>@gilboa-schedule` so re-importing an updated file replaces
+  rather than duplicates. CRLF line endings, RFC 5545 escaping (`\ ; , \n`), and
+  75-octet line folding are implemented.
+- **Status:** Accepted.
+- **Risk:** Low.

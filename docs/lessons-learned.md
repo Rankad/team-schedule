@@ -105,6 +105,50 @@
   checks still need a real device, but logic is verifiable in CI-style.
 - **Apply:** For no-build vanilla front-ends, keep a headless smoke harness.
 
+## LL-012 — Web Share / clipboard APIs need feature detection AND a fallback path
+- **Date:** 2026-09-02 (Phase 3, export/share)
+- **Context:** Added "share this week" / "copy" / "share my teams link" actions.
+- **What we learned:**
+  - `navigator.share` exists only on mobile + a few desktop browsers, only over
+    HTTPS (or `localhost`), and **throws** `AbortError` when the user dismisses
+    the sheet — that must be caught and ignored, it is not an error.
+  - `navigator.share({ files })` is gated separately behind
+    `navigator.canShare({ files: [...] })`; check it before calling.
+  - `navigator.clipboard.writeText` also needs a secure context; keep the old
+    hidden-`<textarea>` + `document.execCommand('copy')` fallback.
+  - Node 20+ defines a global `navigator` (no `.share`, no `.clipboard`), so
+    guard on the method, not on `typeof navigator`.
+- **Apply:** For any Web Share / clipboard use: feature-detect the specific
+  method, wrap in try/catch, swallow `AbortError`, and always have a
+  copy-link / open-`wa.me` fallback so desktop users are not stuck.
+
+## LL-013 — RTL text on `<canvas>` is drawn, not laid out — anchor from the right
+- **Date:** 2026-09-02 (Phase 3, "save as image")
+- **Context:** `drawWeekImage()` renders the week to a PNG with no library.
+- **What we learned:** `fillText` does not do paragraph layout or bidi
+  reordering. For Hebrew you set `ctx.direction = 'rtl'` + `ctx.textAlign =
+  'right'` and draw each line from a fixed right-margin x; you still position
+  every element (dots, sub-lines) yourself and truncate long strings manually
+  with `measureText`. Mixed Hebrew+digits (times like `13:00–15:00`) render
+  correctly inside an RTL run as long as the whole string is passed in one
+  `fillText` call. Canvas glyph shaping still depends on the browser's font
+  stack — this needs a real-device visual check, it cannot be asserted in the
+  headless harness (which stubs the 2D context).
+- **Apply:** Keep hand-drawn canvas layouts flat and single-pass; compute a
+  height by pre-measuring rows; verify Hebrew visually on a real phone before
+  calling it done.
+
+## LL-014 — ICS is picky: CRLF, escaping, folding, stable UIDs
+- **Date:** 2026-09-02 (Phase 3, "add to calendar")
+- **What we learned:** A hand-built `.ics` must use `\r\n` line endings, escape
+  `\ ; , \n` in text values, fold lines longer than 75 **octets** (not chars —
+  Hebrew is 2 bytes/char in UTF-8) with `\r\n ` continuations, and give each
+  VEVENT a stable `UID` so a re-imported updated file replaces the event instead
+  of duplicating it. Emitting `DTSTART`/`DTEND` as UTC `...Z` instants avoids
+  shipping a VTIMEZONE block.
+- **Apply:** Reuse the `icsEsc` / `foldLine` / `icsStamp` helpers in `app.js` if
+  a server-side per-team ICS feed is built in Phase 5.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

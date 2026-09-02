@@ -19,6 +19,12 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
   to screen 2.
 - Followed-teams chips row (each: 🏀 team name · coach · ✕ to unfollow) + "＋
   הוסף קבוצה".
+- **Shareable link** (DL-022): directly under the chips, a text action
+  "🔗 שתף את הקבוצות שלי" (hidden when nothing is followed). Copies
+  `…/?teams=<team_id,…>` and offers the native share sheet. Opening such a link
+  on another device **merges** the listed teams into that device's follow list
+  (never replaces), shows a toast, and strips the `?teams=` query so a refresh
+  does not re-apply it. Unknown ids are ignored silently.
 - "changes since last update" banner if any (v0.2), tappable to expand.
 - Weekly list, grouped by day:
   ```
@@ -28,6 +34,21 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
   ```
   - Multi-team: each row carries a colored dot + team label; sorted day → time.
   - Empty week for a team → "אין אימונים השבוע לקבוצה זו".
+- **Export action row** (DL-023): shown only when ≥1 team is followed and the
+  visible week has ≥1 session, just below the weekly list. Four unobtrusive
+  icon+label buttons (≥44px, real `aria-label`s, `--muted` until pressed), each
+  acting on the currently visible week + followed teams:
+  - **📋 העתק** — copy a clean Hebrew plain-text version of the week (day
+    headings, `HH:MM–HH:MM · team · coach · location`, notes on an indented
+    sub-line, a "סה״כ" summary). Toast "הועתק ללוח".
+  - **📤 שתף** — native share sheet (`navigator.share`) with that text; on
+    desktop (no Web Share) it copies the text and opens WhatsApp's share URL.
+  - **📅 יומן** — download a `.ics` file (one event per session, times as UTC,
+    stable UIDs so re-import updates rather than duplicates).
+  - **🖼️ תמונה** — download a PNG rendered from the week (RTL, team colour dots,
+    summary); on mobile also offered through the share sheet.
+- A brief toast (`role="status"`, bottom, auto-hides ~2s) confirms copy / share
+  / download actions.
 - Footer: weekly summary — "2 אימונים · 3 שעות".
 
 ### 2. Add team — "בחירת קבוצה"

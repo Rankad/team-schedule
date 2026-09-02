@@ -57,8 +57,13 @@ server, no database, $0/month. See `docs/architecture.md` and
   sources match the golden fixture.
 
 ## Phase 5 — Distribution channels (v0.3) — SEPARATE APPROVAL
-- Tasks: `wa.me` "share to WhatsApp" button (free, no API); optionally an ICS
-  feed per team; email later. Decide any paid WhatsApp mechanism only here.
+- Tasks: ~~`wa.me` "share to WhatsApp" button (free, no API); optionally an ICS
+  feed per team~~ — **pulled into Phase 3** at stakeholder request (2026-09-02):
+  the client-side share/copy/ICS/image exports and the shareable followed-teams
+  link now ship with the static site (DL-022..DL-025). Email later. A *server-side*
+  ICS **feed** per team (auto-refreshing subscription URL) is still Phase 5.
+  Decide any paid WhatsApp mechanism only here. Wide promotion still waits on the
+  club courtesy note (OQ-6).
 
 ## Progress log
 - **2026-09-02 — Phase 0 done** (except the stakeholder tasks in
@@ -103,6 +108,28 @@ server, no database, $0/month. See `docs/architecture.md` and
   bumped (`checkout@v5`, `setup-python@v6`) — still `workflow_dispatch` only.
   **STOPPED for stakeholder review.** Still open in Phase 3: enable cron, choose
   host, deploy (separate approval gate), then tell the club (OQ-6).
+
+- **2026-09-02 — Phase 3 export/share features added (NOT deployed, NO cron).**
+  On branch `phase-3-static-site`. Client-side only, no new deps, still no build
+  step / framework / CDN.
+  1. **Shareable link** for the followed-teams list: "🔗 שתף את הקבוצות שלי"
+     builds `…?teams=<ids>`, copies it + offers `navigator.share`. On load a
+     `?teams=` link **merges** (never replaces) known ids into `localStorage`
+     then `history.replaceState` strips the query; a toast confirms. (DL-022)
+  2. **Weekly view action row** (shown only with ≥1 followed team and ≥1 session
+     in the visible week): **📋 העתק** (Hebrew plain-text block, clipboard +
+     `execCommand` fallback), **📤 שתף** (`navigator.share`, else copy + `wa.me`),
+     **📅 יומן** (hand-built RFC 5545 ICS, UTC-`Z` times, CRLF, folding, stable
+     `@gilboa-schedule` UIDs, `Blob` download), **🖼️ תמונה** (hand-drawn RTL
+     `<canvas>` PNG — no library — `toBlob` download + `navigator.share({files})`
+     on mobile). (DL-023, DL-024, DL-025)
+  Pure builders `buildTeamsLink` / `parseTeamsParam` / `applyTeamsParam` /
+  `buildWeekText` / `buildICS` / `icsEsc` / `drawWeekImage` exposed on `window`.
+  `tests/site_smoke.js` extended (+~25 assertions, canvas + `window.location`
+  shims); `node tests/site_smoke.js` green. `pytest` unchanged (1 pre-existing
+  failure: `icalendar` not installed in this env — unrelated).
+  **STILL: no deploy, no cron, not pushed.** Next: stakeholder review, then the
+  deploy/cron approval gate, then tell the club (OQ-6).
 
 ## Immediate next step
 Stakeholder runs the `Build schedule data` workflow manually

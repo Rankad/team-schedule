@@ -32,12 +32,13 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
 
 ### 2. Add team — "בחירת קבוצה"
 - Toggle: 🔎 חיפוש קבוצה  |  👤 חיפוש מאמן
-- Search field (partial match, ignores extra spaces).
-- Results list, each item:
+- Search field: word-subset match — every word typed must appear in the team or
+  coach name; extra spaces ignored. "נערים לאומית" matches "נערים ט לאומית".
+  (DL-020.)
+- Results list, each item — team + coach only, no note line (DL-020):
   ```
   🏀 ילדים ב מזרח
   👤 יהלי שגב
-  ℹ️ <note if any>
   ```
   Coach-search mode groups results by coach → their teams.
 - Tap a result → follow it → return to Home. Can repeat to add more.

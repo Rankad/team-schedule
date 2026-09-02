@@ -149,11 +149,24 @@ function dmLabel(ymd) {
 }
 
 // ---------- Text normalization for search ----------
-function normText(s) {
+// Loose form: keep single spaces, unify dashes, drop quotes, lowercase.
+function normLoose(s) {
   return String(s || '')
-    .replace(/[\s ]+/g, '')
     .replace(/["'׳״‘’“”]/g, '')
+    .replace(/[־–—]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
     .toLowerCase();
+}
+
+// Partial-name match: the query is split into words, and every word must appear
+// somewhere in the target. So "נערים לאומית" matches "נערים ט לאומית", and extra
+// spaces don't matter. Empty query matches everything.
+function matchQuery(rawQuery, target) {
+  var hay = normLoose(target);
+  var words = normLoose(rawQuery).split(' ').filter(Boolean);
+  if (!words.length) return true;
+  return words.every(function (w) { return hay.indexOf(w) !== -1; });
 }
 
 // ---------- Follow / unfollow ----------
@@ -455,7 +468,8 @@ function renderSearch() {
   var input = document.getElementById('search');
   var hint = document.getElementById('search-hint');
   var results = document.getElementById('results');
-  var q = normText(input.value);
+  var q = input.value;
+  var hasQ = normLoose(q).length > 0;
 
   document.getElementById('mode-team').classList.toggle('is-active', searchMode === 'team');
   document.getElementById('mode-team').setAttribute('aria-selected', searchMode === 'team');
@@ -468,15 +482,15 @@ function renderSearch() {
   results.innerHTML = '';
 
   if (searchMode === 'team') {
-    hint.textContent = 'חיפוש לפי שם קבוצה או שם מאמן. הרווחים אינם משנים.';
-    // "חיפוש לפי שם קבוצה או שם מאמן. הרווחים אינם משנים."
+    hint.textContent = 'חיפוש לפי שם קבוצה או שם מאמן. אפשר להקליד רק חלק מהשם.';
+    // "Search by team or coach name. You can type just part of the name."
     var teams = DATA.teams.slice().sort(function (a, b) {
       return a.display_name.localeCompare(b.display_name, 'he');
     });
     var matches = teams.filter(function (t) {
-      if (!q) return true;
-      if (normText(t.display_name).indexOf(q) !== -1) return true;
-      return (t.coaches || []).some(function (c) { return normText(c).indexOf(q) !== -1; });
+      if (!hasQ) return true;
+      if (matchQuery(q, t.display_name)) return true;
+      return (t.coaches || []).some(function (c) { return matchQuery(q, c); });
     });
     if (!matches.length) {
       results.appendChild(el('div', 'results-empty',
@@ -499,7 +513,7 @@ function renderSearch() {
     });
   });
   coachOrder.sort(function (a, b) { return a.localeCompare(b, 'he'); });
-  var shown = coachOrder.filter(function (c) { return !q || normText(c).indexOf(q) !== -1; });
+  var shown = coachOrder.filter(function (c) { return !hasQ || matchQuery(q, c); });
 
   if (!shown.length) {
     results.appendChild(el('div', 'results-empty',
@@ -515,6 +529,7 @@ function renderSearch() {
 function teamResult(t, coachContext) {
   var btn = el('button', 'result');
   btn.type = 'button';
+  btn.setAttribute('data-team-id', t.team_id);
 
   btn.appendChild(el('div', 'r-team', '🏀 ' + t.display_name));
 
@@ -523,7 +538,7 @@ function teamResult(t, coachContext) {
     : ((t.coaches && t.coaches.length) ? t.coaches.join('  ·  ') : '');
   if (coachText) btn.appendChild(el('div', 'r-coach', '👤 ' + coachText));
 
-  if (t.sample_note) btn.appendChild(el('div', 'r-note', 'ℹ️ ' + t.sample_note));
+  // Search results intentionally show team + coach only - no note line.
 
   if (isFollowed(t.team_id)) {
     btn.appendChild(el('div', 'r-followed',

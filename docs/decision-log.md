@@ -272,6 +272,32 @@
   4. **Notes** arrive as a JSON array (see data-shape note); they are joined with
      "  ·  " on one ℹ️ line.
   5. **`sample_note`** from `teams.json` is shown as the ℹ️ line in search
-     results (the spec's "note if any").
-- **Status:** Accepted.
+     results (the spec's "note if any"). — **Superseded by DL-020.**
+- **Status:** Accepted (except point 5).
 - **Risk:** Low.
+
+## DL-020 — Search matching + no note line in results (stakeholder testing, Phase 3)
+- **Date:** 2026-09-02
+- **Trigger:** Stakeholder tested the local build. Two issues:
+  1. Searching "נערים לאומית" returned only the exact team, not the intended
+     "נערים ט לאומית". The old matcher removed *all* spaces and required the
+     query to be one contiguous substring, so a word *between* the query words
+     (the "ט") broke the match.
+  2. Search results showed a third line — for "נערים לאומית" it read
+     "משחק אימון" (a game note), which is confusing and not identifying info.
+- **Decisions:**
+  1. **Search is now word-subset matching.** The query is split into words; a
+     team matches if *every* query word appears somewhere in the team name (or a
+     coach name). Extra spaces are ignored (they only separate words). So
+     "נערים לאומית" now matches both "נערים לאומית" and "נערים ט לאומית". A
+     query with no spaces at all ("נעריםלאומית") no longer matches across a gap —
+     acceptable; word-subset is the realistic parent behaviour. Also removes an
+     earlier quirk where a query could match across a space between two unrelated
+     words. Hint text changed to "אפשר להקליד רק חלק מהשם".
+  2. **Search results show team + coach only — no ℹ️ note line** (overrides
+     `docs/ui-ux-spec.md` §2 and DL-019 point 5). `sample_note` stays in
+     `teams.json` (unused by the UI for now); revisit if same-name teams ever
+     need disambiguation in the picker.
+- **Also:** `data-team-id` added to each result button (testability).
+- **Status:** Accepted.
+- **Risk:** Low. Covered by `tests/site_smoke.js`.

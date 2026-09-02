@@ -154,17 +154,42 @@ require(path.join(ROOT, 'public', 'app.js'));
   assert(byId['onboarding'].hidden === false, 'onboarding visible when no team followed');
   assert(/[א-ת]/.test(byId['week-range'].textContent), 'week range shows Hebrew text');
 
-  console.log('add team (team search, whitespace-insensitive)');
+  console.log('add team (team search: partial words + extra spaces)');
   onb.children[0].click();
   assert(at.hidden === false && mw.hidden === true, 'switched to Add Team screen');
-  const spaced = t1name.split('').join(' '); // force weird spacing
+
+  // extra / weird spacing between the real words must not matter
+  const spaced = t1name.split(/\s+/).join('    ');
   byId['search'].value = spaced;
   byId['search'].dispatch('input');
-  const hitTexts = byId['results'].children.map(c => c.textContent);
+  let hitTexts = byId['results'].children.map(c => c.textContent);
   assert(hitTexts.some(x => x.indexOf(t1name) !== -1), 'spaced query "' + spaced + '" still finds ' + t1name);
 
+  // a partial query (subset of the words) finds every team that contains them,
+  // including longer names with words in between  (נערים לאומית -> נערים ט לאומית)
+  const longName = teams.map(t => t.display_name)
+    .find(n => { const w = n.split(/\s+/); return w.length >= 3; });
+  if (longName) {
+    const w = longName.split(/\s+/);
+    const partial = w[0] + ' ' + w[w.length - 1]; // first + last word only
+    byId['search'].value = partial;
+    byId['search'].dispatch('input');
+    hitTexts = byId['results'].children.map(c => c.textContent);
+    assert(hitTexts.some(x => x.indexOf(longName) !== -1),
+      'partial query "' + partial + '" finds "' + longName + '"');
+  }
+
+  // search results show team + coach only - no ℹ️ note line
+  byId['search'].value = t1name;
+  byId['search'].dispatch('input');
+  assert(byId['results'].children.every(c => c.textContent.indexOf('ℹ️') === -1),
+    'search results carry no note line');
+
   console.log('follow + My Week render');
-  byId['results'].children.find(c => c.className.includes('result')).click();
+  const t1Result = byId['results'].children
+    .find(c => c.className.includes('result') && c.getAttribute('data-team-id') === T1);
+  assert(!!t1Result, 'search for "' + t1name + '" lists that exact team');
+  t1Result.click();
   assert(mw.hidden === false, 'returned to My Week after follow');
   assert(store['gilboa.followed'] && JSON.parse(store['gilboa.followed']).indexOf(T1) !== -1, 'followed persisted to localStorage');
 

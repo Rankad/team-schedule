@@ -199,10 +199,25 @@ def test_category_detection(title, category):
         ("נוער ארצית-עמית נרדע", "ארצית"),
         ("נערים מחוזית-גילי בן זאב", "מחוזית"),
         ("קט סל א מרכז-טל יזרעאלי", None),
+        ("נוער על-יואב שנקמן/ניר גוב", "על"),
+        ("נערות א על-ברק וינריב", "על"),
+        ("נערות ב על-עדי גלמן", "על"),
     ],
 )
 def test_tier_detection(title, tier):
     assert pt(title)["tier"] == tier
+
+
+@pytest.mark.parametrize(
+    "title",
+    [
+        "חוגי בנות מעלה גלבוע-רתם הטב/שקד היימן",
+        "חוגי בנים מעלה גלבוע/מיטל/מירב א-ב בנים-רועי שביט",
+    ],
+)
+def test_al_is_not_matched_inside_maale(title):
+    # "על" must not be found as the substring inside "מעלה".
+    assert pt(title)["tier"] is None
 
 
 def test_team_row_defaults_basketball_training():

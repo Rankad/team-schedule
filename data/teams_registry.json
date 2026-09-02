@@ -67,7 +67,7 @@
     "normalized_name": "נערות א על",
     "display_name": "נערות א על",
     "category": "girls_youth",
-    "tier": null,
+    "tier": "על",
     "sport": "basketball",
     "first_seen": "2026-09-02"
   },
@@ -243,7 +243,7 @@
     "normalized_name": "נוער על",
     "display_name": "נוער על",
     "category": "juniors",
-    "tier": null,
+    "tier": "על",
     "sport": "basketball",
     "first_seen": "2026-09-02"
   },
@@ -251,7 +251,7 @@
     "normalized_name": "נערות ב על",
     "display_name": "נערות ב על",
     "category": "girls_youth",
-    "tier": null,
+    "tier": "על",
     "sport": "basketball",
     "first_seen": "2026-09-02"
   },

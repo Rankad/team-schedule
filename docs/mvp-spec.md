@@ -140,7 +140,9 @@ First matching keyword in `team_name`:
 | `ליגה` | `league` |
 | `חוגי`, `חוג` | `recreational` |
 
-Tier token if present: `לאומית` / `ארצית` / `מחוזית` → `tier`.
+Tier token if present → `tier`: `לאומית` / `ארצית` / `מחוזית` (substring), or
+`על` (premier league — matched only as a standalone word, so it never matches
+inside `מעלה גלבוע`). Added at the Phase 1 gate — see decision-log DL-013.
 `sport` defaults to `basketball` for team rows.
 
 ## 5. Stable `team_id`

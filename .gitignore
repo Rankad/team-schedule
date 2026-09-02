@@ -16,3 +16,9 @@ __pycache__/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Stray nested clone - not part of this repo (flagged to coordinator 2026-09-02)
+gilboa-schedule/
+google calander.txt
+*.key
+*secret*

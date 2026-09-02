@@ -1,10 +1,14 @@
 """Stable ``team_id`` resolution - docs/mvp-spec.md 4.5 + 5.
 
-Team identity is the *normalized team name only* (DL-005): coach may change,
-the name is the stable key. The registry (``data/teams_registry.json``) maps a
-zero-padded ``T_NNN`` id to ``{normalized_name, display_name, category, tier,
-sport, first_seen}`` and is committed. Teams are never deleted - a team absent
-from a later window simply has no sessions that week.
+Team identity is the *normalized team name only* (DL-005, clarified by DL-012):
+two rows are the same team ONLY if their team-name *words* are identical.
+Whitespace duplication, dash/slash separator variants and the ``א/ב`` == ``א-ב``
+age-token spelling do NOT make a new team; a shared coach never merges teams
+(a coach can train more than one team). The registry
+(``data/teams_registry.json``) maps a zero-padded ``T_NNN`` id to
+``{normalized_name, display_name, category, tier, sport, first_seen}`` and is
+committed. Teams are never deleted - a team absent from a later window simply
+has no sessions that week.
 """
 from __future__ import annotations
 
@@ -28,9 +32,10 @@ def normalize_name(team_name: str | None) -> str:
     """Identity key: whitespace collapsed, dash/slash variants unified,
     ``א/ב`` == ``א-ב``, surrounding punctuation stripped.
 
-    Note (build decision 2026-09-02): '-' and '/' between name parts are folded
-    to spaces so that dirty separator variants of the same team collapse. See
-    docs/decision-log.md DL-009.
+    '-' and '/' between name parts are folded to spaces so that dirty separator
+    variants of the *same words* collapse (DL-010). Different words still mean
+    different teams (DL-012) - e.g. "טרום גוש חרוד" and "טרום קט סל גוש חרוד"
+    stay separate.
     """
     if not team_name:
         return ""

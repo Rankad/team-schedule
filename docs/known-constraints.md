@@ -72,14 +72,15 @@ the calendar private or switch systems, fall back to the Excel importer.
 - The `.ics` feed's event `LOCATION` and `SUMMARY` still carry trailing spaces
   and dash variants exactly like the Excel — cleaning (`clean.py`) is required
   for both sources.
-- Tier detection only knows `לאומית` / `ארצית` / `מחוזית`. The premier-league
-  marker `על` (as in `נוער על`, `נערות א על`) is currently NOT captured as a
-  tier — pending stakeholder input at the gate.
-- `הפועל העמק` appears as a *left-side* (team) name, so it is currently minted as
-  a followable team and only flagged `team_name_has_club_token`. It is an
-  external club; the gate must decide keep / relabel / filter.
-- Same-team spelling variants beyond the six proven pairs exist (word order,
-  filler `קט סל`, `בנים` suffix) — see decision-log DL-011. Not auto-merged.
-- `data/teams_registry.json` currently committed is a **provisional seed** built
-  from the single sample week; `T_NNN` numbering will change if the naming rules
-  change at the gate. Safe to delete and regenerate until Phase 2 locks it.
+- Tier detection knows `לאומית` / `ארצית` / `מחוזית` (substring) and `על`
+  (premier league, standalone word only — DL-013, added at the Phase 1 gate).
+- `הפועל העמק` is an external club that appears as a *left-side* (team) name.
+  Per DL-014 it is intentionally kept as a followable team (`T_042`), still
+  flagged `team_name_has_club_token` so it can be relabelled later.
+- Team identity = identical *words* only (DL-012). Word-order / filler-word
+  variants (`טרום גוש חרוד` vs `טרום קט סל גוש חרוד`, `רימון` vs `רימון בנים`,
+  …) are DIFFERENT teams by stakeholder ruling — not merged. If two really are
+  one team, the club should make the calendar text identical.
+- `data/teams_registry.json` committed is still a **seed** built from the single
+  sample week; `T_NNN` numbering is only locked once Phase 2 runs against live
+  data. Safe to delete and regenerate until then.

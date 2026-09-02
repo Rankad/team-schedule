@@ -35,6 +35,37 @@ def test_proven_pairs_collapse_to_one_team_id(a, b):
     assert len(reg) == 1
 
 
+# Stakeholder rule (DL-012): two rows are the same team ONLY if their team-name
+# *words* are identical. Whitespace / dash / slash / א-ב==א/ב differences do not
+# make a new team; a shared coach never merges teams. These four near-duplicate
+# pairs from the sample week MUST stay separate.
+DISTINCT_PAIRS = [
+    ("טרום קט סל גוש חרוד-טל גילת", "טרום גוש חרוד (ג-ד)- טל גילת"),
+    ("טרום קט סל מולדת/רמת צבי (ג-ד)-פלא תמיר", "טרום מולדת/רמת צבי (ג-ד)- פלא תמיר"),
+    ("טרום קט סל רימון(ג-ד)-יהלי שגב", "טרום קט סל רימון בנים (ג-ד)-יהלי שגב"),
+    ("טרום קט סל בנות מזרח-פז תשובה", "טרום בנות קט סל מזרח-פז תשובה"),
+]
+
+
+@pytest.mark.parametrize("a,b", DISTINCT_PAIRS)
+def test_near_duplicate_names_stay_separate_teams(a, b):
+    na = resolve.normalize_name(parse_title(a)["team_name"])
+    nb = resolve.normalize_name(parse_title(b)["team_name"])
+    assert na != nb
+    reg = {}
+    id_a, reg = resolve.resolve_team(parse_title(a), reg, seen_date="2026-09-02")
+    id_b, reg = resolve.resolve_team(parse_title(b), reg, seen_date="2026-09-02")
+    assert id_a != id_b
+    assert len(reg) == 2
+
+
+def test_shared_coach_alone_never_merges_two_teams():
+    reg = {}
+    id1, reg = resolve.resolve_team(parse_title("ילדים א מזרח-אור רותם"), reg, seen_date="2026-09-02")
+    id2, reg = resolve.resolve_team(parse_title("נערים ט מזרח-אור רותם"), reg, seen_date="2026-09-02")
+    assert id1 != id2
+
+
 def test_mints_zero_padded_sequential_ids():
     reg = {}
     id1, reg = resolve.resolve_team(parse_title("ילדים א מזרח-אור רותם"), reg, seen_date="2026-09-02")

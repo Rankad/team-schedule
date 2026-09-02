@@ -65,12 +65,16 @@ server, no database, $0/month. See `docs/architecture.md` and
   `docs/PHASE-0-USER-TASKS.md`: API key, GitHub repo, secret, manual run).
   Repo skeleton, venv + deps, `build.yml` (manual trigger only), fixtures
   (`calendar_week.json` from the `.ics` feed = 215 events; `sample_week.xlsx`).
-- **2026-09-02 — Phase 1 done, at the gate.** `calendar_source.py`, `clean.py`,
-  `parse_title.py`, `classify.py`, `resolve.py` + provisional
-  `data/teams_registry.json` (98 teams from the sample week). 91 tests green.
+- **2026-09-02 — Phase 1 done.** `calendar_source.py`, `clean.py`,
+  `parse_title.py`, `classify.py`, `resolve.py` + seed
+  `data/teams_registry.json` (98 teams from the sample week).
   Non-team split: blocked_hall 3, volleyball 9, judo 1, gymnastics 1, unknown 1.
-  **Awaiting stakeholder sign-off** on team naming / edge cases (DL-011, the
-  `על` tier gap, `הפועל העמק`) before Phase 2.
+- **2026-09-02 — Phase 1 gate reviewed; decisions applied.** DL-012 (team
+  identity = identical words only; four near-dup pairs locked as separate teams
+  by regression tests), DL-013 (`על` added as a tier — T_009 / T_031 / T_032),
+  DL-014 (`הפועל העמק` kept as a team). Registry regenerated. 101 tests green.
+  **STOPPED again at the gate — Phase 2 not started.**
 
 ## Immediate next step
-Stakeholder review of the Phase 1 parser output, then Phase 2.
+Coordinator go-ahead for Phase 2 (`build_outputs.py`, `diff.py`,
+`fetch_and_build.py`, `public/data/*.json`).

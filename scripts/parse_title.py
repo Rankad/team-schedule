@@ -51,7 +51,11 @@ _CATEGORY_RULES = [
     ("חוגי", "recreational"),
     ("חוג", "recreational"),
 ]
+# Tier tokens. לאומית / ארצית / מחוזית are distinctive substrings; על is the
+# premier-league marker and must match only as a standalone Hebrew word, never
+# the substring inside e.g. "מעלה גלבוע" (DL-013).
 _TIER_TOKENS = ("לאומית", "ארצית", "מחוזית")
+_TIER_WORD_RES = [("על", re.compile(r"(?<![^\W\d_])על(?![^\W\d_])"))]
 
 
 def _is_letter(ch: str) -> bool:
@@ -180,6 +184,9 @@ def detect_category(team_name: str):
 def detect_tier(team_name: str):
     for tok in _TIER_TOKENS:
         if tok in team_name:
+            return tok
+    for tok, rx in _TIER_WORD_RES:
+        if rx.search(team_name):
             return tok
     return None
 

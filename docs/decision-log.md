@@ -149,6 +149,51 @@
 - **Decision:** Do NOT add heuristic word-order / filler-word merging now. It
   risks false merges and is outside the approved spec. Surface the list at the
   Phase 1 stakeholder gate; add explicit alias rules only with sign-off.
-- **Status:** Pending stakeholder gate.
-- **Risk:** Medium — until resolved, a parent following one spelling misses
-  sessions filed under the other. Mitigation: the gate; then an alias table.
+- **Status:** RESOLVED at the Phase 1 gate (2026-09-02) — see DL-012. The
+  stakeholder ruled these are **separate teams**; no merging, no alias table.
+- **Risk:** Accepted. If it turns out two of these really are one team, the
+  club should fix the calendar text (make the words identical).
+
+## DL-012 — Team identity = identical *words* only (clarifies DL-005)
+- **Date:** 2026-09-02 (Phase 1 stakeholder gate)
+- **Stakeholder rule (verbatim):** "a coach can train more than 1 team so if the
+  team name is not identical in words (spaces can be duplicate) the coach is
+  training both".
+- **Decision:** Two rows are the same team **only if their team-name words are
+  identical**. Differences that do NOT create a new team: duplicate/again
+  whitespace, dash vs slash vs space separators, and the `א/ב` ≡ `א-ב`
+  age-token spelling. A shared coach **never** merges two teams. Any difference
+  in the actual words (`טרום גוש חרוד` vs `טרום קט סל גוש חרוד`,
+  `רימון` vs `רימון בנים`, word order `בנות קט סל` vs `קט סל בנות`) = different
+  teams.
+- **Consequence:** `normalize_name` already behaved this way (DL-010 only folds
+  separators/whitespace, never drops or reorders words). Added explicit
+  regression tests locking the four DL-011 pairs as separate `team_id`s, plus a
+  test that a shared coach does not merge teams.
+- **Status:** Accepted.
+- **Risk:** Low. The registry stays a faithful mirror of what the club typed.
+
+## DL-013 — `על` (premier league) added as a `tier` value (extends mvp-spec §4.6)
+- **Date:** 2026-09-02 (Phase 1 stakeholder gate)
+- **Context:** `docs/mvp-spec.md` §4.6 tier table listed only
+  `לאומית` / `ארצית` / `מחוזית`. The sample week has `נוער על`, `נערות א על`,
+  `נערות ב על` — "על" is the top competitive tier and was being dropped.
+- **Decision:** Add `על` to tier detection, matched **only as a standalone
+  Hebrew word** (word boundaries) so it never matches the substring inside
+  `מעלה גלבוע` / `מעלה` etc. `docs/mvp-spec.md` §4.6 updated to list it.
+- **Result on the sample week:** `tier="על"` for `נוער על` (T_031),
+  `נערות א על` (T_009), `נערות ב על` (T_032). `מעלה גלבוע` teams stay
+  `tier=null` (tested).
+- **Status:** Accepted. Spec extended.
+- **Risk:** Low.
+
+## DL-014 — `הפועל העמק` kept as a followable team
+- **Date:** 2026-09-02 (Phase 1 stakeholder gate)
+- **Context:** `הפועל העמק` appears as a left-side (team) name in the sample
+  week. It is an external club, not a Gilboa Maayanot age group; the parser
+  flags it `team_name_has_club_token`.
+- **Decision:** Keep it as a normal followable team (`T_042`), keep the flag.
+  The stakeholder chose "keep as a team" — some sessions are shared/hosted and
+  parents may want them. The flag stays so it is easy to find/relabel later.
+- **Status:** Accepted.
+- **Risk:** Low.

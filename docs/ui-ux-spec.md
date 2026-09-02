@@ -34,6 +34,9 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
   ```
   - Multi-team: each row carries a colored dot + team label; sorted day → time.
   - Empty week for a team → "אין אימונים השבוע לקבוצה זו".
+  - On the current week, days before today are collapsed by default behind a
+    "הצג ימים קודמים (N)" toggle at the top of the list; the parent can expand
+    them and the choice is remembered. Other weeks always show the full Sun–Sat.
 - **Export action row** (DL-023): shown only when ≥1 team is followed and the
   visible week has ≥1 session, just below the weekly list. Four unobtrusive
   icon+label buttons (≥44px, real `aria-label`s, `--muted` until pressed), each

@@ -439,3 +439,23 @@
   verified by the stakeholder).
 - **OQ-6 resolved 2026-09-02:** the club was told about the app and approved.
   The link may now be shared with parents.
+
+## DL-027 — Current-week view collapses already-passed days (opt-out toggle)
+- **Date:** 2026-09-02 (Phase 3, post-launch)
+- **Context:** A parent opened the app mid-week (season start) and saw only
+  Wed–Sat. Investigation confirmed the site never hid past days — the data
+  genuinely had almost nothing on Sun–Tue that first week. The parent asked for
+  a way to choose "what's left this week" vs "the whole week".
+- **Decision:** On the **current week only**, collapse day-groups earlier than
+  today behind a `הצג ימים קודמים (N)` / `הסתר ימים קודמים` toggle row at the top
+  of the list. Default **collapsed** for a new visitor; the choice is persisted
+  in `localStorage` (`gilboa.week_collapsed`, `'1'`/`'0'`, absent ⇒ collapsed)
+  and survives week navigation. Whole days only — a session earlier today still
+  shows. Past and future weeks are unaffected. The footer summary, all four
+  exports, the changes banner, and the per-team "no session this week" notices
+  keep operating on the **full** week regardless of the toggle. Implemented as a
+  pure `splitWeekByToday()` helper + render wiring; no build / data / Python
+  change. Spec: `docs/superpowers/specs/2026-09-02-week-view-toggle-design.md`.
+- **Status:** Accepted.
+- **Risk:** Low. Pure-function + DOM-harness tested; a real-device RTL glance at
+  the toggle row is still worthwhile.

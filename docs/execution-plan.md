@@ -156,6 +156,12 @@ server, no database, $0/month. See `docs/architecture.md` and
     shared with parents.
   - **DL-024 image export verified on real devices** (desktop + mobile,
     2026-09-02) — the canvas PNG renders correctly. No open Phase 3 items remain.
+- **2026-09-02 — "earlier days" toggle (post-launch tweak).** On the current
+  week, already-passed days collapse behind a `הצג ימים קודמים (N)` toggle
+  (default collapsed, remembered per device — `gilboa.week_collapsed`). Pure
+  `splitWeekByToday()` helper + `renderMyWeek` wiring; summary and exports still
+  use the full week. `node tests/site_smoke.js` green. DL-027;
+  spec + plan under `docs/superpowers/`.
 
 ## Immediate next step
 Confirm the first live deploy is green (Actions → "Build & deploy" → `deploy`

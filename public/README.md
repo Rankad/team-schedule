@@ -27,6 +27,10 @@ Then open <http://localhost:8000> . (Opening `index.html` directly with a
   prev/next arrows. Followed teams are stored per device in `localStorage`
   (`gilboa.followed`, `gilboa.seen_generated_at`). Multi-team families get one
   merged list, each row carrying a coloured dot **and** the team name.
+  On the **current week**, days that have already passed are collapsed behind a
+  "הצג ימים קודמים (N)" toggle (default collapsed). The choice is remembered per
+  device (`gilboa.week_collapsed`). Past and future weeks always show all seven
+  days.
 - **בחירת קבוצה (Add Team):** search by team name or by coach name,
   whitespace-insensitive, partial match. Tap a result to follow it.
 - **Changes banner:** appears only when the data was refreshed since the last

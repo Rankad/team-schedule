@@ -43,6 +43,12 @@ Always display in Israel local time; never assume the runner's timezone.
 Hebrew content, right-to-left UI required. Mixed Hebrew/Latin (coach names, club
 abbreviations like `ת"א`) must render correctly.
 
+## Club name
+The club is **גלבוע מעיינות** (English: "Gilboa Maayanot"). It is **not** a
+"מכבי" club — do not prefix "מכבי". Confirmed by the stakeholder 2026-09-02 after
+a build guessed "מכבי מעיינות הגלבוע". Use the exact string "גלבוע מעיינות" in
+UI. Never invent proper nouns — take them from the stakeholder or the source.
+
 ## Hosting / runtime
 - Free static host (GitHub Pages or Cloudflare Pages) + GitHub Actions cron.
   No always-on server, no database, no per-user cost.

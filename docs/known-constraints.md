@@ -29,6 +29,12 @@ An API key is exposed in the club's front-end. Do not use it. Generate our own
 free Google Cloud API key and store it as a GitHub Actions secret
 (`GOOGLE_CALENDAR_API_KEY`), or use the keyless `.ics` feed.
 
+- 2026-09-02: stakeholder created our own dedicated Google Cloud API key
+  (confirmed not the club's). To be stored only as the `GOOGLE_CALENDAR_API_KEY`
+  Actions secret — never committed. It briefly landed in a local-only commit
+  during the Phase 1 build, was purged before any push, and history was verified
+  clean; rotation optional since it never left the machine.
+
 ## Timezone
 All source times are Asia/Jerusalem (`+03:00` in the sample, DST-dependent).
 Always display in Israel local time; never assume the runner's timezone.

@@ -151,9 +151,10 @@ server, no database, $0/month. See `docs/architecture.md` and
   - `phase-3-static-site` fast-forward-merged to `main` and pushed (branch
     deleted). Pages serves `public/` as site root; the committed
     `public/data/*.json` (318 sessions / 105 teams) renders immediately.
-  - **Phase 3 complete — milestone: live, self-updating MVP.** Still open:
-    tell the club before wider promotion (OQ-6); a real-device visual check of
-    the canvas image export (DL-024).
+  - **Phase 3 complete — milestone: live, self-updating MVP.**
+  - **OQ-6 closed 2026-09-02:** the club was told and approved; the link may be
+    shared with parents. Still nice-to-have: a real-device visual check of the
+    canvas image export (DL-024).
 
 ## Immediate next step
 Confirm the first live deploy is green (Actions → "Build & deploy" → `deploy`

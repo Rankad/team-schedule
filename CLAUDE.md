@@ -48,7 +48,8 @@ code yet. Not a git repo yet. Next: Phase 0 + 1 of `docs/execution-plan.md`.
 - Dev on Windows 11 / PowerShell; scripts must also run on the Linux Actions
   runner.
 - WhatsApp / other channels are a later phase behind its own approval gate.
-- Courtesy: tell the club before promoting the app widely (OQ-6).
+- Courtesy: the club was told about the app and approved it (OQ-6, done
+  2026-09-02); the link may be shared with parents.
 
 ## Working style for this project
 - Use the PM Agent system as the main workflow.

@@ -435,6 +435,6 @@
   domain, higher limits): connect repo, build command none, output dir `public`.
 - **Status:** Accepted.
 - **Risk:** Low. Depends on the `GOOGLE_CALENDAR_API_KEY` repo secret (set +
-  verified by the stakeholder). OQ-6 (club courtesy note) now matters more —
-  the repo and site are public; do not promote the link to parents until the
-  club has been told.
+  verified by the stakeholder).
+- **OQ-6 resolved 2026-09-02:** the club was told about the app and approved.
+  The link may now be shared with parents.

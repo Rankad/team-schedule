@@ -67,8 +67,9 @@ UI. Never invent proper nouns — take them from the stakeholder or the source.
 
 ## Courtesy
 It is the club's own public parent calendar, so reading it for parents is
-benign — but tell the club before promoting the app widely (OQ-6). If they make
-the calendar private or switch systems, fall back to the Excel importer.
+benign. The club was told about the app and approved it (OQ-6, 2026-09-02) —
+the link may be shared with parents. If they make the calendar private or
+switch systems, fall back to the Excel importer.
 
 ## Environment
 - Development on Windows 11, PowerShell primary shell. Scripts must work there

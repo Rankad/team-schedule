@@ -67,9 +67,9 @@ the calendar private or switch systems, fall back to the Excel importer.
 ## Environment
 - Development on Windows 11, PowerShell primary shell. Scripts must work there
   and in the Linux GitHub Actions runner.
-- Git repo initialized 2026-09-02 (`main` branch, no remote yet). `.gitattributes`
-  forces LF endings so Python scripts behave identically on Windows and the
-  Linux runner.
+- Git repo initialized 2026-09-02 (`main` branch). Remote: `origin` →
+  `github.com/Rankad/team-schedule` (private). `.gitattributes` forces LF endings
+  so Python scripts behave identically on Windows and the Linux runner.
 - Python pinned to 3.13 locally and in CI. `zoneinfo` (stdlib) needs the
   `tzdata` package on Windows — it is pulled in transitively; keep an eye on it
   if imports fail on a clean machine.

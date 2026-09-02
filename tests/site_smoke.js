@@ -88,8 +88,6 @@ const footer = mk('footer', 'week-footer'); footer.hidden = true;
 footer.appendChild(mk('div', 'summary')); footer.appendChild(mk('div', 'updated'));
 mw.appendChild(footer);
 at.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
-at.appendChild(mk('button', 'mode-team', 'toggle-btn is-active'));
-at.appendChild(mk('button', 'mode-coach', 'toggle-btn'));
 at.appendChild(mk('input', 'search'));
 at.appendChild(mk('p', 'search-hint'));
 at.appendChild(mk('div', 'results'));

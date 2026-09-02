@@ -264,28 +264,6 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 .updated { color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem; }
 
 /* ---------- Add Team ---------- */
-.toggle {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 1rem;
-}
-.toggle-btn {
-  flex: 1;
-  min-height: var(--tap);
-  padding: 0.5rem;
-  font: inherit;
-  font-weight: 600;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  color: var(--muted);
-  cursor: pointer;
-}
-.toggle-btn.is-active {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
 .search-label {
   position: absolute;
   width: 1px; height: 1px;
@@ -305,11 +283,6 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 .search-hint { color: var(--muted); font-size: 0.88rem; margin: 0.5rem 0 1rem; }
 
 .results { display: flex; flex-direction: column; gap: 0.5rem; }
-.coach-group-head {
-  font-weight: 700;
-  color: var(--muted);
-  margin: 0.6rem 0 0.1rem;
-}
 .result {
   display: block;
   width: 100%;

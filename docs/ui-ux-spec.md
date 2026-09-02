@@ -31,16 +31,17 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
 - Footer: weekly summary — "2 אימונים · 3 שעות".
 
 ### 2. Add team — "בחירת קבוצה"
-- Toggle: 🔎 חיפוש קבוצה  |  👤 חיפוש מאמן
-- Search field: word-subset match — every word typed must appear in the team or
-  coach name; extra spaces ignored. "נערים לאומית" matches "נערים ט לאומית".
-  (DL-020.)
+- **One** search field, no mode toggle (DL-021). It matches team name **and**
+  coach name in the same box.
+- Word-subset match — every word typed must appear in the team or coach name;
+  extra spaces ignored. "נערים לאומית" matches "נערים ט לאומית". (DL-020.)
+- Empty box lists all teams, Hebrew-alphabetical, so a parent who cannot spell
+  the team can browse.
 - Results list, each item — team + coach only, no note line (DL-020):
   ```
   🏀 ילדים ב מזרח
   👤 יהלי שגב
   ```
-  Coach-search mode groups results by coach → their teams.
 - Tap a result → follow it → return to Home. Can repeat to add more.
 - Non-team rows (blocked hall, volleyball, judo, gymnastics) are excluded here.
 

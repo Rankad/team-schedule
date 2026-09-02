@@ -301,3 +301,20 @@
 - **Also:** `data-team-id` added to each result button (testability).
 - **Status:** Accepted.
 - **Risk:** Low. Covered by `tests/site_smoke.js`.
+
+## DL-021 — Drop the "חיפוש מאמן" (search-by-coach) tab (stakeholder testing, Phase 3)
+- **Date:** 2026-09-02
+- **Trigger:** After DL-020, the single team search already matches coach names.
+  Stakeholder asked why a separate coach tab is still needed.
+- **Decision:** Remove the 🔎/👤 mode toggle from screen 2. **One** search box
+  matches team name and coach name together; results are a flat
+  Hebrew-alphabetical list of teams (each already shows its coach). The old coach
+  mode's only extra was grouping teams under a coach heading — marginal value
+  for a club where most coaches have 1–3 teams, and one less thing for a parent
+  to understand.
+- **Overrides:** `docs/ui-ux-spec.md` §2 (the toggle), the original build spec's
+  "Coach-mode groups results by coach".
+- **Removed:** `searchMode` state, `#mode-team`/`#mode-coach` buttons,
+  `.toggle*` and `.coach-group-head` CSS.
+- **Status:** Accepted.
+- **Risk:** Low. Reversible. Covered by `tests/site_smoke.js`.

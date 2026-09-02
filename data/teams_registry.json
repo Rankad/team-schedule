@@ -782,5 +782,61 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-09-08"
+  },
+  "T_099": {
+    "normalized_name": "נערות א על נערות ב על",
+    "display_name": "נערות א על/נערות ב על",
+    "category": "girls_youth",
+    "tier": "על",
+    "sport": "basketball",
+    "first_seen": "2026-08-27"
+  },
+  "T_100": {
+    "normalized_name": "חוגי בנים עין הנציב א ב בנים",
+    "display_name": "חוגי בנים עין הנציב א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-09"
+  },
+  "T_101": {
+    "normalized_name": "חוגי שלפים רשפים שלוחות בנים א ב בנים",
+    "display_name": "חוגי שלפים/רשפים/שלוחות בנים א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-09"
+  },
+  "T_102": {
+    "normalized_name": "חוגי טירת צבי בנים א ב בנים",
+    "display_name": "חוגי טירת צבי בנים א/ב בנים",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-09"
+  },
+  "T_103": {
+    "normalized_name": "חוגי גן גן נר",
+    "display_name": "חוגי גן- גן נר",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-10"
+  },
+  "T_104": {
+    "normalized_name": "חוגי א ב בנים גן נר",
+    "display_name": "חוגי א/ב בנים גן נר",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-11"
+  },
+  "T_105": {
+    "normalized_name": "טרום קט סל גן נר",
+    "display_name": "טרום קט סל גן נר",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-11"
   }
 }

@@ -25,6 +25,8 @@ var PALETTE = [
 
 var HE_WEEKDAY = ['א׳', 'ב׳', 'ג׳', 'ד׳',
   'ה׳', 'ו׳', 'שבת']; // א׳ ב׳ ג׳ ד׳ ה׳ ו׳ שבת
+var HE_WEEKDAY_FULL = ['ראשון', 'שני', 'שלישי', 'רביעי',
+  'חמישי', 'שישי', 'שבת']; // full day names for copy/share/calendar exports
 var HE_MONTHS = ['בינואר', 'בפברואר',
   'במרץ', 'באפריל', 'במאי',
   'ביוני', 'ביולי', 'באוגוסט',
@@ -51,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
     DATA.changes = (res[3] && res[3].changes) || [];
 
     DATA.teams.forEach(function (t) { DATA.teamsById[t.team_id] = t; });
+
+    maybeApplySharedTeams();
 
     viewSunday = pickInitialWeek();
     wireEvents();
@@ -224,6 +228,8 @@ function renderMyWeek() {
     followsRow.hidden = true;
     followsRow.innerHTML = '';
     footer.hidden = true;
+    setHidden('share-follows', true);
+    setHidden('week-actions', true);
     renderChangesBanner([]);
     return;
   }
@@ -231,11 +237,10 @@ function renderMyWeek() {
 
   renderFollowChips(followsRow);
   followsRow.hidden = false;
+  setHidden('share-follows', false);
 
-  // Sessions for the visible week, for followed teams only.
-  var weekSessions = DATA.sessions.filter(function (s) {
-    return s.team_id && isFollowed(s.team_id) && s.week_key === viewSunday;
-  });
+  // Sessions for the visible week, for followed teams only (day -> time sorted).
+  var weekSessions = weekSessionsFor(viewSunday);
 
   var weekHasData = DATA.weeks.indexOf(viewSunday) !== -1;
 
@@ -245,14 +250,11 @@ function renderMyWeek() {
     content.appendChild(el('div', 'no-data',
       'אין נתונים לשבוע זה')); // אין נתונים לשבוע זה
     footer.hidden = true;
+    setHidden('week-actions', true);
     return;
   }
 
-  // Group by day -> time.
-  weekSessions.sort(function (a, b) {
-    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
-    return hhmm(a.start) < hhmm(b.start) ? -1 : (hhmm(a.start) > hhmm(b.start) ? 1 : 0);
-  });
+  setHidden('week-actions', weekSessions.length === 0);
 
   var byDate = {};
   var order = [];
@@ -373,21 +375,13 @@ function normalizeNotes(notes) {
 
 function renderSummary(weekSessions) {
   var count = weekSessions.length;
-  var mins = 0;
-  weekSessions.forEach(function (s) {
-    var a = hhmm(s.start), b = hhmm(s.end);
-    if (!a || !b) return;
-    var d = toMin(b) - toMin(a);
-    if (d > 0) mins += d;
-  });
-  var hours = mins / 60;
-  var hStr = (Math.round(hours * 10) % 10 === 0) ? String(Math.round(hours)) : hours.toFixed(1);
+  var hStr = hoursStr(sumMinutes(weekSessions));
 
   var countStr = count === 1
     ? 'אימון אחד'          // אימון אחד
     : count + ' אימונים';      // N אימונים
-  var hoursStr = hStr + ' ' + 'שעות';         // H שעות
-  document.getElementById('summary').textContent = countStr + '  ·  ' + hoursStr;
+  var hoursLabel = hStr + ' ' + 'שעות';         // H שעות
+  document.getElementById('summary').textContent = countStr + '  ·  ' + hoursLabel;
 
   var upd = '';
   if (DATA.meta && DATA.meta.generated_at) {
@@ -518,6 +512,477 @@ function teamResult(t) {
   return btn;
 }
 
+// ======================================================================
+//  Export / share  — "get my schedule out of the app"
+//  All client-side. Pure builders (buildTeamsLink / applyTeamsParam /
+//  buildWeekText / buildICS / drawWeekImage) are exposed on window and
+//  unit-tested in tests/site_smoke.js.
+// ======================================================================
+
+var nav = (typeof navigator !== 'undefined') ? navigator : null;
+
+// ---------- Shared week helpers ----------
+
+// Followed teams' sessions for a given week, sorted day -> start time.
+// Same filter + sort the on-screen weekly list uses, so every export matches.
+function weekSessionsFor(sunday) {
+  var arr = DATA.sessions.filter(function (s) {
+    return s.team_id && isFollowed(s.team_id) && s.week_key === sunday;
+  });
+  arr.sort(function (a, b) {
+    if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+    var sa = hhmm(a.start), sb = hhmm(b.start);
+    return sa < sb ? -1 : (sa > sb ? 1 : 0);
+  });
+  return arr;
+}
+function sumMinutes(sessions) {
+  var mins = 0;
+  sessions.forEach(function (s) {
+    var a = hhmm(s.start), b = hhmm(s.end);
+    if (!a || !b) return;
+    var d = toMin(b) - toMin(a);
+    if (d > 0) mins += d;
+  });
+  return mins;
+}
+function hoursStr(mins) {
+  var hours = mins / 60;
+  return (Math.round(hours * 10) % 10 === 0) ? String(Math.round(hours)) : hours.toFixed(1);
+}
+function countTeams(sessions) {
+  var seen = {};
+  sessions.forEach(function (s) { if (s.team_id) seen[s.team_id] = 1; });
+  return Object.keys(seen).length;
+}
+function weekRangeNumeric(sunday) {
+  return dmLabel(sunday) + '–' + dmLabel(addDays(sunday, 6)); // 30/8–5/9
+}
+function timeRange(s) {
+  return hhmm(s.start) + (s.end ? '–' + hhmm(s.end) : '');
+}
+function teamName(id) {
+  var t = DATA.teamsById[id];
+  return t ? t.display_name : id;
+}
+// [ [date, [sessions...] ], ... ] in day order.
+function groupByDate(sessions) {
+  var byDate = {}, order = [];
+  sessions.forEach(function (s) {
+    if (!byDate[s.date]) { byDate[s.date] = []; order.push(s.date); }
+    byDate[s.date].push(s);
+  });
+  return order.map(function (d) { return [d, byDate[d]]; });
+}
+
+// ---------- Toast ----------
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  if (showToast._t) clearTimeout(showToast._t);
+  showToast._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
+}
+
+// ---------- Clipboard ----------
+function copyText(text) {
+  try {
+    if (nav && nav.clipboard && nav.clipboard.writeText) {
+      return nav.clipboard.writeText(text).then(
+        function () { return true; },
+        function () { return fallbackCopy(text); }
+      );
+    }
+  } catch (e) {}
+  return Promise.resolve(fallbackCopy(text));
+}
+function fallbackCopy(text) {
+  try {
+    var host = document.body || document.documentElement;
+    if (!host) return false;
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    host.appendChild(ta);
+    if (ta.select) ta.select();
+    var ok = typeof document.execCommand === 'function' && document.execCommand('copy');
+    if (ta.parentNode) ta.parentNode.removeChild(ta);
+    return !!ok;
+  } catch (e) { return false; }
+}
+
+// ---------- Downloads / tabs ----------
+function downloadBlob(blob, filename) {
+  try {
+    var host = document.body || document.documentElement;
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    if (host) host.appendChild(a);
+    a.click();
+    if (a.parentNode) a.parentNode.removeChild(a);
+    setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) {} }, 1000);
+  } catch (e) { console.error('download failed', e); }
+}
+function openTab(url) {
+  try {
+    var host = document.body || document.documentElement;
+    var a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    if (host) host.appendChild(a);
+    a.click();
+    if (a.parentNode) a.parentNode.removeChild(a);
+  } catch (e) {
+    try { window.open(url, '_blank', 'noopener'); } catch (_) {}
+  }
+}
+
+// ---------- 1. Shareable link for followed teams ----------
+
+// Parse a `teams=` query string into a de-duplicated list of raw ids.
+function parseTeamsParam(search) {
+  var s = String(search || '');
+  var m = /[?&]teams=([^&#]*)/.exec(s);
+  if (!m) return [];
+  var raw;
+  try { raw = decodeURIComponent(m[1]); } catch (e) { raw = m[1]; }
+  var out = [], seen = {};
+  raw.split(',').forEach(function (x) {
+    var id = x.trim();
+    if (id && !seen[id]) { seen[id] = 1; out.push(id); }
+  });
+  return out;
+}
+
+// Merge the ids from a `?teams=` link into `followed`.
+// Valid = present in teams.json. Unknown ids are ignored silently.
+// Returns { added:[], already:[], invalid:[] }.
+function applyTeamsParam(search) {
+  var res = { added: [], already: [], invalid: [] };
+  parseTeamsParam(search).forEach(function (id) {
+    if (!DATA.teamsById[id]) { res.invalid.push(id); return; }
+    if (followed.indexOf(id) !== -1) { res.already.push(id); return; }
+    followed.push(id);
+    res.added.push(id);
+  });
+  if (res.added.length) saveFollowed();
+  return res;
+}
+
+// Build a link that restores the current followed list on another device.
+function buildTeamsLink() {
+  var loc = (typeof window !== 'undefined' && window.location) ? window.location : {};
+  var base = (loc.origin || '') + (loc.pathname || '');
+  return base + '?teams=' + followed.join(',');
+}
+
+// On load: apply a `?teams=` link, then strip the query so a refresh
+// does not re-apply it. Non-blocking toast confirms what happened.
+function maybeApplySharedTeams() {
+  var loc = (typeof window !== 'undefined' && window.location) ? window.location : null;
+  if (!loc || !loc.search) return;
+  var res = applyTeamsParam(loc.search);
+  if (!res.added.length && !res.already.length && !res.invalid.length) return;
+  try {
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', (loc.pathname || '') + (loc.hash || ''));
+    }
+  } catch (e) {}
+  if (res.added.length) {
+    showToast(res.added.length === 1
+      ? 'נוספה קבוצה אחת למעקב'
+      : 'נוספו ' + res.added.length + ' קבוצות למעקב');
+  } else if (res.already.length) {
+    showToast('כבר עוקב אחרי הקבוצות בקישור');
+  }
+}
+
+function shareFollowsLink() {
+  if (!followed.length) return;
+  var url = buildTeamsLink();
+  copyText(url).then(function (ok) {
+    if (ok) showToast('הקישור למעקב הועתק');
+  });
+  if (nav && nav.share) {
+    try {
+      var p = nav.share({
+        title: 'הקבוצות שלי — גלבוע מעיינות',
+        text: 'הקבוצות שאני עוקב אחריהן בלו״ז גלבוע מעיינות',
+        url: url
+      });
+      if (p && p['catch']) p['catch'](function () {}); // swallow AbortError
+    } catch (e) {}
+  }
+}
+
+// ---------- 2a. Copy as text ----------
+function buildWeekText(sunday) {
+  var L = [];
+  L.push('הלו״ז שלי — גלבוע מעיינות');
+  L.push('שבוע ' + weekRangeNumeric(sunday));
+
+  var ses = weekSessionsFor(sunday);
+  if (!ses.length) {
+    L.push('');
+    L.push('אין אימונים בשבוע זה');
+    return L.join('\n');
+  }
+
+  groupByDate(ses).forEach(function (pair) {
+    var day = pair[1];
+    L.push('');
+    L.push(HE_WEEKDAY_FULL[day[0].weekday] + ' ' + dmLabel(pair[0]));
+    day.forEach(function (s) {
+      var parts = [timeRange(s), teamName(s.team_id)];
+      if (s.coach_text) parts.push(s.coach_text);
+      if (s.location) parts.push(s.location);
+      L.push('  ' + parts.join(' · '));
+      var notes = normalizeNotes(s.notes);
+      if (notes.length) L.push('    ' + notes.join(' · '));
+    });
+  });
+
+  var n = ses.length;
+  var teamCount = countTeams(ses);
+  L.push('');
+  L.push('סה״כ: ' +
+    (teamCount === 1 ? 'קבוצה אחת' : teamCount + ' קבוצות') + ' · ' +
+    (n === 1 ? 'אימון אחד' : n + ' אימונים') + ' · ' +
+    hoursStr(sumMinutes(ses)) + ' שעות');
+  return L.join('\n');
+}
+
+// ---------- 2b. Share ----------
+function shareWeek() {
+  var text = buildWeekText(viewSunday);
+  var title = 'הלו״ז שלי — גלבוע מעיינות';
+  if (nav && nav.share) {
+    try {
+      var p = nav.share({ title: title, text: text });
+      if (p && p['catch']) p['catch'](function () {}); // user-cancel => AbortError
+    } catch (e) {}
+    return;
+  }
+  // No Web Share (typical desktop): copy the text and open WhatsApp's share URL.
+  copyText(text).then(function (ok) { if (ok) showToast('הטקסט הועתק'); });
+  openTab('https://wa.me/?text=' + encodeURIComponent(text));
+}
+
+// ---------- 2c. Add to calendar (.ics) ----------
+function icsEsc(s) {
+  return String(s)
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+}
+function utf8Len(cp) { return cp < 0x80 ? 1 : (cp < 0x800 ? 2 : 3); }
+// Fold to <=75 octets per RFC 5545 (continuation = CRLF + single space).
+function foldLine(line) {
+  var out = '', run = 0, i, ch, b;
+  for (i = 0; i < line.length; i++) {
+    ch = line.charAt(i);
+    b = utf8Len(line.charCodeAt(i));
+    if (run + b > 75) { out += '\r\n '; run = 1; }
+    out += ch;
+    run += b;
+  }
+  return out;
+}
+function icsStamp(d) {
+  return d.getUTCFullYear() +
+    pad2(d.getUTCMonth() + 1) + pad2(d.getUTCDate()) + 'T' +
+    pad2(d.getUTCHours()) + pad2(d.getUTCMinutes()) + pad2(d.getUTCSeconds()) + 'Z';
+}
+function buildICS(sunday) {
+  var ses = weekSessionsFor(sunday);
+  var stamp = icsStamp(new Date());
+  var out = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//gilboa-maayanot//team-schedule//HE',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH'
+  ];
+  ses.forEach(function (s) {
+    var desc = [];
+    if (s.coach_text) desc.push('מאמן: ' + s.coach_text);
+    normalizeNotes(s.notes).forEach(function (nt) { desc.push(nt); });
+
+    out.push('BEGIN:VEVENT');
+    out.push('UID:' + s.id + '@gilboa-schedule');
+    out.push('DTSTAMP:' + stamp);
+    // start/end carry +03:00 -> emit as unambiguous UTC "Z" instants.
+    out.push('DTSTART:' + icsStamp(new Date(s.start)));
+    if (s.end) out.push('DTEND:' + icsStamp(new Date(s.end)));
+    out.push(foldLine('SUMMARY:' + icsEsc(teamName(s.team_id))));
+    if (s.location) out.push(foldLine('LOCATION:' + icsEsc(s.location)));
+    if (desc.length) out.push(foldLine('DESCRIPTION:' + icsEsc(desc.join('\n'))));
+    out.push('END:VEVENT');
+  });
+  out.push('END:VCALENDAR');
+  return out.join('\r\n') + '\r\n';
+}
+function downloadICS() {
+  var name = 'gilboa-שבוע-' + viewSunday + '.ics';
+  try {
+    downloadBlob(new Blob([buildICS(viewSunday)], { type: 'text/calendar;charset=utf-8' }), name);
+    showToast('קובץ היומן ירד');
+  } catch (e) {
+    console.error(e);
+    showToast('יצירת קובץ היומן נכשלה');
+  }
+}
+
+// ---------- 2d. Save as image (hand-drawn canvas, no library) ----------
+function drawWeekImage(sunday) {
+  var W = 480, PAD = 20;
+  var dpr = (typeof window !== 'undefined' && window.devicePixelRatio) ? window.devicePixelRatio : 1;
+  var FONT = '-apple-system, "Segoe UI", Roboto, Arial, "Noto Sans Hebrew", sans-serif';
+  var ses = weekSessionsFor(sunday);
+
+  // 1. Build a flat list of rows to draw, each with a fixed height.
+  var rows = [];
+  rows.push({ k: 'title', t: 'הלו״ז שלי — גלבוע מעיינות', h: 30 });
+  rows.push({ k: 'range', t: 'שבוע ' + weekRangeNumeric(sunday), h: 26 });
+  if (!ses.length) {
+    rows.push({ k: 'plain', t: 'אין אימונים בשבוע זה', h: 30 });
+  } else {
+    groupByDate(ses).forEach(function (pair) {
+      rows.push({ k: 'day', t: HE_WEEKDAY_FULL[pair[1][0].weekday] + ' ' + dmLabel(pair[0]), h: 34 });
+      pair[1].forEach(function (s) {
+        var sub = [];
+        if (s.coach_text) sub.push(s.coach_text);
+        if (s.location) sub.push(s.location);
+        rows.push({
+          k: 'session',
+          t: timeRange(s) + '  ' + teamName(s.team_id),
+          sub: sub.join('  ·  '),
+          color: colorFor(s.team_id),
+          h: sub.length ? 44 : 26
+        });
+        var notes = normalizeNotes(s.notes);
+        if (notes.length) rows.push({ k: 'note', t: 'ℹ ' + notes.join('  ·  '), h: 20 });
+      });
+    });
+    rows.push({
+      k: 'summary',
+      t: (ses.length === 1 ? 'אימון אחד' : ses.length + ' אימונים') +
+        '  ·  ' + hoursStr(sumMinutes(ses)) + ' שעות',
+      h: 38
+    });
+  }
+
+  // 2. Size the canvas (height grows with content), DPR-scaled for crispness.
+  var H = PAD;
+  rows.forEach(function (r) { r.y = H; H += r.h; });
+  H += PAD;
+
+  var canvas = document.createElement('canvas');
+  canvas.width = Math.round(W * dpr);
+  canvas.height = Math.round(H * dpr);
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  var ctx = canvas.getContext && canvas.getContext('2d');
+  if (!ctx) return canvas;
+
+  ctx.scale(dpr, dpr);
+  ctx.textBaseline = 'top';
+  if ('direction' in ctx) ctx.direction = 'rtl';
+  ctx.textAlign = 'right';
+
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, W, H);
+
+  var right = W - PAD;
+  var textMax = W - PAD * 2;
+
+  rows.forEach(function (r) {
+    if (r.k === 'title') {
+      ctx.fillStyle = '#1a1d21'; ctx.font = '700 18px ' + FONT;
+      ctx.fillText(fitText(ctx, r.t, textMax), right, r.y);
+    } else if (r.k === 'range') {
+      ctx.fillStyle = '#4b5563'; ctx.font = '600 14px ' + FONT;
+      ctx.fillText(fitText(ctx, r.t, textMax), right, r.y + 4);
+    } else if (r.k === 'day') {
+      ctx.fillStyle = '#4b5563'; ctx.font = '700 14px ' + FONT;
+      ctx.fillText(r.t, right, r.y + 10);
+      hline(ctx, PAD, W - PAD, r.y + 30, '#e2e4e8');
+    } else if (r.k === 'session') {
+      ctx.fillStyle = r.color || '#888888';
+      dot(ctx, right - 4, r.y + 8, 4);
+      ctx.fillStyle = '#1a1d21'; ctx.font = '600 14px ' + FONT;
+      ctx.fillText(fitText(ctx, r.t, textMax - 16), right - 16, r.y);
+      if (r.sub) {
+        ctx.fillStyle = '#4b5563'; ctx.font = '400 13px ' + FONT;
+        ctx.fillText(fitText(ctx, r.sub, textMax - 16), right - 16, r.y + 21);
+      }
+    } else if (r.k === 'note') {
+      ctx.fillStyle = '#6b7280'; ctx.font = '400 12px ' + FONT;
+      ctx.fillText(fitText(ctx, r.t, textMax - 16), right - 16, r.y);
+    } else if (r.k === 'summary') {
+      hline(ctx, PAD, W - PAD, r.y, '#e2e4e8');
+      ctx.fillStyle = '#1a1d21'; ctx.font = '700 14px ' + FONT;
+      ctx.fillText(fitText(ctx, r.t, textMax), right, r.y + 12);
+    } else {
+      ctx.fillStyle = '#4b5563'; ctx.font = '400 14px ' + FONT;
+      ctx.fillText(r.t, right, r.y);
+    }
+  });
+
+  return canvas;
+}
+function fitText(ctx, text, maxWidth) {
+  if (!ctx.measureText || ctx.measureText(text).width <= maxWidth) return text;
+  var t = text;
+  while (t.length > 1 && ctx.measureText(t + '…').width > maxWidth) t = t.slice(0, -1);
+  return t + '…';
+}
+function hline(ctx, x1, x2, y, color) {
+  if (!ctx.beginPath) return;
+  ctx.strokeStyle = color; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke();
+}
+function dot(ctx, x, y, r) {
+  if (!ctx.beginPath) return;
+  ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+}
+function saveWeekImage() {
+  var name = 'gilboa-שבוע-' + viewSunday + '.png';
+  var title = 'הלו״ז שלי — גלבוע מעיינות';
+  var canvas;
+  try { canvas = drawWeekImage(viewSunday); } catch (e) { console.error(e); }
+  if (!canvas || !canvas.toBlob) { showToast('שמירת תמונה לא נתמכת'); return; }
+  canvas.toBlob(function (blob) {
+    if (!blob) { showToast('יצירת התמונה נכשלה'); return; }
+    downloadBlob(blob, name);
+    var file = null;
+    try { file = new File([blob], name, { type: 'image/png' }); } catch (e) {}
+    if (file && nav && nav.canShare && nav.canShare({ files: [file] })) {
+      try {
+        var p = nav.share({ files: [file], title: title });
+        if (p && p['catch']) p['catch'](function () {});
+      } catch (e) {}
+    }
+    showToast('התמונה נשמרה');
+  }, 'image/png');
+}
+
+// Expose the pure builders for tests / power users.
+window.buildTeamsLink = buildTeamsLink;
+window.applyTeamsParam = applyTeamsParam;
+window.parseTeamsParam = parseTeamsParam;
+window.buildWeekText = buildWeekText;
+window.buildICS = buildICS;
+window.icsEsc = icsEsc;
+window.drawWeekImage = drawWeekImage;
+
 // ---------- Screen navigation ----------
 function goto(screen) {
   var mw = document.getElementById('screen-myweek');
@@ -562,4 +1027,24 @@ function wireEvents() {
     // Viewing the banner marks this update as seen.
     if (DATA.meta && DATA.meta.generated_at) setSeen(DATA.meta.generated_at);
   });
+
+  // Export / share actions.
+  on('share-follows', 'click', shareFollowsLink);
+  on('act-copy', 'click', function () {
+    copyText(buildWeekText(viewSunday)).then(function (ok) {
+      showToast(ok ? 'הועתק ללוח' : 'לא ניתן להעתיק');
+    });
+  });
+  on('act-share', 'click', shareWeek);
+  on('act-ics', 'click', downloadICS);
+  on('act-img', 'click', saveWeekImage);
+}
+
+function on(id, evt, fn) {
+  var n = document.getElementById(id);
+  if (n) n.addEventListener(evt, fn);
+}
+function setHidden(id, v) {
+  var n = document.getElementById(id);
+  if (n) n.hidden = !!v;
 }

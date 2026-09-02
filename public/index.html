@@ -35,6 +35,11 @@
 
         <div id="follows-row" class="chips" hidden></div>
 
+        <button type="button" id="share-follows" class="share-follows" hidden
+                aria-label="שיתוף רשימת הקבוצות שאני עוקב אחריהן כקישור">
+          🔗 שתף את הקבוצות שלי
+        </button>
+
         <div id="changes-banner" class="changes-banner" hidden>
           <button type="button" class="changes-toggle" aria-expanded="false">
             <span class="changes-summary"></span>
@@ -43,6 +48,13 @@
         </div>
 
         <div id="week-content"></div>
+
+        <div id="week-actions" class="week-actions" hidden role="group" aria-label="פעולות על הלוח השבועי">
+          <button type="button" id="act-copy" class="wact" aria-label="העתקת הלוח השבועי כטקסט">📋 העתק</button>
+          <button type="button" id="act-share" class="wact" aria-label="שיתוף הלוח השבועי">📤 שתף</button>
+          <button type="button" id="act-ics" class="wact" aria-label="הוספת הלוח השבועי ליומן (קובץ ICS)">📅 יומן</button>
+          <button type="button" id="act-img" class="wact" aria-label="שמירת הלוח השבועי כתמונה">🖼️ תמונה</button>
+        </div>
 
         <footer id="week-footer" class="week-footer" hidden>
           <div id="summary" class="summary"></div>
@@ -72,6 +84,8 @@
       <button type="button" class="btn btn-primary" onclick="location.reload()">רענון</button>
     </div>
   </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="app.js"></script>
 </body>

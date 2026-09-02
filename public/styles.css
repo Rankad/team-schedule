@@ -1,0 +1,337 @@
+/* Gilboa Maayanot Team Schedule - static site styles.
+   Mobile-first, RTL Hebrew. No build step, system fonts, rem units. */
+
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --text: #1a1d21;
+  --muted: #4b5563;
+  --border: #e2e4e8;
+  --accent: #1d6a8c;
+  --accent-dark: #14506b;
+  --banner-bg: #fff4e5;
+  --banner-border: #f0c68a;
+  --radius: 12px;
+  --tap: 44px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  overflow-wrap: anywhere;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans Hebrew", "Arial Hebrew", sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0 0.875rem;
+}
+
+h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.site-header .wrap {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+.club-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-align: center;
+}
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.week-range {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  flex: 1;
+}
+.week-arrow {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  font-size: 1.5rem;
+  line-height: 1;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.week-arrow:disabled { color: #b8bcc2; cursor: default; }
+.week-arrow:active:not(:disabled) { background: var(--bg); }
+
+/* ---------- Layout ---------- */
+#main { padding-top: 1rem; padding-bottom: 2.5rem; }
+.screen-title { margin: 0.75rem 0 1rem; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding: 0.5rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:active { background: var(--accent-dark); }
+.btn-back {
+  background: transparent;
+  border-color: transparent;
+  color: var(--accent);
+  padding-inline: 0;
+}
+
+/* ---------- Onboarding ---------- */
+.onboarding p { color: var(--muted); margin: 0.25rem 0 1rem; }
+
+/* ---------- Chips (followed teams) ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 100%;
+  padding: 0.4rem 0.5rem 0.4rem 0.65rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.9rem;
+}
+.chip .chip-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 15rem;
+}
+.chip .chip-coach { color: var(--muted); }
+.chip-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  flex: none;
+}
+.chip-remove {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  margin: -0.4rem -0.5rem -0.4rem 0;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.chip-add {
+  border-style: dashed;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface);
+  cursor: pointer;
+  font-weight: 600;
+  min-height: var(--tap);
+}
+
+/* ---------- Changes banner ---------- */
+.changes-banner {
+  background: var(--banner-bg);
+  border: 1px solid var(--banner-border);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.9rem 0.8rem;
+  margin-bottom: 1rem;
+}
+.changes-toggle {
+  display: block;
+  width: 100%;
+  min-height: var(--tap);
+  text-align: start;
+  background: transparent;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  padding: 0.3rem 0;
+}
+.changes-summary { font-weight: 600; }
+.changes-list {
+  margin: 0.4rem 0 0;
+  padding-inline-start: 1.1rem;
+}
+.changes-list li { margin: 0.3rem 0; }
+
+/* ---------- Weekly list ---------- */
+.day-group { margin-bottom: 1.25rem; }
+.day-head {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--muted);
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 0.5rem;
+}
+.session {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.8rem;
+  margin-bottom: 0.5rem;
+}
+.session-time {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+.session-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+}
+.session-line .team { display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600; }
+.session-dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; flex: none; }
+.session-line .coach,
+.session-line .loc { color: var(--muted); }
+.session-note {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.session-warn {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: #b54708;
+}
+
+.empty-team,
+.no-data {
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Footer summary ---------- */
+.week-footer {
+  margin-top: 1.5rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+.summary { font-weight: 700; }
+.updated { color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem; }
+
+/* ---------- Add Team ---------- */
+.toggle {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.toggle-btn {
+  flex: 1;
+  min-height: var(--tap);
+  padding: 0.5rem;
+  font: inherit;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  cursor: pointer;
+}
+.toggle-btn.is-active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.search-label {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+.search-input {
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.search-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.search-hint { color: var(--muted); font-size: 0.88rem; margin: 0.5rem 0 1rem; }
+
+.results { display: flex; flex-direction: column; gap: 0.5rem; }
+.coach-group-head {
+  font-weight: 700;
+  color: var(--muted);
+  margin: 0.6rem 0 0.1rem;
+}
+.result {
+  display: block;
+  width: 100%;
+  text-align: start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+  cursor: pointer;
+}
+.result:active { background: var(--bg); }
+.result .r-team { font-weight: 600; }
+.result .r-coach,
+.result .r-note { color: var(--muted); font-size: 0.9rem; margin-top: 0.15rem; }
+.result .r-followed { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-top: 0.2rem; }
+.results-empty { color: var(--muted); padding: 0.5rem 0; }
+
+/* ---------- Fatal error ---------- */
+.fatal { padding: 2rem 0.875rem; max-width: 40rem; margin: 0 auto; }
+.fatal p { color: var(--muted); }
+
+@media (min-width: 30rem) {
+  .club-name { font-size: 1.15rem; }
+}

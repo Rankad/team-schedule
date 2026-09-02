@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>הלו״ז שלי — מכבי מעיינות הגלבוע</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" hidden>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="club-name">מכבי מעיינות הגלבוע</div>
+        <nav class="week-nav" aria-label="ניווט שבועות">
+          <button type="button" id="prev-week" class="week-arrow" aria-label="השבוע הקודם">›</button>
+          <span id="week-range" class="week-range" aria-live="polite">—</span>
+          <button type="button" id="next-week" class="week-arrow" aria-label="השבוע הבא">‹</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap" id="main">
+      <!-- Screen 1: My Week -->
+      <section id="screen-myweek" class="screen">
+        <div id="onboarding" class="card onboarding" hidden>
+          <h1>בחר את הקבוצה של הילד/ה</h1>
+          <p>מצא את הקבוצה לפי שם הקבוצה או שם המאמן, ותראה כאן רק את האימונים שלה.</p>
+          <button type="button" class="btn btn-primary" data-goto="addteam">＋ בחירת קבוצה</button>
+        </div>
+
+        <div id="follows-row" class="chips" hidden></div>
+
+        <div id="changes-banner" class="changes-banner" hidden>
+          <button type="button" class="changes-toggle" aria-expanded="false">
+            <span class="changes-summary"></span>
+          </button>
+          <ul class="changes-list" hidden></ul>
+        </div>
+
+        <div id="week-content"></div>
+
+        <footer id="week-footer" class="week-footer" hidden>
+          <div id="summary" class="summary"></div>
+          <div id="updated" class="updated"></div>
+        </footer>
+      </section>
+
+      <!-- Screen 2: Add Team -->
+      <section id="screen-addteam" class="screen" hidden>
+        <button type="button" class="btn btn-back" data-goto="myweek">→ חזרה</button>
+        <h1 class="screen-title">בחירת קבוצה</h1>
+
+        <div class="toggle" role="tablist" aria-label="סוג חיפוש">
+          <button type="button" id="mode-team" class="toggle-btn is-active" role="tab" aria-selected="true">🔎 חיפוש קבוצה</button>
+          <button type="button" id="mode-coach" class="toggle-btn" role="tab" aria-selected="false">👤 חיפוש מאמן</button>
+        </div>
+
+        <label class="search-label" for="search">חיפוש</label>
+        <input type="search" id="search" class="search-input" autocomplete="off"
+               placeholder="הקלד שם קבוצה…" aria-describedby="search-hint">
+        <p id="search-hint" class="search-hint"></p>
+
+        <div id="results" class="results" aria-live="polite"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="fatal" class="fatal" hidden>
+    <div class="card">
+      <h1>לא הצלחנו לטעון את הנתונים</h1>
+      <p>ייתכן שיש תקלה זמנית. נסו לרענן את הדף בעוד רגע.</p>
+      <button type="button" class="btn btn-primary" onclick="location.reload()">רענון</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

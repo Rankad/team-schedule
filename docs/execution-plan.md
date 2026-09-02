@@ -153,8 +153,9 @@ server, no database, $0/month. See `docs/architecture.md` and
     `public/data/*.json` (318 sessions / 105 teams) renders immediately.
   - **Phase 3 complete — milestone: live, self-updating MVP.**
   - **OQ-6 closed 2026-09-02:** the club was told and approved; the link may be
-    shared with parents. Still nice-to-have: a real-device visual check of the
-    canvas image export (DL-024).
+    shared with parents.
+  - **DL-024 image export verified on real devices** (desktop + mobile,
+    2026-09-02) — the canvas PNG renders correctly. No open Phase 3 items remain.
 
 ## Immediate next step
 Confirm the first live deploy is green (Actions → "Build & deploy" → `deploy`

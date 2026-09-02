@@ -380,10 +380,11 @@
   ellipsised via `measureText`. ~100 lines, one function. If Hebrew canvas text
   or layout had ballooned past ~150 lines it would have been shipped as a partial
   — it did not.
-- **Status:** Accepted.
-- **Risk:** Low–medium. Canvas Hebrew shaping/bidi is browser-dependent; needs a
-  real-device visual check (see lessons-learned). The other three exports
-  (text/share/ICS) do not depend on canvas.
+- **Status:** Accepted. Verified on real devices (desktop + mobile,
+  2026-09-02) — the Hebrew RTL canvas PNG renders correctly. Risk closed.
+- **Risk:** Low. Canvas Hebrew shaping/bidi is browser-dependent but was
+  confirmed working; the other three exports (text/share/ICS) do not depend on
+  canvas.
 
 ## DL-025 — ICS emits DTSTART/DTEND as UTC "Z" instants (no VTIMEZONE)
 - **Date:** 2026-09-02 (Phase 3)

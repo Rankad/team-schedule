@@ -536,6 +536,29 @@ function weekSessionsFor(sunday) {
   });
   return arr;
 }
+// [date, [session,...]] pairs in first-seen (ascending) order. Callers pass
+// sessions already sorted day-then-time, so each group is time-sorted.
+function groupByDate(sessions) {
+  var byDate = {}, order = [];
+  sessions.forEach(function (s) {
+    if (!byDate[s.date]) { byDate[s.date] = []; order.push(s.date); }
+    byDate[s.date].push(s);
+  });
+  return order.map(function (d) { return [d, byDate[d]]; });
+}
+
+// Split one week's followed sessions into past / upcoming day-groups.
+// "Current week" = the viewed week contains `today`. Whole days only:
+// a day is "past" iff its date string is < today.
+function splitWeekByToday(weekSessions, viewSunday, today) {
+  var groups = groupByDate(weekSessions);
+  if (sundayOf(today) !== viewSunday) {
+    return { isCurrentWeek: false, pastGroups: [], upcomingGroups: groups };
+  }
+  var past = [], upcoming = [];
+  groups.forEach(function (g) { (g[0] < today ? past : upcoming).push(g); });
+  return { isCurrentWeek: true, pastGroups: past, upcomingGroups: upcoming };
+}
 function sumMinutes(sessions) {
   var mins = 0;
   sessions.forEach(function (s) {
@@ -985,6 +1008,8 @@ window.buildWeekText = buildWeekText;
 window.buildICS = buildICS;
 window.icsEsc = icsEsc;
 window.drawWeekImage = drawWeekImage;
+window.groupByDate = groupByDate;
+window.splitWeekByToday = splitWeekByToday;
 
 // ---------- Screen navigation ----------
 function goto(screen) {

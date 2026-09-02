@@ -316,6 +316,41 @@ require(path.join(ROOT, 'public', 'app.js'));
     }
   }
 
+  console.log('earlier-days — split helper');
+  {
+    const SPLIT_WK = '2026-09-06';
+    const mkS = (date) => ({
+      team_id: 'TX', week_key: SPLIT_WK, date: date, weekday: 0,
+      start: date + 'T17:00:00+03:00', end: date + 'T18:30:00+03:00',
+    });
+    // sorted, multi-day week
+    const sw = [mkS('2026-09-06'), mkS('2026-09-08'), mkS('2026-09-08'), mkS('2026-09-10')];
+
+    const mid = window.splitWeekByToday(sw, SPLIT_WK, '2026-09-08');
+    assert(mid.isCurrentWeek === true, 'split: today inside the viewed week => isCurrentWeek');
+    assert(mid.pastGroups.length === 1 && mid.pastGroups[0][0] === '2026-09-06',
+      'split: earlier day is a past group');
+    assert(mid.upcomingGroups.map(g => g[0]).join(',') === '2026-09-08,2026-09-10',
+      'split: today and later are upcoming groups, grouped by date');
+
+    const outWk = window.splitWeekByToday(sw, SPLIT_WK, '2026-09-20');
+    assert(outWk.isCurrentWeek === false, 'split: today outside the viewed week => not current');
+    assert(outWk.pastGroups.length === 0 && outWk.upcomingGroups.length === 3,
+      'split: non-current week keeps every day in upcomingGroups');
+
+    const doneWk = window.splitWeekByToday(sw, SPLIT_WK, '2026-09-12');
+    assert(doneWk.isCurrentWeek === true && doneWk.upcomingGroups.length === 0 && doneWk.pastGroups.length === 3,
+      'split: today after every session => all past, no upcoming');
+
+    const freshWk = window.splitWeekByToday(sw, SPLIT_WK, '2026-09-06');
+    assert(freshWk.pastGroups.length === 0 && freshWk.upcomingGroups.length === 3,
+      'split: today == first session day => nothing past');
+
+    assert(window.groupByDate(sw).length === 3 &&
+           window.groupByDate(sw)[1][1].length === 2,
+      'groupByDate: one entry per date, sessions collected per day');
+  }
+
   console.log('week nav bounds');
   guard = 0; while (!next.disabled && guard++ < 12) next.click();
   assert(byId['week-content'].textContent.indexOf('אין נתונים לשבוע זה') !== -1, 'one past the last week shows "no data"');

@@ -7,8 +7,10 @@ name: Build & deploy
 #     also on a plain push that touches the site (public/**).
 on:
   schedule:
-    # 05:00 & 17:00 UTC ~= 07:00-08:00 and 19:00-20:00 Asia/Jerusalem
-    # (a morning refresh + an evening one that catches daytime edits).
+    # Twice daily: a morning refresh + an evening one that catches daytime edits.
+    # GitHub cron is UTC-only and can't follow Israeli DST. Anchored to WINTER
+    # time (UTC+2) on purpose: 05:00/17:00 UTC = 07:00/19:00 Asia/Jerusalem
+    # Nov–late March, and 08:00/20:00 during summer time. Do not "fix" to UTC+3.
     - cron: "0 5,17 * * *"
   workflow_dispatch:
   push:

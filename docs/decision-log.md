@@ -398,3 +398,33 @@
   75-octet line folding are implemented.
 - **Status:** Accepted.
 - **Risk:** Low.
+
+## DL-026 — Host: GitHub Pages, deployed by GitHub Actions; daily cron enabled
+- **Date:** 2026-09-02 (Phase 3 deploy gate)
+- **Context:** OQ-5 left the host open (GitHub Pages vs Cloudflare Pages). The
+  site lives in `public/`; `docs/` is taken by the PM docs. GitHub Pages
+  "deploy from a branch" can only serve the repo root or `/docs`, not an
+  arbitrary folder.
+- **Decision:**
+  - **Host = GitHub Pages**, published by **GitHub Actions** (not branch mode):
+    `actions/upload-pages-artifact` on `public/` → `actions/deploy-pages`. No
+    file moves, `public/` stays the site root. `actions/configure-pages` with
+    `enablement: true` turns Pages on automatically where repo policy allows;
+    otherwise Settings → Pages → Source = "GitHub Actions" once by hand.
+  - **One workflow, two jobs** (`.github/workflows/build.yml`): `build-data`
+    (schedule / manual only — fetch, rebuild `public/data/*.json`, commit, push)
+    then `deploy` (fresh `main` checkout → Pages). Same-run dependency avoids the
+    `GITHUB_TOKEN`-push-doesn't-trigger-workflows problem. `deploy` also runs on
+    a plain push touching `public/**` for hand edits to the site.
+  - **Daily cron `0 5 * * *` UTC** (~07:00–08:00 Asia/Jerusalem), plus
+    `workflow_dispatch`. Resolves the Phase 3 "enable the cron" item.
+  - **Monthly keepalive** (`.github/workflows/keepalive.yml`) — a no-op commit to
+    `.github/keepalive.log` on the 1st of each month so GitHub's 60-day
+    inactivity rule never pauses the scheduled build. It touches only
+    `.github/**`, so it does not trigger a redeploy.
+- **Cloudflare Pages** stays the documented fallback (custom domain, higher
+  limits): connect repo, build command none, output dir `public`.
+- **Status:** Accepted.
+- **Risk:** Low. Depends on the `GOOGLE_CALENDAR_API_KEY` repo secret (set +
+  verified by the stakeholder). OQ-6 (club courtesy note) still open — deployed
+  but not promoted.

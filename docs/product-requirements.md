@@ -90,11 +90,9 @@ personal weekly schedule. Deterministic parsing, no LLM in the engine.
   0=Sun…6=Sat.
 - OQ-3 Recreational `חוגי` groups → **followable teams** (DL-006).
 - OQ-4 Team identity → **normalized team name only** (DL-005).
+- OQ-5 Host → **GitHub Pages, deployed by GitHub Actions** (DL-026). Cloudflare
+  Pages remains the fallback if a custom domain or higher limits are wanted.
 
 ## Open questions
-- OQ-5 Host: GitHub Pages vs Cloudflare Pages — deferred to deployment
-  (stakeholder said "you pick / decide later"). Default: GitHub Pages for the
-  MVP (code + Action + Pages in one place), Cloudflare Pages if a custom domain
-  or higher limits are wanted.
 - OQ-6 Tell the club before promoting the app widely (courtesy; not a blocker
-  for building).
+  for building). Still open — the site is deployed but not yet promoted.

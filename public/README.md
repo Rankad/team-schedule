@@ -34,3 +34,11 @@ Then open <http://localhost:8000> . (Opening `index.html` directly with a
 
 No accounts, no server, no tracking. If a data file fails to load the page shows
 a Hebrew error instead of a blank screen.
+
+## Deploy
+
+Published to **GitHub Pages by GitHub Actions** (`.github/workflows/build.yml`,
+`deploy` job): `actions/upload-pages-artifact` uploads this `public/` folder as
+the site root, `actions/deploy-pages` publishes it. Triggered after each
+scheduled data rebuild and on any push touching `public/**`. No branch to
+maintain, no build command. See DL-026.

@@ -1,0 +1,34 @@
+name: Keepalive
+
+# GitHub disables scheduled workflows after 60 days with no repository activity.
+# During quiet periods the club schedule may not change, so the daily
+# "Build & deploy" job produces no commits and the repo looks idle. This
+# monthly no-op commit keeps the repo active so the daily cron is never paused.
+# It touches only .github/keepalive.log, so it does not trigger a redeploy.
+on:
+  schedule:
+    - cron: "17 4 1 * *"   # 04:17 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: keepalive
+  cancel-in-progress: false
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Append keepalive marker
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          date -u +"%Y-%m-%dT%H:%M:%SZ keepalive" >> .github/keepalive.log
+          git add .github/keepalive.log
+          git commit -m "chore: monthly keepalive"
+          git push

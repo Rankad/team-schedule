@@ -1,15 +1,34 @@
-name: Build schedule data
+name: Build & deploy
 
-# Phase 2: manual trigger ONLY. No cron yet - the schedule is added in Phase 3,
-# behind the deploy approval gate, once the static site consumes this data.
+# Phase 3: daily cron + manual trigger, and deploy to GitHub Pages.
+#   - build-data: on schedule / manual run only. Fetches the club calendar,
+#     rebuilds public/data/*.json, commits & pushes if anything changed.
+#   - deploy: publishes public/ to GitHub Pages. Runs after build-data, and
+#     also on a plain push that touches the site (public/**).
 on:
+  schedule:
+    - cron: "0 5 * * *"   # 05:00 UTC daily ~= 07:00-08:00 Asia/Jerusalem
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "public/**"
+      - ".github/workflows/build.yml"
 
 permissions:
-  contents: write
+  contents: write   # build-data commits the regenerated JSON
+  pages: write      # deploy to Pages
+  id-token: write   # OIDC token for deploy-pages
+
+concurrency:
+  group: build-deploy
+  cancel-in-progress: false
 
 jobs:
-  build:
+  build-data:
+    # Fetch + rebuild only on the schedule or a manual run.
+    # A plain push to public/** (a site edit) skips straight to deploy.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -43,3 +62,31 @@ jobs:
 
       - name: Push (no-op if fetch_and_build made no commit)
         run: git push
+
+  deploy:
+    needs: build-data
+    # Deploy even when build-data was skipped (plain push) or made no commit.
+    if: always() && needs.build-data.result != 'failure' && needs.build-data.result != 'cancelled'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout main (picks up any data commit just pushed)
+        uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload public/ as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

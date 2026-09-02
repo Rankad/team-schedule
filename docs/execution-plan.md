@@ -48,6 +48,8 @@ server, no database, $0/month. See `docs/architecture.md` and
 - Done when: `docs/ui-ux-spec.md` screens work against the generated JSON at
   360px; QA checklist passes.
 - Enable the cron schedule; deploy to the chosen host (OQ-5).
+  ✅ Done 2026-09-02 — GitHub Pages via Actions, daily cron `0 5 * * *` UTC
+  (DL-026).
 - **Milestone: live, self-updating MVP.** Share with a few parents; tell the
   club (OQ-6).
 
@@ -131,8 +133,26 @@ server, no database, $0/month. See `docs/architecture.md` and
   **STILL: no deploy, no cron, not pushed.** Next: stakeholder review, then the
   deploy/cron approval gate, then tell the club (OQ-6).
 
+- **2026-09-02 — Phase 3 deployed. Daily cron enabled. MVP is live.**
+  Deploy gate approved by the stakeholder (host = GitHub Pages via Actions;
+  fast-forward merge to `main`; keepalive added). `GOOGLE_CALENDAR_API_KEY`
+  secret confirmed set + a manual workflow run verified against the live API.
+  - `.github/workflows/build.yml` reworked (DL-026): one workflow, two jobs —
+    `build-data` (schedule + `workflow_dispatch` only: pytest → `fetch_and_build
+    --commit` → push) then `deploy` (fresh `main` checkout → `upload-pages-
+    artifact` on `public/` → `deploy-pages`). Also deploys on a plain push to
+    `public/**`. Cron `0 5 * * *` UTC (~07:00–08:00 Jerusalem).
+  - `.github/workflows/keepalive.yml` — monthly no-op commit so the cron is
+    never auto-disabled by GitHub's 60-day inactivity rule.
+  - `phase-3-static-site` fast-forward-merged to `main` and pushed (branch
+    deleted). Pages serves `public/` as site root; the committed
+    `public/data/*.json` (318 sessions / 105 teams) renders immediately.
+  - **Phase 3 complete — milestone: live, self-updating MVP.** Still open:
+    tell the club before wider promotion (OQ-6); a real-device visual check of
+    the canvas image export (DL-024).
+
 ## Immediate next step
-Stakeholder runs the `Build schedule data` workflow manually
-(`workflow_dispatch`) once to verify against the LIVE Google Calendar API:
-expect ~215 events for the current week's window and a commit to
-`public/data/`. Then Phase 3 (static site) behind its approval gate.
+Confirm the first live deploy is green (Actions → "Build & deploy" → `deploy`
+job → the `page_url` it prints) and open the site on a phone. Then the OQ-6
+courtesy note to the club before sharing the link with parents.
+Phase 4 (Excel fallback importer) is the next build phase and is not urgent.

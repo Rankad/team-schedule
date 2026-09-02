@@ -1,13 +1,15 @@
 name: Build & deploy
 
-# Phase 3: daily cron + manual trigger, and deploy to GitHub Pages.
+# Phase 3: twice-daily cron + manual trigger, and deploy to GitHub Pages.
 #   - build-data: on schedule / manual run only. Fetches the club calendar,
 #     rebuilds public/data/*.json, commits & pushes if anything changed.
 #   - deploy: publishes public/ to GitHub Pages. Runs after build-data, and
 #     also on a plain push that touches the site (public/**).
 on:
   schedule:
-    - cron: "0 5 * * *"   # 05:00 UTC daily ~= 07:00-08:00 Asia/Jerusalem
+    # 05:00 & 17:00 UTC ~= 07:00-08:00 and 19:00-20:00 Asia/Jerusalem
+    # (a morning refresh + an evening one that catches daytime edits).
+    - cron: "0 5,17 * * *"
   workflow_dispatch:
   push:
     branches: [main]

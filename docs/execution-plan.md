@@ -48,8 +48,8 @@ server, no database, $0/month. See `docs/architecture.md` and
 - Done when: `docs/ui-ux-spec.md` screens work against the generated JSON at
   360px; QA checklist passes.
 - Enable the cron schedule; deploy to the chosen host (OQ-5).
-  ✅ Done 2026-09-02 — GitHub Pages via Actions, daily cron `0 5 * * *` UTC
-  (DL-026).
+  ✅ Done 2026-09-02 — GitHub Pages via Actions, twice-daily cron
+  `0 5,17 * * *` UTC (DL-026).
 - **Milestone: live, self-updating MVP.** Share with a few parents; tell the
   club (OQ-6).
 
@@ -145,7 +145,8 @@ server, no database, $0/month. See `docs/architecture.md` and
     `build-data` (schedule + `workflow_dispatch` only: pytest → `fetch_and_build
     --commit` → push) then `deploy` (fresh `main` checkout → `upload-pages-
     artifact` on `public/` → `deploy-pages`). Also deploys on a plain push to
-    `public/**`. Cron `0 5 * * *` UTC (~07:00–08:00 Jerusalem).
+    `public/**`. Cron `0 5,17 * * *` UTC — twice daily (~07:00–08:00 and
+    ~19:00–20:00 Jerusalem; widened from once-daily 2026-09-02).
   - `.github/workflows/keepalive.yml` — monthly no-op commit so the cron is
     never auto-disabled by GitHub's 60-day inactivity rule.
   - `phase-3-static-site` fast-forward-merged to `main` and pushed (branch

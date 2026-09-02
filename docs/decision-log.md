@@ -417,7 +417,10 @@
     then `deploy` (fresh `main` checkout → Pages). Same-run dependency avoids the
     `GITHUB_TOKEN`-push-doesn't-trigger-workflows problem. `deploy` also runs on
     a plain push touching `public/**` for hand edits to the site.
-  - **Daily cron `0 5 * * *` UTC** (~07:00–08:00 Asia/Jerusalem), plus
+  - **Cron `0 5,17 * * *` UTC** — twice daily, ~07:00–08:00 and ~19:00–20:00
+    Asia/Jerusalem (morning refresh + an evening one catching daytime edits;
+    widened from once-daily `0 5 * * *` on 2026-09-02 at stakeholder request —
+    $0 impact, public-repo Actions minutes are unlimited). Plus
     `workflow_dispatch`. Resolves the Phase 3 "enable the cron" item.
   - **Monthly keepalive** (`.github/workflows/keepalive.yml`) — a no-op commit to
     `.github/keepalive.log` on the 1st of each month so GitHub's 60-day

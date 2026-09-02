@@ -569,17 +569,6 @@ function weekSessionsFor(sunday) {
   });
   return arr;
 }
-// [date, [session,...]] pairs in first-seen (ascending) order. Callers pass
-// sessions already sorted day-then-time, so each group is time-sorted.
-function groupByDate(sessions) {
-  var byDate = {}, order = [];
-  sessions.forEach(function (s) {
-    if (!byDate[s.date]) { byDate[s.date] = []; order.push(s.date); }
-    byDate[s.date].push(s);
-  });
-  return order.map(function (d) { return [d, byDate[d]]; });
-}
-
 // Split one week's followed sessions into past / upcoming day-groups.
 // "Current week" = the viewed week contains `today`. Whole days only:
 // a day is "past" iff its date string is < today.

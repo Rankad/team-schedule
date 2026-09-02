@@ -129,14 +129,20 @@
   reordering. For Hebrew you set `ctx.direction = 'rtl'` + `ctx.textAlign =
   'right'` and draw each line from a fixed right-margin x; you still position
   every element (dots, sub-lines) yourself and truncate long strings manually
-  with `measureText`. Mixed Hebrew+digits (times like `13:00–15:00`) render
-  correctly inside an RTL run as long as the whole string is passed in one
-  `fillText` call. Canvas glyph shaping still depends on the browser's font
-  stack — this needs a real-device visual check, it cannot be asserted in the
-  headless harness (which stubs the 2D context).
-- **Apply:** Keep hand-drawn canvas layouts flat and single-pass; compute a
-  height by pre-measuring rows; verify Hebrew visually on a real phone before
-  calling it done.
+  with `measureText`.
+- **Correction (found in browser QA):** mixed Hebrew+digits does NOT
+  "just work". A numeric range like `13:00–15:00` inside an RTL `fillText` call
+  gets bidi-reordered to `15:00–13:00` (the two number groups swap around the
+  dash). Fix: wrap each numeric run in a Unicode LTR isolate,
+  `'⁦' + s + '⁩'` (`ltrIsolate()` in `app.js`) — canvas honours it.
+  For a date range, we sidestepped it entirely by printing the spelled-out
+  month form (`weekRangeLabel`, same as the app header) instead of `d/m–d/m`.
+- Canvas glyph shaping still depends on the browser's font stack — verify Hebrew
+  visually; it cannot be asserted in the headless harness (which stubs the 2D
+  context).
+- **Apply:** Keep hand-drawn canvas layouts flat and single-pass; pre-measure
+  rows for height; wrap every time/number span in `ltrIsolate`; verify Hebrew
+  visually.
 
 ## LL-014 — ICS is picky: CRLF, escaping, folding, stable UIDs
 - **Date:** 2026-09-02 (Phase 3, "add to calendar")

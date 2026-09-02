@@ -561,6 +561,9 @@ function weekRangeNumeric(sunday) {
 function timeRange(s) {
   return hhmm(s.start) + (s.end ? '–' + hhmm(s.end) : '');
 }
+// Wrap a numeric run (time / date range) in a Unicode LTR isolate (U+2066 /
+// U+2069) so canvas fillText keeps "13:00–15:00" left-to-right in an RTL line.
+function ltrIsolate(s) { return '⁦' + s + '⁩'; }
 function teamName(id) {
   var t = DATA.teamsById[id];
   return t ? t.display_name : id;
@@ -725,7 +728,7 @@ function shareFollowsLink() {
 function buildWeekText(sunday) {
   var L = [];
   L.push('הלו״ז שלי — גלבוע מעיינות');
-  L.push('שבוע ' + weekRangeNumeric(sunday));
+  L.push('שבוע ' + ltrIsolate(weekRangeNumeric(sunday)));
 
   var ses = weekSessionsFor(sunday);
   if (!ses.length) {
@@ -737,9 +740,9 @@ function buildWeekText(sunday) {
   groupByDate(ses).forEach(function (pair) {
     var day = pair[1];
     L.push('');
-    L.push(HE_WEEKDAY_FULL[day[0].weekday] + ' ' + dmLabel(pair[0]));
+    L.push(HE_WEEKDAY_FULL[day[0].weekday] + ' ' + ltrIsolate(dmLabel(pair[0])));
     day.forEach(function (s) {
-      var parts = [timeRange(s), teamName(s.team_id)];
+      var parts = [ltrIsolate(timeRange(s)), teamName(s.team_id)];
       if (s.coach_text) parts.push(s.coach_text);
       if (s.location) parts.push(s.location);
       L.push('  ' + parts.join(' · '));
@@ -850,19 +853,19 @@ function drawWeekImage(sunday) {
   // 1. Build a flat list of rows to draw, each with a fixed height.
   var rows = [];
   rows.push({ k: 'title', t: 'הלו״ז שלי — גלבוע מעיינות', h: 30 });
-  rows.push({ k: 'range', t: 'שבוע ' + weekRangeNumeric(sunday), h: 26 });
+  rows.push({ k: 'range', t: 'שבוע ' + weekRangeLabel(sunday), h: 26 }); // spelled-out month, matches the app header
   if (!ses.length) {
     rows.push({ k: 'plain', t: 'אין אימונים בשבוע זה', h: 30 });
   } else {
     groupByDate(ses).forEach(function (pair) {
-      rows.push({ k: 'day', t: HE_WEEKDAY_FULL[pair[1][0].weekday] + ' ' + dmLabel(pair[0]), h: 34 });
+      rows.push({ k: 'day', t: HE_WEEKDAY_FULL[pair[1][0].weekday] + ' ' + ltrIsolate(dmLabel(pair[0])), h: 34 });
       pair[1].forEach(function (s) {
         var sub = [];
         if (s.coach_text) sub.push(s.coach_text);
         if (s.location) sub.push(s.location);
         rows.push({
           k: 'session',
-          t: timeRange(s) + '  ' + teamName(s.team_id),
+          t: ltrIsolate(timeRange(s)) + '  ' + teamName(s.team_id),
           sub: sub.join('  ·  '),
           color: colorFor(s.team_id),
           h: sub.length ? 44 : 26

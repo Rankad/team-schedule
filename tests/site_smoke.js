@@ -256,7 +256,8 @@ require(path.join(ROOT, 'public', 'app.js'));
   assert(link.indexOf(T1) !== -1, 'buildTeamsLink lists the followed id');
 
   console.log('buildWeekText');
-  const wt = window.buildWeekText(lastWeek);
+  // strip the U+2066/U+2069 LTR-isolate wrappers around numeric runs for matching
+  const wt = window.buildWeekText(lastWeek).replace(/[\u2066\u2069]/g, '');
   assert(wt.indexOf('הלו״ז שלי — גלבוע מעיינות') === 0, 'week text starts with the club title');
   assert(/\nשבוע \d+\/\d+–\d+\/\d+/.test(wt), 'week text has a "שבוע d/m–d/m" range line');
   assert(wt.indexOf(t1name) !== -1, 'week text lists the followed team');

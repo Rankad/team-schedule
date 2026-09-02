@@ -377,6 +377,9 @@ require(path.join(ROOT, 'public', 'app.js'));
       (gmap[key] = gmap[key] || new Set()).add(s.date);
     });
     const GK = Object.keys(gmap).sort().filter(key => gmap[key].size >= 2)[0];
+    if (!GK) {
+      assert(false, 'no (week, team) with >= 2 distinct training days in the committed data — expander UI block cannot run');
+    } else {
     const gWk = GK.split('|')[0];
     const gTid = GK.split('|')[1];
     const gDays = Array.from(gmap[GK]).sort();
@@ -437,15 +440,24 @@ require(path.join(ROOT, 'public', 'app.js'));
     const adjDayCount = new Set(schedule.sessions
       .filter(s => s.team_id === gTid && s.week_key === adjWk)
       .map(s => s.date)).size;
+    assert(adjDayCount > 0, 'sanity: the adjacent week has sessions for the test team (' + adjDayCount + ')');
     assert(!byId['week-content'].querySelector('.week-expander'),
       'no expander when the viewed week is not the current week');
     assert(dayGroups() === adjDayCount,
       'non-current week renders every day-group it has (' + adjDayCount + ')');
 
+    // spec case 7: current week but nothing earlier than today => no expander at all
+    setToday(gDays[0]);                     // first training day is "today"
+    gotoWeekIndex(gIdx);                    // re-render the (current) week under the new clock
+    assert(!byId['week-content'].querySelector('.week-expander'),
+      'current week with no past sessions: no expander row');
+    assert(dayGroups() === gDays.length, 'current week with no past sessions: all day-groups shown');
+
     // restore for the remaining checks
     setToday(null);
     delete store['gilboa.week_collapsed'];
     window.applyTeamsParam('?teams=' + T1);
+    } // end GK guard
   }
 
   console.log('week nav bounds');

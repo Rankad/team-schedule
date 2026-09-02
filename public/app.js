@@ -388,7 +388,7 @@ function renderExpander(pastDayCount) {
   var btn = el('button', 'week-expander');
   btn.type = 'button';
   btn.setAttribute('aria-expanded', String(!weekCollapsed));
-  btn.appendChild(el('span', 'week-expander-caret', weekCollapsed ? '▸' : '▾'));
+  btn.appendChild(el('span', 'week-expander-caret', weekCollapsed ? '◂' : '▾'));
   btn.appendChild(document.createTextNode(' ' + (weekCollapsed
     ? 'הצג ימים קודמים (' + pastDayCount + ')'
     : 'הסתר ימים קודמים')));
@@ -396,6 +396,8 @@ function renderExpander(pastDayCount) {
     weekCollapsed = !weekCollapsed;
     saveWeekCollapsed();
     renderMyWeek();
+    var again = document.querySelector('.week-expander');
+    if (again) again.focus();
   });
   return btn;
 }

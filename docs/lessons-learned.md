@@ -155,6 +155,19 @@
 - **Apply:** Reuse the `icsEsc` / `foldLine` / `icsStamp` helpers in `app.js` if
   a server-side per-team ICS feed is built in Phase 5.
 
+## LL-015 — A plan step added a helper that already existed → duplicate definition
+- **Date:** 2026-09-02 (Phase 3, current-week earlier-days toggle)
+- **Context:** The implementation plan for the earlier-days toggle told Task 1 to
+  "add `groupByDate`" to `public/app.js`.
+- **What we learned:** The function already existed (added with the export
+  builders in a5e237f). The implementer followed the brief verbatim, producing
+  two identical definitions. Caught in task review; removed in fix commit
+  a5aa765.
+- **Apply:** A plan/brief that introduces a helper must first `grep` the target
+  file for that name. Reviewers should treat "new function with a common name"
+  as a duplicate-check trigger. Applies to writing-plans and any brief that adds
+  named functions to an existing file.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

@@ -9,6 +9,7 @@
 // ---------- Constants ----------
 var LS_FOLLOWED = 'gilboa.followed';
 var LS_SEEN = 'gilboa.seen_generated_at';
+var LS_WEEK_COLLAPSED = 'gilboa.week_collapsed';
 
 // Fixed, accessible team-dot palette. Every colour is >= 5:1 contrast on
 // white, so it is also safe to use as text. Assigned by follow order.
@@ -37,6 +38,7 @@ var HE_MONTHS = ['בינואר', 'בפברואר',
 var DATA = { meta: null, teams: [], teamsById: {}, sessions: [], weeks: [], changes: [] };
 var followed = loadFollowed();
 var viewSunday = null;        // 'YYYY-MM-DD' Sunday of the visible week
+var weekCollapsed = loadWeekCollapsed();   // current week: hide already-passed days
 
 // ---------- Boot ----------
 document.addEventListener('DOMContentLoaded', function () {
@@ -95,6 +97,12 @@ function getSeen() {
 }
 function setSeen(v) {
   try { localStorage.setItem(LS_SEEN, v); } catch (e) {}
+}
+function loadWeekCollapsed() {
+  try { return localStorage.getItem(LS_WEEK_COLLAPSED) !== '0'; } catch (e) { return true; }
+}
+function saveWeekCollapsed() {
+  try { localStorage.setItem(LS_WEEK_COLLAPSED, weekCollapsed ? '1' : '0'); } catch (e) {}
 }
 
 // ---------- Date helpers (string based, no timezone math) ----------
@@ -256,21 +264,21 @@ function renderMyWeek() {
 
   setHidden('week-actions', weekSessions.length === 0);
 
-  var byDate = {};
-  var order = [];
-  weekSessions.forEach(function (s) {
-    if (!byDate[s.date]) { byDate[s.date] = []; order.push(s.date); }
-    byDate[s.date].push(s);
-  });
-
   var multi = followed.length > 1;
-  order.forEach(function (date) {
-    var grp = el('div', 'day-group');
-    var wd = byDate[date][0].weekday;
-    grp.appendChild(el('div', 'day-head', HE_WEEKDAY[wd] + ' ' + dmLabel(date)));
-    byDate[date].forEach(function (s) { grp.appendChild(renderSession(s, multi)); });
-    content.appendChild(grp);
-  });
+  var split = splitWeekByToday(weekSessions, viewSunday, todayYmd());
+
+  if (split.isCurrentWeek && split.pastGroups.length) {
+    content.appendChild(renderExpander(split.pastGroups.length));
+    if (!weekCollapsed) {
+      split.pastGroups.forEach(function (g) { content.appendChild(renderDayGroup(g, multi)); });
+    }
+  }
+
+  if (split.upcomingGroups.length) {
+    split.upcomingGroups.forEach(function (g) { content.appendChild(renderDayGroup(g, multi)); });
+  } else if (split.isCurrentWeek && split.pastGroups.length) {
+    content.appendChild(el('div', 'no-data', 'אין עוד אימונים השבוע'));
+  }
 
   // Followed teams with no session this week.
   followed.forEach(function (id) {
@@ -365,6 +373,31 @@ function renderSession(s, multi) {
   }
 
   return card;
+}
+
+function renderDayGroup(group, multi) {
+  var date = group[0], sessions = group[1];
+  var grp = el('div', 'day-group');
+  grp.appendChild(el('div', 'day-head', HE_WEEKDAY[sessions[0].weekday] + ' ' + dmLabel(date)));
+  sessions.forEach(function (s) { grp.appendChild(renderSession(s, multi)); });
+  return grp;
+}
+
+// Toggle row for the current week's already-passed days.
+function renderExpander(pastDayCount) {
+  var btn = el('button', 'week-expander');
+  btn.type = 'button';
+  btn.setAttribute('aria-expanded', String(!weekCollapsed));
+  btn.appendChild(el('span', 'week-expander-caret', weekCollapsed ? '▸' : '▾'));
+  btn.appendChild(document.createTextNode(' ' + (weekCollapsed
+    ? 'הצג ימים קודמים (' + pastDayCount + ')'
+    : 'הסתר ימים קודמים')));
+  btn.addEventListener('click', function () {
+    weekCollapsed = !weekCollapsed;
+    saveWeekCollapsed();
+    renderMyWeek();
+  });
+  return btn;
 }
 
 function normalizeNotes(notes) {

@@ -221,6 +221,28 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 .wact:active { background: var(--bg); color: var(--text); }
 .wact:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
+/* ---------- "Earlier days" expander (current week only) ---------- */
+.week-expander {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  min-height: var(--tap);
+  margin: 0 0 1rem;
+  padding: 0.4rem 0.1rem;
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--border);
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+.week-expander:active { color: var(--accent-dark); }
+.week-expander:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.week-expander-caret { font-size: 0.8em; line-height: 1; }
+
 /* ---------- Toast ---------- */
 .toast {
   position: fixed;

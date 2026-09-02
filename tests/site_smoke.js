@@ -11,6 +11,22 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
 
+const RealDate = Date;
+let FAKE_NOW = null;                       // null => real time
+function setToday(ymd) {
+  if (ymd === null) { FAKE_NOW = null; return; }
+  const p = ymd.split('-').map(Number);
+  FAKE_NOW = new RealDate(p[0], p[1] - 1, p[2], 12, 0, 0).getTime();  // local noon
+}
+class FakeDate extends RealDate {
+  constructor(...args) {
+    if (args.length === 0 && FAKE_NOW !== null) super(FAKE_NOW);
+    else super(...args);
+  }
+  static now() { return FAKE_NOW !== null ? FAKE_NOW : RealDate.now(); }
+}
+global.Date = FakeDate;
+
 let failures = 0;
 function assert(cond, msg) {
   if (cond) { console.log('  ok   ' + msg); }
@@ -349,6 +365,87 @@ require(path.join(ROOT, 'public', 'app.js'));
     assert(window.groupByDate(sw).length === 3 &&
            window.groupByDate(sw)[1][1].length === 2,
       'groupByDate: one entry per date, sessions collected per day');
+  }
+
+  console.log('earlier-days — expander UI');
+  {
+    // pick a real (week, team) where the team trains on >= 2 distinct days
+    const gmap = {};
+    schedule.sessions.forEach((s) => {
+      if (!s.team_id) return;
+      const key = s.week_key + '|' + s.team_id;
+      (gmap[key] = gmap[key] || new Set()).add(s.date);
+    });
+    const GK = Object.keys(gmap).sort().filter(key => gmap[key].size >= 2)[0];
+    const gWk = GK.split('|')[0];
+    const gTid = GK.split('|')[1];
+    const gDays = Array.from(gmap[GK]).sort();
+    const gPastCount = gDays.length - 1;               // today = last day => that many past days
+    const weeksSorted = schedule.weeks.slice().sort();
+    const gIdx = weeksSorted.indexOf(gWk);
+    const gFullCount = schedule.sessions
+      .filter(s => s.team_id === gTid && s.week_key === gWk).length;
+
+    const gotoWeekIndex = (i) => {
+      let g = 0;
+      while (!prev.disabled && g++ < 40) prev.click();
+      next.click();                                    // -> weeksSorted[0]
+      for (let k = 0; k < i; k++) next.click();        // -> weeksSorted[i]
+    };
+    const dayGroups = () => byId['week-content'].querySelectorAll('.day-group').length;
+    const summaryNum = () => {
+      const mm = /\d+/.exec(byId['summary'].textContent);
+      return mm ? +mm[0] : 1;                          // "אימון אחד" has no digit
+    };
+
+    // follow ONLY the target team
+    let rmB;
+    let rg = 0;
+    while ((rmB = byId['follows-row'].querySelectorAll('.chip-remove')).length && rg++ < 20) rmB[0].click();
+    window.applyTeamsParam('?teams=' + gTid);
+
+    setToday(gDays[gDays.length - 1]);                 // last training day is "today"
+    delete store['gilboa.week_collapsed'];
+    gotoWeekIndex(gIdx);                               // nav triggers a re-render under the fake clock
+
+    const exp = byId['week-content'].querySelector('.week-expander');
+    assert(!!exp, 'expander row shown on the current week when earlier days have sessions');
+    assert(exp.textContent.indexOf('הצג ימים קודמים (' + gPastCount + ')') !== -1,
+      'collapsed label names the hidden-day count');
+    assert(dayGroups() === 1, 'collapsed: only the upcoming day-group is rendered');
+    assert(summaryNum() === gFullCount, 'summary counts the whole week while collapsed');
+
+    exp.click();
+    assert(store['gilboa.week_collapsed'] === '0', 'expanding persists gilboa.week_collapsed = 0');
+    assert(byId['week-content'].querySelector('.week-expander').textContent.indexOf('הסתר ימים קודמים') !== -1,
+      'expanded label switches to "hide"');
+    assert(dayGroups() === gDays.length, 'expanded: every day-group is rendered');
+    assert(summaryNum() === gFullCount, 'summary unchanged by expanding');
+
+    // the choice survives week navigation (in-memory state, no reload)
+    next.click(); prev.click();                        // leave the week and come back
+    assert(dayGroups() === gDays.length, 'still expanded after navigating away and back');
+
+    byId['week-content'].querySelector('.week-expander').click();
+    assert(store['gilboa.week_collapsed'] === '1', 'collapsing again persists = 1');
+    assert(dayGroups() === 1, 'collapsed again: back to upcoming only');
+
+    // a non-current published week never shows the expander and renders all its days
+    const adjIdx = gIdx + 1 < weeksSorted.length ? gIdx + 1 : gIdx - 1;
+    (adjIdx > gIdx ? next : prev).click();
+    const adjWk = weeksSorted[adjIdx];
+    const adjDayCount = new Set(schedule.sessions
+      .filter(s => s.team_id === gTid && s.week_key === adjWk)
+      .map(s => s.date)).size;
+    assert(!byId['week-content'].querySelector('.week-expander'),
+      'no expander when the viewed week is not the current week');
+    assert(dayGroups() === adjDayCount,
+      'non-current week renders every day-group it has (' + adjDayCount + ')');
+
+    // restore for the remaining checks
+    setToday(null);
+    delete store['gilboa.week_collapsed'];
+    window.applyTeamsParam('?teams=' + T1);
   }
 
   console.log('week nav bounds');

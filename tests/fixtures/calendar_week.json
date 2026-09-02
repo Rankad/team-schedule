@@ -1,0 +1,3454 @@
+{
+  "_fixture_note": "Derived from the keyless public .ics feed (https://calendar.google.com/calendar/ical/mpkua0beq2409vncahis6t8tuo%40group.calendar.google.com/public/basic.ics) on 2026-09-02, NOT a true Google Calendar API events.list capture. Item shape mirrors the API (id/summary/location/start.dateTime/end.dateTime/status/updated/sequence). A real API capture requires GOOGLE_CALENDAR_API_KEY - see docs/PHASE-0-USER-TASKS.md.",
+  "_window": {
+    "from": "2026-09-02",
+    "to": "2026-09-08",
+    "tz": "Asia/Jerusalem"
+  },
+  "_event_count": 215,
+  "kind": "calendar#events",
+  "summary": "Gilboa Maayanot diary (fixture)",
+  "timeZone": "Asia/Jerusalem",
+  "items": [
+    {
+      "id": "6fep1urquiqbclnu1f5u0hcn3t@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות דדו-נעה שמעוני ",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-02T14:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:48:56Z"
+    },
+    {
+      "id": "3l32tea67qf9u361t9neel9n8n@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל בנים דקלים (ג-ד)-איתן פרג",
+      "location": "חמדיה ",
+      "start": {
+        "dateTime": "2026-09-02T14:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T16:10:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:49:33Z"
+    },
+    {
+      "id": "2inidir0l0d9vm2sgim7v5kcjr@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל גוש חרוד(ג-ד)-טל גילת(חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:50:23Z"
+    },
+    {
+      "id": "58scl6h69ua11d1un8c30nemnj@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א חרוד-יוגב פרטי(חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:51:04Z"
+    },
+    {
+      "id": "3bd6tdpakhkieqb1neulcau43d@google.com",
+      "status": "confirmed",
+      "summary": "חוג כדורעף דדו",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-02T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:51:31Z"
+    },
+    {
+      "id": "2rtujktpmtm3ea84kkbvt36r3k@google.com",
+      "status": "confirmed",
+      "summary": "ילדים לאומית-עמית נרדע ",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-02T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:51:54Z"
+    },
+    {
+      "id": "4u8maank3q9jomdqgf4kfhmpbg@google.com",
+      "status": "confirmed",
+      "summary": "התעמלות אומנתית(חצי אולם) ",
+      "location": "אומן ",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:52:49Z"
+    },
+    {
+      "id": "226408ldgt7dgph9pdsg563nas@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל בנות מרכז-פז תשובה/שירה לוי",
+      "location": "מגרש מקורה בית השיטה ",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:54:33Z"
+    },
+    {
+      "id": "4aapiq5kt7ovc3k9estpvbmnh7@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל הרי הגלבוע (ג-ד)- רועי שביט",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:55:40Z"
+    },
+    {
+      "id": "5ra5tqake24b4hvs6la2bmtj8k@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל כפר יחזקאל/גבע/גדעונה(ג-ד)-עדן אוריה",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:57:14Z"
+    },
+    {
+      "id": "2pd23l170e89407ar92rpm4d06@google.com",
+      "status": "confirmed",
+      "summary": "נערות א על-ברק וינריב",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:57:37Z"
+    },
+    {
+      "id": "667v3avjdlp0ltrk0cct4adv0v@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א דדו-יובל בר לב",
+      "location": "מגרש מקורה רם און ",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:58:34Z"
+    },
+    {
+      "id": "6lcim9j3npph2qf98fdfd40jk6@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב בנות -עדי גלמן",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-02T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:59:00Z"
+    },
+    {
+      "id": "6s4h9nf1thnh5lb1k598saa9if@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גן חובה שלפים-יהלי שגב ",
+      "location": "שלפים ",
+      "start": {
+        "dateTime": "2026-09-02T16:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:59:25Z"
+    },
+    {
+      "id": "0iem2j6j2u7ccmhuvb8v4utuo2@google.com",
+      "status": "confirmed",
+      "summary": "ג'ודו בדדו",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:52:20Z"
+    },
+    {
+      "id": "5sv85jsthupoa4k1mudi311ai2@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים עין הנציב-איתן פרג ",
+      "location": "עין הנציב ",
+      "start": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T20:59:51Z"
+    },
+    {
+      "id": "0mtidf411jkdfv1glcas6dmc63@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גוש חרוד א-ב בנים-בן רצין",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:00:15Z"
+    },
+    {
+      "id": "0a7cp3i3a09e14bii73agmtsiu@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א צעירות-עדי פירסטנברג",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:00:39Z"
+    },
+    {
+      "id": "108njptniqbsguarhcemt3fr51@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף מועצה",
+      "location": "בית השיטה ",
+      "start": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:01:29Z"
+    },
+    {
+      "id": "5j6c3auadndkm0qqd1qq37jimk@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף מועצה ",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-02T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:01:00Z"
+    },
+    {
+      "id": "6ugv7eihjhq7f58nhobej82v7v@google.com",
+      "status": "confirmed",
+      "summary": "חוגי שלפים/רשפים/שלוחות-א/ב בנים-יהלי שגב ",
+      "location": "שלפים ",
+      "start": {
+        "dateTime": "2026-09-02T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:02:21Z"
+    },
+    {
+      "id": "38n12o5tjsn0vph70vhc5bqe7v@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל בנות מערב-עופר כספי(חצי אולם)",
+      "location": "אומן ",
+      "start": {
+        "dateTime": "2026-09-02T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:02:50Z"
+    },
+    {
+      "id": "4lihiq5rlsq95njbkmd356mjpq@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב חרוד-טל גילת ",
+      "location": "מולדת ",
+      "start": {
+        "dateTime": "2026-09-02T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:04:01Z"
+    },
+    {
+      "id": "459ddguo6nemtuf8eitbqqs0k2@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב מרכז-יוגב פרטי",
+      "location": "מגרש מקורה בית השיטה ",
+      "start": {
+        "dateTime": "2026-09-02T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:04:29Z"
+    },
+    {
+      "id": "4jgme5vo9hm3ngv462uavm732p@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות גוש חרוד-עלמה כהן/שירה לוי",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:04:52Z"
+    },
+    {
+      "id": "3slfcp8t0ukh1ucn5aq26l325n@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים כפר יחזקאל/גדעונה/גבע-עדן אוריה",
+      "location": "כפר יחזקאל ",
+      "start": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:05:24Z"
+    },
+    {
+      "id": "7qoc1j6ir1adgdmnj90nfbl4m1@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גוש חרוד גן חובה-בן רצין",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:06:44Z"
+    },
+    {
+      "id": "5ce4652e61s6tp6cr3chbptd0h@google.com",
+      "status": "confirmed",
+      "summary": "חוגי צרכים מיוחדים-אילון סלוס ",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:07:08Z"
+    },
+    {
+      "id": "0rejf01s2l4afo3ggolrd9l5r6@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א מזרח-אור רותם",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:07:31Z"
+    },
+    {
+      "id": "5bql0h8le5nrog9estmoilnjcc@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א מערב-תמיר פינטל",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-02T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:07:52Z"
+    },
+    {
+      "id": "5m8faehnmet39annn92lp5tumj@google.com",
+      "status": "confirmed",
+      "summary": "חוגי טירת צבי בנים א/ב-איתן פרג",
+      "location": "טירת צבי ",
+      "start": {
+        "dateTime": "2026-09-02T17:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T18:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:08:16Z"
+    },
+    {
+      "id": "1h7cba7hiiv1lnngbmp0a2cgib@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל בנות מזרח-פז תשובה ",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:08:43Z"
+    },
+    {
+      "id": "1hmqhhcv2t44e8rkbt5in17lsn@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל רימון בנים (ג-ד)-יהלי שגב",
+      "location": "שלפים",
+      "start": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:09:14Z"
+    },
+    {
+      "id": "4h5lmr38b4dhmp9omd8ai382sf@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א צעירים-טל יזרעאלי",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:09:37Z"
+    },
+    {
+      "id": "49vn3om8rtjtv50o2brpv3c027@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב שקד-רועי שביט ",
+      "location": "ביכורה",
+      "start": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:10:05Z"
+    },
+    {
+      "id": "5in6p5ke6u67tljtkt17rtm6on@google.com",
+      "status": "confirmed",
+      "summary": "נוער על-יואב שנקמן/ניר גוב (חצי שעה ראשונה חדר כושר)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:10:55Z"
+    },
+    {
+      "id": "5j5mhb9n502vahca4v8bj5kbe3@google.com",
+      "status": "confirmed",
+      "summary": "נערות ב על-עדי גלמן",
+      "location": "אחווה נעורה",
+      "start": {
+        "dateTime": "2026-09-02T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:10:25Z"
+    },
+    {
+      "id": "7kvtg5le94pb1v2ljsjumk6cjd@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א בנות מערב-עופר כספי(חצי אולם)",
+      "location": "אומן ",
+      "start": {
+        "dateTime": "2026-09-02T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:11:25Z"
+    },
+    {
+      "id": "256nlvbd20n3qbnslrelh1dg33@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב חרוד-ברק וינריב",
+      "location": "גבע",
+      "start": {
+        "dateTime": "2026-09-02T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:11:46Z"
+    },
+    {
+      "id": "0jnrb0g84ims4d13o5o8k6vsct@google.com",
+      "status": "confirmed",
+      "summary": "נוער ארצית-עמית נרדע",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-02T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:12:08Z"
+    },
+    {
+      "id": "4nbenumaivng26e6ci2oce9s1f@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א בוגרות-נעה שמעוני",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:12:38Z"
+    },
+    {
+      "id": "3anp7ub47kf1imkhsip4b56lhj@google.com",
+      "status": "confirmed",
+      "summary": "נוער שקד-גיזרמו שוכמן",
+      "location": "ביכורה",
+      "start": {
+        "dateTime": "2026-09-02T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:13:02Z"
+    },
+    {
+      "id": "3vb3kvbiu226itut1h84vo4a1t@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט לאומית-סהר טיבי",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-02T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:13:25Z"
+    },
+    {
+      "id": "29b6v2pl9uugfan88v5kt2ik2p@google.com",
+      "status": "confirmed",
+      "summary": "נערים לאומית-הפועל ת\"א(משחק אימון)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-02T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T21:14:25Z"
+    },
+    {
+      "id": "7gtrcksk5hc2d7cjkatm47ar00@google.com",
+      "status": "confirmed",
+      "summary": "נערים ארצית-ירון רוטנברג",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-02T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:13:49Z"
+    },
+    {
+      "id": "0v4fent4nt8mgh2divr6uhg07p@google.com",
+      "status": "confirmed",
+      "summary": "ליגה ב עמק המעיינות-מאיר שפירא",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-02T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-02T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:14:48Z"
+    },
+    {
+      "id": "0g7c0tfnh2h2sokgnb3i7ck3g6@google.com",
+      "status": "confirmed",
+      "summary": "הפועל העמק-שרון אברהמי/גולן יבלונבסקי",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-03T10:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T14:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 28,
+      "updated": "2026-08-29T11:44:14Z"
+    },
+    {
+      "id": "7llpg1497k1thna1ajgdimikej@google.com",
+      "status": "confirmed",
+      "summary": "נשים לאומית-יונתן אורן",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-03T13:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:16:00Z"
+    },
+    {
+      "id": "3st64qe7fv75m61moj5ug7ersq@google.com",
+      "status": "confirmed",
+      "summary": "חוגי דדו א/ב בנים-יובל בר לב ",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-03T13:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T14:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:16:24Z"
+    },
+    {
+      "id": "5b7u30d8htqregskbbio6srp3l@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל דדו (ג-ד)-יובל בר לב",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-03T14:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:16:50Z"
+    },
+    {
+      "id": "17ua8hvpauh3s6e5ijgjfnlgna@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות ביה\"ס דקלים",
+      "location": "חמדיה",
+      "start": {
+        "dateTime": "2026-09-03T14:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T15:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:17:24Z"
+    },
+    {
+      "id": "5ju39b1t7vkp5taskbpqhaj9kd@google.com",
+      "status": "confirmed",
+      "summary": "נערים לאומית-ניר גוב/יובל בר לב",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-03T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:18:47Z"
+    },
+    {
+      "id": "4l1of2pss0nkme1j4vqi72ofgs@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב חרוד-ברק וינריב ",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-03T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:20:47Z"
+    },
+    {
+      "id": "0idfa8jpmvc7rfnu1qm70vgbic@google.com",
+      "status": "confirmed",
+      "summary": "נערות ב על-עדי גלמן ",
+      "location": "אחווה נעורה",
+      "start": {
+        "dateTime": "2026-09-03T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:21:10Z"
+    },
+    {
+      "id": "3o2gif5jsbm4rtdt9s2t605ssu@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גן חובה גן נר-בן רצין ",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T16:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:21:34Z"
+    },
+    {
+      "id": "5oqnt3siek6q14idehbnhmojua@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל מולדת/רמת צבי (ג-ד)-פלא תמיר",
+      "location": "רמת צבי ",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:26:33Z"
+    },
+    {
+      "id": "2vt4i2mvp89i7ektf71nlmutin@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א צעירות-עדי פירסטנברג",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:27:00Z"
+    },
+    {
+      "id": "1624grj10lcc2fejg9ej292h9i@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב מערב-יובל בר לב",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:27:24Z"
+    },
+    {
+      "id": "3cupevmf233bldg9149gbmk25l@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א בנות מזרח-נעה שמעוני",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:27:48Z"
+    },
+    {
+      "id": "2kerp0ejt297b52v24s93ohp1p@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א מרכז-טל יזרעאלי",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:28:12Z"
+    },
+    {
+      "id": "4f5cn138i7lg6kki99f1bugbnc@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב הרי הגלבוע-רועי שביט",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-03T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:28:51Z"
+    },
+    {
+      "id": "05e1sn1a9ddg03r1p00sbafgj8@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות גן נר-עופר כספי",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-03T16:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T17:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:29:16Z"
+    },
+    {
+      "id": "07pbgvos24qt875at80vcivgli@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א מערב-תמיר פינטל",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-03T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:29:49Z"
+    },
+    {
+      "id": "5o3qspkvnjufsvilu50nno0lv5@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף מועצה",
+      "location": "בית השיטה",
+      "start": {
+        "dateTime": "2026-09-03T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:30:12Z"
+    },
+    {
+      "id": "6h95o6qdpmkjj9t7s4stn9h7pt@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט לאומית-סהר טיבי",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-03T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T21:23:23Z"
+    },
+    {
+      "id": "5374eai68vgg36h8khtr1matlo@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים א/ב חפציבה/בית אלפא-בן רצין",
+      "location": "בית אלפא",
+      "start": {
+        "dateTime": "2026-09-03T17:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T18:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:30:48Z"
+    },
+    {
+      "id": "4usv7l1iecn0hprra8jtucvas4@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א בוגרות-נעה שמעוני ",
+      "location": "אחווה נעורה",
+      "start": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:31:17Z"
+    },
+    {
+      "id": "1g4pa84hk0oe3l3fia7u1io7f0@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א מזרח-אור רותם",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:32:45Z"
+    },
+    {
+      "id": "4br39ndb38bjaekmhb9ica4cv7@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א רימון-עמית נרדע",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:33:12Z"
+    },
+    {
+      "id": "090d1icc9391efp0i6gfo3gll0@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א שקד-נתי כהן ",
+      "location": "ביכורה",
+      "start": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:33:36Z"
+    },
+    {
+      "id": "58t0bu8niqvl6jg5nivpf9jdji@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב גן נר-ברק וינריב ",
+      "location": "מגרש פתוח גן נר ותיקה",
+      "start": {
+        "dateTime": "2026-09-03T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:34:00Z"
+    },
+    {
+      "id": "63glb6mtp20mccmfagpgbnom2c@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות כפר יחזקאל/גבע/גדעונה-עדי פירסטנברג",
+      "location": "מגרש פתוח כפר יחזקאל",
+      "start": {
+        "dateTime": "2026-09-03T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:34:45Z"
+    },
+    {
+      "id": "497isdf5el8rmlhhpn4qqn8rlh@google.com",
+      "status": "confirmed",
+      "summary": "נוער לאומית-טל יזרעאלי",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-03T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:35:09Z"
+    },
+    {
+      "id": "7os6spa8evkq78obaveplbjjm9@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל מרכז(ג-ד)-בן רצין ",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-03T18:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T19:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:35:35Z"
+    },
+    {
+      "id": "550rg7ppfc04vtnj5rkt1pk8lc@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט מערב-פלא תמיר",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-03T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:35:57Z"
+    },
+    {
+      "id": "0326bele9oq4vbqscmjvace60v@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א בנות מערב-עופר כספי",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-03T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:36:22Z"
+    },
+    {
+      "id": "79jjghmcgtt9v84fe4rpc4rmjf@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב שקד-רועי שביט",
+      "location": "ביכורה",
+      "start": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:36:44Z"
+    },
+    {
+      "id": "3f42geotf28v29iqubm9m3lov2@google.com",
+      "status": "confirmed",
+      "summary": "נוער על-הפועל ת\"א (משחק אימון) ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T21:25:18Z"
+    },
+    {
+      "id": "0dl1fugrnv30l50ucjgnjqv5jo@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א גן נר-ברק וינריב",
+      "location": "מגרש פתוח גן נר ותיקה ",
+      "start": {
+        "dateTime": "2026-09-03T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:37:47Z"
+    },
+    {
+      "id": "5ptitnhjpghiilaf58cbk4turh@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב מזרח-יהלי שגב ",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-03T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:38:12Z"
+    },
+    {
+      "id": "21ce28o6v1q1a29s0apbc9vt45@google.com",
+      "status": "confirmed",
+      "summary": "ילדים לאומית-עמית נרדע",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-03T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:38:46Z"
+    },
+    {
+      "id": "5faphpjpbok02svradetdi3p06@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט מזרח-נתי כהן ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-03T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:39:07Z"
+    },
+    {
+      "id": "0h37vo70aim9io7ol3eoqcdna9@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א צעירים-טל יזרעאלי",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-03T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:39:27Z"
+    },
+    {
+      "id": "2fspfgh8lul7s3urclct97h4sm@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט שקד-אילן היימן",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-03T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-03T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:39:47Z"
+    },
+    {
+      "id": "4k9qpc0l62eqrhjlp865qnijtj@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גן נר א/ב בנים-בן רצין ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-04T08:10:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-04T09:10:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:40:44Z"
+    },
+    {
+      "id": "66fub8jqvvh68647g5pi0ld1ds@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל גן נר בנים(ג-ד) -בן רצין",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-04T09:10:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-04T10:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:41:13Z"
+    },
+    {
+      "id": "0lojh79mnavjp6rj94v2cndril@google.com",
+      "status": "confirmed",
+      "summary": "נוער על-יואב שנקמן/ניר גוב/טל גילת",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-05T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-05T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:42:44Z"
+    },
+    {
+      "id": "0satku2u8va5o3nv2nj7cfjbd2@google.com",
+      "status": "confirmed",
+      "summary": "נערים לאומית-ניר גוב/יובל בר לב ",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-05T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-05T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:41:42Z"
+    },
+    {
+      "id": "6lt1lgfvgttrge5r032o92vtir@google.com",
+      "status": "confirmed",
+      "summary": "נערות א על-ברק וינריב ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-05T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-05T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:43:04Z"
+    },
+    {
+      "id": "5dpe6d193tq80htplhk3j764kc@google.com",
+      "status": "confirmed",
+      "summary": "נערים ארצית-ירון רוטנברג",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-05T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-05T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:43:26Z"
+    },
+    {
+      "id": "6u6u55c6f909o3b76cho0udk0t@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט לאומית-סהר טיבי",
+      "location": "אחווה נעורה",
+      "start": {
+        "dateTime": "2026-09-05T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-05T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T21:42:12Z"
+    },
+    {
+      "id": "5kioj9o4crajsagq4fsv8hvc10@google.com",
+      "status": "confirmed",
+      "summary": "נשים לאומית-יונתן אורן",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-06T13:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-08-31T15:30:32Z"
+    },
+    {
+      "id": "7midh5pl5lja6jaq1oqr1f7g0q@google.com",
+      "status": "confirmed",
+      "summary": "חוגי דדו א-ב בנים-יובל בר לב ",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-06T13:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T14:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T17:09:01Z"
+    },
+    {
+      "id": "4lb9gic5ifh7i4hqdce52ek9p0@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל(ג-ד) דדו-יובל בר לב ",
+      "location": "דדו ",
+      "start": {
+        "dateTime": "2026-09-06T14:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T08:51:22Z"
+    },
+    {
+      "id": "0607dvpebucve5jjtvss042eq6@google.com",
+      "status": "confirmed",
+      "summary": "חוג דקלים א-ב בנים- איתן פרג ",
+      "location": "חמדיה ",
+      "start": {
+        "dateTime": "2026-09-06T14:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T15:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T08:50:44Z"
+    },
+    {
+      "id": "74njdk16go8eutdglqfefq489r@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א חרוד-יוגב פרטי(חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-06T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T08:26:26Z"
+    },
+    {
+      "id": "0rs8bj52nqklpaf3egktmf676p@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב חרוד-טל גילת(חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-06T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T08:25:55Z"
+    },
+    {
+      "id": "57313q71919t870jvk7u6drhpi@google.com",
+      "status": "confirmed",
+      "summary": "אולם בית אלפא תפוס",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-06T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 38,
+      "updated": "2026-09-01T08:40:36Z"
+    },
+    {
+      "id": "49d69map39d6n29bsfv7p2un4j@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בית השיטה א-ב בנים-בן רצין",
+      "location": "בית השיטה ",
+      "start": {
+        "dateTime": "2026-09-06T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T08:52:02Z"
+    },
+    {
+      "id": "0o6rh086k4b4r1hafikh1sfh8q@google.com",
+      "status": "confirmed",
+      "summary": "ילדים לאומית-עמית נרדע",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-06T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:36:20Z"
+    },
+    {
+      "id": "2g5hht2omn77iibta3202f2c2e@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א בנות מזרח-נעה שמעוני",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-06T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T09:27:34Z"
+    },
+    {
+      "id": "03fgqg7vq61vmk9c8mvufih39t@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גן חובה דדו- יובל בר לב",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-06T16:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 198,
+      "updated": "2026-09-01T08:23:19Z"
+    },
+    {
+      "id": "0tdgcpbevvf227i249rredubj8@google.com",
+      "status": "confirmed",
+      "summary": "חוגי מולדת/רמת צבי א-ב בנים-איתן פרג",
+      "location": "מולדת ",
+      "start": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T08:53:26Z"
+    },
+    {
+      "id": "5c388qbqkl0qj6eg5ovi4arib9@google.com",
+      "status": "confirmed",
+      "summary": "טרום שקד/ביכורה (ג-ד)- יהלי שגב",
+      "location": "טירת צבי ",
+      "start": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-08-31T15:16:42Z"
+    },
+    {
+      "id": "5cakmnrntrmoh4k9f3hd31itda@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א צעירים-טל יזרעאלי ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:47:16Z"
+    },
+    {
+      "id": "3480ih4se9njat368q3aoje1n6@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב שקד- רועי שביט ",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:23:10Z"
+    },
+    {
+      "id": "07m6h7ebcgje5iid3frcmeueej@google.com",
+      "status": "confirmed",
+      "summary": "נערים לאומית-ניר גוב ",
+      "location": "עין חרוד",
+      "start": {
+        "dateTime": "2026-09-06T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T06:45:49Z"
+    },
+    {
+      "id": "1laumf2oo9umja57m4i5i6kcvm@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות שלפים- פז תשובה ",
+      "location": "מגרש שלפים",
+      "start": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 124,
+      "updated": "2026-09-01T09:44:26Z"
+    },
+    {
+      "id": "0k4vu0dr0pu1b4rve5bnkq8a4h@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א מערב-תמיר פינטל",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T09:10:11Z"
+    },
+    {
+      "id": "5tr445r7g5mbo5127b5o5dfsk5@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף מועצה ",
+      "location": "בית השיטה",
+      "start": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 98,
+      "updated": "2026-09-01T09:22:35Z"
+    },
+    {
+      "id": "5b1pio609ss2k0rjp9v5k048pn@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א דדו-יובל בר לב ",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T08:20:25Z"
+    },
+    {
+      "id": "7ih4fnnk5n2orlg5ktnqljdji1@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב בנות -עדי גלמן",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-06T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-02T04:27:50Z"
+    },
+    {
+      "id": "1ndtek2a67dd8g1hvc6c94q611@google.com",
+      "status": "confirmed",
+      "summary": "חוגי גוש חרוד א-ב בנים-בן רצין ",
+      "location": "תל יוסף ",
+      "start": {
+        "dateTime": "2026-09-06T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T08:54:27Z"
+    },
+    {
+      "id": "0n2m94d5vp4ul9s2ja7jj6c8no@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט מזרח-נתי כהן ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-06T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 53,
+      "updated": "2026-09-01T07:46:52Z"
+    },
+    {
+      "id": "4oijcs8uc0kcuc4fk53i97qd1s@google.com",
+      "status": "confirmed",
+      "summary": "טרום בנות קט סל מזרח-פז תשובה ",
+      "location": "שלפים",
+      "start": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 5,
+      "updated": "2026-09-01T09:44:14Z"
+    },
+    {
+      "id": "5da8mc32loojciru8g21fp0q7k@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א בוגרות-נעה שמעוני ",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:36:26Z"
+    },
+    {
+      "id": "0v9vq43k0mql450516brl92dsr@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט שקד-אילן היימן",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-06T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:48:04Z"
+    },
+    {
+      "id": "22hrtam4ogudi0tvu4adbvrhcj@google.com",
+      "status": "confirmed",
+      "summary": "נוער לאומית-טל יזרעאלי ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:46:49Z"
+    },
+    {
+      "id": "3gmrvuivp4j77rsncooqv6qitt@google.com",
+      "status": "confirmed",
+      "summary": "נוער על-יואב שנקמן/ניר גוב ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:43:00Z"
+    },
+    {
+      "id": "2pa1le19fqoem47odl8cgmkmfv@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט מערב-פלא תמיר ",
+      "location": "גבע",
+      "start": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T09:12:36Z"
+    },
+    {
+      "id": "6h731boqurqmc298ssa7oe6054@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א בנות מערב-עופר כספי",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T08:21:00Z"
+    },
+    {
+      "id": "6pk96ot6jvf3dme5qscjpv5q4f@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א רימון-עמית נרדע ",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-02T04:27:58Z"
+    },
+    {
+      "id": "1jc9akk9p8e47vi684h00d4h21@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב הרי הגלבוע-רועי שביט",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-06T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:24:15Z"
+    },
+    {
+      "id": "3ascu5gp0h27qhroafhkj2ve0e@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א צעירות-עדי פירסטנברג",
+      "location": "חמדיה ",
+      "start": {
+        "dateTime": "2026-09-06T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T09:23:54Z"
+    },
+    {
+      "id": "6stq0uqvoq145b9q1i150blott@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב מזרח-יהלי שגב ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-06T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-02T04:28:07Z"
+    },
+    {
+      "id": "36lrupg55u46i69gklo07aee85@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א שקד-נתי כהן ",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-06T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T07:47:52Z"
+    },
+    {
+      "id": "3onl328s26mnumcou494nsli90@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות מבוגרות-ירון רוטנברג",
+      "location": "בית השיטה ",
+      "start": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 118,
+      "updated": "2026-08-31T09:54:43Z"
+    },
+    {
+      "id": "749rilbvp9qop112u6qbsr1ama@google.com",
+      "status": "confirmed",
+      "summary": "נוער מערב-פלא תמיר ",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T09:15:24Z"
+    },
+    {
+      "id": "46rp8a86qsqva8eo2d1tl84q06@google.com",
+      "status": "confirmed",
+      "summary": "נערות ב על-עדי גלמן ",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 4,
+      "updated": "2026-09-01T07:36:30Z"
+    },
+    {
+      "id": "3eaoo6gd0fh6fm7pif32afnp7p@google.com",
+      "status": "confirmed",
+      "summary": "נערים מחוזית-גילי בן זאב ",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-06T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-02T04:35:37Z"
+    },
+    {
+      "id": "3ql3418umcd19fnmn9ahbk0c2u@google.com",
+      "status": "confirmed",
+      "summary": "נוער ארצית-עמית נרדע ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:57:34Z"
+    },
+    {
+      "id": "0ml86dnb713miu8oagr4osqcgc@google.com",
+      "status": "confirmed",
+      "summary": "נערות א על-ברק וינריב",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:10:56Z"
+    },
+    {
+      "id": "2krt6v6i53na5ejd3a7qac3ngh@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט לאומית - סהר טיבי",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-06T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T06:55:09Z"
+    },
+    {
+      "id": "4me282gca7mvf21jj1lpvthema@google.com",
+      "status": "confirmed",
+      "summary": "ליגה ב עמק המעיינות- מאיר שפירא",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-06T21:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-06T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 79,
+      "updated": "2026-08-31T11:25:46Z"
+    },
+    {
+      "id": "3qoiouc5pgv7u7f5cqgmi9olj4@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל דקלים (ג-ד)- איתן פרג",
+      "location": "חמדיה",
+      "start": {
+        "dateTime": "2026-09-07T14:40:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T16:10:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T09:28:03Z"
+    },
+    {
+      "id": "7s7phuvevcf6nmr8stdtafndoj@google.com",
+      "status": "confirmed",
+      "summary": "טרום גוש חרוד (ג-ד)- טל גילת ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-07T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T08:29:08Z"
+    },
+    {
+      "id": "1um7t0ijimfij5r5uet513sogo@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף(חצי אולם) ",
+      "location": "עין חרוד",
+      "start": {
+        "dateTime": "2026-09-07T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 93,
+      "updated": "2026-09-01T07:59:13Z"
+    },
+    {
+      "id": "16inidjtin4b2t4lig2ph9a6nr@google.com",
+      "status": "confirmed",
+      "summary": "אולם אומן תפוס ",
+      "location": "אומן ",
+      "start": {
+        "dateTime": "2026-09-07T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 69,
+      "updated": "2026-09-01T08:03:37Z"
+    },
+    {
+      "id": "2og5m96kqu9v60cll1i8qfmcp7@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב גן נר-ברק וינריב ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-07T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:54:51Z"
+    },
+    {
+      "id": "3tqiluacu2a4dnk7mqm3fc70ii@google.com",
+      "status": "confirmed",
+      "summary": "חוגי ביכורה בנים א/ב-רועי שביט ",
+      "location": "ביכורה",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 159,
+      "updated": "2026-08-31T08:57:49Z"
+    },
+    {
+      "id": "46bc9pqlju1oed2kmkq97mnaqd@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות בית אלפא/חפציבה/ניר דוד/מסילות - גיאלי דבורי/עופרי שרבף",
+      "location": "בית אלפא",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 103,
+      "updated": "2026-08-31T13:39:33Z"
+    },
+    {
+      "id": "7rhau3adktj5fra6ktt4tf6ieg@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות בית השיטה- עופר כספי",
+      "location": "בית השיטה",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 116,
+      "updated": "2026-08-31T09:35:36Z"
+    },
+    {
+      "id": "6jju9in2lne5sftrpq22amvo0t@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות מעלה גלבוע-רתם הטב/שקד היימן",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 78,
+      "updated": "2026-08-31T09:37:50Z"
+    },
+    {
+      "id": "2stnsnso8ov3c7l4h1hrej15s0@google.com",
+      "status": "confirmed",
+      "summary": "חוגי שלפים/רשפים/שלוחות א/ב בנים - יהלי שגב ",
+      "location": "מגרש שלפים",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 173,
+      "updated": "2026-08-31T09:00:17Z"
+    },
+    {
+      "id": "1pl3n97m8feh5fmasckc925hd6@google.com",
+      "status": "confirmed",
+      "summary": "ילדים לאומית -עמית נרדע",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T07:39:43Z"
+    },
+    {
+      "id": "2495am8d3oilf1s8tfsbiuuhoo@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א בנות מזרח-נעה שמעוני",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T07:41:51Z"
+    },
+    {
+      "id": "50tb3hoqfubvnsr6pqhpf4dsq4@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א מרכז- טל יזרעאלי",
+      "location": "מגרש מקורה בית השיטה ",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:41:21Z"
+    },
+    {
+      "id": "3rq6u8t99ugnogv6c2q5u7lvqu@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב בנות -עדי גלמן",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-07T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T07:41:40Z"
+    },
+    {
+      "id": "6829drndrl4s41rd827lejtpap@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים א-ג כפר יחזקאל/גדעונה/גבע- עדן אוריה",
+      "location": "מגרש פתוח כפר יחזקאל",
+      "start": {
+        "dateTime": "2026-09-07T16:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 113,
+      "updated": "2026-08-31T09:07:11Z"
+    },
+    {
+      "id": "0n5avbgcofeupf8p4k4a5agdvq@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב מערב-יובל בר לב",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-07T16:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T08:16:04Z"
+    },
+    {
+      "id": "5nlu362hprlingknget9r4a33j@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות שקד-פז תשובה ",
+      "location": "טירת צבי ",
+      "start": {
+        "dateTime": "2026-09-07T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 115,
+      "updated": "2026-08-31T13:33:45Z"
+    },
+    {
+      "id": "4tpgpfk281pbgf11hna50urtk9@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט לאומית-סהר טיבי ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-07T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T09:35:36Z"
+    },
+    {
+      "id": "6vk3rjds20mbmvi64kues49ajo@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בית אלפא/חפציבה א/ב בנים-בן רצין",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T09:06:08Z"
+    },
+    {
+      "id": "2vvrpd0vg4istfcjj14m3rqjk0@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל רימון(ג-ד)-יהלי שגב ",
+      "location": "שלפים ",
+      "start": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T09:23:43Z"
+    },
+    {
+      "id": "5u1dghdkj7plgdf3e37u17pnu9@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א צעירות-עדי פירסטנברג",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T08:45:38Z"
+    },
+    {
+      "id": "chj34o9kcop3ab9gcgrj2b9k68p30bb26osmcb9gc4qjcopk6thm6opp6o@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף מועצה ",
+      "location": "בית השיטה",
+      "start": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 47,
+      "updated": "2026-09-01T08:08:19Z"
+    },
+    {
+      "id": "5u9c30e62tjhjhruo1puvnqo7r@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א גן נר-ברק וינריב ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-07T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T07:51:16Z"
+    },
+    {
+      "id": "60lkkfpqo6581mkeckjdao0ovl@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות מירב-רתם הטב/שקד היימן",
+      "location": "מירב ",
+      "start": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T09:38:23Z"
+    },
+    {
+      "id": "73tliou0ijbaun48vop82vt6d3@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים מעלה גלבוע/מיטל/מירב א-ב בנים-רועי שביט",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 38,
+      "updated": "2026-08-31T09:04:28Z"
+    },
+    {
+      "id": "6cpoijtb06ae44806f7dlctovi@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל כפר יחזקאל/גבע/גדעונה (ג-ד)- עדן אוריה",
+      "location": "גבע",
+      "start": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T09:12:18Z"
+    },
+    {
+      "id": "5tlar3vmq6atcrshk0mb8e3iq2@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א מזרח-אור רותם",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T06:59:32Z"
+    },
+    {
+      "id": "153naoj9okoprv2e56v34d9l57@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב מרכז-יוגב פרטי",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-07T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T09:00:06Z"
+    },
+    {
+      "id": "7b8nhb8ui07r1u22et2smjfc7l@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות מולדת/רמת צבי-גאיה ליכטר/גיאלי דבורי",
+      "location": "מגרש מולדת ",
+      "start": {
+        "dateTime": "2026-09-07T17:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T18:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 89,
+      "updated": "2026-09-01T10:51:41Z"
+    },
+    {
+      "id": "7n1qddmc9d28ffo3khjpu2altt@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל בנות מערב-עופר כספי",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-07T17:45:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T19:15:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T13:46:13Z"
+    },
+    {
+      "id": "73mdk8p7aai018066s7270del5@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל בנות מרכז-פז תשובה/שירה לוי",
+      "location": "מגרש מקורה בית השיטה",
+      "start": {
+        "dateTime": "2026-09-07T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T14:01:51Z"
+    },
+    {
+      "id": "0oquc8n050e6erfqv7snbp88g3@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל מרכז (ג-ד)-בן רצין ",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-07T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-08-31T09:20:40Z"
+    },
+    {
+      "id": "52sb26276n3tffcog7btlbj5qk@google.com",
+      "status": "confirmed",
+      "summary": "ילדות א בוגרות-נעה שמעוני ",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-07T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T07:39:48Z"
+    },
+    {
+      "id": "456r2ucn3bmg95a57ha7u87kgv@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל הרי הגלבוע(ג-ד)-רועי שביט",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 82,
+      "updated": "2026-08-31T09:22:37Z"
+    },
+    {
+      "id": "3nq17h9144529cf3ift1j8ofh9@google.com",
+      "status": "confirmed",
+      "summary": "נוער לאומית-טל יזרעאלי ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:48:15Z"
+    },
+    {
+      "id": "2nncvhp5jj1fmqgo96uljli70l@google.com",
+      "status": "confirmed",
+      "summary": "נערים לאומית-ניר גוב ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-07T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 4,
+      "updated": "2026-09-01T06:45:27Z"
+    },
+    {
+      "id": "2e0al5r34958cq4grv6rhile33@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב חרוד-ברק וינריב ",
+      "location": "גבע",
+      "start": {
+        "dateTime": "2026-09-07T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T09:12:49Z"
+    },
+    {
+      "id": "5d9f9e5mg151k5r0n3mq2sdckd@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב מזרח-יהלי שגב ",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-07T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T09:03:34Z"
+    },
+    {
+      "id": "20nsc26fc3jf0p7b85473gh2ak@google.com",
+      "status": "confirmed",
+      "summary": "נערים ארצית-ירון רוטנברג ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-07T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 52,
+      "updated": "2026-09-01T06:47:21Z"
+    },
+    {
+      "id": "3a102f57o7p7ce40e4tsdjd54d@google.com",
+      "status": "confirmed",
+      "summary": "חור בגרב",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-07T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 90,
+      "updated": "2026-09-01T08:40:48Z"
+    },
+    {
+      "id": "4v9fj5k70lipeks3sa24ei3970@google.com",
+      "status": "confirmed",
+      "summary": "נוער שקד-גיזרמו שוכמן ",
+      "location": "ביכורה",
+      "start": {
+        "dateTime": "2026-09-07T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 43,
+      "updated": "2026-09-01T09:28:57Z"
+    },
+    {
+      "id": "6rpt4j789e4balstq13tokf5gj@google.com",
+      "status": "confirmed",
+      "summary": "נערות ב על-עדי גלמן",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-07T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 5,
+      "updated": "2026-09-01T07:39:54Z"
+    },
+    {
+      "id": "05qca4cujh4srui8vatu63udt4@google.com",
+      "status": "confirmed",
+      "summary": "נוער ארצית-עמית נרדע ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T06:42:32Z"
+    },
+    {
+      "id": "0l5lndf3dsbrcnmrvu7lh3tevp@google.com",
+      "status": "confirmed",
+      "summary": "נוער מערב-פלא תמיר ",
+      "location": "גבע ",
+      "start": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:25:10Z"
+    },
+    {
+      "id": "4uk4i1knrphvntj9f787dsgo0j@google.com",
+      "status": "confirmed",
+      "summary": "נוער על-יואב שנקמן/ניר גוב ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:43:16Z"
+    },
+    {
+      "id": "5ni5jd6000mr1j3nl46hsbaqh3@google.com",
+      "status": "confirmed",
+      "summary": "נשים לאומית-יונתן אורן",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-07T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-07T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:30:46Z"
+    },
+    {
+      "id": "44fbj0s2lp510fur8b5an9pfuu@google.com",
+      "status": "confirmed",
+      "summary": "כדורעף (חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-08T14:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 29,
+      "updated": "2026-09-01T07:59:36Z"
+    },
+    {
+      "id": "7vjbhmuf8p2od8thj7qifkb24c@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות א-ב נעורה- וורוד זועבי",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-08T14:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 21,
+      "updated": "2026-08-31T13:36:18Z"
+    },
+    {
+      "id": "4h7gfmoegqf49mvvlatsqln6h2@google.com",
+      "status": "confirmed",
+      "summary": "טרום קט סל(ג-ד) בנים גן נר/מגן שאול/נורית- בן רצין ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-08T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 124,
+      "updated": "2026-08-31T09:10:47Z"
+    },
+    {
+      "id": "7ck5eio23k7hlapi1c6g6c6116@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א חרוד-יוגב פרטי (חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-08T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T08:28:41Z"
+    },
+    {
+      "id": "3v4t8dcn8515ipi353v8i6qc4g@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב חרוד-טל גילת (חצי אולם)",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-08T15:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T08:50:16Z"
+    },
+    {
+      "id": "5pfntvtc87c2g7mlp11ljn4q8d@google.com",
+      "status": "confirmed",
+      "summary": "אולם בית אלפא תפוס ",
+      "location": "בית אלפא ",
+      "start": {
+        "dateTime": "2026-09-08T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 25,
+      "updated": "2026-09-01T08:41:10Z"
+    },
+    {
+      "id": "7ldi7v2eksfngom5nb8c6q10kr@google.com",
+      "status": "confirmed",
+      "summary": "חוג כדורעף בדדו ",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-08T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 7,
+      "updated": "2026-09-01T08:02:57Z"
+    },
+    {
+      "id": "025dbbscb8pum1c2tgi8i4m1kt@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות ג-ד נעורה- וורוד זועבי",
+      "location": "אחווה נעורה",
+      "start": {
+        "dateTime": "2026-09-08T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 21,
+      "updated": "2026-08-31T13:40:52Z"
+    },
+    {
+      "id": "39mi71tsbqupmfel7kvp10k9km@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א מרכז- טל יזרעאלי",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-08T15:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-08-31T15:50:24Z"
+    },
+    {
+      "id": "4re86sev0e62go6jntgsrqgtb9@google.com",
+      "status": "confirmed",
+      "summary": "טרום מולדת/רמת צבי (ג-ד)- פלא תמיר",
+      "location": "מולדת",
+      "start": {
+        "dateTime": "2026-09-08T16:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T09:16:53Z"
+    },
+    {
+      "id": "47aeku6mbmq7r9n6l3b266sl25@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנות נעורה ה-ו- וורוד זועבי",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T13:36:34Z"
+    },
+    {
+      "id": "6q37cl49un5asfjto16thlet08@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים א/ב גן נר/מגן שאול/נורית - בן רצין ",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 200,
+      "updated": "2026-08-31T09:08:45Z"
+    },
+    {
+      "id": "77er016jjsr5mm4h34h793kvkv@google.com",
+      "status": "confirmed",
+      "summary": "חוגי בנים שדה אליהו א/ב בנים -יהלי שגב ",
+      "location": "שדה אליהו ",
+      "start": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 113,
+      "updated": "2026-08-31T08:58:19Z"
+    },
+    {
+      "id": "4t6tb9f6bbnat4dnf73psi886m@google.com",
+      "status": "confirmed",
+      "summary": "נוער על-יואב שנקמן/ניר גוב ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:43:30Z"
+    },
+    {
+      "id": "4l6ku0cpbaljbhhhkr974titnj@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א דדו-יובל בר לב ",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T08:16:29Z"
+    },
+    {
+      "id": "4nq7usrh0ori9ggbc1bgdfuokn@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב הרי הגלבוע-רועי שביט",
+      "location": "מעלה גלבוע ",
+      "start": {
+        "dateTime": "2026-09-08T16:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:22:38Z"
+    },
+    {
+      "id": "7rr52odt38hjp9qp1uqlgr4dn8@google.com",
+      "status": "confirmed",
+      "summary": "חוגי א-ב בנים אומן-יוגב פרטי ",
+      "location": "אומן ",
+      "start": {
+        "dateTime": "2026-09-08T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T09:02:10Z"
+    },
+    {
+      "id": "1ebghl6fb3qhtndt46f30313bk@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א רימון-עמית נרדע ",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-08T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T06:39:47Z"
+    },
+    {
+      "id": "1dapkv3v9toobar6bjl5p9k4p5@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א שקד-נתי כהן ",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-08T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:04:56Z"
+    },
+    {
+      "id": "3fa0lfovpltv8ceq6qp2u2q48i@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב גן נר-ברק וינריב ",
+      "location": "מגרש פתוח גן נר ותיקה ",
+      "start": {
+        "dateTime": "2026-09-08T17:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:52:03Z"
+    },
+    {
+      "id": "4a2v7tkdsgcchtduvntiv9tgu7@google.com",
+      "status": "confirmed",
+      "summary": "ילדים א צעירים-טל יזרעאלי ",
+      "location": "גן נר ",
+      "start": {
+        "dateTime": "2026-09-08T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:50:41Z"
+    },
+    {
+      "id": "0aqt1k71rtu3v04moic890mcm4@google.com",
+      "status": "confirmed",
+      "summary": "נערות ב על-עדי גלמן ",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-08T17:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 5,
+      "updated": "2026-09-01T07:28:08Z"
+    },
+    {
+      "id": "6qg3bclan4ba8uhrol312o2ge0@google.com",
+      "status": "confirmed",
+      "summary": "טרום שקד/ביכורה (ג-ד)-יהלי שגב",
+      "location": "טירת צבי ",
+      "start": {
+        "dateTime": "2026-09-08T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T09:03:48Z"
+    },
+    {
+      "id": "1v0sca4oa2jb4j0okdf1s1a0ig@google.com",
+      "status": "confirmed",
+      "summary": "ילדים ב מערב-יובל בר לב",
+      "location": "דדו",
+      "start": {
+        "dateTime": "2026-09-08T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T08:16:35Z"
+    },
+    {
+      "id": "67gfis42bdquvgc9apqnaa4rft@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט מערב-פלא תמיר ",
+      "location": "גבע",
+      "start": {
+        "dateTime": "2026-09-08T18:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 0,
+      "updated": "2026-09-01T09:07:18Z"
+    },
+    {
+      "id": "2jn396d118kveh354m3e792a64@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט לאומית-סהר טיבי",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T09:49:02Z"
+    },
+    {
+      "id": "3cf7hb648sfar6dlb38l11sv8h@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט שקד-אילן היימן",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T09:28:30Z"
+    },
+    {
+      "id": "11k96tjad8jkhtlhdj2nu54oka@google.com",
+      "status": "confirmed",
+      "summary": "קט סל א גן נר-ברק וינריב ",
+      "location": "מגרש פתוח גן נר ותיקה ",
+      "start": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:53:46Z"
+    },
+    {
+      "id": "244vntu2c0r6njst2dfm9dc0ns@google.com",
+      "status": "confirmed",
+      "summary": "קט סל ב מרכז-יוגב פרטי",
+      "location": "מסילות ",
+      "start": {
+        "dateTime": "2026-09-08T18:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T09:02:16Z"
+    },
+    {
+      "id": "0jngl27kouun57gomc7kjcdb7l@google.com",
+      "status": "confirmed",
+      "summary": "נערים ט מזרח-נתי כהן ",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-08T19:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-09-01T07:04:29Z"
+    },
+    {
+      "id": "4nhocg76kid0afk4qed8cr6vqd@google.com",
+      "status": "confirmed",
+      "summary": "ילדים לאומית-עמית נרדע",
+      "location": "אחווה נעורה ",
+      "start": {
+        "dateTime": "2026-09-08T19:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T06:39:33Z"
+    },
+    {
+      "id": "0uep6f3q4o5e2b9qu68mdl8ctv@google.com",
+      "status": "confirmed",
+      "summary": "נערים מחוזית-גילי בן זאב ",
+      "location": "ביכורה ",
+      "start": {
+        "dateTime": "2026-09-08T20:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T21:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 3,
+      "updated": "2026-09-01T09:28:36Z"
+    },
+    {
+      "id": "2138uicjsov8v9rbcq04jfn48k@google.com",
+      "status": "confirmed",
+      "summary": "נערים ארצית-ירון רוטנברג",
+      "location": "ניר דוד ",
+      "start": {
+        "dateTime": "2026-09-08T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T22:00:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 59,
+      "updated": "2026-09-02T05:34:12Z"
+    },
+    {
+      "id": "4rqnbc8nqiv35sac1idrec5rbg@google.com",
+      "status": "confirmed",
+      "summary": "נערים לאומית-ניר גוב ",
+      "location": "עין חרוד ",
+      "start": {
+        "dateTime": "2026-09-08T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 2,
+      "updated": "2026-09-01T09:48:47Z"
+    },
+    {
+      "id": "5t8eqsrte18ljda2fhbd2664cf@google.com",
+      "status": "confirmed",
+      "summary": "נשים לאומית-יונתן אורן",
+      "location": "גן נר",
+      "start": {
+        "dateTime": "2026-09-08T20:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "end": {
+        "dateTime": "2026-09-08T22:30:00+03:00",
+        "timeZone": "Asia/Jerusalem"
+      },
+      "sequence": 1,
+      "updated": "2026-08-31T15:31:01Z"
+    }
+  ]
+}

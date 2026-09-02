@@ -1,0 +1,8 @@
+# Build engine (calendar fetch + parser)
+requests
+icalendar
+pytest
+
+# Excel manual fallback importer only (scripts/import_excel.py)
+pandas
+openpyxl

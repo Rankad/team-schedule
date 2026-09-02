@@ -38,6 +38,26 @@ class El {
   get textContent() { return this.children.length ? this.children.map(c => c.textContent).join('') : this._text; }
   set innerHTML(v) { if (v === '') { this.children = []; this._text = ''; } }
   get innerHTML() { return ''; }
+  // canvas shim: enough for drawWeekImage() to run to completion
+  getContext(kind) {
+    if (this.tagName !== 'CANVAS' || kind !== '2d') return null;
+    if (!this._ctx) {
+      const noop = () => {};
+      this._ctx = {
+        _fontPx: 14,
+        set font(v) { const m = /(\d+)px/.exec(v || ''); this._fontPx = m ? +m[1] : 14; },
+        get font() { return this._fontPx + 'px'; },
+        fillStyle: '#000', strokeStyle: '#000', lineWidth: 1,
+        textAlign: 'left', textBaseline: 'alphabetic', direction: 'ltr',
+        scale: noop, fillRect: noop, fillText: noop, strokeRect: noop,
+        beginPath: noop, arc: noop, fill: noop, stroke: noop,
+        moveTo: noop, lineTo: noop, save: noop, restore: noop, setLineDash: noop,
+        measureText(s) { return { width: String(s).length * this._fontPx * 0.55 }; },
+      };
+    }
+    return this._ctx;
+  }
+  toBlob(cb) { cb({ __png: true, size: 1024, type: 'image/png' }); }
   setAttribute(k, v) { this.attrs[k] = String(v); if (k === 'id') this.id = v; }
   getAttribute(k) { return this.attrs[k] != null ? this.attrs[k] : null; }
   appendChild(c) { c.parentNode = this; this.children.push(c); return c; }
@@ -66,7 +86,8 @@ function mk(tag, id, cls, attrs) {
 }
 const app = mk('div', 'app'); app.hidden = true;
 const fatal = mk('div', 'fatal'); fatal.hidden = true;
-root.appendChild(app); root.appendChild(fatal);
+const toast = mk('div', 'toast');
+root.appendChild(app); root.appendChild(fatal); root.appendChild(toast);
 app.appendChild(mk('span', 'week-range'));
 const prev = mk('button', 'prev-week'); const next = mk('button', 'next-week');
 app.appendChild(prev); app.appendChild(next);
@@ -76,6 +97,8 @@ const onb = mk('div', 'onboarding'); onb.hidden = true;
 onb.appendChild(mk('button', null, 'btn btn-primary', { 'data-goto': 'addteam' }));
 mw.appendChild(onb);
 mw.appendChild(mk('div', 'follows-row'));
+const shareFollows = mk('button', 'share-follows'); shareFollows.hidden = true;
+mw.appendChild(shareFollows);
 const banner = mk('div', 'changes-banner'); banner.hidden = true;
 const btoggle = mk('button', null, 'changes-toggle'); btoggle.setAttribute('aria-expanded', 'false');
 btoggle.appendChild(mk('span', null, 'changes-summary'));
@@ -84,6 +107,9 @@ const clist = mk('ul', null, 'changes-list'); clist.hidden = true;
 banner.appendChild(clist);
 mw.appendChild(banner);
 mw.appendChild(mk('div', 'week-content'));
+const weekActions = mk('div', 'week-actions'); weekActions.hidden = true;
+['act-copy', 'act-share', 'act-ics', 'act-img'].forEach(id => weekActions.appendChild(mk('button', id)));
+mw.appendChild(weekActions);
 const footer = mk('footer', 'week-footer'); footer.hidden = true;
 footer.appendChild(mk('div', 'summary')); footer.appendChild(mk('div', 'updated'));
 mw.appendChild(footer);
@@ -107,7 +133,12 @@ global.localStorage = {
   setItem: (k, v) => { store[k] = String(v); },
   removeItem: (k) => { delete store[k]; },
 };
-global.window = { scrollTo: () => {} };
+global.window = {
+  scrollTo: () => {},
+  devicePixelRatio: 2,
+  location: { origin: 'http://localhost:8000', pathname: '/', search: '', hash: '' },
+  history: { replaceState: (s, t, url) => { global.window.location.search = ''; } },
+};
 const FAKE_CHANGES = {
   generated_at: null, // filled from meta below
   changes: [
@@ -211,6 +242,79 @@ require(path.join(ROOT, 'public', 'app.js'));
   assert(clist.hidden === false && clist.children.length === 1, 'expands to exactly the followed-team change');
   assert(store['gilboa.seen_generated_at'] === meta.generated_at, 'viewing the banner sets seen_generated_at');
 
+  // ---- export / share features (viewSunday is the last published week, T1 followed) ----
+  console.log('action row visibility');
+  assert(byId['share-follows'].hidden === false, 'share-my-teams action visible while following');
+  assert(byId['week-actions'].hidden === false, 'weekly action row visible when the week has sessions');
+
+  console.log('shareable link — buildTeamsLink / parseTeamsParam');
+  assert(window.parseTeamsParam('?teams=T_001,T_002,T_001').length === 2, 'parseTeamsParam splits + dedupes ids');
+  assert(window.parseTeamsParam('').length === 0, 'parseTeamsParam of empty string is []');
+  assert(window.parseTeamsParam('?week=3').length === 0, 'parseTeamsParam ignores unrelated query');
+  const link = window.buildTeamsLink();
+  assert(/^https?:\/\/[^?]+\?teams=/.test(link), 'buildTeamsLink has origin+path+?teams= shape');
+  assert(link.indexOf(T1) !== -1, 'buildTeamsLink lists the followed id');
+
+  console.log('buildWeekText');
+  const wt = window.buildWeekText(lastWeek);
+  assert(wt.indexOf('הלו״ז שלי — גלבוע מעיינות') === 0, 'week text starts with the club title');
+  assert(/\nשבוע \d+\/\d+–\d+\/\d+/.test(wt), 'week text has a "שבוע d/m–d/m" range line');
+  assert(wt.indexOf(t1name) !== -1, 'week text lists the followed team');
+  assert(/\n {2}\d\d:\d\d[–\d: ]*·/.test(wt), 'sessions are indented under day headings');
+  assert(/\nסה״כ: .*קבוצ.* · .*אימונ.* · .* שעות/.test(wt), 'week text ends with a summary line');
+  {
+    // day headings must be in ascending date order
+    const days = wt.split('\n').filter(l => /^(ראשון|שני|שלישי|רביעי|חמישי|שישי|שבת) /.test(l));
+    assert(days.length >= 1, 'week text has at least one day heading');
+    const withNotes = schedule.sessions.filter(s => s.team_id === T1 && s.week_key === lastWeek && Array.isArray(s.notes) && s.notes.length);
+    if (withNotes.length) {
+      assert(new RegExp('\\n {4}' + withNotes[0].notes[0].slice(0, 6).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(wt),
+        'a session note sits on its own 4-space-indented line');
+    } else {
+      console.log('  skip notes-line check (followed team has no noted session this week)');
+    }
+  }
+  const emptyWt = window.buildWeekText('1999-01-03');
+  assert(/אין אימונים בשבוע זה\s*$/.test(emptyWt) && emptyWt.indexOf('סה״כ') === -1,
+    'empty week text is the minimal "no sessions" payload');
+
+  console.log('buildICS');
+  const ics = window.buildICS(lastWeek);
+  const nEv = (ics.match(/BEGIN:VEVENT/g) || []).length;
+  const nSes = schedule.sessions.filter(s => s.team_id === T1 && s.week_key === lastWeek).length;
+  assert(nEv === nSes, 'ICS emits one VEVENT per followed-team session (' + nEv + '/' + nSes + ')');
+  assert(ics.indexOf('BEGIN:VCALENDAR\r\n') === 0 && /\r\nEND:VCALENDAR\r\n$/.test(ics), 'ICS is a CRLF VCALENDAR');
+  assert(/\r\nDTSTART:\d{8}T\d{6}Z\r\n/.test(ics), 'DTSTART is emitted as a UTC "Z" instant');
+  assert(/\r\nDTSTAMP:\d{8}T\d{6}Z\r\n/.test(ics), 'DTSTAMP is present and UTC');
+  assert(/\r\nUID:[^\r\n]+@gilboa-schedule\r\n/.test(ics), 'UID is namespaced @gilboa-schedule');
+  assert(window.icsEsc('a,b;c\\d\ne') === 'a\\,b\\;c\\\\d\\ne', 'icsEsc escapes \\ ; , and newline');
+
+  console.log('drawWeekImage');
+  const canvas = window.drawWeekImage(lastWeek);
+  assert(canvas && canvas.tagName === 'CANVAS', 'drawWeekImage returns a <canvas>');
+  assert(canvas.width > 0 && canvas.height > 0, 'canvas has non-zero pixel size (' + canvas.width + 'x' + canvas.height + ')');
+  const emptyCanvas = window.drawWeekImage('1999-01-03');
+  assert(emptyCanvas.width > 0 && emptyCanvas.height > 0, 'empty-week image still has a size');
+
+  console.log('shareable link — applyTeamsParam merge semantics');
+  const other = teams.find(t => t.team_id !== T1).team_id;
+  const merge = window.applyTeamsParam('?teams=' + T1 + ',' + other + ',' + other + ',NOPE_999');
+  assert(merge.added.length === 1 && merge.added[0] === other, 'applyTeamsParam merges one new valid id (deduped)');
+  assert(merge.already.indexOf(T1) !== -1, 'applyTeamsParam reports an already-followed id');
+  assert(merge.invalid.indexOf('NOPE_999') !== -1, 'applyTeamsParam ignores an unknown id');
+  assert(JSON.parse(store['gilboa.followed']).filter(x => x === other).length === 1, 'merged id stored exactly once');
+
+  // buildWeekText note-line: follow a team that genuinely has a noted session
+  {
+    const noted = schedule.sessions.find(s => s.team_id && Array.isArray(s.notes) && s.notes.length);
+    if (noted) {
+      window.applyTeamsParam('?teams=' + noted.team_id);
+      const nt = window.buildWeekText(noted.week_key);
+      const esc = noted.notes[0].slice(0, 8).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      assert(new RegExp('\\n {4}' + esc).test(nt), 'buildWeekText puts a note on its own 4-space line');
+    }
+  }
+
   console.log('week nav bounds');
   guard = 0; while (!next.disabled && guard++ < 12) next.click();
   assert(byId['week-content'].textContent.indexOf('אין נתונים לשבוע זה') !== -1, 'one past the last week shows "no data"');
@@ -218,11 +322,12 @@ require(path.join(ROOT, 'public', 'app.js'));
   assert(byId['week-content'].textContent.indexOf('אין נתונים לשבוע זה') !== -1, 'one before the first week shows "no data"');
 
   console.log('unfollow');
-  const chip = byId['follows-row'].querySelector('.chip-remove');
-  assert(!!chip, 'followed chip has a remove control');
-  if (chip) chip.click();
-  assert(byId['onboarding'].hidden === false, 'onboarding returns after unfollowing the last team');
+  assert(byId['follows-row'].querySelectorAll('.chip-remove').length >= 1, 'followed chips have remove controls');
+  let rmGuard = 0, rmBtns;
+  while ((rmBtns = byId['follows-row'].querySelectorAll('.chip-remove')).length && rmGuard++ < 12) rmBtns[0].click();
+  assert(byId['onboarding'].hidden === false, 'onboarding returns after unfollowing every team');
   assert(JSON.parse(store['gilboa.followed']).length === 0, 'localStorage followed is empty');
+  assert(byId['share-follows'].hidden === true && byId['week-actions'].hidden === true, 'export actions hidden with no team followed');
 
   console.log('\n' + (failures ? failures + ' FAILURE(S)' : 'all site smoke checks passed'));
   process.exit(failures ? 1 : 0);

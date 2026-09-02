@@ -422,9 +422,19 @@
     `.github/keepalive.log` on the 1st of each month so GitHub's 60-day
     inactivity rule never pauses the scheduled build. It touches only
     `.github/**`, so it does not trigger a redeploy.
-- **Cloudflare Pages** stays the documented fallback (custom domain, higher
-  limits): connect repo, build command none, output dir `public`.
+  - **Repo made public.** GitHub Pages needs a public repo on the free plan
+    (Pro ~$4/mo would break the $0/month constraint; Cloudflare Pages was the
+    private-repo alternative). Stakeholder chose public (2026-09-02). Nothing
+    sensitive is exposed: the API key is a GitHub Actions secret, not in the
+    repo; there is no user/parent data anywhere (all client-side
+    `localStorage`); the schedule data is the club's already-public calendar.
+    The first `configure-pages` run failed while private ("Resource not
+    accessible by integration") — expected; resolved by going public + setting
+    Pages Source = "GitHub Actions".
+- **Cloudflare Pages** stays the documented fallback (private repo, custom
+  domain, higher limits): connect repo, build command none, output dir `public`.
 - **Status:** Accepted.
 - **Risk:** Low. Depends on the `GOOGLE_CALENDAR_API_KEY` repo secret (set +
-  verified by the stakeholder). OQ-6 (club courtesy note) still open — deployed
-  but not promoted.
+  verified by the stakeholder). OQ-6 (club courtesy note) now matters more —
+  the repo and site are public; do not promote the link to parents until the
+  club has been told.

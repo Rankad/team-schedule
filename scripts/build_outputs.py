@@ -187,4 +187,6 @@ def write_json(path, obj) -> None:
 
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(canonical_json(obj), encoding="utf-8")
+    # Force LF so Windows dev and the Linux Actions runner write identical bytes
+    # (matches .gitattributes).
+    path.write_text(canonical_json(obj), encoding="utf-8", newline="\n")

@@ -133,10 +133,14 @@ server, no database, $0/month. See `docs/architecture.md` and
   **STILL: no deploy, no cron, not pushed.** Next: stakeholder review, then the
   deploy/cron approval gate, then tell the club (OQ-6).
 
-- **2026-09-02 — Phase 3 deployed. Daily cron enabled. MVP is live.**
-  Deploy gate approved by the stakeholder (host = GitHub Pages via Actions;
-  fast-forward merge to `main`; keepalive added). `GOOGLE_CALENDAR_API_KEY`
-  secret confirmed set + a manual workflow run verified against the live API.
+- **2026-09-02 — Phase 3 deployed. Daily cron enabled. MVP is LIVE at
+  https://rankad.github.io/team-schedule/** (verified: site loads, data JSON
+  fetches OK, no console errors). Deploy gate approved by the stakeholder
+  (host = GitHub Pages via Actions; fast-forward merge to `main`; keepalive
+  added; **repo made public** — required for free Pages, DL-026).
+  `GOOGLE_CALENDAR_API_KEY` secret confirmed set + a manual workflow run
+  verified against the live API. First deploy needed a one-time manual step:
+  repo → public, then Settings → Pages → Source = "GitHub Actions".
   - `.github/workflows/build.yml` reworked (DL-026): one workflow, two jobs —
     `build-data` (schedule + `workflow_dispatch` only: pytest → `fetch_and_build
     --commit` → push) then `deploy` (fresh `main` checkout → `upload-pages-

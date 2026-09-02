@@ -238,3 +238,40 @@
   schedule for right now.
 - **Status:** Accepted.
 - **Risk:** Low.
+
+## DL-018 — Team-dot colour palette (static site)
+- **Date:** 2026-09-02 (Phase 3)
+- **Context:** Multi-team families need each session row tagged with its team.
+  The UI/UX spec asks for "a fixed accessible palette, assigned by follow order,
+  stable per device" and forbids colour-only signalling.
+- **Decision:** Eight fixed colours, cycled by the team's position in the
+  `gilboa.followed` array (so they are stable per device and only change if the
+  parent re-adds teams in a different order):
+  `#1d6a8c` (blue), `#b54708` (orange), `#2f7d32` (green), `#7b2d8e` (purple),
+  `#b02a5b` (rose), `#0f766e` (teal), `#4f46e5` (indigo), `#8a5a00` (gold-brown).
+  Every colour is ≥ 5.1:1 contrast on white, so it is legible as a dot and would
+  also pass as text. The dot is **always** accompanied by the team name in
+  normal dark text (16.9:1) — colour is never the only cue. Dots are shown only
+  when 2+ teams are followed (a single-team parent sees a calmer, dot-free list).
+- **Status:** Accepted.
+- **Risk:** Low.
+
+## DL-019 — Static-site UX interpretation calls
+- **Date:** 2026-09-02 (Phase 3)
+- **Decisions (all low risk, reversible in CSS/JS):**
+  1. **Week navigation** lets the parent step **one week past** the first/last
+     published week; that week shows "אין נתונים לשבוע זה" and the arrow then
+     stops. Satisfies the spec's "outside range" message without inventing empty
+     weeks in the middle.
+  2. **Changes banner** is not filtered by the visible week — if a followed team
+     has any change since the last visit, the banner shows on every week until
+     viewed. Missing a change is worse than showing it on the "wrong" week.
+  3. **Add Team search with an empty box** lists *all* teams (or all coaches),
+     sorted Hebrew-alphabetically, so a parent who cannot spell the team can
+     browse. Typing narrows it.
+  4. **Notes** arrive as a JSON array (see data-shape note); they are joined with
+     "  ·  " on one ℹ️ line.
+  5. **`sample_note`** from `teams.json` is shown as the ℹ️ line in search
+     results (the spec's "note if any").
+- **Status:** Accepted.
+- **Risk:** Low.

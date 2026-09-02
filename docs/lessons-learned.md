@@ -85,6 +85,26 @@
 - **Apply:** When two code paths must agree, freeze the shared output as a
   fixture from the first path before building the second.
 
+## LL-010 — Build the front-end against the real JSON, not the spec's example
+- **Date:** 2026-09-02 (Phase 3)
+- **Context:** `docs/mvp-spec.md` §6 shows `"notes":null` in the `schedule.json`
+  example, which reads like "string or null".
+- **What we learned:** In the real generated data `notes` is **an array of
+  strings** (e.g. `["משחק אימון","יריב: עמק יזרעאל"]`) or `null`, and `flags` is
+  likewise an array or `null`. `coach_text` can be `null` (games). One team has
+  an empty `coaches` list. Building straight from the spec example would have
+  rendered `[object Array]` or crashed on `.join`.
+- **Apply:** Open `public/data/*.json` and trace real records before writing any
+  renderer. The site now normalizes both scalar and array forms defensively.
+
+## LL-011 — A tiny DOM shim beats "I can't test the browser"
+- **Date:** 2026-09-02 (Phase 3)
+- **What we learned:** ~120 lines of a fake `document`/`localStorage`/`fetch`
+  let the whole `app.js` render path run under Node against the real data files,
+  catching sort/format/boundary bugs without a browser. Visual/RTL/contrast
+  checks still need a real device, but logic is verifiable in CI-style.
+- **Apply:** For no-build vanilla front-ends, keep a headless smoke harness.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

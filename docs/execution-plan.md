@@ -87,6 +87,23 @@ server, no database, $0/month. See `docs/architecture.md` and
   against `calendar_week.json`.
   **Phase 3 NOT started** (no site, no cron, no deploy).
 
+- **2026-09-02 — Phase 3 static site built (NOT deployed, NO cron).**
+  `public/index.html` + `public/app.js` + `public/styles.css` — vanilla RTL
+  Hebrew, no build step, no framework, no CDN. Two screens: "השבוע שלי" (My Week,
+  grouped by day, merged multi-team list with colour dot + team label, weekly
+  summary, empty states, week nav ±1 past the published range) and "בחירת קבוצה"
+  (team / coach search, substring, whitespace-insensitive). Followed teams +
+  last-seen `generated_at` in `localStorage` (`gilboa.*`). Changes banner wired
+  (no change entries in the current data, verified with a synthetic fixture).
+  Graceful Hebrew error screen on fetch failure. Verified against the real
+  `public/data/*.json` (318 sessions / 105 teams / 3 weeks) with a headless DOM
+  harness: week ranges, day/time sort, summary hours, coach grouping, follow /
+  unfollow, week-nav bounds, changes banner + "seen" all correct. DL-018
+  (palette), DL-019 (UX calls). `.github/workflows/build.yml` action versions
+  bumped (`checkout@v5`, `setup-python@v6`) — still `workflow_dispatch` only.
+  **STOPPED for stakeholder review.** Still open in Phase 3: enable cron, choose
+  host, deploy (separate approval gate), then tell the club (OQ-6).
+
 ## Immediate next step
 Stakeholder runs the `Build schedule data` workflow manually
 (`workflow_dispatch`) once to verify against the LIVE Google Calendar API:

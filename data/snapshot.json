@@ -2,36 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "יואב שנקמן",
-      "date": "2026-08-26",
-      "end": "2026-08-26T15:30:00+03:00",
-      "flags": null,
-      "id": "4hd70hb863ffjojgl4heqn22l0",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-26T13:30:00+03:00",
-      "team_id": "T_031",
-      "week_key": "2026-08-23",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-08-26",
-      "end": "2026-08-26T19:00:00+03:00",
-      "flags": null,
-      "id": "1g3jhm1t9qsdffmkcv7dk4tsuk",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-26T17:30:00+03:00",
-      "team_id": "T_009",
-      "week_key": "2026-08-23",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
       "coach_text": "ברק וינריב/עדי גלמן",
       "date": "2026-08-27",
       "end": "2026-08-27T09:30:00+03:00",
@@ -4882,5 +4852,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-09-02T19:35:16Z"
+  "generated_at": "2026-09-03T09:21:22Z"
 }

@@ -2162,7 +2162,7 @@ git commit -m "docs(rides): RIDES.md runbook, DL-029/030, QA checklist, arch + c
         shown as an alternative is a paid Enterprise add-on. Shipping the pilot without
         it; add the rule the first time a custom domain exists, or before club-wide
         rollout, whichever comes first.
-- [ ] **GitHub secrets:** `PURGE_KEY` (same value), `RIDES_API` (= `https://gilboa-schedule.pages.dev`).
+- [x] **GitHub secrets:** `PURGE_KEY` (same value), `RIDES_API` (= `https://gilboa-schedule.pages.dev`). Done 2026-09-04.
 - [ ] Merge to `main`. Cloudflare auto-deploys site + Functions. Confirm `GET /api/manager/... ` needs auth, `POST /api/token` returns a token, the site still renders with the API reachable and with it blocked (DevTools request-block on `/api/*`).
 - [ ] Fill the §8.1 `[contact]` / `[מדיניות פרטיות]` text from the stakeholder; redeploy.
 - [ ] QA pass (qa-reviewer) against `docs/qa-checklist.md` new sections + a security/privacy review pass.

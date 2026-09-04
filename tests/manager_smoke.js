@@ -195,6 +195,10 @@ const CONFIG = {
 
 let LOGIN_OK = false;
 let lastConfigPut = null;
+// Per-week artificial delay (ms) for /api/manager/dashboard responses, so a
+// test can make an *earlier* request resolve *later* than one fired after
+// it — reproducing a real out-of-order network race. Empty by default.
+const DASHBOARD_DELAY = {};
 
 global.fetch = (url, opts) => {
   opts = opts || {};
@@ -207,7 +211,10 @@ global.fetch = (url, opts) => {
     const m = /week=([^&]+)/.exec(url);
     const wk = m ? decodeURIComponent(m[1]) : null;
     const body = DASHBOARD_BY_WEEK[wk] || { week: wk, days: [], orphans: [], stats: {}, lastPurge: null, rideStatus: {} };
-    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve(body) });
+    const delay = DASHBOARD_DELAY[wk] || 0;
+    const resp = { ok: true, status: 200, json: () => Promise.resolve(body) };
+    if (!delay) return Promise.resolve(resp);
+    return new Promise((resolve) => setTimeout(() => resolve(resp), delay));
   }
   if (url.indexOf('/api/manager/config') !== -1) {
     if (opts.method === 'PUT') {
@@ -289,6 +296,21 @@ require(path.join(ROOT, 'public', 'manager.js'));
   assert(byId['mgr-day-body'].textContent.indexOf('אין בקשות הסעה ליום זה') !== -1, 'a day with zero requests shows the empty state');
   for (let i = 0; i < 7; i++) byId['mgr-day-prev'].click();
   await new Promise(r => setTimeout(r, 30));
+
+  console.log('rapid day-stepper navigation — a stale response for an abandoned week must not clobber the current one');
+  // Sept 10 -> Sept 14 crosses into week 2026-09-13 (empty); make that
+  // week's response arrive late, then immediately step back to Sept 10
+  // (week 2026-09-06, the one already correctly loaded) with no waiting
+  // in between — reproducing a real out-of-order network race.
+  DASHBOARD_DELAY['2026-09-13'] = 30;
+  for (let i = 0; i < 4; i++) byId['mgr-day-next'].click();
+  for (let i = 0; i < 4; i++) byId['mgr-day-prev'].click();
+  await new Promise(r => setTimeout(r, 60)); // let every in-flight request land
+  delete DASHBOARD_DELAY['2026-09-13'];
+  assert(byId['mgr-day-header'].textContent.indexOf('סה״כ: 4 נוסעים') !== -1,
+    'back on the original day, its data still shows (the abandoned week\'s late response was discarded)');
+  assert(byId['mgr-day-body'].textContent.indexOf('אין בקשות הסעה ליום זה') === -1,
+    'the abandoned week\'s stale response did not overwrite the correct day with an empty state');
 
   console.log('settings tab');
   byId['mgr-tab-settings-btn'].click();

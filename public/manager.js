@@ -181,13 +181,24 @@
   }
 
   // ---------- dashboard ----------
+  // Guards against a stale response: if the user has navigated to a
+  // different week by the time this request lands (rapid day-stepper
+  // clicks can fire several overlapping requests), the response is for a
+  // week the user is no longer looking at — discard it instead of letting
+  // an out-of-order arrival clobber the correct, already-loaded week.
   function loadWeek(date, force) {
     var wk = sundayOf(date);
     if (!force && state.weekKey === wk && state.weekData) { renderDashboard(); return Promise.resolve(); }
     return authFetch('/api/manager/dashboard?week=' + encodeURIComponent(wk))
       .then(function (r) { if (!r.ok) throw new Error('dash ' + r.status); return r.json(); })
-      .then(function (j) { state.weekData = j; state.weekKey = wk; renderDashboard(); })
-      ['catch'](function () { state.weekData = null; renderDashboard(); });
+      .then(function (j) {
+        if (wk !== sundayOf(state.selectedDate)) return;
+        state.weekData = j; state.weekKey = wk; renderDashboard();
+      })
+      ['catch'](function () {
+        if (wk !== sundayOf(state.selectedDate)) return;
+        state.weekData = null; renderDashboard();
+      });
   }
 
   function goDay(delta) {

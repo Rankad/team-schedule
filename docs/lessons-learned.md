@@ -331,6 +331,61 @@
     feature done — this is already this project's stated practice for UI
     changes; this bug is the concrete case that justifies it.
 
+## LL-023 — `manager.js` day-stepper: a stale out-of-order dashboard response could overwrite the correct week
+- **Date:** 2026-09-04 (rides Slice A, same live-QA session as LL-022)
+- **Context:** While manually verifying the manager dashboard right after
+  fixing LL-022, rapidly clicking the day-stepper 13 times in one batch (to
+  jump back a couple of weeks) landed on a day showing "אין בקשות הסעה ליום
+  זה" (no requests) even though the API response for that exact day/week
+  (checked directly via the network panel) correctly contained one rider.
+  Stepping one click at a time, waiting for each fetch to settle, showed the
+  correct data every time — confirming a race condition, not a data bug.
+- **Root cause:** `loadWeek()` in `manager.js` fired `GET
+  /api/manager/dashboard?week=...` on every day-stepper click and, in its
+  `.then`, unconditionally overwrote `state.weekData`/`state.weekKey` with
+  whatever response arrived — with no check that the response still matched
+  what the user was currently viewing. Fast clicking fires several requests
+  for different weeks whose responses can land out of order (or, per the
+  trace below, a request for an *abandoned* week can simply be the last one
+  outstanding and win by default), so the UI could end up showing data for a
+  week the user had already navigated away from.
+- **Why a plain "ignore all but the latest request" sequence counter is not
+  enough:** traced the exact click sequence that reproduced it — the
+  short-circuit cache check (`state.weekKey === wk && state.weekData`)
+  compares against `state.weekKey`, which only updates when a response
+  *lands*, not when a request is *sent*. So navigating away from a week and
+  back to it before its own re-fetch would even be needed can leave the
+  *only* outstanding in-flight request pointing at the abandoned week — and
+  a raw "latest request wins" counter would still apply that request's
+  (wrong) data once it resolves, because by request-order it genuinely was
+  the most recent one sent.
+- **Fix:** instead of tracking request order, each response checks whether
+  its week still matches `sundayOf(state.selectedDate)` **at the moment it
+  resolves** — i.e. compare against current UI state (the ground truth), not
+  against another async counter. A response for a week the user is no longer
+  viewing is simply discarded, regardless of send/arrival order.
+- **Regression test:** `tests/manager_smoke.js` now injects a controllable
+  per-week delay into the dashboard fetch stub (`DASHBOARD_DELAY`) so a test
+  can make an abandoned week's response land *after* the user has already
+  clicked back to the original week — reproducing the race deterministically
+  instead of depending on real network timing. Verified the test fails
+  without the fix (`git diff` reverted, 2 failures) and passes with it.
+- **Apply:**
+  - Any UI state derived from a sequence of "user navigates → fire an async
+    request → apply the response" needs a staleness guard. Compare the
+    response against **current UI state** at resolution time, not a
+    monotonic counter — a counter only encodes request order, not whether
+    the user is still looking at that data.
+  - When testing an async race, don't rely on incidental Promise
+    microtask/timer ordering: inject a controllable delay per response key
+    so the test can force the exact interleaving that reproduces the bug,
+    and prove the test actually fails on the unfixed code before trusting it
+    green on the fixed code.
+  - Extends LL-022: the same "test the live site once" pass that catches an
+    obviously-broken request can also surface a race condition that a
+    synchronous test harness's deterministic Promise resolution order would
+    never trigger on its own.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

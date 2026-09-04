@@ -50,7 +50,7 @@
   - `validate.js`: `isSessionId(s)`, `isTeamId(s)` (`/^T_\d{1,6}$/`), `isDirection(s)` (`round|out|back`), `isWeekKey(s)` (`/^\d{4}-\d{2}-\d{2}$/`), `isNonEmptyName(s)` (trimmed length 1..80) — all `→ boolean`. `isSessionId`: `/^[A-Za-z0-9_@-]{1,256}$/` (Google Calendar event ids are lowercase base32hex but allow the superset).
   - `week.js`: `weekKeyOf(dateStr)` → `YYYY-MM-DD` of that date's Sunday. Pure string math: parse `y,m,d`, `Date.UTC`, `getUTCDay`, subtract, reformat. Mirrors `app.js` `sundayOf`.
 
-- [ ] **Step 1: Create the package scaffold**
+- [x] **Step 1: Create the package scaffold**
 
 `functions/package.json`:
 ```json
@@ -93,12 +93,12 @@ export default defineWorkersConfig({
 node_modules/
 ```
 
-- [ ] **Step 2: Install and confirm the runner works**
+- [x] **Step 2: Install and confirm the runner works**
 
 Run: `cd functions && npm install && npm test`
 Expected: Vitest runs, reports "No test files found" (exit 0) — or exit 1 with that message; either way the pool-workers runtime loads without a config error. If it errors on the pool package, pin to the latest `@cloudflare/vitest-pool-workers` that matches the installed `vitest` major.
 
-- [ ] **Step 3: Write failing tests for `week.js`**
+- [x] **Step 3: Write failing tests for `week.js`**
 
 `functions/_lib/__tests__/week.test.js`:
 ```js
@@ -122,7 +122,7 @@ describe("weekKeyOf", () => {
 Run: `cd functions && npm test`
 Expected: FAIL — `Cannot find module '../week.js'`.
 
-- [ ] **Step 4: Implement `week.js`**
+- [x] **Step 4: Implement `week.js`**
 
 `functions/_lib/week.js`:
 ```js
@@ -141,7 +141,7 @@ export function weekKeyOf(dateStr) {
 Run: `cd functions && npm test`
 Expected: PASS (3 tests).
 
-- [ ] **Step 5: Write failing tests for `validate.js`**
+- [x] **Step 5: Write failing tests for `validate.js`**
 
 `functions/_lib/__tests__/validate.test.js`:
 ```js
@@ -182,7 +182,7 @@ describe("validate", () => {
 
 Run: `cd functions && npm test` — FAIL (`Cannot find module '../validate.js'`).
 
-- [ ] **Step 6: Implement `validate.js`**
+- [x] **Step 6: Implement `validate.js`**
 
 `functions/_lib/validate.js`:
 ```js
@@ -195,7 +195,7 @@ export const isNonEmptyName = (s) => typeof s === "string" && s.trim().length >=
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 7: Write failing tests for `token.js`**
+- [x] **Step 7: Write failing tests for `token.js`**
 
 `functions/_lib/__tests__/token.test.js`:
 ```js
@@ -236,7 +236,7 @@ describe("manager token", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 8: Implement `token.js`**
+- [x] **Step 8: Implement `token.js`**
 
 `functions/_lib/token.js`:
 ```js
@@ -288,7 +288,7 @@ export async function verifyManagerToken(env, token) {
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 9: Write failing tests for `http.js`**
+- [x] **Step 9: Write failing tests for `http.js`**
 
 `functions/_lib/__tests__/http.test.js`:
 ```js
@@ -328,7 +328,7 @@ describe("http helpers", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 10: Implement `http.js`**
+- [x] **Step 10: Implement `http.js`**
 
 `functions/_lib/http.js`:
 ```js
@@ -380,7 +380,7 @@ export function errToResponse(err, env) {
 
 Run: `cd functions && npm test` — PASS (all `_lib` suites green).
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add functions/

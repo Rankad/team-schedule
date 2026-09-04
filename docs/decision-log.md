@@ -506,3 +506,36 @@
   retired. Reversible: re-add the `deploy` job to restore GitHub Pages.
 - **Follow-on:** the rides Slice A work adds `functions/`, a KV namespace, and
   Cloudflare environment secrets to this same project.
+
+## DL-031 — Rides purge deletes weekly; anonymous weekly stats-rollup deferred to post-pilot
+- **Date:** 2026-09-04 (rides Slice A, Task 4 follow-up — stakeholder question)
+- **Context:** The daily `POST /api/purge` deletes every `week/<wk>/*` KV key once
+  `<wk>` is before the current week's Sunday (rides-spec §8.3). The stakeholder
+  asked why past weeks are deleted at all, and whether the coordinator would be
+  better served by keeping ride history.
+- **Why the weekly delete stays:**
+  - A ride request row holds a **named minor's** full name + team + which
+    practices they attend + travel direction/day — a movement pattern. The §8.1
+    consent notice promises parents *"נמחק אוטומטית בסוף כל שבוע"*. Data
+    minimisation on identified-minor data is the position that makes the pending
+    legal review (OQ-2, PPL / Amendment 13) winnable; indefinite retention is not.
+  - Rides reset weekly by design (parents re-request); stale rows would be noise
+    on the coordinator's screen.
+  - Housekeeping of the free-tier KV namespace over multiple seasons.
+- **The valid part of the question:** individual requests (personal) are distinct
+  from aggregate counts (not personal). Slice A already keeps some permanent
+  stats (`stats/players-all`, `stats/opens/*` 90-day). It does **not** keep a
+  per-week history of request volume / practices-needing-transport, so once a
+  week is purged that trend data is gone too.
+- **Decision:** Do **not** expand Slice A now. After the single-team pilot,
+  evaluate adding a rollup step to `runPurge` that, before deleting a week,
+  writes a nameless `stats/weekly/<wk>` summary (counts by direction / location /
+  team — a few hundred bytes, kept indefinitely, no personal data) and surfaces
+  it as a trend view in the manager stats tab (§5.3). Rationale for deferring:
+  the plan already routes retention / usage questions through "answered from real
+  use" post-pilot (rides-spec §12 step 13); until the coordinator uses the
+  dashboard we would be guessing which aggregates matter.
+- **Status:** Accepted (defer). New open question **OQ-7** — "keep an anonymous
+  weekly rides-stats rollup? which dimensions?" — to be answered from pilot use.
+- **Risk:** Low. No privacy downside to the deferral (less data kept). If adopted
+  later it is an additive change to `runPurge` + the stats tab, no migration.

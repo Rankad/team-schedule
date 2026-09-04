@@ -208,15 +208,24 @@ server, no database, $0/month. See `docs/architecture.md` and
   `[contact]`/`[מדיניות פרטיות]` text, the QA + security/privacy pass, and the
   single-team pilot — see "Integration & rollout" in the plan.
 
+- **2026-09-04 — Phase 6 merged to `main`** (PR #2, merge commit `821a7b8`).
+  Cloudflare KV namespace `RIDES_KV` created and bound to `gilboa-schedule`;
+  `MANAGER_PASSPHRASE` / `SITE_ORIGIN` / `PURGE_KEY` env secrets set; GitHub
+  secrets `PURGE_KEY` / `RIDES_API` set. **DL-032:** edge rate limiting
+  deferred — this Cloudflare account has no zone (no custom domain, OQ-4
+  still deferred), so the free-plan Rate Limiting Rule has nothing to attach
+  to; revisit when a custom domain exists or before club-wide rollout.
+
 ## Immediate next step
-Phase 6 (Rides Slice A) is code-complete on branch `feat/rides-slice-a`, all
-four test suites green. Next: the "Integration & rollout" checklist in
-`docs/superpowers/plans/2026-09-04-rides-slice-a.md` — Cloudflare KV
-namespace + env secrets + edge rate-limit rule, GitHub secrets (`PURGE_KEY`,
-`RIDES_API`), merge to `main`, fill the §8.1 consent `[contact]`/
-`[מדיניות פרטיות]` text, a QA (`docs/qa-checklist.md`) + security/privacy
-pass, then the single-team pilot. See `docs/RIDES.md` for the operational
-detail.
+Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
+Cloudflare's git integration. Remaining before the single-team pilot (see
+"Integration & rollout" in `docs/superpowers/plans/2026-09-04-rides-slice-a.md`
+and `docs/RIDES.md`):
+- Fill the §8.1 consent `[contact]`/`[מדיניות פרטיות]` text from the
+  stakeholder (currently placeholder text).
+- A QA pass (`docs/qa-checklist.md` "Rides — Slice A" + "Rides — privacy &
+  security") and a security/privacy review.
+- Then the single-team pilot itself.
 
 Phase 4 (Excel fallback importer) remains the next *schedule-side* build
 phase and is not urgent.

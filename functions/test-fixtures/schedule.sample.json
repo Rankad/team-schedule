@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-06T05:00:00Z",
+  "weeks": ["2026-09-06"],
+  "sessions": [
+    { "id": "evt-a", "team_id": "T_009", "week_key": "2026-09-06", "date": "2026-09-08",
+      "weekday": 2, "start": "2026-09-08T17:00:00+03:00", "end": "2026-09-08T18:30:00+03:00",
+      "location": "אולם קציר", "coach_text": "טל יזרעאלי", "activity_type": "training",
+      "sport": "basketball", "notes": null, "flags": null },
+    { "id": "evt-b", "team_id": "T_031", "week_key": "2026-09-06", "date": "2026-09-08",
+      "weekday": 2, "start": "2026-09-08T19:00:00+03:00", "end": "2026-09-08T20:30:00+03:00",
+      "location": "אולם עין חרוד", "coach_text": "סהר טיבי", "activity_type": "training",
+      "sport": "basketball", "notes": null, "flags": null },
+    { "id": "evt-c", "team_id": "T_009", "week_key": "2026-09-06", "date": "2026-09-10",
+      "weekday": 4, "start": "2026-09-10T17:00:00+03:00", "end": "2026-09-10T18:30:00+03:00",
+      "location": "אולם קציר", "coach_text": "טל יזרעאלי", "activity_type": "training",
+      "sport": "basketball", "notes": null, "flags": null }
+  ]
+}

@@ -163,6 +163,17 @@ server, no database, $0/month. See `docs/architecture.md` and
   `splitWeekByToday()` helper + `renderMyWeek` wiring; summary and exports still
   use the full week. `node tests/site_smoke.js` green. DL-027;
   spec + plan under `docs/superpowers/`.
+- **2026-09-04 — Hosting migrated to Cloudflare Pages (DL-028).** Prerequisite
+  for the rides feature (needs Pages Functions + KV). Site now served by
+  Cloudflare Pages git integration (no build command, output `public/`,
+  production branch `main`); the GitHub Actions `build-data` job still rebuilds
+  `public/data/*.json` twice daily and pushes to `main`, which auto-deploys.
+  GitHub Pages `deploy` job removed; `rankad.github.io/team-schedule/` serves a
+  client-side redirect (`legacy/`). `GOOGLE_CALENDAR_API_KEY` stays a GitHub
+  secret; Cloudflare holds no secrets. Site code untouched (relative paths, host
+  -agnostic); behaviour verified on `*.pages.dev` before cut-over. `pytest` and
+  `node tests/site_smoke.js` green. Plan:
+  `docs/superpowers/plans/2026-09-04-hosting-migration-cloudflare.md`.
 
 ## Immediate next step
 Confirm the first live deploy is green (Actions → "Build & deploy" → `deploy`

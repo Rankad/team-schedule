@@ -41,8 +41,9 @@ a Hebrew error instead of a blank screen.
 
 ## Deploy
 
-Published to **GitHub Pages by GitHub Actions** (`.github/workflows/build.yml`,
-`deploy` job): `actions/upload-pages-artifact` uploads this `public/` folder as
-the site root, `actions/deploy-pages` publishes it. Triggered after each
-scheduled data rebuild and on any push touching `public/**`. No branch to
-maintain, no build command. See DL-026.
+Hosted on **Cloudflare Pages** (git integration, no build command, output
+directory `public/`). Every push to `main` — the twice-daily data commits from
+`.github/workflows/build.yml`, plus any site edit — triggers a Cloudflare deploy
+that uploads this folder. Live at `https://gilboa-schedule.pages.dev`. The old
+`rankad.github.io/team-schedule/` URL redirects here. See `docs/HOSTING.md` and
+DL-028.

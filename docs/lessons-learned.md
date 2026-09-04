@@ -246,6 +246,24 @@
   platform's skip rules.
 - **Status:** Fixed on `feature/hosting-migration-cloudflare` before merge.
 
+## LL-020 — `@cloudflare/vitest-pool-workers` 0.5.x breaks on a repo path with a space
+- **Date:** 2026-09-04 (rides Slice A, Task 1)
+- **Context:** The plan pinned `vitest ^2.1` + `@cloudflare/vitest-pool-workers
+  ^0.5`. On the Windows dev box the repo lives at
+  `C:\Users\USER\Documents\Claude\team schedule\` — a path with a space. The
+  0.5.x pool passes a `file:` module URL where workerd expects a path and the
+  `%20` from the space makes workerd report `No such module ".../vitest/dist/
+  file:/C:/.../team%20schedule/.../threads.js"`. No test ever runs.
+- **What we learned:** Upgrading to `@cloudflare/vitest-pool-workers 0.8.19` +
+  `vitest ~3.1` fixes the resolution (18 `_lib` tests green). Newer still (pool
+  0.22 / vitest 4) drops the `/config` export and pulls vite 8 — not worth it.
+  `vitest.config.js` also needs an explicit `miniflare.compatibilityDate` and
+  `compatibilityFlags: ["nodejs_compat"]` or the pool refuses to start.
+- **Apply:** Rides Functions tests use `vitest ~3.1` + `pool-workers 0.8.19`.
+  Keep the config's `compatibilityDate`/`nodejs_compat`. If CI (Linux, no space
+  in path) ever diverges, the space is the variable. A space-free dev checkout
+  also sidesteps it.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

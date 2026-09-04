@@ -246,6 +246,50 @@
   platform's skip rules.
 - **Status:** Fixed on `feature/hosting-migration-cloudflare` before merge.
 
+## LL-020 — `@cloudflare/vitest-pool-workers` 0.5.x breaks on a repo path with a space
+- **Date:** 2026-09-04 (rides Slice A, Task 1)
+- **Context:** The plan pinned `vitest ^2.1` + `@cloudflare/vitest-pool-workers
+  ^0.5`. On the Windows dev box the repo lives at
+  `C:\Users\USER\Documents\Claude\team schedule\` — a path with a space. The
+  0.5.x pool passes a `file:` module URL where workerd expects a path and the
+  `%20` from the space makes workerd report `No such module ".../vitest/dist/
+  file:/C:/.../team%20schedule/.../threads.js"`. No test ever runs.
+- **What we learned:** Upgrading to `@cloudflare/vitest-pool-workers 0.8.19` +
+  `vitest ~3.1` fixes the resolution (18 `_lib` tests green). Newer still (pool
+  0.22 / vitest 4) drops the `/config` export and pulls vite 8 — not worth it.
+  `vitest.config.js` also needs an explicit `miniflare.compatibilityDate` and
+  `compatibilityFlags: ["nodejs_compat"]` or the pool refuses to start.
+- **Apply:** Rides Functions tests use `vitest ~3.1` + `pool-workers 0.8.19`.
+  Keep the config's `compatibilityDate`/`nodejs_compat`. If CI (Linux, no space
+  in path) ever diverges, the space is the variable. A space-free dev checkout
+  also sidesteps it.
+
+## LL-021 — A plan's verbatim tests and verbatim implementation can contradict each other
+- **Date:** 2026-09-04 (rides Slice A, Task 3)
+- **Context:** `docs/superpowers/plans/2026-09-04-rides-slice-a.md` Task 3 supplies
+  both the test files and the endpoint code as copy-paste blocks. The test
+  fixtures use player tokens as short as 4 chars (`mine`, `wipe`, `capper`,
+  `deltok`, `other`); the supplied `request.js` / `me.js` define
+  `isToken = /^[A-Za-z0-9_-]{8,128}$/`. Four tests failed on first run — the
+  validator rejected the plan's own fixtures.
+- **Root cause:** The plan author hand-wrote illustrative fixture strings without
+  running them against the validator in the same task. Real tokens from
+  `mintPlayerToken()` are always 32 url-safe chars (Task 2 tests already assert
+  `{32,}`), so the `{8,128}` lower bound is sound for real traffic — only the
+  fixtures were wrong.
+- **Failed path:** Pasting both blocks verbatim and expecting green.
+- **Working path:** Kept the stricter validator (better input hygiene, matches
+  real 32-char tokens), widened the five fixture tokens to ≥8 chars
+  (`minetok01`, `wipetok01`, …). Recorded inline in the plan and in the commit
+  message; confirmed with a user approval gate before deviating.
+- **Rule for future work:** When executing a plan that ships tests *and*
+  implementation as verbatim blocks, sanity-check the fixture values against the
+  validators/regexes in the same task before running — treat a mismatch as a
+  plan bug to raise, not a repo bug to hunt. When deviating from a verbatim
+  plan, get approval and leave a trail in the plan + commit. (Extends LL-015.)
+- **Scope:** reusable (applies to superpowers:executing-plans /
+  subagent-driven-development on any project).
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

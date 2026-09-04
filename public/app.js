@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
     wireEvents();
     document.getElementById('app').hidden = false;
     render();
+    if (window.Rides && window.Rides.ping) {
+      try { window.Rides.ping(); } catch (e) { /* opens ping is best-effort */ }
+    }
   }).catch(function (err) {
     console.error('Failed to load schedule data:', err);
     var app = document.getElementById('app');
@@ -203,6 +206,7 @@ function el(tag, cls, text) {
 }
 
 function render() {
+  window.viewSunday = viewSunday; // rides.js reads the current week from here
   renderHeader();
   renderMyWeek();
 }
@@ -225,6 +229,10 @@ function renderHeader() {
 }
 
 function renderMyWeek() {
+  // The rides hooks in the `finally` must never be able to break the schedule
+  // render, so the whole schedule body runs inside try/finally (not try/catch —
+  // a real schedule error still propagates exactly as before).
+  try {
   var onboarding = document.getElementById('onboarding');
   var followsRow = document.getElementById('follows-row');
   var content = document.getElementById('week-content');
@@ -295,6 +303,16 @@ function renderMyWeek() {
   // Footer summary.
   renderSummary(weekSessions);
   footer.hidden = false;
+  } finally {
+    if (window.Rides) {
+      try {
+        window.Rides.renderRoleEntry();
+        if (window.Rides.renderSummaryCard) window.Rides.renderSummaryCard();
+      } catch (e) {
+        console.error('rides UI error (schedule unaffected):', e);
+      }
+    }
+  }
 }
 
 function renderFollowChips(row) {
@@ -370,6 +388,12 @@ function renderSession(s, multi) {
   if (flags.indexOf('end_not_after_start') !== -1 || flags.indexOf('bad_end_time') !== -1) {
     card.appendChild(el('div', 'session-warn',
       '⚠️ שעת סיום לא ודאית')); // שעת סיום לא ודאית
+  }
+
+  // Player-mode ride chip. Contained: a rides failure never breaks the card.
+  if (window.Rides && window.Rides.isPlayerWithToken()) {
+    try { window.Rides.decorateSession(card, s); }
+    catch (e) { console.error('ride chip error (schedule unaffected):', e); }
   }
 
   return card;
@@ -1034,20 +1058,42 @@ window.icsEsc = icsEsc;
 window.drawWeekImage = drawWeekImage;
 window.groupByDate = groupByDate;
 window.splitWeekByToday = splitWeekByToday;
+// Rides (public/rides.js) drives screen navigation + re-renders through these,
+// and reads (never mutates) the schedule state.
+window.goto = goto;
+window.render = render;
+window.showToast = showToast;
+window.ltrIsolate = ltrIsolate;
+window.DATA = DATA;
+window.followed = followed;
+window.HE_WEEKDAY = HE_WEEKDAY;
+window.weekSessionsFor = weekSessionsFor;
 
 // ---------- Screen navigation ----------
+var SCREEN_IDS = {
+  myweek: 'screen-myweek', addteam: 'screen-addteam',
+  rides: 'screen-rides', privacy: 'screen-privacy'
+};
+
 function goto(screen) {
-  var mw = document.getElementById('screen-myweek');
-  var at = document.getElementById('screen-addteam');
+  var target = SCREEN_IDS[screen] || 'screen-myweek';
+  Object.keys(SCREEN_IDS).forEach(function (k) {
+    var n = document.getElementById(SCREEN_IDS[k]);
+    if (n) n.hidden = (SCREEN_IDS[k] !== target);
+  });
   if (screen === 'addteam') {
-    mw.hidden = true;
-    at.hidden = false;
     document.getElementById('search').value = '';
     renderSearch();
     document.getElementById('search').focus();
+  } else if (screen === 'rides') {
+    if (window.Rides && window.Rides.renderRides) {
+      try { window.Rides.renderRides(); } catch (e) { console.error('rides screen error (schedule unaffected):', e); }
+    }
+  } else if (screen === 'privacy') {
+    if (window.Rides && window.Rides.renderPrivacy) {
+      try { window.Rides.renderPrivacy(); } catch (e) { console.error('privacy screen error:', e); }
+    }
   } else {
-    at.hidden = true;
-    mw.hidden = false;
     render();
   }
   window.scrollTo(0, 0);

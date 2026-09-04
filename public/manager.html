@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>גלבוע מעיינות · הסעות — ניהול</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="manager.css">
+</head>
+<body>
+  <dialog id="mgr-login" class="sheet">
+    <h1 class="screen-title">גלבוע מעיינות · הסעות</h1>
+    <p class="mgr-login-sub">כניסת רכז הסעות</p>
+    <label class="mgr-login-label" for="mgr-login-pass">סיסמה</label>
+    <input type="password" id="mgr-login-pass" class="search-input" autocomplete="off">
+    <p id="mgr-login-error" class="mgr-login-error" hidden>סיסמה שגויה</p>
+    <button type="button" id="mgr-login-submit" class="btn btn-primary mgr-login-submit">כניסה</button>
+  </dialog>
+
+  <div id="mgr-app" class="wrap" hidden>
+    <header class="mgr-header">
+      <div class="club-name">גלבוע מעיינות · הסעות</div>
+      <button type="button" id="mgr-logout" class="linklike mgr-logout">יציאה</button>
+    </header>
+
+    <nav class="mgr-tabs" aria-label="ניווט">
+      <button type="button" id="mgr-tab-dashboard-btn" class="mgr-tab is-active">לוח בקרה</button>
+      <button type="button" id="mgr-tab-settings-btn" class="mgr-tab">הגדרות</button>
+      <button type="button" id="mgr-tab-stats-btn" class="mgr-tab">סטטיסטיקה</button>
+    </nav>
+
+    <section id="tab-dashboard" class="screen">
+      <nav id="mgr-day-nav" class="week-nav" aria-label="ניווט ימים">
+        <button type="button" id="mgr-day-prev" class="week-arrow" aria-label="היום הקודם">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <span id="mgr-day-range" class="week-range" aria-live="polite">—</span>
+        <button type="button" id="mgr-day-next" class="week-arrow" aria-label="היום הבא">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+      </nav>
+
+      <div id="mgr-day-header" class="mgr-day-header" aria-live="polite"></div>
+      <div id="mgr-day-body" class="mgr-day-body"></div>
+
+      <button type="button" id="mgr-copy-day" class="btn mgr-copy-day">📋 העתקת תוכנית היום כטקסט</button>
+      <p id="mgr-copy-msg" class="mgr-copy-msg" hidden></p>
+
+      <footer id="mgr-health" class="mgr-health"></footer>
+    </section>
+
+    <section id="tab-settings" class="screen" hidden>
+      <div id="mgr-locations" class="mgr-locations"></div>
+
+      <div class="mgr-add-location">
+        <label class="mgr-login-label" for="mgr-new-location-name">מיקום נוסף</label>
+        <input type="text" id="mgr-new-location-name" class="search-input" placeholder="שם מיקום…">
+        <button type="button" id="mgr-add-location" class="btn">＋ הוסף מיקום</button>
+      </div>
+
+      <label class="mgr-ret-default-row" for="mgr-ret-default">
+        <span>ברירת מחדל לחזרה (דקות)</span>
+        <input type="number" id="mgr-ret-default" min="0" max="600">
+      </label>
+
+      <button type="button" id="mgr-settings-save" class="btn btn-primary mgr-settings-save">שמירה</button>
+      <p id="mgr-settings-msg" class="mgr-settings-msg" hidden></p>
+    </section>
+
+    <section id="tab-stats" class="screen" hidden>
+      <div id="mgr-stats-body" class="mgr-stats-body"></div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="manager.js"></script>
+</body>
+</html>

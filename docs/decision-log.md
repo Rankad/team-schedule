@@ -506,3 +506,140 @@
   retired. Reversible: re-add the `deploy` job to restore GitHub Pages.
 - **Follow-on:** the rides Slice A work adds `functions/`, a KV namespace, and
   Cloudflare environment secrets to this same project.
+
+## DL-029 — Rides backend: per-row KV keys, structural-only validation, opaque client-only tokens
+- **Date:** 2026-09-04 (rides Slice A)
+- **Decision:**
+  - **Per-row KV keys**, never a per-week array (`week/<wk>/req/<token>/<sessionId>`
+    for each ride request, one key per row). Two players requesting the same
+    week hit different keys, so there is no read-modify-write race on a shared
+    array — the last-write-wins hazard is designed out structurally, not
+    guarded against with locking/retry.
+  - **Write validation is structural only**: shape, field types, token/session
+    id regex, `direction` enum, a 1 KB body cap and a 20-row-per-token cap
+    (`functions/_lib/validate.js`). No semantic validation against the
+    schedule (e.g. "does this session exist today") — keeps the write path
+    fast and dependency-free; a stale/garbage `sessionId` just shows up as an
+    orphaned row in the dashboard (spec §6.2), which the manager can see and
+    the weekly purge clears anyway.
+  - **Player identity is an opaque token, `localStorage`-only, never in a
+    URL.** `mintPlayerToken` = 24 random bytes, base64url (32 chars),
+    `/^[A-Za-z0-9_-]{8,128}$/` shared by `request.js`/`me.js` (`isToken`). No
+    account, no password, no PII in the token itself.
+  - **Purge reuses the existing GitHub Action**, not a second scheduler:
+    `POST /api/purge` is called from the twice-daily `build.yml` `build-data`
+    job (Pages Functions have no native cron). Idempotent, authenticated by
+    `X-Purge-Key`.
+  - **Schema versioning:** every stored JSON value carries `v: 1`, so a future
+    shape change can be migrated or branched on read.
+- **Why:** this is identified-minor data (§8 of `docs/rides-spec.md`); the
+  design goal is the smallest, simplest backend that cannot silently corrupt
+  or leak a row, not maximum feature completeness. Per-row keys turn a
+  concurrency problem into a non-problem instead of solving it with retries.
+- **Status:** Accepted.
+- **Risk:** Low. The one known gap — the per-row-key race being
+  *architecturally* eliminated rather than *test-verified* eliminated (Miniflare
+  is single-threaded, so the race can't be reproduced in CI) — is documented,
+  not hidden; see `docs/qa-checklist.md` "Rides — privacy & security".
+
+## DL-030 — Manager auth: generated passphrase + edge rate-limit; Cloudflare Access deferred
+- **Date:** 2026-09-04 (rides Slice A)
+- **Decision:**
+  - **Manager passphrase is generated (4–5 random words), not user-chosen.**
+    Stored only as the Cloudflare env secret `MANAGER_PASSPHRASE`, never in
+    the repo, never sent to the client. Compared server-side with a
+    constant-time compare (`timingSafeEqual`).
+  - **Session token = HMAC(passphrase) with a 6 h TTL** (`functions/_lib/token.js`),
+    not a KV-backed session store — no extra KV reads per authenticated
+    request, and rotating the passphrase instantly invalidates every
+    outstanding session (the intended "kick everyone out" lever — see
+    `docs/RIDES.md`).
+  - **Rate limiting is a Cloudflare edge Rate Limiting rule** (dashboard
+    config, free-plan quota: one rule), covering `/api/token`, `/api/request`,
+    `/api/ping`, `/api/manager/login` — not a KV request counter. A KV
+    counter would reintroduce exactly the read-modify-write race DL-029 just
+    designed away, for a feature (abuse throttling) that the edge already
+    does for free before the Function even runs.
+  - **Cloudflare Access (SSO in front of `manager.html`) is deferred to Slice
+    B.** One club-wide manager (rides-spec §5.6) makes a shared generated
+    passphrase an acceptable bar for the pilot; Access adds real value once
+    there are multiple coordinators or a lower risk tolerance is warranted.
+  - **The legal opinion (PPL / Amendment 13 registration, rides-spec §8.5) is
+    a wide-rollout blocker only** — it does not block the single-team pilot,
+    which the stakeholder is running specifically to generate the real-use
+    evidence the legal review and OQ-1 both need.
+- **Why:** matches the actual risk profile — one trusted coordinator, a
+  single-team pilot, minors' names behind a password screen — without adding
+  an SSO integration or a second data store before there is evidence it is
+  needed.
+- **Status:** Accepted.
+- **Risk:** Low for the pilot scope. Revisit Cloudflare Access and the
+  passphrase-sharing model before any club-wide rollout (already gated on the
+  legal opinion per rides-spec §8.5).
+
+## DL-032 — Edge rate limiting deferred for the pilot: no Cloudflare zone exists yet
+- **Date:** 2026-09-04 (rides Slice A rollout)
+- **Context:** DL-030 specified a Cloudflare **edge Rate Limiting Rule**
+  (free-plan) covering `/api/token`, `/api/request`, `/api/ping`,
+  `/api/manager/login`. Attempting to configure it during rollout surfaced a
+  gap the spec didn't anticipate: Rate Limiting Rules are a **per-zone**
+  product. This Cloudflare account has **no zone** — the site runs on the
+  shared `*.pages.dev` domain, which Cloudflare itself owns as a zone, not
+  us. A custom domain was already deferred (rides-spec OQ-4). The
+  account-level WAF shown as an alternative is a **paid Enterprise add-on**,
+  not a free-plan option.
+- **Decision:** Ship the single-team pilot **without** edge rate limiting.
+  Do not add a custom domain now solely to unlock it — that decision (OQ-4)
+  stays deferred on its own merits, not pulled forward by this.
+- **Why this is an acceptable gap for the pilot, not indefinitely:**
+  - Write endpoints are already gated by a ≥128-bit opaque token
+    (`/api/request`, `/api/me`) or the generated `MANAGER_PASSPHRASE` +
+    6 h session (`/api/manager/*`) — DL-029/DL-030. There is no unauthenticated
+    write path; rate limiting was defense-in-depth against a token/passphrase
+    brute-force or a scripted flood, not the only control.
+  - Single-team pilot = low, predictable traffic from a known small group.
+  - `PUT /api/request` already caps body size (1 KB) and rows-per-token (20) —
+    DL-029 — bounding the damage of even an unthrottled abusive client.
+- **Follow-up:** Re-evaluate before club-wide rollout, alongside the already-
+  planned Cloudflare Access work (DL-030) and the custom-domain decision
+  (OQ-4). If a custom domain is added for any other reason first, add the
+  Rate Limiting Rule at that point rather than waiting for a dedicated gate.
+- **Status:** Accepted (defer). New follow-up item — not a numbered OQ, since
+  it isn't a design fork, just a rollout task blocked on infrastructure that
+  doesn't exist yet.
+- **Risk:** Low for the pilot (see above). Medium if traffic or attacker
+  interest grows before a custom domain exists — tracked in
+  `docs/known-constraints.md`.
+
+## DL-031 — Rides purge deletes weekly; anonymous weekly stats-rollup deferred to post-pilot
+- **Date:** 2026-09-04 (rides Slice A, Task 4 follow-up — stakeholder question)
+- **Context:** The daily `POST /api/purge` deletes every `week/<wk>/*` KV key once
+  `<wk>` is before the current week's Sunday (rides-spec §8.3). The stakeholder
+  asked why past weeks are deleted at all, and whether the coordinator would be
+  better served by keeping ride history.
+- **Why the weekly delete stays:**
+  - A ride request row holds a **named minor's** full name + team + which
+    practices they attend + travel direction/day — a movement pattern. The §8.1
+    consent notice promises parents *"נמחק אוטומטית בסוף כל שבוע"*. Data
+    minimisation on identified-minor data is the position that makes the pending
+    legal review (OQ-2, PPL / Amendment 13) winnable; indefinite retention is not.
+  - Rides reset weekly by design (parents re-request); stale rows would be noise
+    on the coordinator's screen.
+  - Housekeeping of the free-tier KV namespace over multiple seasons.
+- **The valid part of the question:** individual requests (personal) are distinct
+  from aggregate counts (not personal). Slice A already keeps some permanent
+  stats (`stats/players-all`, `stats/opens/*` 90-day). It does **not** keep a
+  per-week history of request volume / practices-needing-transport, so once a
+  week is purged that trend data is gone too.
+- **Decision:** Do **not** expand Slice A now. After the single-team pilot,
+  evaluate adding a rollup step to `runPurge` that, before deleting a week,
+  writes a nameless `stats/weekly/<wk>` summary (counts by direction / location /
+  team — a few hundred bytes, kept indefinitely, no personal data) and surfaces
+  it as a trend view in the manager stats tab (§5.3). Rationale for deferring:
+  the plan already routes retention / usage questions through "answered from real
+  use" post-pilot (rides-spec §12 step 13); until the coordinator uses the
+  dashboard we would be guessing which aggregates matter.
+- **Status:** Accepted (defer). New open question **OQ-7** — "keep an anonymous
+  weekly rides-stats rollup? which dimensions?" — to be answered from pilot use.
+- **Risk:** Low. No privacy downside to the deferral (less data kept). If adopted
+  later it is an additive change to `runPurge` + the stats tab, no migration.

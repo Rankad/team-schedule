@@ -40,6 +40,12 @@
           🔗 שתף את הקבוצות שלי
         </button>
 
+        <!-- Rides (public/rides.js) fills these. Parent mode: role-entry-slot
+             holds the "switch to player" link; player mode: rides-summary-slot
+             holds the weekly rides summary card / the inline name card. -->
+        <div id="rides-summary-slot"></div>
+        <div id="role-entry-slot"></div>
+
         <div id="changes-banner" class="changes-banner" hidden>
           <button type="button" class="changes-toggle" aria-expanded="false">
             <span class="changes-summary"></span>
@@ -74,8 +80,43 @@
 
         <div id="results" class="results" aria-live="polite"></div>
       </section>
+
+      <!-- Screen 3: My Rides (player mode) — body filled by rides.js -->
+      <section id="screen-rides" class="screen" hidden>
+        <button type="button" class="btn btn-back" data-goto="myweek">→ חזרה</button>
+        <h1 class="screen-title">ההסעות שלי</h1>
+        <div id="rides-body"></div>
+      </section>
+
+      <!-- Screen 4: Privacy — body filled by rides.js -->
+      <section id="screen-privacy" class="screen" hidden>
+        <button type="button" class="btn btn-back" data-goto="myweek">→ חזרה</button>
+        <h1 class="screen-title">מדיניות פרטיות</h1>
+        <div id="privacy-body" class="prose"></div>
+      </section>
+
+      <p class="privacy-link-row">
+        <button type="button" class="linklike" data-goto="privacy">מדיניות פרטיות</button>
+      </p>
     </main>
   </div>
+
+  <dialog id="rides-consent" class="sheet">
+    <div class="sheet-body" id="rides-consent-body"></div>
+    <div class="sheet-actions">
+      <button type="button" class="btn btn-primary" data-consent="ok">הבנתי, אפשר להמשיך</button>
+      <button type="button" class="btn" data-consent="cancel">ביטול</button>
+    </div>
+  </dialog>
+
+  <dialog id="rides-sheet" class="sheet">
+    <h2 class="sheet-heading" id="rides-sheet-heading"></h2>
+    <div class="sheet-options" id="rides-sheet-options"></div>
+    <div class="sheet-cancel" id="rides-sheet-cancel"></div>
+    <div class="sheet-actions">
+      <button type="button" class="btn" data-sheet="close">סגירה</button>
+    </div>
+  </dialog>
 
   <div id="fatal" class="fatal" hidden>
     <div class="card">
@@ -88,5 +129,6 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="app.js"></script>
+  <script src="rides.js"></script>
 </body>
 </html>

@@ -519,6 +519,13 @@ is the §8.1 consent sufficient for an identified minor's name + schedule.
 
 Both are later slices, **no migration**.
 
+- **Anonymous weekly stats-rollup (OQ-7):** the daily purge deletes each
+  `week/<wk>/*` key once the week is past (§8.3), which also loses per-week
+  request-volume history. Post-pilot, decide whether `runPurge` should first
+  write a nameless `stats/weekly/<wk>` summary (counts by direction / location /
+  team) for a manager trend view. Additive to `runPurge` + §5.3, no migration.
+  See DL-031.
+
 ---
 
 ## 10. Failure behaviour (the isolation boundary)

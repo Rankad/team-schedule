@@ -67,6 +67,15 @@ server, no database, $0/month. See `docs/architecture.md` and
   Decide any paid WhatsApp mechanism only here. Wide promotion still waits on the
   club courtesy note (OQ-6).
 
+## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`)
+- Goal: player ride requests on each practice + a password-gated coordinator
+  dashboard, on a new Cloudflare Pages Functions + KV backend, with the schedule
+  half untouched.
+- Plan: `docs/superpowers/plans/2026-09-04-rides-slice-a.md`.
+- Gates: consent wording + contact and the generated manager passphrase before
+  the single-team pilot; the legal opinion + Cloudflare Access before club-wide
+  rollout (Slice B).
+
 ## Progress log
 - **2026-09-02 — Phase 0 done** (except the stakeholder tasks in
   `docs/PHASE-0-USER-TASKS.md`: API key, GitHub repo, secret, manual run).
@@ -175,12 +184,39 @@ server, no database, $0/month. See `docs/architecture.md` and
   `node tests/site_smoke.js` green. Plan:
   `docs/superpowers/plans/2026-09-04-hosting-migration-cloudflare.md`.
 
-## Immediate next step
-Phase 3 is complete and the MVP is live. Hosting moved to Cloudflare Pages on
-2026-09-04 (DL-028) — the site now redeploys automatically on every push to
-`main` (the twice-daily data commits included); GitHub Pages is retired and its
-old URL redirects. See `docs/HOSTING.md`.
+- **2026-09-04 — Phase 6 (Rides Slice A) built, Tasks 1–12 of the plan
+  complete** (`docs/superpowers/plans/2026-09-04-rides-slice-a.md`). Backend:
+  `functions/api/**` + `functions/_lib/**` (token mint/verify, KV row CRUD,
+  structural validation, `computeDepartTimes`, manager auth + config +
+  dashboard join, purge, opens stats) on Cloudflare Pages Functions + one KV
+  namespace `RIDES_KV`, called from the existing twice-daily GitHub Action
+  (`build.yml`) — no second scheduler. Frontend: player role entry + consent +
+  name flow, ride chip + trip-type bottom sheet, rides summary card +
+  `#screen-rides`, wired into `public/app.js`/`public/index.html` without
+  touching the schedule render path (isolation boundary, rides-spec §10).
+  Manager dashboard `public/manager.html` + `manager.js` + `manager.css` —
+  login, day-stepper schedule view with orphan group, settings
+  (`זמני יציאה` per location + default), usage stats tab, purge health
+  footer. `cd functions && npm test`, `node tests/site_smoke.js`,
+  `node tests/manager_smoke.js`, `pytest -q` all green. Decisions DL-029
+  (per-row KV keys, structural validation, opaque tokens), DL-030 (generated
+  passphrase, edge rate-limit, Cloudflare Access deferred), DL-031 (purge
+  deletes weekly; anonymous stats rollup deferred, OQ-7). Runbook:
+  `docs/RIDES.md`. **Not yet done:** the Cloudflare one-time setup (KV
+  namespace binding, env secrets, rate-limit rule), the GitHub secrets
+  (`PURGE_KEY`, `RIDES_API`), merge to `main`, filling the §8.1 consent
+  `[contact]`/`[מדיניות פרטיות]` text, the QA + security/privacy pass, and the
+  single-team pilot — see "Integration & rollout" in the plan.
 
-Phase 4 (Excel fallback importer) is the next build phase and is not urgent.
-The rides-coordination feature (`docs/superpowers/specs/2026-09-03-rides-coordination-design.md`)
-is specced and gated behind stakeholder sign-off of the 2026-09-04 revision.
+## Immediate next step
+Phase 6 (Rides Slice A) is code-complete on branch `feat/rides-slice-a`, all
+four test suites green. Next: the "Integration & rollout" checklist in
+`docs/superpowers/plans/2026-09-04-rides-slice-a.md` — Cloudflare KV
+namespace + env secrets + edge rate-limit rule, GitHub secrets (`PURGE_KEY`,
+`RIDES_API`), merge to `main`, fill the §8.1 consent `[contact]`/
+`[מדיניות פרטיות]` text, a QA (`docs/qa-checklist.md`) + security/privacy
+pass, then the single-team pilot. See `docs/RIDES.md` for the operational
+detail.
+
+Phase 4 (Excel fallback importer) remains the next *schedule-side* build
+phase and is not urgent.

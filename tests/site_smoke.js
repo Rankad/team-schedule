@@ -77,10 +77,20 @@ class El {
   setAttribute(k, v) { this.attrs[k] = String(v); if (k === 'id') this.id = v; }
   getAttribute(k) { return this.attrs[k] != null ? this.attrs[k] : null; }
   appendChild(c) { c.parentNode = this; this.children.push(c); return c; }
+  insertBefore(c, ref) {
+    c.parentNode = this;
+    const i = ref ? this.children.indexOf(ref) : -1;
+    if (i === -1) this.children.push(c); else this.children.splice(i, 0, c);
+    return c;
+  }
   addEventListener(t, fn) { (this._listeners[t] = this._listeners[t] || []).push(fn); }
   dispatch(t) { (this._listeners[t] || []).forEach(fn => fn.call(this, { target: this })); }
   click() { this.dispatch('click'); }
   focus() {}
+  // <dialog> shims — enough for the rides consent flow
+  showModal() { this._open = true; this.setAttribute('open', ''); }
+  show() { this._open = true; this.setAttribute('open', ''); }
+  close(v) { this._open = false; delete this.attrs.open; if (v !== undefined) this.returnValue = String(v); this.dispatch('close'); }
   _walk(fn) { fn(this); this.children.forEach(c => c._walk(fn)); }
   querySelectorAll(sel) { const out = []; this._walk(n => { if (n !== this && m(n, sel)) out.push(n); }); return out; }
   querySelector(sel) { return this.querySelectorAll(sel)[0] || null; }
@@ -115,6 +125,8 @@ mw.appendChild(onb);
 mw.appendChild(mk('div', 'follows-row'));
 const shareFollows = mk('button', 'share-follows'); shareFollows.hidden = true;
 mw.appendChild(shareFollows);
+mw.appendChild(mk('div', 'rides-summary-slot'));
+mw.appendChild(mk('div', 'role-entry-slot'));
 const banner = mk('div', 'changes-banner'); banner.hidden = true;
 const btoggle = mk('button', null, 'changes-toggle'); btoggle.setAttribute('aria-expanded', 'false');
 btoggle.appendChild(mk('span', null, 'changes-summary'));
@@ -134,9 +146,37 @@ at.appendChild(mk('input', 'search'));
 at.appendChild(mk('p', 'search-hint'));
 at.appendChild(mk('div', 'results'));
 
+// Rides screens + consent dialog (Task 9)
+const scrRides = mk('section', 'screen-rides'); scrRides.hidden = true;
+scrRides.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
+scrRides.appendChild(mk('div', 'rides-body'));
+app.appendChild(scrRides);
+const scrPrivacy = mk('section', 'screen-privacy'); scrPrivacy.hidden = true;
+scrPrivacy.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
+scrPrivacy.appendChild(mk('div', 'privacy-body', 'prose'));
+app.appendChild(scrPrivacy);
+const privacyLink = mk('button', null, 'linklike', { 'data-goto': 'privacy' });
+app.appendChild(privacyLink);
+const consent = mk('dialog', 'rides-consent');
+consent.appendChild(mk('div', 'rides-consent-body'));
+consent.appendChild(mk('button', null, 'btn btn-primary', { 'data-consent': 'ok', type: 'button' }));
+consent.appendChild(mk('button', null, 'btn', { 'data-consent': 'cancel', type: 'button' }));
+root.appendChild(consent);
+const sheet = mk('dialog', 'rides-sheet');
+sheet.appendChild(mk('h2', 'rides-sheet-heading', 'sheet-heading'));
+sheet.appendChild(mk('div', 'rides-sheet-options', 'sheet-options'));
+sheet.appendChild(mk('div', 'rides-sheet-cancel', 'sheet-cancel'));
+sheet.appendChild(mk('button', null, 'btn', { 'data-sheet': 'close', type: 'button' }));
+root.appendChild(sheet);
+
 let domLoaded = null;
 global.document = {
-  getElementById: (id) => byId[id] || null,
+  getElementById: (id) => {
+    if (byId[id]) return byId[id];
+    let found = null;
+    root._walk((n) => { if (!found && n.attrs && n.attrs.id === id) found = n; });
+    return found;
+  },
   createElement: (t) => new El(t),
   createTextNode: (t) => { const e = new El('#text'); e._text = String(t); return e; },
   addEventListener: (t, fn) => { if (t === 'DOMContentLoaded') domLoaded = fn; },
@@ -163,7 +203,28 @@ const FAKE_CHANGES = {
       new: { start: '2000-01-01T19:30:00+03:00', end: '2000-01-01T21:30:00+03:00' } },
   ],
 };
-global.fetch = (url) => {
+let TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
+let ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+let REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+global.fetch = (url, opts) => {
+  if (url.indexOf('/api/token') !== -1) {
+    return Promise.resolve({
+      ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
+      json: () => Promise.resolve(TOKEN_RESPONSE.body),
+    });
+  }
+  if (url.indexOf('/api/me') !== -1) {
+    return Promise.resolve({ ok: ME_RESPONSE.ok, status: ME_RESPONSE.status, json: () => Promise.resolve(ME_RESPONSE.body) });
+  }
+  if (url.indexOf('/api/request') !== -1) {
+    return Promise.resolve({ ok: REQ_RESPONSE.ok, status: REQ_RESPONSE.status, json: () => Promise.resolve(REQ_RESPONSE.body) });
+  }
+  if (url.indexOf('/api/ping') !== -1) {
+    return Promise.resolve({ ok: true, status: 204, json: () => Promise.resolve({}) });
+  }
+  if (url.indexOf('/api/') !== -1) {
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({}) });
+  }
   const f = url.replace(/^data\//, 'public/data/');
   return Promise.resolve({
     ok: true, status: 200,
@@ -189,6 +250,7 @@ FAKE_CHANGES.changes[0].week_key = lastWeek;
 const t1name = teams.find(t => t.team_id === T1).display_name;
 
 require(path.join(ROOT, 'public', 'app.js'));
+require(path.join(ROOT, 'public', 'rides.js'));
 
 (async () => {
   await domLoaded();
@@ -458,6 +520,179 @@ require(path.join(ROOT, 'public', 'app.js'));
     delete store['gilboa.week_collapsed'];
     window.applyTeamsParam('?teams=' + T1);
     } // end GK guard
+  }
+
+  console.log('rides — pure helpers');
+  {
+    const R = window.Rides;
+    assert(!!R, 'window.Rides namespace exists');
+    assert(R.shortName('דניאל כהן') === 'דניאל כ׳', 'shortName: first name + last initial + geresh');
+    assert(R.shortName('מדונה') === 'מדונה', 'shortName: single word unchanged');
+    assert(R.shortName('  אורי   בר   לב ') === 'אורי ב׳', 'shortName: trims + collapses, initial of 2nd word');
+
+    assert(R.weekKey('2026-09-09') === '2026-09-06', 'weekKey: Wednesday -> prior Sunday');
+    assert(R.weekKey('2026-09-06') === '2026-09-06', 'weekKey: Sunday -> itself');
+
+    const cap = R.rideCaption({ outbound: '16:20', ret: '18:45' }).replace(/[⁦⁩]/g, '');
+    assert(cap === 'יוצא מעין חרוד 16:20 · חזרה 18:45', 'rideCaption: both times');
+    assert(R.rideCaption({ outbound: null, ret: null }) === 'טרם נקבעה שעה', 'rideCaption: nothing set');
+    assert(R.rideCaption({ outbound: '16:20', ret: null }).replace(/[⁦⁩]/g, '') === 'יוצא מעין חרוד 16:20 · חזרה —',
+      'rideCaption: missing side shown as —');
+
+    const dt = R.computeDepartTimes(
+      { start: '2026-09-08T17:00:00+03:00', end: '2026-09-08T18:30:00+03:00', location: 'X' },
+      { outbound: 40, ret: 15 }, 15);
+    assert(dt.outbound === '16:20' && dt.ret === '18:45', 'computeDepartTimes matches the server helper');
+
+    assert(R.apiBase() === 'http://localhost:8000/api', 'apiBase is same-origin /api (no token, no hard-coded prod host)');
+  }
+
+  console.log('rides — role + consent + name');
+  {
+    const gid = (id) => global.document.getElementById(id);
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    window.applyTeamsParam('?teams=' + T1);
+    window.render();
+
+    assert(gid('role-entry-slot').textContent.indexOf('מעבר למצב שחקן') !== -1,
+      'parent sees the "switch to player" link');
+    assert(!byId['week-content'].querySelector('.ride-chip'), 'parent sees no ride chips');
+
+    window.Rides.enterPlayerMode();
+    const consentDlg = gid('rides-consent');
+    assert(!!consentDlg, 'consent dialog present');
+    assert(gid('rides-consent-body').textContent.indexOf('נמחק אוטומטית בסוף כל שבוע') !== -1,
+      'consent shows the retention line');
+    consentDlg.querySelector('[data-consent="ok"]').click();
+
+    const nameInput = gid('rides-name-input');
+    assert(!!nameInput, 'name step rendered after consent');
+    nameInput.value = 'דניאל כהן'; nameInput.dispatch('input');
+    assert(gid('rides-name-preview').textContent.indexOf('דניאל כ׳') !== -1, 'live "יוצג כ" preview');
+
+    TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
+    gid('rides-name-save').click();
+    await new Promise(r => setTimeout(r, 10));
+    assert(JSON.parse(store['gilboa.player']).token === 'tok-smoke-123', 'token stored on success');
+    assert(JSON.parse(store['gilboa.player']).fullName === 'דניאל כהן', 'full name stored on success');
+    assert(store['gilboa.role'] === 'player', 'role set to player');
+    assert(!gid('role-entry-slot').textContent, 'role link gone once in player mode');
+
+    // failure path
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    window.Rides.enterPlayerMode();
+    gid('rides-consent').querySelector('[data-consent="ok"]').click();
+    gid('rides-name-input').value = 'מאיה לוי'; gid('rides-name-input').dispatch('input');
+    TOKEN_RESPONSE = { ok: false, status: 500, body: {} };
+    gid('rides-name-save').click();
+    await new Promise(r => setTimeout(r, 10));
+    assert(!store['gilboa.player'], 'no player stored on failure');
+    assert(gid('rides-name-error').textContent.indexOf('לא הצלחנו לשמור') !== -1, 'inline failure message');
+    assert(gid('rides-name-input').value === 'מאיה לוי', 'typed name kept after failure');
+
+    // one-word warning
+    gid('rides-name-input').value = 'מדונה'; gid('rides-name-input').dispatch('input');
+    gid('rides-name-save').click();
+    assert(gid('rides-name-save').textContent.indexOf('שמור בכל זאת') !== -1,
+      'one word => save button becomes "שמור בכל זאת"');
+    assert(!store['gilboa.player'], 'one word, first press: nothing saved yet');
+
+    // back out
+    gid('rides-name-back').click();
+    assert(!store['gilboa.role'] || store['gilboa.role'] !== 'player', '→ חזרה leaves parent mode clean');
+    assert(!store['gilboa.player'], '→ חזרה writes no player credential');
+
+    // privacy screen reachable + carries the full notice
+    window.goto('privacy');
+    assert(gid('screen-privacy').hidden === false, 'privacy screen shows');
+    assert(gid('privacy-body').textContent.indexOf('[contact]') !== -1, 'privacy screen has the contact placeholder');
+    window.goto('myweek');
+    assert(gid('screen-privacy').hidden === true && gid('screen-myweek').hidden === false, 'back to My Week');
+
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    window.render();
+  }
+
+  console.log('rides — chip + sheet + screen');
+  {
+    const gid = (id) => global.document.getElementById(id);
+    store['gilboa.role'] = 'player';
+    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.applyTeamsParam('?teams=' + T1);
+
+    // go to the last published week
+    let g = 0; while (!next.disabled && g++ < 12) next.click(); prev.click();
+    window.render();
+    await new Promise(r => setTimeout(r, 15));
+
+    const chip = byId['week-content'].querySelector('.ride-chip');
+    assert(!!chip, 'player with a token sees a ride chip on each session');
+    assert(chip.textContent.indexOf('הוספת הסעה') !== -1, 'no request => "הוספת הסעה"');
+
+    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+    chip.click();
+    const sheet = byId['rides-sheet'];
+    assert(!!sheet.querySelector('[data-dir="round"]'), 'sheet has a round-trip option');
+    assert(sheet.querySelector('[data-dir="round"]').classList.contains('is-preselected'), 'round trip is preselected');
+    sheet.querySelector('[data-dir="round"]').click();
+    await new Promise(r => setTimeout(r, 15));
+    const chip2 = byId['week-content'].querySelector('.ride-chip');
+    assert(chip2.textContent.indexOf('✓') !== -1, 'after choosing, chip shows a check');
+    assert(chip2.textContent.indexOf('הלוך וחזור') !== -1, 'chip names the direction in words');
+    assert(/[⁦][\d:]+[⁩]/.test(chip2.parentNode.textContent) || chip2.parentNode.textContent.indexOf('טרם נקבעה שעה') !== -1,
+      'caption times are ltr-isolated (or "no time set")');
+
+    // failure revert
+    REQ_RESPONSE = { ok: false, status: 500, body: {} };
+    const chip3 = byId['week-content'].querySelector('.ride-chip'); chip3.click();
+    byId['rides-sheet'].querySelector('[data-dir="out"]').click();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['toast'].textContent.indexOf('שמירת ההסעה נכשלה') !== -1, '5xx => retryable toast');
+    assert(byId['week-content'].querySelector('.ride-chip').textContent.indexOf('הלוך וחזור') !== -1,
+      'chip reverts to the previous direction after a failed save');
+
+    // 400 => non-retry toast
+    REQ_RESPONSE = { ok: false, status: 400, body: {} };
+    byId['week-content'].querySelector('.ride-chip').click();
+    byId['rides-sheet'].querySelector('[data-dir="back"]').click();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['toast'].textContent.indexOf('לא ניתן לבחור הסעה לאימון זה') !== -1, '400 => non-retryable toast');
+
+    // rides screen: actionable empty state
+    window.goto('rides');
+    assert(byId['screen-rides'].hidden === false, 'rides screen opens');
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.Rides.renderRides();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['rides-body'].textContent.indexOf('בחרו אימון כדי להוסיף הסעה') !== -1, 'actionable empty state');
+    assert(!!byId['rides-body'].querySelector('.ride-add'), 'empty state offers add buttons');
+
+    // GET /api/me failure on the rides screen => distinct load-error state
+    ME_RESPONSE = { ok: false, status: 500, body: {} };
+    window.Rides.renderRides();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['rides-body'].textContent.indexOf('לא ניתן לטעון את ההסעות שלך') !== -1, 'me load failure => distinct error + retry');
+
+    // api down: force a refetch that fails; the schedule half must still render
+    ME_RESPONSE = { ok: false, status: 500, body: {} };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.goto('myweek'); window.render();
+    await new Promise(r => setTimeout(r, 20));
+    assert(byId['week-content'].querySelectorAll('.day-group').length > 0, 'schedule list still renders when the rides API is down');
+    assert(byId['summary'].textContent.length > 0, 'weekly summary still renders when the rides API is down');
+    assert(byId['week-content'].textContent.indexOf('שירות ההסעות אינו זמין') !== -1, 'ride strip shows the unavailable message when the API is down');
+
+    // restore
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.applyTeamsParam('?teams=' + T1);
+    window.goto('myweek');
   }
 
   console.log('week nav bounds');

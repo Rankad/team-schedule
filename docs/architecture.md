@@ -124,6 +124,53 @@ resilience and for parser regression tests.
 SQLite is **not needed** for this model. If a future phase needs server-side
 state (accounts for push notifications), revisit then.
 
+### Rides API (Cloudflare Pages Functions + KV) — added Phase 6
+The schedule half of this architecture (calendar → JSON → static site) is
+completely unaffected by the rides feature; this is a bolted-on backend in
+the **same** Cloudflare Pages project. Spec: `docs/rides-spec.md`. Runbook:
+`docs/RIDES.md`.
+
+```
+public/  (unchanged: RTL site, fetches public/data/*.json client-side)
+  + rides.js, manager.html, manager.js, manager.css   (new, isolated)
+        │  fetch('/api/...')
+        ▼
+functions/api/**            Cloudflare Pages Functions (one per route)
+  token.js, request.js, me.js, ping.js, purge.js
+  manager/login.js, manager/config.js, manager/dashboard.js
+        │
+functions/_lib/**           pure/shared helpers (unit-tested, no framework)
+  token.js (mint/verify), rows.js (KV row CRUD), validate.js (structural),
+  depart.js (computeDepartTimes), dashboard.js (buildDashboard — joins KV
+  rows with schedule.json/teams.json), auth.js, http.js (CORS), purge.js,
+  stats.js (opens/players-all), week.js (weekKeyOf/isWeekKey)
+        │  env.RIDES_KV
+        ▼
+Cloudflare KV namespace  RIDES_KV
+  week/<wk>/req/<token>/<sessionId>   (one ride request, per-row key)
+  week/<wk>/rideStatus                (reserved, later slice)
+  config/locations, config/global     (persist — no personal data)
+  stats/players-all, stats/opens/<day>/<rand>
+```
+
+- **Auth:** player = opaque token (`localStorage` only, never a URL) minted by
+  `POST /api/token`. Manager = `Authorization: Bearer` token, HMAC'd from the
+  `MANAGER_PASSPHRASE` Cloudflare secret, 6 h TTL, checked by every
+  `/api/manager/*` route.
+- **No second scheduler:** the daily purge (`POST /api/purge`, `X-Purge-Key`
+  auth) is called from the *existing* twice-daily GitHub Action
+  (`.github/workflows/build.yml`, job `build-data`), right after the normal
+  schedule rebuild. Pages Functions have no native cron.
+- **Isolation boundary (enforced in code review):** every rides call is
+  wrapped so a failure shows a contained "unavailable" state in the rides UI
+  — it never touches `renderMyWeek`'s schedule rendering path. See
+  `docs/qa-checklist.md` "Rides — Slice A".
+- **Env secrets** (Cloudflare Pages env vars, Production + Preview):
+  `MANAGER_PASSPHRASE`, `SITE_ORIGIN` (CORS + the origin Functions fetch
+  `data/*.json` from), `PURGE_KEY`. See `docs/RIDES.md`.
+- Decisions: DL-029 (per-row KV keys, structural validation, opaque tokens),
+  DL-030 (generated passphrase, edge rate-limit, Cloudflare Access deferred).
+
 ## Directory layout
 ```
 team schedule/
@@ -145,15 +192,27 @@ team schedule/
     index.html
     app.js
     styles.css
+    rides.js                # player rides UI (Phase 6)
+    manager.html, manager.js, manager.css   # coordinator dashboard (Phase 6)
     data/                   # generated JSON (committed by the job)
+  functions/                 # Cloudflare Pages Functions — rides API (Phase 6)
+    api/
+      token.js, request.js, me.js, ping.js, purge.js
+      manager/
+        login.js, config.js, dashboard.js
+    _lib/                   # pure/shared helpers, unit-tested (Vitest)
+      token.js, rows.js, validate.js, depart.js, dashboard.js, auth.js,
+      http.js, purge.js, stats.js, week.js
   .github/workflows/
-    build.yml               # data build: cron + workflow_dispatch (deploy is Cloudflare's git integration)
+    build.yml               # data build: cron + workflow_dispatch (deploy is Cloudflare's git integration); also calls POST /api/purge
     legacy-redirect.yml    # one-off: publish the old-URL redirect
   tests/
     fixtures/
       calendar_week.json    # captured API response, for offline tests
       sample_week.xlsx      # for the fallback importer + parser tests
       expected_sessions.json
+    site_smoke.js           # site + rides player UI (Node-only fake DOM)
+    manager_smoke.js        # manager dashboard UI
   docs/
 ```
 

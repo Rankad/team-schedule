@@ -50,7 +50,7 @@
   - `validate.js`: `isSessionId(s)`, `isTeamId(s)` (`/^T_\d{1,6}$/`), `isDirection(s)` (`round|out|back`), `isWeekKey(s)` (`/^\d{4}-\d{2}-\d{2}$/`), `isNonEmptyName(s)` (trimmed length 1..80) — all `→ boolean`. `isSessionId`: `/^[A-Za-z0-9_@-]{1,256}$/` (Google Calendar event ids are lowercase base32hex but allow the superset).
   - `week.js`: `weekKeyOf(dateStr)` → `YYYY-MM-DD` of that date's Sunday. Pure string math: parse `y,m,d`, `Date.UTC`, `getUTCDay`, subtract, reformat. Mirrors `app.js` `sundayOf`.
 
-- [ ] **Step 1: Create the package scaffold**
+- [x] **Step 1: Create the package scaffold**
 
 `functions/package.json`:
 ```json
@@ -93,12 +93,12 @@ export default defineWorkersConfig({
 node_modules/
 ```
 
-- [ ] **Step 2: Install and confirm the runner works**
+- [x] **Step 2: Install and confirm the runner works**
 
 Run: `cd functions && npm install && npm test`
 Expected: Vitest runs, reports "No test files found" (exit 0) — or exit 1 with that message; either way the pool-workers runtime loads without a config error. If it errors on the pool package, pin to the latest `@cloudflare/vitest-pool-workers` that matches the installed `vitest` major.
 
-- [ ] **Step 3: Write failing tests for `week.js`**
+- [x] **Step 3: Write failing tests for `week.js`**
 
 `functions/_lib/__tests__/week.test.js`:
 ```js
@@ -122,7 +122,7 @@ describe("weekKeyOf", () => {
 Run: `cd functions && npm test`
 Expected: FAIL — `Cannot find module '../week.js'`.
 
-- [ ] **Step 4: Implement `week.js`**
+- [x] **Step 4: Implement `week.js`**
 
 `functions/_lib/week.js`:
 ```js
@@ -141,7 +141,7 @@ export function weekKeyOf(dateStr) {
 Run: `cd functions && npm test`
 Expected: PASS (3 tests).
 
-- [ ] **Step 5: Write failing tests for `validate.js`**
+- [x] **Step 5: Write failing tests for `validate.js`**
 
 `functions/_lib/__tests__/validate.test.js`:
 ```js
@@ -182,7 +182,7 @@ describe("validate", () => {
 
 Run: `cd functions && npm test` — FAIL (`Cannot find module '../validate.js'`).
 
-- [ ] **Step 6: Implement `validate.js`**
+- [x] **Step 6: Implement `validate.js`**
 
 `functions/_lib/validate.js`:
 ```js
@@ -195,7 +195,7 @@ export const isNonEmptyName = (s) => typeof s === "string" && s.trim().length >=
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 7: Write failing tests for `token.js`**
+- [x] **Step 7: Write failing tests for `token.js`**
 
 `functions/_lib/__tests__/token.test.js`:
 ```js
@@ -236,7 +236,7 @@ describe("manager token", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 8: Implement `token.js`**
+- [x] **Step 8: Implement `token.js`**
 
 `functions/_lib/token.js`:
 ```js
@@ -288,7 +288,7 @@ export async function verifyManagerToken(env, token) {
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 9: Write failing tests for `http.js`**
+- [x] **Step 9: Write failing tests for `http.js`**
 
 `functions/_lib/__tests__/http.test.js`:
 ```js
@@ -328,7 +328,7 @@ describe("http helpers", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 10: Implement `http.js`**
+- [x] **Step 10: Implement `http.js`**
 
 `functions/_lib/http.js`:
 ```js
@@ -380,7 +380,7 @@ export function errToResponse(err, env) {
 
 Run: `cd functions && npm test` — PASS (all `_lib` suites green).
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add functions/
@@ -406,7 +406,7 @@ git commit -m "feat(rides): functions package + _lib helpers (token, http, valid
   - `functions/api/ping.js`: `onRequestPost` → always `204` (never leaks an error to the client), writes `stats/opens/<utc-date>/<rand>`. `onRequestOptions` → preflight.
   - `stats.js`: `bumpPlayersAll(kv)` → `Promise<void>` (get int, `+1`, put; best-effort, swallow errors); `writeOpen(kv)` → `Promise<void>` (`kv.put('stats/opens/'+today+'/'+rand, '1', { expirationTtl: 60*60*24*100 })`); `sumOpens(kv, dateStr)` → `Promise<number>` (`kv.list({ prefix: 'stats/opens/'+dateStr+'/' })`, count keys, page through `list_complete`).
 
-- [ ] **Step 1: Write failing tests for `stats.js`**
+- [x] **Step 1: Write failing tests for `stats.js`**
 
 `functions/_lib/__tests__/stats.test.js`:
 ```js
@@ -433,7 +433,7 @@ describe("stats", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `stats.js`**
+- [x] **Step 2: Implement `stats.js`**
 
 `functions/_lib/stats.js`:
 ```js
@@ -468,7 +468,7 @@ export async function sumOpens(kv, dateStr) {
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 3: Write failing tests for `token.js` / `ping.js` endpoints**
+- [x] **Step 3: Write failing tests for `token.js` / `ping.js` endpoints**
 
 `functions/api/__tests__/token.test.js`:
 ```js
@@ -512,7 +512,7 @@ describe("POST /api/ping", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 4: Implement the endpoints**
+- [x] **Step 4: Implement the endpoints**
 
 `functions/api/token.js`:
 ```js
@@ -548,7 +548,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add functions/
@@ -579,7 +579,7 @@ git commit -m "feat(rides): POST /api/token + /api/ping + stats helpers"
   - `functions/api/request.js`: `onRequestPut` (`{ token, fullName, teamId, sessionId, direction, week }`) → structural validate → reject 21st distinct `sessionId` for `(token, week)` with `400 { error: 'too_many' }` → upsert → `200 { ok: true }`. `onRequestDelete` (`{ token, sessionId, week }`) → `200 { ok: true }`. `onRequestOptions` → preflight.
   - `functions/api/me.js`: `onRequestGet` (`?token=&week=`) → `200 { requests: [row…], rideStatus: {} }` (rideStatus read from `week/<wk>/rideStatus` if present, else `{}`). `onRequestDelete` (`?token=&week=`) → deletes all `week/<wk>/req/<token>/*` → `200 { ok: true, deleted: n }`. `onRequestOptions` → preflight.
 
-- [ ] **Step 1: Write failing tests for `rows.js` + `request.js`**
+- [x] **Step 1: Write failing tests for `rows.js` + `request.js`** — _fixture tokens (`capper`, `deltok`, `mine`, `other`, `wipe`) widened to ≥8 chars to satisfy `isToken` `{8,128}`._
 
 `functions/api/__tests__/request.test.js`:
 ```js
@@ -674,7 +674,7 @@ describe("GET/DELETE /api/me", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `rows.js`**
+- [x] **Step 2: Implement `rows.js`**
 
 `functions/_lib/rows.js`:
 ```js
@@ -733,7 +733,7 @@ export function listAllRequestsForWeek(kv, wk) {
 }
 ```
 
-- [ ] **Step 3: Implement `functions/api/request.js`**
+- [x] **Step 3: Implement `functions/api/request.js`**
 
 ```js
 import { json, withCors, preflight, readJson, errToResponse, HttpError } from "../_lib/http.js";
@@ -777,7 +777,7 @@ export async function onRequestDelete({ request, env }) {
 export function onRequestOptions({ env }) { return preflight(env); }
 ```
 
-- [ ] **Step 4: Implement `functions/api/me.js`**
+- [x] **Step 4: Implement `functions/api/me.js`**
 
 ```js
 import { json, withCors, preflight, errToResponse, HttpError } from "../_lib/http.js";
@@ -817,7 +817,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add functions/
@@ -846,7 +846,7 @@ git commit -m "feat(rides): /api/request + /api/me (per-row KV, 20-row cap)"
     - returns counts.
   - `functions/api/purge.js`: `onRequestPost` — require header `x-purge-key === env.PURGE_KEY` (constant-time-ish compare; missing/wrong → `401 { error: 'unauthorized' }`), then `runPurge(env.RIDES_KV, new Date().toISOString().slice(0,10))` → `200 { ok: true, ...counts }`.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `functions/_lib/__tests__/purge.test.js`:
 ```js
@@ -897,7 +897,7 @@ describe("POST /api/purge", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `functions/_lib/purge.js`**
+- [x] **Step 2: Implement `functions/_lib/purge.js`**
 
 ```js
 import { weekKeyOf } from "./week.js";
@@ -945,7 +945,7 @@ export async function runPurge(kv, todayStr) {
 }
 ```
 
-- [ ] **Step 3: Implement `functions/api/purge.js`**
+- [x] **Step 3: Implement `functions/api/purge.js`**
 
 ```js
 import { json, withCors, preflight, errToResponse, HttpError } from "../_lib/http.js";
@@ -974,7 +974,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 4: Add the workflow step**
+- [x] **Step 4: Add the workflow step**
 
 In `.github/workflows/build.yml`, after the `Push (no-op if fetch_and_build made no commit)` step in job `build-data`, add:
 
@@ -994,12 +994,12 @@ In `.github/workflows/build.yml`, after the `Push (no-op if fetch_and_build made
 
 `continue-on-error: true` + the guard means the data build never fails because of rides. Record `PURGE_KEY` and `RIDES_API` as GitHub repo secrets in `RIDES.md` (Task 12).
 
-- [ ] **Step 5: Confirm the workflow file still parses & data tests are unaffected**
+- [x] **Step 5: Confirm the workflow file still parses & data tests are unaffected**
 
 Run: `pytest -q`
 Expected: green (unchanged). The workflow change is YAML-only; a `git diff` review confirms indentation.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add functions/ .github/workflows/build.yml
@@ -1024,7 +1024,7 @@ git commit -m "feat(rides): POST /api/purge + twice-daily purge step in build.ym
   - `depart.js`: `computeDepartTimes(session, locConfig, retDefault)` → `{ outbound: "HH:MM"|null, ret: "HH:MM"|null }`. `session` = `{ start, end, location }` (ISO with `+03:00`). `locConfig` = `{ outbound:int|null, ret:int|null }` or `undefined`. Wall-clock math on the `HH:MM` in the ISO string — **no `Date` timezone conversion**. `outbound = start − locConfig.outbound` minutes; `null` if `locConfig?.outbound == null`. `ret = end + (locConfig.ret ?? retDefault)` minutes; `null` if both are null or `end` missing. Minute arithmetic may cross midnight → clamp to `00:00`..`23:59` display, or wrap (document the choice; wrap is fine, practices don't run past midnight).
   - `login.js`: `onRequestPost` (`{ passphrase }`) → constant-time compare with `env.MANAGER_PASSPHRASE` → `mintManagerToken` → `200 { token, exp }`; mismatch → `401 { error: 'bad_passphrase' }`.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `functions/_lib/__tests__/depart.test.js`:
 ```js
@@ -1082,7 +1082,7 @@ describe("POST /api/manager/login", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `depart.js`**
+- [x] **Step 2: Implement `depart.js`**
 
 ```js
 function hm(iso) {
@@ -1108,7 +1108,7 @@ export function computeDepartTimes(session, locConfig, retDefault) {
 }
 ```
 
-- [ ] **Step 3: Implement `auth.js` and `login.js`**
+- [x] **Step 3: Implement `auth.js` and `login.js`**
 
 `functions/_lib/auth.js`:
 ```js
@@ -1152,7 +1152,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add functions/
@@ -1195,7 +1195,7 @@ git commit -m "feat(rides): manager login + auth guard + computeDepartTimes"
   - `distinct rides` = count of `(sessionId, direction-expanded)` where `round` counts as both `out` and `back`.
   - `dashboard.js` endpoint: `requireManager` → read `?week=` (validate) → fetch `schedule.json` + `teams.json` from `env.SITE_ORIGIN` → `buildDashboard` → `200 <object>`.
 
-- [ ] **Step 1: Create the fixture**
+- [x] **Step 1: Create the fixture**
 
 `functions/test-fixtures/schedule.sample.json`:
 ```json
@@ -1220,7 +1220,7 @@ git commit -m "feat(rides): manager login + auth guard + computeDepartTimes"
 ```
 `teamsById` fixture is built inline in the test: `{ T_009: { display_name: "נערות א על" }, T_031: { display_name: "נוער על" } }`.
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 `functions/api/__tests__/manager-dashboard.test.js`:
 ```js
@@ -1266,7 +1266,7 @@ describe("buildDashboard", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 3: Implement `dashboard.js` lib** (full code — this is the join core)
+- [x] **Step 3: Implement `dashboard.js` lib** (full code — this is the join core)
 
 ```js
 import { computeDepartTimes } from "./depart.js";
@@ -1361,7 +1361,7 @@ export async function buildDashboard(kv, scheduleJson, teamsById, week) {
 }
 ```
 
-- [ ] **Step 4: Implement the endpoint**
+- [x] **Step 4: Implement the endpoint**
 
 `functions/api/manager/dashboard.js`:
 ```js
@@ -1396,7 +1396,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS. (The endpoint's `fetch` is not unit-tested here; the harness tests `buildDashboard` directly. Endpoint auth is covered by Task 5's guard + a Task 7 cross-check.)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add functions/
@@ -1418,7 +1418,7 @@ git commit -m "feat(rides): GET /api/manager/dashboard (schedule join, orphans, 
   - `onRequestPut` (`{ locations?, global? }`) → `requireManager` → shallow-merge into the stored blobs, set `v: 1`, write back. Validate: each `locations[name]` has `outbound`/`ret` either `null` or an int in `0..600`; `global.retDefault` int `0..600`; ignore unknown keys. `200 { ok: true }`.
   - `onRequestOptions` → preflight.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `functions/api/__tests__/manager-config.test.js`:
 ```js
@@ -1462,7 +1462,7 @@ describe("/api/manager/config", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `functions/api/manager/config.js`**
+- [x] **Step 2: Implement `functions/api/manager/config.js`**
 
 ```js
 import { json, withCors, preflight, readJson, errToResponse, HttpError } from "../../_lib/http.js";
@@ -1537,7 +1537,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS. **All Function suites green.**
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add functions/
@@ -1562,7 +1562,7 @@ git commit -m "feat(rides): GET/PUT /api/manager/config"
   - `computeDepartTimes(session, locConfig, retDefault)` → same shape/behaviour as the server helper (Task 5).
   - `apiBase()` → `'http://localhost:8788/api'` when `location.hostname` is `localhost`/`127.0.0.1`, else `location.origin + '/api'`.
 
-- [ ] **Step 1: Add the CI job**
+- [x] **Step 1: Add the CI job**
 
 In `.github/workflows/build.yml`, add a second top-level job (sibling of `build-data`). It must **not** be gated on the schedule; add `push:` and `pull_request:` triggers scoped to the relevant paths at the top of the `on:` block:
 
@@ -1596,7 +1596,7 @@ on:
 
 > Note: `build-data` already runs `pytest`; leave it. This job adds the JS side. Confirm `build-data` does not accidentally trigger on the new `push` paths in a way that double-commits — it is guarded by `if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'` — **add that `if:` to the `build-data` job** so a plain push no longer runs the data fetch/commit.
 
-- [ ] **Step 2: Write the failing helper tests**
+- [x] **Step 2: Write the failing helper tests**
 
 In `tests/site_smoke.js`, before `console.log('week nav bounds');`:
 
@@ -1629,7 +1629,7 @@ In `tests/site_smoke.js`, before `console.log('week nav bounds');`:
 
 Run: `node tests/site_smoke.js` — FAIL (`window.Rides` undefined).
 
-- [ ] **Step 3: Implement `public/rides.js` (helpers section)**
+- [x] **Step 3: Implement `public/rides.js` (helpers section)**
 
 ```javascript
 /* Gilboa Maayanot — rides (player side). Vanilla ES5 idiom, no build, loaded
@@ -1702,7 +1702,7 @@ Run: `node tests/site_smoke.js` — FAIL (`window.Rides` undefined).
 
 Adjust the `apiBase` smoke assertion to match: under the harness `hostname` is unset (`window.location` has only `origin`/`pathname`/`search`/`hash`), so `h === ''` → returns `origin + '/api'` → `http://localhost:8000/api`. Update the test to `assert(R.apiBase() === 'http://localhost:8000/api', ...)`.
 
-- [ ] **Step 4: Add the script tag**
+- [x] **Step 4: Add the script tag**
 
 `public/index.html`, change:
 ```html
@@ -1714,12 +1714,12 @@ to:
   <script src="rides.js"></script>
 ```
 
-- [ ] **Step 5: Run both test suites**
+- [x] **Step 5: Run both test suites**
 
 Run: `node tests/site_smoke.js` → PASS (new `rides — pure helpers` block green, everything else unchanged).
-Run: `cd functions && npm test` → PASS.
+Run: `cd functions && npm test` → PASS (46 tests).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add public/rides.js public/index.html tests/site_smoke.js .github/workflows/build.yml
@@ -1743,7 +1743,7 @@ git commit -m "feat(rides): rides.js pure helpers + functions CI job"
 
 **Key behaviours (spec §4.1–4.5):** copy strings verbatim from `docs/rides-spec.md` §4 and the appendix. Consent dialog uses the §8.1 draft text. On `POST /api/token` success → `localStorage['gilboa.player'] = JSON.stringify({token, fullName})`, `localStorage['gilboa.role']='player'`, re-render. On failure → inline `לא הצלחנו לשמור, נסו שוב`, keep the typed value, stay. `→ חזרה` / `ביטול` → role stays/returns parent, no `player` key written.
 
-- [ ] **Step 1: Extend the harness fixture + write failing tests**
+- [x] **Step 1: Extend the harness fixture + write failing tests**
 
 In `tests/site_smoke.js` fixture section, add the nodes `renderRoleEntry` expects (`#role-entry`, `#rides-summary-slot`), a fake `<dialog>` (`El` needs `showModal`/`close`/`returnValue` no-ops — add them to the `El` class), and `#screen-rides` / `#screen-privacy` sections. Add a controllable `/api/token` response to the `global.fetch` stub:
 
@@ -1819,7 +1819,7 @@ Then the test block (before `week nav bounds`):
 
 Run: `node tests/site_smoke.js` — FAIL.
 
-- [ ] **Step 2: Add the DOM** — `public/index.html`
+- [x] **Step 2: Add the DOM** — `public/index.html`
 
 Inside `#screen-myweek`, after `#share-follows`:
 ```html
@@ -1856,7 +1856,7 @@ Before `#toast`, add the dialogs:
 ```
 (The name step is rendered **inline** into `#rides-summary-slot` by `rides.js`, not a dialog — spec §4.2.)
 
-- [ ] **Step 3: Implement the flow in `public/rides.js`**
+- [x] **Step 3: Implement the flow in `public/rides.js`**
 
 Add (after the helpers IIFE, or extend it) role state + rendering. Full code is ~150 lines; keep to the spec. Core shape:
 
@@ -1901,7 +1901,7 @@ on ok → `fetch(apiBase()+'/api/me?token=...&week=...', {method:'DELETE'})` bes
 Extend `window.Rides` with `getRole, getPlayer, isPlayerWithToken, renderRoleEntry,
 enterPlayerMode, exitToParent, renderPrivacy`.
 
-- [ ] **Step 4: Wire the hooks in `public/app.js`**
+- [x] **Step 4: Wire the hooks in `public/app.js`**
 
 - In `goto(screen)`, add branches for `'rides'` and `'privacy'` (hide the other screens, show `#screen-rides` / `#screen-privacy`, call `window.Rides.renderRides && window.Rides.renderRides()` / `renderPrivacy()`). Keep the existing `myweek` / `addteam` behaviour.
 - At the **end** of `renderMyWeek()`, add:
@@ -1914,15 +1914,15 @@ enterPlayerMode, exitToParent, renderPrivacy`.
 - Add `'privacy'` and `'rides'` to the `[data-goto]` handling — it already generically calls `goto(b.getAttribute('data-goto'))`, so the new `data-goto` buttons work once `goto` handles the names.
 - Export `window.goto = goto;` and `window.render = render;` if not already (the harness calls `render()` — check; `app.js` currently does not export `render`, add `window.render = render;` near the other exports).
 
-- [ ] **Step 5: Styles** — `public/styles.css`
+- [x] **Step 5: Styles** — `public/styles.css`
 
 Add `.linklike` / `#role-entry-slot .role-link` (styled like `.share-follows`), `.privacy-link-row`, `.prose` (readable paragraph column), `dialog.sheet` + `dialog.sheet::backdrop` + `.sheet-body` + `.sheet-actions` (bottom-sheet: `position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; border-radius: 12px 12px 0 0; max-height: 85vh; overflow: auto`), and `@media (prefers-reduced-motion: no-preference)` slide-up transition. Name-step: `.rides-name-card`, `#rides-name-error` (muted-red text token — add `--warn` if not present; reuse the `.session-warn` colour).
 
-- [ ] **Step 6: Run both suites**
+- [x] **Step 6: Run both suites**
 
 Run: `node tests/site_smoke.js` → PASS. Run: `cd functions && npm test` → PASS. Run: `pytest -q` → PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/ tests/site_smoke.js
@@ -1944,6 +1944,15 @@ git commit -m "feat(rides): player role entry, consent + name flow, privacy scre
 - Consumes: `Rides.isPlayerWithToken`, `Rides.getPlayer`, `Rides.weekKey`, `Rides.rideCaption`, `Rides.computeDepartTimes`, `Rides.apiBase`, `window.ltrIsolate`, `window.showToast`, `window.DATA` (read-only, for the team display name + the week's practices in the empty state — **read, never mutate**).
 - Produces on `window.Rides`: `decorateSession(card, session)`, `renderSummaryCard()`, `renderRides()`, `openTripSheet(session)`, `putRequest(session, direction)`, `deleteRequest(session)`, `ping()`. Internal in-memory cache `Rides._week` = `{ key, requestsBySession: {}, loaded: bool, failed: bool }`.
 
+> **Deviation (approved 2026-09-04):** the plan drew departure times on the
+> player chip, but `GET /api/me` (Task 3) returned only `{ requests, rideStatus }`
+> — no way to reach the coordinator's per-location offsets. `me.js` was extended
+> to also return `config: { locations, retDefault }` (structural config, **no
+> personal data**); the client computes the times from the schedule data it
+> already holds via `Rides.computeDepartTimes`. `me.test.js` gained one case.
+> `app.js` also exports `window.viewSunday / DATA / followed / HE_WEEKDAY /
+> weekSessionsFor / ltrIsolate` for `rides.js` (read-only).
+
 **Key behaviours (spec §4.6–4.9, §10):**
 - `decorateSession` inserts `.ride-strip` between `.session-line` and `.session-note`. Chip label + caption per the §4.6 table. `aria-haspopup="dialog"`, accessible name per spec. Every clock time in the caption wrapped by `ltrIsolate` (smoke-tested).
 - Sheet: context heading `<team> · <יום X׳> · <location>`; rows `הלוך וחזור` (preselected) / `הלוך` / `חזור`; `ביטול הסעה` only when a request exists, below a divider. `Esc` / backdrop / selection all restore focus to the chip. `prefers-reduced-motion` respected.
@@ -1953,7 +1962,7 @@ git commit -m "feat(rides): player role entry, consent + name flow, privacy scre
 - API-down anywhere → `.ride-strip` shows `שירות ההסעות אינו זמין כרגע` + `נסו שוב`; the schedule list/summary/exports/changes banner all still render (assert this).
 - `ping()`: throttle via `gilboa.ping_ts` ≤ 1/hour; `POST {apiBase}/api/ping` `keepalive`, ignore all errors. Called once on boot in player **and** parent mode (add a call from `app.js` boot, after `render()`).
 
-- [ ] **Step 1: Extend the fetch stub + write failing tests**
+- [x] **Step 1: Extend the fetch stub + write failing tests**
 
 In the harness `global.fetch` stub add controllable `/api/me` and `/api/request`:
 ```javascript
@@ -2023,11 +2032,11 @@ Test block (before `week nav bounds`), building on the player state from Task 9:
 
 Run: `node tests/site_smoke.js` — FAIL.
 
-- [ ] **Step 2: Implement** `decorateSession`, `openTripSheet`, `putRequest`/`deleteRequest`, `loadMyRides`, `renderSummaryCard`, `renderRides`, `ping` in `public/rides.js` per the behaviours above. Add `window.render` / `window.goto` usage. Keep every `fetch` in a `try/catch` + `.catch`; a rejection sets `Rides._week.failed = true` and renders the contained failure UI, never rethrows.
+- [x] **Step 2: Implement** `decorateSession`, `openTripSheet`, `putRequest`/`deleteRequest`, `loadMyRides`, `renderSummaryCard`, `renderRides`, `ping` in `public/rides.js` per the behaviours above. Add `window.render` / `window.goto` usage. Keep every `fetch` in a `try/catch` + `.catch`; a rejection sets `Rides._week.failed = true` and renders the contained failure UI, never rethrows.
 
-- [ ] **Step 3: Add the sheet DOM** to `public/index.html` (`<dialog id="rides-sheet" class="sheet">` with a `#rides-sheet-heading`, a `#rides-sheet-options` container, and a `#rides-sheet-cancel` slot).
+- [x] **Step 3: Add the sheet DOM** to `public/index.html` (`<dialog id="rides-sheet" class="sheet">` with a `#rides-sheet-heading`, a `#rides-sheet-options` container, and a `#rides-sheet-cancel` slot).
 
-- [ ] **Step 4: Wire `renderSession`** in `public/app.js`:
+- [x] **Step 4: Wire `renderSession`** in `public/app.js`:
 ```javascript
   // ... after `return card;` is built but before returning:
   if (window.Rides && window.Rides.isPlayerWithToken()) {
@@ -2037,11 +2046,11 @@ Run: `node tests/site_smoke.js` — FAIL.
 ```
 And in the boot `.then(...)` after `render();` add `if (window.Rides) window.Rides.ping();`.
 
-- [ ] **Step 5: Styles** — `.ride-strip` (tinted full-width block), `.ride-chip` outlined vs `.ride-chip.is-set` accent (no red/green — use `--accent`), `.ride-caption` (small, muted), sheet option rows (`min-height: var(--tap)`), `.ride-cancel` (muted-red, `border-top: 1px solid` divider, `margin-top`).
+- [x] **Step 5: Styles** — `.ride-strip` (tinted full-width block), `.ride-chip` outlined vs `.ride-chip.is-set` accent (no red/green — use `--accent`), `.ride-caption` (small, muted), sheet option rows (`min-height: var(--tap)`), `.ride-cancel` (muted-red, `border-top: 1px solid` divider, `margin-top`).
 
-- [ ] **Step 6: Run all three suites** — `node tests/site_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
+- [x] **Step 6: Run all three suites** — `node tests/site_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/ tests/site_smoke.js
@@ -2064,7 +2073,7 @@ git commit -m "feat(rides): ride chip, trip-type sheet, rides summary card + scr
 - `manager.js` is standalone (no `app.js` / `rides.js`). Its own `apiBase()` copy (or factor a tiny shared `public/api-base.js` loaded by both — optional; a copy is acceptable and matches the "no build" rule). Pure helper `buildDayText(day)` → the plain-text block for `העתקת תוכנית היום כטקסט`, exposed on `window` and unit-tested.
 - Auth: `POST {apiBase}/api/manager/login` → store `gilboa.manager = {token, exp}`; all dashboard/config calls send `Authorization: Bearer <token>`; on any `401` → drop the token, show the login dialog.
 
-- [ ] **Step 1: Write `tests/manager_smoke.js` (failing)** — fake DOM + `localStorage` + `fetch` stub returning a canned `GET /api/manager/dashboard` payload (mirror the Task 6 shape: 1 day, 2 practices, 1 orphan, `lastPurge`). Assert:
+- [x] **Step 1: Write `tests/manager_smoke.js` (failing)** — fake DOM + `localStorage` + `fetch` stub returning a canned `GET /api/manager/dashboard` payload (mirror the Task 6 shape: 1 day, 2 practices, 1 orphan, `lastPurge`). Assert:
   - login dialog shows; wrong passphrase (`stub 401`) → error `סיסמה שגויה`, no dashboard;
   - right passphrase (`stub 200`) → dashboard; day header `סה״כ: N נוסעים · M הסעות`;
   - a practice row is collapsed; clicking it reveals the `הלוך וחזור (k): …` name lines;
@@ -2076,17 +2085,17 @@ git commit -m "feat(rides): ride chip, trip-type sheet, rides summary card + scr
 
 Run: `node tests/manager_smoke.js` — FAIL (file/DOM not built yet).
 
-- [ ] **Step 2: Build `public/manager.html`** — minimal shell: header `גלבוע מעיינות · הסעות`, a `<dialog id="mgr-login">`, `<nav>` with two tab buttons, `<section id="tab-dashboard">` / `<section id="tab-settings">` / `<section id="tab-stats">`, `<div id="mgr-day-nav">` reusing `.week-nav` markup, `<div id="mgr-day-body">`, `<footer id="mgr-health">`.
+- [x] **Step 2: Build `public/manager.html`** — minimal shell: header `גלבוע מעיינות · הסעות`, a `<dialog id="mgr-login">`, `<nav>` with two tab buttons, `<section id="tab-dashboard">` / `<section id="tab-settings">` / `<section id="tab-stats">`, `<div id="mgr-day-nav">` reusing `.week-nav` markup, `<div id="mgr-day-body">`, `<footer id="mgr-health">`.
 
-- [ ] **Step 3: Build `public/manager.js`** per §5 of the spec. Keep render functions small and pure where possible (`buildDayText`, `renderPracticeRow`, `renderSettingsRow`). All copy verbatim from `docs/rides-spec.md` §5 + appendix.
+- [x] **Step 3: Build `public/manager.js`** per §5 of the spec. Keep render functions small and pure where possible (`buildDayText`, `renderPracticeRow`, `renderSettingsRow`). All copy verbatim from `docs/rides-spec.md` §5 + appendix.
 
-- [ ] **Step 4: Build `public/manager.css`** — reuse `styles.css` tokens; add the practice row (collapsed summary line + expandable panel), the stepper, the settings grid (label + 2 narrow number inputs, RTL).
+- [x] **Step 4: Build `public/manager.css`** — reuse `styles.css` tokens; add the practice row (collapsed summary line + expandable panel), the stepper, the settings grid (label + 2 narrow number inputs, RTL).
 
-- [ ] **Step 5: Add to CI** — append `- name: Manager smoke test` running `node tests/manager_smoke.js` to the `functions-tests` job.
+- [x] **Step 5: Add to CI** — append `- name: Manager smoke test` running `node tests/manager_smoke.js` to the `functions-tests` job.
 
-- [ ] **Step 6: Run all suites** — `node tests/site_smoke.js`, `node tests/manager_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
+- [x] **Step 6: Run all suites** — `node tests/site_smoke.js`, `node tests/manager_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/manager.html public/manager.js public/manager.css public/README.md tests/manager_smoke.js .github/workflows/build.yml
@@ -2108,11 +2117,11 @@ git commit -m "feat(rides): manager dashboard + settings + stats (manager.html)"
 
 **Interfaces:** none (docs only).
 
-- [ ] **Step 1: `docs/RIDES.md`** — cover: the live API base + `manager.html` URL; the KV namespace name/id and how to browse/wipe it (`wrangler kv key list`, `wrangler kv key delete`); the three Cloudflare env secrets (`MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`) and how to set them; the two GitHub secrets (`PURGE_KEY`, `RIDES_API`); how to rotate the manager passphrase (change the Cloudflare secret → every existing session token stops verifying, which is the desired effect); the edge Rate Limiting rule (paths, threshold); the CORS `SITE_ORIGIN` var; local dev (`npx wrangler pages dev public --kv RIDES_KV`); how the purge is invoked and how to read `config/global.lastPurge`.
+- [x] **Step 1: `docs/RIDES.md`** — cover: the live API base + `manager.html` URL; the KV namespace name/id and how to browse/wipe it (`wrangler kv key list`, `wrangler kv key delete`); the three Cloudflare env secrets (`MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`) and how to set them; the two GitHub secrets (`PURGE_KEY`, `RIDES_API`); how to rotate the manager passphrase (change the Cloudflare secret → every existing session token stops verifying, which is the desired effect); the edge Rate Limiting rule (paths, threshold); the CORS `SITE_ORIGIN` var; local dev (`npx wrangler pages dev public --kv RIDES_KV`); how the purge is invoked and how to read `config/global.lastPurge`.
 
-- [ ] **Step 2: `docs/decision-log.md`** — append `DL-029` and `DL-030`. `DL-029`: per-row KV keys (LWW race), structural-only write validation, opaque tokens in `localStorage` only, purge via the existing Action not a second scheduler, schema `v:1`. `DL-030`: generated passphrase (not user-chosen), 6 h session, edge Rate Limiting (not a KV counter), Cloudflare Access deferred to Slice B, legal review is a wide-rollout blocker only.
+- [x] **Step 2: `docs/decision-log.md`** — append `DL-029` and `DL-030`. `DL-029`: per-row KV keys (LWW race), structural-only write validation, opaque tokens in `localStorage` only, purge via the existing Action not a second scheduler, schema `v:1`. `DL-030`: generated passphrase (not user-chosen), 6 h session, edge Rate Limiting (not a KV counter), Cloudflare Access deferred to Slice B, legal review is a wide-rollout blocker only.
 
-- [ ] **Step 3: `docs/execution-plan.md`** — add:
+- [x] **Step 3: `docs/execution-plan.md`** — add:
 ```markdown
 ## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`)
 - Goal: player ride requests on each practice + a password-gated coordinator
@@ -2125,13 +2134,13 @@ git commit -m "feat(rides): manager dashboard + settings + stats (manager.html)"
 ```
 and a progress-log entry once built.
 
-- [ ] **Step 4: `docs/qa-checklist.md`** — add the two sections. Rides — Slice A: parent sees no chips; consent → name → token; `shortName` never shows a full surname to a non-manager; chip states + caption `ltr` isolation; weekly reset (no rows for a new week's key); optimistic save + 5xx revert + 400 non-retry; actionable empty state; switch-back deletes `week/<wk>/req/<token>/*`; API-down leaves the schedule fully working; day stepper + collapsed rows + orphan group + `העתקת תוכנית היום`; `זמני יציאה` round-trips; health footer shows `lastPurge`; purge deletes only strictly-past weeks. Rides — privacy & security: token entropy + `localStorage`-only + never in a URL/DOM; structural-only write validation; 1 KB body cap + 20-row cap; manager `401` on missing/bad/expired Bearer; `POST /api/purge` `401` without `X-Purge-Key`; CORS = `SITE_ORIGIN`; no names/tokens in logs; **the KV LWW race is designed out (per-row keys), not testable under Miniflare**; consent contact placeholder filled before the pilot.
+- [x] **Step 4: `docs/qa-checklist.md`** — add the two sections. Rides — Slice A: parent sees no chips; consent → name → token; `shortName` never shows a full surname to a non-manager; chip states + caption `ltr` isolation; weekly reset (no rows for a new week's key); optimistic save + 5xx revert + 400 non-retry; actionable empty state; switch-back deletes `week/<wk>/req/<token>/*`; API-down leaves the schedule fully working; day stepper + collapsed rows + orphan group + `העתקת תוכנית היום`; `זמני יציאה` round-trips; health footer shows `lastPurge`; purge deletes only strictly-past weeks. Rides — privacy & security: token entropy + `localStorage`-only + never in a URL/DOM; structural-only write validation; 1 KB body cap + 20-row cap; manager `401` on missing/bad/expired Bearer; `POST /api/purge` `401` without `X-Purge-Key`; CORS = `SITE_ORIGIN`; no names/tokens in logs; **the KV LWW race is designed out (per-row keys), not testable under Miniflare**; consent contact placeholder filled before the pilot.
 
-- [ ] **Step 5: `docs/architecture.md` + `docs/known-constraints.md` + `docs/ui-ux-spec.md`** — the component block, the constraints list, the UX summary.
+- [x] **Step 5: `docs/architecture.md` + `docs/known-constraints.md` + `docs/ui-ux-spec.md`** — the component block, the constraints list, the UX summary.
 
-- [ ] **Step 6: Verify the doc references resolve** — grep for `2026-09-03-rides-coordination-design.md` and confirm it now exists on the branch/`main` (Task 0 prereq); grep for `rides-spec.md`.
+- [x] **Step 6: Verify the doc references resolve** — grep for `2026-09-03-rides-coordination-design.md` and confirm it now exists on the branch/`main` (Task 0 prereq); grep for `rides-spec.md`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add docs/
@@ -2142,12 +2151,18 @@ git commit -m "docs(rides): RIDES.md runbook, DL-029/030, QA checklist, arch + c
 
 ## Integration & rollout (after all tasks)
 
-- [ ] All green: `cd functions && npm test`; `node tests/site_smoke.js`; `node tests/manager_smoke.js`; `pytest -q`.
-- [ ] **Cloudflare setup** (stakeholder / one-time, recorded in `RIDES.md`):
-  - Create KV namespace `RIDES_KV`; bind it to the `gilboa-schedule` Pages project (Production + Preview).
-  - Set env vars `SITE_ORIGIN` (= `https://gilboa-schedule.pages.dev`), `MANAGER_PASSPHRASE` (generated 4–5 words), `PURGE_KEY` (random 32+ chars).
-  - Add one edge **Rate Limiting rule**: path in `{/api/token, /api/request, /api/ping, /api/manager/login}` → e.g. 60 req / 10 min / IP.
-- [ ] **GitHub secrets:** `PURGE_KEY` (same value), `RIDES_API` (= `https://gilboa-schedule.pages.dev`).
+- [x] All green: `cd functions && npm test`; `node tests/site_smoke.js`; `node tests/manager_smoke.js`; `pytest -q`.
+- [x] **Cloudflare setup** (done 2026-09-04, recorded in `RIDES.md`):
+  - [x] Create KV namespace `RIDES_KV`; bind it to the `gilboa-schedule` Pages project.
+  - [x] Set env vars `SITE_ORIGIN` (= `https://gilboa-schedule.pages.dev`), `MANAGER_PASSPHRASE` (generated 5 words), `PURGE_KEY` (random 32+ chars, urlsafe).
+  - [x] Retried the Production deployment so the new binding + secrets took effect.
+  - [ ] ~~Add one edge Rate Limiting rule~~ — **deferred, DL-032.** This account has no
+        Cloudflare zone (site is on the shared `*.pages.dev` domain, no custom domain —
+        OQ-4 still deferred); Rate Limiting Rules are per-zone and the account-level WAF
+        shown as an alternative is a paid Enterprise add-on. Shipping the pilot without
+        it; add the rule the first time a custom domain exists, or before club-wide
+        rollout, whichever comes first.
+- [x] **GitHub secrets:** `PURGE_KEY` (same value), `RIDES_API` (= `https://gilboa-schedule.pages.dev`). Done 2026-09-04.
 - [ ] Merge to `main`. Cloudflare auto-deploys site + Functions. Confirm `GET /api/manager/... ` needs auth, `POST /api/token` returns a token, the site still renders with the API reachable and with it blocked (DevTools request-block on `/api/*`).
 - [ ] Fill the §8.1 `[contact]` / `[מדיניות פרטיות]` text from the stakeholder; redeploy.
 - [ ] QA pass (qa-reviewer) against `docs/qa-checklist.md` new sections + a security/privacy review pass.

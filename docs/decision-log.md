@@ -437,7 +437,10 @@
     Pages Source = "GitHub Actions".
 - **Cloudflare Pages** stays the documented fallback (private repo, custom
   domain, higher limits): connect repo, build command none, output dir `public`.
-- **Status:** Accepted.
+- **Status:** Superseded on the host choice by **DL-028** (site moved to
+  Cloudflare Pages 2026-09-04). The cron schedule, the monthly keepalive, and the
+  public-repo decision still stand; the `deploy` job and the `push` trigger
+  described below were removed — see DL-028.
 - **Risk:** Low. Depends on the `GOOGLE_CALENDAR_API_KEY` repo secret (set +
   verified by the stakeholder).
 - **OQ-6 resolved 2026-09-02:** the club was told about the app and approved.
@@ -462,3 +465,44 @@
 - **Status:** Accepted.
 - **Risk:** Low. Pure-function + DOM-harness tested; a real-device RTL glance at
   the toggle row is still worthwhile.
+
+## DL-028 — Hosting moved to Cloudflare Pages (amends DL-026)
+- **Date:** 2026-09-04
+- **Context:** The rides feature (`docs/superpowers/specs/2026-09-03-rides-coordination-design.md`)
+  needs server-side endpoints, a KV store, and edge rate-limiting. Cloudflare
+  Pages Functions provide all three on the free tier, in the same project that
+  serves the static site — but only if the site is hosted on Cloudflare Pages.
+  DL-026 chose GitHub Pages (deployed by GitHub Actions) when there was no such
+  need. Rather than run the site on one platform and the API on another, the
+  site moves to Cloudflare Pages now, as a standalone step before any rides code.
+- **Decision:**
+  - **The data-refresh commit uses `[skip actions]`, not `[skip ci]`.**
+    `scripts/fetch_and_build.py` tags its auto-commit so GitHub Actions does not
+    re-trigger on it; the tag was `[skip ci]`, which Cloudflare Pages ALSO honours
+    (it skips the build). Changed to `[skip actions]` — recognised by GitHub,
+    ignored by Cloudflare — so every data push deploys.
+  - **Host = Cloudflare Pages**, connected to the GitHub repo via git
+    integration. **No build command**; build output directory `public/`;
+    production branch `main`. Live at `https://gilboa-schedule.pages.dev`
+    (custom domain deferred — rides spec OQ-4).
+  - **The Python build is unchanged** and still runs on GitHub Actions
+    (`build.yml` job `build-data`): `pytest` → fetch → rebuild
+    `public/data/*.json` → commit & push to `main`. Cloudflare auto-deploys on
+    that push. No second scheduler, no build step on Cloudflare.
+  - **`GOOGLE_CALENDAR_API_KEY` stays a GitHub Actions secret.** Cloudflare
+    needs no secrets for the static site.
+  - **The GitHub Pages `deploy` job is removed** from `build.yml`. The old
+    `rankad.github.io/team-schedule/` URL is kept alive with a client-side
+    redirect page (`legacy/index.html`, preserves `?teams=` and `#hash`),
+    published once via the manual `legacy-redirect.yml` workflow. It can stay
+    indefinitely — it costs nothing — or be removed after a transition period.
+  - **`keepalive.yml` stays** — the cron-inactivity guard is still needed.
+  - Cron schedule, data-file shapes, and all site code are untouched.
+- **Status:** Accepted. Supersedes the host choice in DL-026 (DL-026 otherwise
+  stands: one workflow that builds data on a twice-daily winter-anchored cron,
+  plus the keepalive).
+- **Risk:** Low. The site uses only relative paths, so it is host-agnostic;
+  behaviour was verified byte-for-byte on `*.pages.dev` before GitHub Pages was
+  retired. Reversible: re-add the `deploy` job to restore GitHub Pages.
+- **Follow-on:** the rides Slice A work adds `functions/`, a KV namespace, and
+  Cloudflare environment secrets to this same project.

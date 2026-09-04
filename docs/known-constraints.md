@@ -50,12 +50,24 @@ a build guessed "מכבי מעיינות הגלבוע". Use the exact string "ג
 UI. Never invent proper nouns — take them from the stakeholder or the source.
 
 ## Hosting / runtime
-- Free static host (GitHub Pages or Cloudflare Pages) + GitHub Actions cron.
-  No always-on server, no database, no per-user cost.
-- GitHub disables scheduled workflows after 60 days of repo inactivity — the
-  periodic data commits keep it alive; add a monthly keepalive job as backup.
+- **Host = Cloudflare Pages** (git integration, no build command, output dir
+  `public/`), connected to `Rankad/team-schedule`, production branch `main`.
+  Live at `https://gilboa-schedule.pages.dev`. Deploys automatically on every
+  push to `main`. See DL-028 (amends DL-026).
+- **Cloudflare account:** owned by the stakeholder. The Pages project is
+  `gilboa-schedule`. Custom domain deferred (rides spec OQ-4) — the `*.pages.dev`
+  URL is the canonical link for now.
+- **Secrets:** `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions** secret only.
+  The static site needs no Cloudflare secrets. (The rides feature will add
+  Cloudflare environment secrets later — not part of hosting.)
+- The Python build + commit still runs on GitHub Actions
+  (`.github/workflows/build.yml`, job `build-data`), twice daily. GitHub
+  disables scheduled workflows after 60 days of repo inactivity — the periodic
+  data commits plus `keepalive.yml` keep it alive.
+- GitHub Pages is retired; `rankad.github.io/team-schedule/` serves a redirect
+  to the Cloudflare URL (`legacy/`, one-off `deploy-legacy-redirect` job).
 - No user accounts ⇒ followed-team selection is per-device (`localStorage`) and
-  lost if the browser storage is cleared.
+  lost if browser storage is cleared.
 - The site only knows the calendar window the job fetches (rolling
   ~today−7d … today+28d).
 

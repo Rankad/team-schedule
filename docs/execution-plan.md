@@ -163,9 +163,24 @@ server, no database, $0/month. See `docs/architecture.md` and
   `splitWeekByToday()` helper + `renderMyWeek` wiring; summary and exports still
   use the full week. `node tests/site_smoke.js` green. DL-027;
   spec + plan under `docs/superpowers/`.
+- **2026-09-04 — Hosting migrated to Cloudflare Pages (DL-028).** Prerequisite
+  for the rides feature (needs Pages Functions + KV). Site now served by
+  Cloudflare Pages git integration (no build command, output `public/`,
+  production branch `main`); the GitHub Actions `build-data` job still rebuilds
+  `public/data/*.json` twice daily and pushes to `main`, which auto-deploys.
+  GitHub Pages `deploy` job removed; `rankad.github.io/team-schedule/` serves a
+  client-side redirect (`legacy/`). `GOOGLE_CALENDAR_API_KEY` stays a GitHub
+  secret; Cloudflare holds no secrets. Site code untouched (relative paths, host
+  -agnostic); behaviour verified on `*.pages.dev` before cut-over. `pytest` and
+  `node tests/site_smoke.js` green. Plan:
+  `docs/superpowers/plans/2026-09-04-hosting-migration-cloudflare.md`.
 
 ## Immediate next step
-Confirm the first live deploy is green (Actions → "Build & deploy" → `deploy`
-job → the `page_url` it prints) and open the site on a phone. Then the OQ-6
-courtesy note to the club before sharing the link with parents.
+Phase 3 is complete and the MVP is live. Hosting moved to Cloudflare Pages on
+2026-09-04 (DL-028) — the site now redeploys automatically on every push to
+`main` (the twice-daily data commits included); GitHub Pages is retired and its
+old URL redirects. See `docs/HOSTING.md`.
+
 Phase 4 (Excel fallback importer) is the next build phase and is not urgent.
+The rides-coordination feature (`docs/superpowers/specs/2026-09-03-rides-coordination-design.md`)
+is specced and gated behind stakeholder sign-off of the 2026-09-04 revision.

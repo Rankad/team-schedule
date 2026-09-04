@@ -22,7 +22,7 @@ Google Calendar  (mpkua0beq2409vncahis6t8tuo@group.calendar.google.com, public)
                     ▼
         public/data/*.json   (teams, schedule, changes, meta)
                     │
-        auto-deploy to a free static host (GitHub Pages / Cloudflare Pages)
+        push to main → Cloudflare Pages git integration deploys public/
                     │
                     ▼
         Static site (RTL Hebrew HTML/CSS/JS)
@@ -118,8 +118,8 @@ resilience and for parser regression tests.
 | Scheduler | GitHub Actions cron | Free, no infra |
 | Datastore | Git repo (committed JSON) | Free, versioned, no DB server |
 | Frontend | Vanilla HTML/CSS/JS, RTL | Small UI, no build step |
-| Host | GitHub Pages or Cloudflare Pages | Free CDN, no ads, free TLS |
-| Domain | optional `*.pages.dev` / custom (~$10/yr) | Not required |
+| Host | Cloudflare Pages (git integration, no build command) | Free CDN, free TLS, no ads; same project will host the rides Functions later |
+| Domain | `gilboa-schedule.pages.dev` (custom domain deferred — rides spec OQ-4) | Not required |
 
 SQLite is **not needed** for this model. If a future phase needs server-side
 state (accounts for push notifications), revisit then.
@@ -147,7 +147,8 @@ team schedule/
     styles.css
     data/                   # generated JSON (committed by the job)
   .github/workflows/
-    build.yml               # cron + workflow_dispatch + on push to scripts/
+    build.yml               # data build: cron + workflow_dispatch (deploy is Cloudflare's git integration)
+    legacy-redirect.yml    # one-off: publish the old-URL redirect
   tests/
     fixtures/
       calendar_week.json    # captured API response, for offline tests
@@ -157,8 +158,18 @@ team schedule/
 ```
 
 ## Deployment
-1. Push repo to GitHub.
-2. Add secret `GOOGLE_CALENDAR_API_KEY`.
-3. Enable Pages (source: `public/` on the default branch) — or connect the repo
-   to Cloudflare Pages (build command: none, output dir: `public`).
-4. The Action runs on schedule; commits to `public/data/` trigger redeploy.
+1. GitHub Actions (`.github/workflows/build.yml`, job `build-data`) runs on the
+   twice-daily cron and on manual dispatch: `pytest` → fetch calendar →
+   rebuild `public/data/*.json` → commit & push to `main` if anything changed.
+2. **Cloudflare Pages** is connected to `Rankad/team-schedule` with no build
+   command and output directory `public/`. Every push to `main` — the data
+   commits above, plus any site or docs change — triggers a Cloudflare deploy
+   that uploads `public/` (the auto-commit is tagged `[skip actions]`, which
+   Cloudflare does not skip on). Live at `https://gilboa-schedule.pages.dev`.
+3. `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions secret** (the build runs on
+   GitHub, not Cloudflare). Cloudflare holds no secrets for the static site.
+4. GitHub Pages is retired. The old `rankad.github.io/team-schedule/` URL serves
+   a client-side redirect (`legacy/`, published once via the manual
+   `legacy-redirect.yml` workflow). See DL-028.
+5. `.github/workflows/keepalive.yml` (monthly no-op commit) still guards the
+   cron against GitHub's 60-day inactivity pause.

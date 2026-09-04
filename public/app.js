@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
     wireEvents();
     document.getElementById('app').hidden = false;
     render();
+    if (window.Rides && window.Rides.ping) {
+      try { window.Rides.ping(); } catch (e) { /* opens ping is best-effort */ }
+    }
   }).catch(function (err) {
     console.error('Failed to load schedule data:', err);
     var app = document.getElementById('app');
@@ -203,6 +206,7 @@ function el(tag, cls, text) {
 }
 
 function render() {
+  window.viewSunday = viewSunday; // rides.js reads the current week from here
   renderHeader();
   renderMyWeek();
 }
@@ -384,6 +388,12 @@ function renderSession(s, multi) {
   if (flags.indexOf('end_not_after_start') !== -1 || flags.indexOf('bad_end_time') !== -1) {
     card.appendChild(el('div', 'session-warn',
       '⚠️ שעת סיום לא ודאית')); // שעת סיום לא ודאית
+  }
+
+  // Player-mode ride chip. Contained: a rides failure never breaks the card.
+  if (window.Rides && window.Rides.isPlayerWithToken()) {
+    try { window.Rides.decorateSession(card, s); }
+    catch (e) { console.error('ride chip error (schedule unaffected):', e); }
   }
 
   return card;
@@ -1048,10 +1058,16 @@ window.icsEsc = icsEsc;
 window.drawWeekImage = drawWeekImage;
 window.groupByDate = groupByDate;
 window.splitWeekByToday = splitWeekByToday;
-// Rides (public/rides.js) drives screen navigation + re-renders through these.
+// Rides (public/rides.js) drives screen navigation + re-renders through these,
+// and reads (never mutates) the schedule state.
 window.goto = goto;
 window.render = render;
 window.showToast = showToast;
+window.ltrIsolate = ltrIsolate;
+window.DATA = DATA;
+window.followed = followed;
+window.HE_WEEKDAY = HE_WEEKDAY;
+window.weekSessionsFor = weekSessionsFor;
 
 // ---------- Screen navigation ----------
 var SCREEN_IDS = {

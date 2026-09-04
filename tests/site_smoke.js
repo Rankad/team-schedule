@@ -77,6 +77,12 @@ class El {
   setAttribute(k, v) { this.attrs[k] = String(v); if (k === 'id') this.id = v; }
   getAttribute(k) { return this.attrs[k] != null ? this.attrs[k] : null; }
   appendChild(c) { c.parentNode = this; this.children.push(c); return c; }
+  insertBefore(c, ref) {
+    c.parentNode = this;
+    const i = ref ? this.children.indexOf(ref) : -1;
+    if (i === -1) this.children.push(c); else this.children.splice(i, 0, c);
+    return c;
+  }
   addEventListener(t, fn) { (this._listeners[t] = this._listeners[t] || []).push(fn); }
   dispatch(t) { (this._listeners[t] || []).forEach(fn => fn.call(this, { target: this })); }
   click() { this.dispatch('click'); }
@@ -156,6 +162,12 @@ consent.appendChild(mk('div', 'rides-consent-body'));
 consent.appendChild(mk('button', null, 'btn btn-primary', { 'data-consent': 'ok', type: 'button' }));
 consent.appendChild(mk('button', null, 'btn', { 'data-consent': 'cancel', type: 'button' }));
 root.appendChild(consent);
+const sheet = mk('dialog', 'rides-sheet');
+sheet.appendChild(mk('h2', 'rides-sheet-heading', 'sheet-heading'));
+sheet.appendChild(mk('div', 'rides-sheet-options', 'sheet-options'));
+sheet.appendChild(mk('div', 'rides-sheet-cancel', 'sheet-cancel'));
+sheet.appendChild(mk('button', null, 'btn', { 'data-sheet': 'close', type: 'button' }));
+root.appendChild(sheet);
 
 let domLoaded = null;
 global.document = {
@@ -192,12 +204,23 @@ const FAKE_CHANGES = {
   ],
 };
 let TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
+let ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+let REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
 global.fetch = (url, opts) => {
   if (url.indexOf('/api/token') !== -1) {
     return Promise.resolve({
       ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
       json: () => Promise.resolve(TOKEN_RESPONSE.body),
     });
+  }
+  if (url.indexOf('/api/me') !== -1) {
+    return Promise.resolve({ ok: ME_RESPONSE.ok, status: ME_RESPONSE.status, json: () => Promise.resolve(ME_RESPONSE.body) });
+  }
+  if (url.indexOf('/api/request') !== -1) {
+    return Promise.resolve({ ok: REQ_RESPONSE.ok, status: REQ_RESPONSE.status, json: () => Promise.resolve(REQ_RESPONSE.body) });
+  }
+  if (url.indexOf('/api/ping') !== -1) {
+    return Promise.resolve({ ok: true, status: 204, json: () => Promise.resolve({}) });
   }
   if (url.indexOf('/api/') !== -1) {
     return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({}) });
@@ -588,6 +611,88 @@ require(path.join(ROOT, 'public', 'rides.js'));
 
     delete store['gilboa.role']; delete store['gilboa.player'];
     window.render();
+  }
+
+  console.log('rides — chip + sheet + screen');
+  {
+    const gid = (id) => global.document.getElementById(id);
+    store['gilboa.role'] = 'player';
+    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.applyTeamsParam('?teams=' + T1);
+
+    // go to the last published week
+    let g = 0; while (!next.disabled && g++ < 12) next.click(); prev.click();
+    window.render();
+    await new Promise(r => setTimeout(r, 15));
+
+    const chip = byId['week-content'].querySelector('.ride-chip');
+    assert(!!chip, 'player with a token sees a ride chip on each session');
+    assert(chip.textContent.indexOf('הוספת הסעה') !== -1, 'no request => "הוספת הסעה"');
+
+    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+    chip.click();
+    const sheet = byId['rides-sheet'];
+    assert(!!sheet.querySelector('[data-dir="round"]'), 'sheet has a round-trip option');
+    assert(sheet.querySelector('[data-dir="round"]').classList.contains('is-preselected'), 'round trip is preselected');
+    sheet.querySelector('[data-dir="round"]').click();
+    await new Promise(r => setTimeout(r, 15));
+    const chip2 = byId['week-content'].querySelector('.ride-chip');
+    assert(chip2.textContent.indexOf('✓') !== -1, 'after choosing, chip shows a check');
+    assert(chip2.textContent.indexOf('הלוך וחזור') !== -1, 'chip names the direction in words');
+    assert(/[⁦][\d:]+[⁩]/.test(chip2.parentNode.textContent) || chip2.parentNode.textContent.indexOf('טרם נקבעה שעה') !== -1,
+      'caption times are ltr-isolated (or "no time set")');
+
+    // failure revert
+    REQ_RESPONSE = { ok: false, status: 500, body: {} };
+    const chip3 = byId['week-content'].querySelector('.ride-chip'); chip3.click();
+    byId['rides-sheet'].querySelector('[data-dir="out"]').click();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['toast'].textContent.indexOf('שמירת ההסעה נכשלה') !== -1, '5xx => retryable toast');
+    assert(byId['week-content'].querySelector('.ride-chip').textContent.indexOf('הלוך וחזור') !== -1,
+      'chip reverts to the previous direction after a failed save');
+
+    // 400 => non-retry toast
+    REQ_RESPONSE = { ok: false, status: 400, body: {} };
+    byId['week-content'].querySelector('.ride-chip').click();
+    byId['rides-sheet'].querySelector('[data-dir="back"]').click();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['toast'].textContent.indexOf('לא ניתן לבחור הסעה לאימון זה') !== -1, '400 => non-retryable toast');
+
+    // rides screen: actionable empty state
+    window.goto('rides');
+    assert(byId['screen-rides'].hidden === false, 'rides screen opens');
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.Rides.renderRides();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['rides-body'].textContent.indexOf('בחרו אימון כדי להוסיף הסעה') !== -1, 'actionable empty state');
+    assert(!!byId['rides-body'].querySelector('.ride-add'), 'empty state offers add buttons');
+
+    // GET /api/me failure on the rides screen => distinct load-error state
+    ME_RESPONSE = { ok: false, status: 500, body: {} };
+    window.Rides.renderRides();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['rides-body'].textContent.indexOf('לא ניתן לטעון את ההסעות שלך') !== -1, 'me load failure => distinct error + retry');
+
+    // api down: force a refetch that fails; the schedule half must still render
+    ME_RESPONSE = { ok: false, status: 500, body: {} };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.goto('myweek'); window.render();
+    await new Promise(r => setTimeout(r, 20));
+    assert(byId['week-content'].querySelectorAll('.day-group').length > 0, 'schedule list still renders when the rides API is down');
+    assert(byId['summary'].textContent.length > 0, 'weekly summary still renders when the rides API is down');
+    assert(byId['week-content'].textContent.indexOf('שירות ההסעות אינו זמין') !== -1, 'ride strip shows the unavailable message when the API is down');
+
+    // restore
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.applyTeamsParam('?teams=' + T1);
+    window.goto('myweek');
   }
 
   console.log('week nav bounds');

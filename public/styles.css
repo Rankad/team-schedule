@@ -488,6 +488,148 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
   @keyframes sheet-up { from { transform: translateY(100%); } to { transform: translateY(0); } }
 }
 
+/* ---------- Rides — chip, sheet, summary card, #screen-rides ---------- */
+/* Tinted full-width strip between the session line and its notes. */
+.ride-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  margin-top: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  background: var(--banner-bg);
+  border: 1px solid var(--banner-border);
+  border-radius: 10px;
+}
+.ride-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: var(--tap);
+  padding: 0.35rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.ride-chip.is-set {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.ride-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ride-caption { color: var(--muted); font-size: 0.85rem; }
+.ride-unavailable { color: var(--muted); font-size: 0.88rem; }
+.ride-retry {
+  min-height: var(--tap);
+  padding: 0.2rem 0.6rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Trip-type sheet options (reuse dialog.sheet from the consent styles). */
+.sheet-heading { font-size: 1.05rem; margin: 0 0 0.75rem; }
+.sheet-options { display: flex; flex-direction: column; gap: 0.5rem; }
+.ride-opt {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0.6rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ride-opt.is-preselected { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.sheet-cancel:empty { display: none; }
+.ride-cancel {
+  width: 100%;
+  min-height: var(--tap);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: none;
+  color: var(--accent-dark);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Rides summary card (top of My Week) — same look as the changes banner. */
+.rides-summary-card {
+  background: var(--banner-bg);
+  border: 1px solid var(--banner-border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+.rides-summary-line { font-weight: 600; }
+.rides-exit-parent {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin: 0 0 1rem;
+  padding: 0.25rem 0.1rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* #screen-rides body */
+#rides-body .rides-empty-head { font-weight: 700; margin: 0.5rem 0 0.75rem; }
+.rides-empty-list, .rides-day-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.rides-day-group { margin-bottom: 1.1rem; }
+.rides-day-head {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--muted);
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+}
+.rides-empty-row, .rides-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.6rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+}
+.rides-row-main { font-weight: 600; }
+.rides-row-cap { color: var(--muted); font-size: 0.85rem; flex-basis: 100%; }
+.ride-add, .ride-edit, .ride-del {
+  min-height: var(--tap);
+  padding: 0.3rem 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.ride-add { margin-inline-start: auto; border-color: var(--accent); }
+.ride-del { color: var(--accent-dark); margin-inline-start: auto; }
+.rides-load-error { color: var(--accent-dark); font-weight: 600; }
+
 /* ---------- Fatal error ---------- */
 .fatal { padding: 2rem 0.875rem; max-width: 40rem; margin: 0 auto; }
 .fatal p { color: var(--muted); }

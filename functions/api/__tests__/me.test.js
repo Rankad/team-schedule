@@ -12,6 +12,18 @@ describe("GET/DELETE /api/me", () => {
     const body = await r.json();
     expect(body.requests.length).toBe(1);
     expect(body.rideStatus).toEqual({});
+    // config is always present, with the default return offset
+    expect(body.config).toEqual({ locations: {}, retDefault: 15 });
+  });
+  it("returns stored depart-offset config (no personal data)", async () => {
+    await putRequest(env.RIDES_KV, { wk: "2026-09-13", token: "cfgtok01", fullName: "א ב", teamId: "T_1", sessionId: "s1", direction: "round" });
+    await env.RIDES_KV.put("config/locations", JSON.stringify({ "אולם קציר": { outbound: 40, ret: 15, manual: false }, v: 1 }));
+    await env.RIDES_KV.put("config/global", JSON.stringify({ retDefault: 20, v: 1 }));
+    const r = await onRequestGet({ request: new Request("http://x/api/me?token=cfgtok01&week=2026-09-13"), env });
+    const body = await r.json();
+    expect(body.config.retDefault).toBe(20);
+    expect(body.config.locations["אולם קציר"].outbound).toBe(40);
+    expect(body.config.locations.v).toBeUndefined();
   });
   it("DELETE removes every row for the token+week", async () => {
     await putRequest(env.RIDES_KV, { wk: "2026-09-06", token: "wipetok01", fullName: "א ב", teamId: "T_1", sessionId: "s1", direction: "round" });

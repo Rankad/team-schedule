@@ -17,7 +17,17 @@ export async function onRequestGet({ request, env }) {
     let rideStatus = {};
     const rs = await env.RIDES_KV.get(`week/${week}/rideStatus`);
     if (rs) { try { rideStatus = JSON.parse(rs); delete rideStatus.v; } catch { rideStatus = {}; } }
-    return withCors(json({ requests, rideStatus }), env);
+    // Departure-offset config so the player's chip can show ride times. Contains
+    // no personal data: per-location outbound/return minutes + a global default.
+    // The client already has session start/end/location and computes the times.
+    const config = { locations: {}, retDefault: 15 };
+    try {
+      const lc = await env.RIDES_KV.get("config/locations");
+      if (lc) { const p = JSON.parse(lc); delete p.v; config.locations = p; }
+      const gc = await env.RIDES_KV.get("config/global");
+      if (gc) { const g = JSON.parse(gc); if (g.retDefault != null) config.retDefault = g.retDefault; }
+    } catch { /* best-effort; caption falls back to "טרם נקבעה שעה" */ }
+    return withCors(json({ requests, rideStatus, config }), env);
   } catch (err) { return errToResponse(err, env); }
 }
 

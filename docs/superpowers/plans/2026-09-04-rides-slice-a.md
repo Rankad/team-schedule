@@ -2073,7 +2073,7 @@ git commit -m "feat(rides): ride chip, trip-type sheet, rides summary card + scr
 - `manager.js` is standalone (no `app.js` / `rides.js`). Its own `apiBase()` copy (or factor a tiny shared `public/api-base.js` loaded by both — optional; a copy is acceptable and matches the "no build" rule). Pure helper `buildDayText(day)` → the plain-text block for `העתקת תוכנית היום כטקסט`, exposed on `window` and unit-tested.
 - Auth: `POST {apiBase}/api/manager/login` → store `gilboa.manager = {token, exp}`; all dashboard/config calls send `Authorization: Bearer <token>`; on any `401` → drop the token, show the login dialog.
 
-- [ ] **Step 1: Write `tests/manager_smoke.js` (failing)** — fake DOM + `localStorage` + `fetch` stub returning a canned `GET /api/manager/dashboard` payload (mirror the Task 6 shape: 1 day, 2 practices, 1 orphan, `lastPurge`). Assert:
+- [x] **Step 1: Write `tests/manager_smoke.js` (failing)** — fake DOM + `localStorage` + `fetch` stub returning a canned `GET /api/manager/dashboard` payload (mirror the Task 6 shape: 1 day, 2 practices, 1 orphan, `lastPurge`). Assert:
   - login dialog shows; wrong passphrase (`stub 401`) → error `סיסמה שגויה`, no dashboard;
   - right passphrase (`stub 200`) → dashboard; day header `סה״כ: N נוסעים · M הסעות`;
   - a practice row is collapsed; clicking it reveals the `הלוך וחזור (k): …` name lines;
@@ -2085,17 +2085,17 @@ git commit -m "feat(rides): ride chip, trip-type sheet, rides summary card + scr
 
 Run: `node tests/manager_smoke.js` — FAIL (file/DOM not built yet).
 
-- [ ] **Step 2: Build `public/manager.html`** — minimal shell: header `גלבוע מעיינות · הסעות`, a `<dialog id="mgr-login">`, `<nav>` with two tab buttons, `<section id="tab-dashboard">` / `<section id="tab-settings">` / `<section id="tab-stats">`, `<div id="mgr-day-nav">` reusing `.week-nav` markup, `<div id="mgr-day-body">`, `<footer id="mgr-health">`.
+- [x] **Step 2: Build `public/manager.html`** — minimal shell: header `גלבוע מעיינות · הסעות`, a `<dialog id="mgr-login">`, `<nav>` with two tab buttons, `<section id="tab-dashboard">` / `<section id="tab-settings">` / `<section id="tab-stats">`, `<div id="mgr-day-nav">` reusing `.week-nav` markup, `<div id="mgr-day-body">`, `<footer id="mgr-health">`.
 
-- [ ] **Step 3: Build `public/manager.js`** per §5 of the spec. Keep render functions small and pure where possible (`buildDayText`, `renderPracticeRow`, `renderSettingsRow`). All copy verbatim from `docs/rides-spec.md` §5 + appendix.
+- [x] **Step 3: Build `public/manager.js`** per §5 of the spec. Keep render functions small and pure where possible (`buildDayText`, `renderPracticeRow`, `renderSettingsRow`). All copy verbatim from `docs/rides-spec.md` §5 + appendix.
 
-- [ ] **Step 4: Build `public/manager.css`** — reuse `styles.css` tokens; add the practice row (collapsed summary line + expandable panel), the stepper, the settings grid (label + 2 narrow number inputs, RTL).
+- [x] **Step 4: Build `public/manager.css`** — reuse `styles.css` tokens; add the practice row (collapsed summary line + expandable panel), the stepper, the settings grid (label + 2 narrow number inputs, RTL).
 
-- [ ] **Step 5: Add to CI** — append `- name: Manager smoke test` running `node tests/manager_smoke.js` to the `functions-tests` job.
+- [x] **Step 5: Add to CI** — append `- name: Manager smoke test` running `node tests/manager_smoke.js` to the `functions-tests` job.
 
-- [ ] **Step 6: Run all suites** — `node tests/site_smoke.js`, `node tests/manager_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
+- [x] **Step 6: Run all suites** — `node tests/site_smoke.js`, `node tests/manager_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/manager.html public/manager.js public/manager.css public/README.md tests/manager_smoke.js .github/workflows/build.yml

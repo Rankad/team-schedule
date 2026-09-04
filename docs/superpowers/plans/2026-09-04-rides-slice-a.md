@@ -579,7 +579,7 @@ git commit -m "feat(rides): POST /api/token + /api/ping + stats helpers"
   - `functions/api/request.js`: `onRequestPut` (`{ token, fullName, teamId, sessionId, direction, week }`) → structural validate → reject 21st distinct `sessionId` for `(token, week)` with `400 { error: 'too_many' }` → upsert → `200 { ok: true }`. `onRequestDelete` (`{ token, sessionId, week }`) → `200 { ok: true }`. `onRequestOptions` → preflight.
   - `functions/api/me.js`: `onRequestGet` (`?token=&week=`) → `200 { requests: [row…], rideStatus: {} }` (rideStatus read from `week/<wk>/rideStatus` if present, else `{}`). `onRequestDelete` (`?token=&week=`) → deletes all `week/<wk>/req/<token>/*` → `200 { ok: true, deleted: n }`. `onRequestOptions` → preflight.
 
-- [ ] **Step 1: Write failing tests for `rows.js` + `request.js`**
+- [x] **Step 1: Write failing tests for `rows.js` + `request.js`** — _fixture tokens (`capper`, `deltok`, `mine`, `other`, `wipe`) widened to ≥8 chars to satisfy `isToken` `{8,128}`._
 
 `functions/api/__tests__/request.test.js`:
 ```js
@@ -674,7 +674,7 @@ describe("GET/DELETE /api/me", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `rows.js`**
+- [x] **Step 2: Implement `rows.js`**
 
 `functions/_lib/rows.js`:
 ```js
@@ -733,7 +733,7 @@ export function listAllRequestsForWeek(kv, wk) {
 }
 ```
 
-- [ ] **Step 3: Implement `functions/api/request.js`**
+- [x] **Step 3: Implement `functions/api/request.js`**
 
 ```js
 import { json, withCors, preflight, readJson, errToResponse, HttpError } from "../_lib/http.js";
@@ -777,7 +777,7 @@ export async function onRequestDelete({ request, env }) {
 export function onRequestOptions({ env }) { return preflight(env); }
 ```
 
-- [ ] **Step 4: Implement `functions/api/me.js`**
+- [x] **Step 4: Implement `functions/api/me.js`**
 
 ```js
 import { json, withCors, preflight, errToResponse, HttpError } from "../_lib/http.js";
@@ -817,7 +817,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add functions/

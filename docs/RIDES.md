@@ -69,6 +69,15 @@ manager session token stops verifying immediately, because tokens are HMAC'd
 with the passphrase (`functions/_lib/token.js`) — this is the intended
 revocation mechanism. There is no separate token-revoke list.
 
+**"Forgot password" — there is no self-service reset.** The app has no user
+accounts and no email/SMS system (deliberate — see the project's $0/month,
+no-server constraints), so there is no independent channel to verify a
+coordinator's identity and deliver a reset. If the coordinator forgets the
+passphrase, **the site admin** (whoever has access to the Cloudflare
+account/dashboard) looks it up or rotates it via the steps above and hands
+it over out-of-band. This is a permanent design choice for Slice A, not a
+gap to fill — see `docs/decision-log.md` DL-030.
+
 ## CORS
 `functions/_lib/http.js` sets `access-control-allow-origin` to `SITE_ORIGIN`
 on every response (and handles preflight). If the site is ever served from an

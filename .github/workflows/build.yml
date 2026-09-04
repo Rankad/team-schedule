@@ -56,3 +56,15 @@ jobs:
 
       - name: Push (no-op if fetch_and_build made no commit)
         run: git push
+
+      - name: Purge past rides weeks
+        continue-on-error: true
+        env:
+          PURGE_KEY: ${{ secrets.PURGE_KEY }}
+          RIDES_API: ${{ secrets.RIDES_API }}   # e.g. https://gilboa-schedule.pages.dev
+        run: |
+          if [ -n "$PURGE_KEY" ] && [ -n "$RIDES_API" ]; then
+            curl -fsS -X POST -H "X-Purge-Key: $PURGE_KEY" "$RIDES_API/api/purge" && echo "purge ok" || echo "purge failed (non-fatal)"
+          else
+            echo "PURGE_KEY / RIDES_API not set — skipping rides purge"
+          fi

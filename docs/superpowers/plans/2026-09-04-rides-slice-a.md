@@ -1562,7 +1562,7 @@ git commit -m "feat(rides): GET/PUT /api/manager/config"
   - `computeDepartTimes(session, locConfig, retDefault)` → same shape/behaviour as the server helper (Task 5).
   - `apiBase()` → `'http://localhost:8788/api'` when `location.hostname` is `localhost`/`127.0.0.1`, else `location.origin + '/api'`.
 
-- [ ] **Step 1: Add the CI job**
+- [x] **Step 1: Add the CI job**
 
 In `.github/workflows/build.yml`, add a second top-level job (sibling of `build-data`). It must **not** be gated on the schedule; add `push:` and `pull_request:` triggers scoped to the relevant paths at the top of the `on:` block:
 
@@ -1596,7 +1596,7 @@ on:
 
 > Note: `build-data` already runs `pytest`; leave it. This job adds the JS side. Confirm `build-data` does not accidentally trigger on the new `push` paths in a way that double-commits — it is guarded by `if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'` — **add that `if:` to the `build-data` job** so a plain push no longer runs the data fetch/commit.
 
-- [ ] **Step 2: Write the failing helper tests**
+- [x] **Step 2: Write the failing helper tests**
 
 In `tests/site_smoke.js`, before `console.log('week nav bounds');`:
 
@@ -1629,7 +1629,7 @@ In `tests/site_smoke.js`, before `console.log('week nav bounds');`:
 
 Run: `node tests/site_smoke.js` — FAIL (`window.Rides` undefined).
 
-- [ ] **Step 3: Implement `public/rides.js` (helpers section)**
+- [x] **Step 3: Implement `public/rides.js` (helpers section)**
 
 ```javascript
 /* Gilboa Maayanot — rides (player side). Vanilla ES5 idiom, no build, loaded
@@ -1702,7 +1702,7 @@ Run: `node tests/site_smoke.js` — FAIL (`window.Rides` undefined).
 
 Adjust the `apiBase` smoke assertion to match: under the harness `hostname` is unset (`window.location` has only `origin`/`pathname`/`search`/`hash`), so `h === ''` → returns `origin + '/api'` → `http://localhost:8000/api`. Update the test to `assert(R.apiBase() === 'http://localhost:8000/api', ...)`.
 
-- [ ] **Step 4: Add the script tag**
+- [x] **Step 4: Add the script tag**
 
 `public/index.html`, change:
 ```html
@@ -1714,12 +1714,12 @@ to:
   <script src="rides.js"></script>
 ```
 
-- [ ] **Step 5: Run both test suites**
+- [x] **Step 5: Run both test suites**
 
 Run: `node tests/site_smoke.js` → PASS (new `rides — pure helpers` block green, everything else unchanged).
-Run: `cd functions && npm test` → PASS.
+Run: `cd functions && npm test` → PASS (46 tests).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add public/rides.js public/index.html tests/site_smoke.js .github/workflows/build.yml

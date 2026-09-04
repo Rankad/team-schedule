@@ -339,7 +339,7 @@
       "ניר גוב"
     ],
     "display_name": "נוער על",
-    "sample_note": "משחק אימון",
+    "sample_note": "חצי שעה ראשונה חדר כושר",
     "sport": "basketball",
     "team_id": "T_031",
     "tier": "על"
@@ -1084,18 +1084,6 @@
     "sport": "basketball",
     "team_id": "T_098",
     "tier": null
-  },
-  {
-    "category": "girls_youth",
-    "coaches": [
-      "ברק וינריב",
-      "עדי גלמן"
-    ],
-    "display_name": "נערות א על/נערות ב על",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_099",
-    "tier": "על"
   },
   {
     "category": "recreational",

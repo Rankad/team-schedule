@@ -1,39 +1,6 @@
 {
-  "generated_at": "2026-09-03T19:33:01Z",
+  "generated_at": "2026-09-04T09:14:44Z",
   "sessions": [
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב/עדי גלמן",
-      "date": "2026-08-27",
-      "end": "2026-08-27T09:30:00+03:00",
-      "flags": null,
-      "id": "3j1dilovdm0d54b2fb8uov96tb",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-27T08:00:00+03:00",
-      "team_id": "T_099",
-      "week_key": "2026-08-23",
-      "weekday": 4
-    },
-    {
-      "activity_type": "game",
-      "coach_text": null,
-      "date": "2026-08-27",
-      "end": "2026-08-27T16:00:00+03:00",
-      "flags": null,
-      "id": "7etm9f5s3mjpg6aprf692uiq0c",
-      "location": "עין חרוד",
-      "notes": [
-        "משחק אימון",
-        "יריב: עמק יזרעאל"
-      ],
-      "sport": "basketball",
-      "start": "2026-08-27T13:30:00+03:00",
-      "team_id": "T_031",
-      "week_key": "2026-08-23",
-      "weekday": 4
-    },
     {
       "activity_type": "training",
       "coach_text": "שרון אברהמי/גולן יבלונבסקי",
@@ -1491,21 +1458,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
-      "date": "2026-09-05",
-      "end": "2026-09-05T20:30:00+03:00",
-      "flags": null,
-      "id": "0lojh79mnavjp6rj94v2cndril",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-05T18:30:00+03:00",
-      "team_id": "T_031",
-      "week_key": "2026-08-30",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
       "coach_text": "ניר גוב/יובל בר לב",
       "date": "2026-09-05",
       "end": "2026-09-05T20:30:00+03:00",
@@ -1523,14 +1475,31 @@
       "activity_type": "training",
       "coach_text": "ברק וינריב",
       "date": "2026-09-05",
-      "end": "2026-09-05T22:30:00+03:00",
+      "end": "2026-09-05T21:00:00+03:00",
       "flags": null,
       "id": "6lt1lgfvgttrge5r032o92vtir",
       "location": "עין חרוד",
       "notes": null,
       "sport": "basketball",
-      "start": "2026-09-05T20:30:00+03:00",
+      "start": "2026-09-05T19:00:00+03:00",
       "team_id": "T_009",
+      "week_key": "2026-08-30",
+      "weekday": 6
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
+      "date": "2026-09-05",
+      "end": "2026-09-05T22:30:00+03:00",
+      "flags": null,
+      "id": "0lojh79mnavjp6rj94v2cndril",
+      "location": "עין חרוד",
+      "notes": [
+        "חצי שעה ראשונה חדר כושר"
+      ],
+      "sport": "basketball",
+      "start": "2026-09-05T20:30:00+03:00",
+      "team_id": "T_031",
       "week_key": "2026-08-30",
       "weekday": 6
     },

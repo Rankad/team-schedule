@@ -1418,7 +1418,7 @@ git commit -m "feat(rides): GET /api/manager/dashboard (schedule join, orphans, 
   - `onRequestPut` (`{ locations?, global? }`) → `requireManager` → shallow-merge into the stored blobs, set `v: 1`, write back. Validate: each `locations[name]` has `outbound`/`ret` either `null` or an int in `0..600`; `global.retDefault` int `0..600`; ignore unknown keys. `200 { ok: true }`.
   - `onRequestOptions` → preflight.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `functions/api/__tests__/manager-config.test.js`:
 ```js
@@ -1462,7 +1462,7 @@ describe("/api/manager/config", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `functions/api/manager/config.js`**
+- [x] **Step 2: Implement `functions/api/manager/config.js`**
 
 ```js
 import { json, withCors, preflight, readJson, errToResponse, HttpError } from "../../_lib/http.js";
@@ -1537,7 +1537,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS. **All Function suites green.**
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add functions/

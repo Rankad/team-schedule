@@ -95,3 +95,5 @@ jobs:
           npm test
       - name: Site smoke test
         run: node tests/site_smoke.js
+      - name: Manager smoke test
+        run: node tests/manager_smoke.js

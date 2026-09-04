@@ -39,6 +39,12 @@ Then open <http://localhost:8000> . (Opening `index.html` directly with a
 No accounts, no server, no tracking. If a data file fails to load the page shows
 a Hebrew error instead of a blank screen.
 
+## Manager app (`manager.html`)
+
+A separate, password-gated, unlisted page for the rides coordinator (not
+linked from `index.html`). See `docs/RIDES.md` for the URL and how the
+passphrase is set/rotated.
+
 ## Deploy
 
 Hosted on **Cloudflare Pages** (git integration, no build command, output

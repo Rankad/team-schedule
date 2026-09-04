@@ -1,0 +1,177 @@
+/* Manager app — dashboard-specific styles. Reuses styles.css tokens
+   (--bg, --surface, --text, --muted, --border, --accent, --radius, --tap). */
+
+body { background: var(--bg); }
+
+/* ---------- Login dialog ---------- */
+#mgr-login { width: 100%; max-width: 24rem; }
+.mgr-login-sub { color: var(--muted); margin: 0 0 1rem; }
+.mgr-login-label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+#mgr-login-pass { margin-bottom: 0.5rem; }
+.mgr-login-error { color: var(--accent-dark); font-weight: 600; margin: 0 0 0.5rem; }
+.mgr-login-submit { width: 100%; margin-top: 0.25rem; }
+
+/* ---------- App shell ---------- */
+.mgr-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 0;
+}
+.mgr-logout { font-size: 0.9rem; }
+
+.mgr-tabs {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+.mgr-tab {
+  flex: 1;
+  min-height: var(--tap);
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mgr-tab.is-active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ---------- Dashboard ---------- */
+.mgr-day-header {
+  font-weight: 700;
+  margin: 0.5rem 0 0.75rem;
+}
+.mgr-day-body { display: flex; flex-direction: column; gap: 0.6rem; }
+.mgr-day-empty, .mgr-day-loading { color: var(--muted); }
+
+.mgr-practice {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.mgr-practice-summary {
+  display: block;
+  width: 100%;
+  text-align: start;
+  min-height: var(--tap);
+  padding: 0.7rem 0.85rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mgr-practice-detail {
+  padding: 0 0.85rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.mgr-practice-detail p { margin: 0; }
+.mgr-practice-depart { color: var(--muted); font-size: 0.9rem; }
+
+.mgr-zero { margin-top: 0.2rem; }
+.mgr-zero-toggle {
+  min-height: var(--tap);
+  padding: 0.3rem 0.6rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mgr-zero-list { display: flex; flex-direction: column; gap: 0.3rem; padding: 0 0.6rem; }
+.mgr-zero-row { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+.mgr-orphans {
+  background: var(--banner-bg);
+  border: 1px solid var(--banner-border);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+}
+.mgr-orphans-head { margin: 0 0 0.4rem; font-size: 0.95rem; }
+.mgr-orphan-row { margin: 0.2rem 0; }
+
+.mgr-copy-day { width: 100%; margin-top: 0.75rem; }
+.mgr-copy-msg { color: var(--muted); margin: 0.4rem 0 0; text-align: center; }
+
+.mgr-health { color: var(--muted); font-size: 0.85rem; margin-top: 1.25rem; text-align: center; }
+
+/* ---------- Settings ---------- */
+.mgr-locations { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+.mgr-settings-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.75rem;
+}
+.mgr-settings-label { font-weight: 600; overflow-wrap: anywhere; }
+.mgr-settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.mgr-settings-out, .mgr-settings-ret {
+  width: 4.2rem;
+  min-height: var(--tap);
+  padding: 0.3rem 0.4rem;
+  font: inherit;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.mgr-settings-del {
+  min-height: var(--tap);
+  padding: 0.3rem 0.5rem;
+  background: none;
+  border: none;
+  color: var(--accent-dark);
+  font: inherit;
+  cursor: pointer;
+}
+
+.mgr-add-location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.mgr-add-location .search-input { flex: 1; min-width: 8rem; }
+
+.mgr-ret-default-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.mgr-ret-default-row input { width: 5rem; min-height: var(--tap); padding: 0.3rem 0.4rem; font: inherit; border: 1px solid var(--border); border-radius: 8px; }
+
+.mgr-settings-save { width: 100%; }
+.mgr-settings-msg { color: var(--muted); margin: 0.5rem 0 0; text-align: center; }
+
+/* ---------- Stats ---------- */
+.mgr-stats-body { display: flex; flex-direction: column; gap: 0.5rem; }
+.mgr-stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0.85rem;
+}
+.mgr-stat-label { color: var(--muted); }
+.mgr-stat-value { font-weight: 700; }

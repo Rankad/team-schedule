@@ -46,7 +46,11 @@ WINDOW_FWD_DAYS = 28
 
 BOT_NAME = "github-actions[bot]"
 BOT_EMAIL = "github-actions[bot]@users.noreply.github.com"
-COMMIT_MSG = "chore(data): refresh schedule data [skip ci]"
+# GitHub Actions honours [skip actions] and will NOT re-trigger a workflow for
+# this commit. Cloudflare Pages' git integration does NOT recognise [skip actions],
+# so the push still deploys the new data. Do NOT use "[skip ci]" here — Cloudflare
+# DOES skip builds on that string, which would freeze the live site's schedule.
+COMMIT_MSG = "chore(data): refresh schedule data [skip actions]"
 
 
 def _parse_args(argv):

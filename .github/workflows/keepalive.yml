@@ -1,8 +1,8 @@
 name: Keepalive
 
 # GitHub disables scheduled workflows after 60 days with no repository activity.
-# During quiet periods the club schedule may not change, so the daily
-# "Build & deploy" job produces no commits and the repo looks idle. This
+# During quiet periods the club schedule may not change, so the twice-daily
+# "Build schedule data" workflow produces no commits and the repo looks idle. This
 # monthly no-op commit keeps the repo active so the daily cron is never paused.
 # It touches only .github/keepalive.log, so it does not trigger a redeploy.
 on:

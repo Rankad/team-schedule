@@ -438,7 +438,9 @@
 - **Cloudflare Pages** stays the documented fallback (private repo, custom
   domain, higher limits): connect repo, build command none, output dir `public`.
 - **Status:** Superseded on the host choice by **DL-028** (site moved to
-  Cloudflare Pages 2026-09-04). The rest of DL-026 stands.
+  Cloudflare Pages 2026-09-04). The cron schedule, the monthly keepalive, and the
+  public-repo decision still stand; the `deploy` job and the `push` trigger
+  described below were removed — see DL-028.
 - **Risk:** Low. Depends on the `GOOGLE_CALENDAR_API_KEY` repo secret (set +
   verified by the stakeholder).
 - **OQ-6 resolved 2026-09-02:** the club was told about the app and approved.
@@ -474,6 +476,11 @@
   need. Rather than run the site on one platform and the API on another, the
   site moves to Cloudflare Pages now, as a standalone step before any rides code.
 - **Decision:**
+  - **The data-refresh commit uses `[skip actions]`, not `[skip ci]`.**
+    `scripts/fetch_and_build.py` tags its auto-commit so GitHub Actions does not
+    re-trigger on it; the tag was `[skip ci]`, which Cloudflare Pages ALSO honours
+    (it skips the build). Changed to `[skip actions]` — recognised by GitHub,
+    ignored by Cloudflare — so every data push deploys.
   - **Host = Cloudflare Pages**, connected to the GitHub repo via git
     integration. **No build command**; build output directory `public/`;
     production branch `main`. Live at `https://gilboa-schedule.pages.dev`
@@ -487,7 +494,7 @@
   - **The GitHub Pages `deploy` job is removed** from `build.yml`. The old
     `rankad.github.io/team-schedule/` URL is kept alive with a client-side
     redirect page (`legacy/index.html`, preserves `?teams=` and `#hash`),
-    published once via the manual `deploy-legacy-redirect` job. It can stay
+    published once via the manual `legacy-redirect.yml` workflow. It can stay
     indefinitely — it costs nothing — or be removed after a transition period.
   - **`keepalive.yml` stays** — the cron-inactivity guard is still needed.
   - Cron schedule, data-file shapes, and all site code are untouched.

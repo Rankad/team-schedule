@@ -1,0 +1,37 @@
+name: Publish legacy redirect
+
+# One-off: publishes legacy/ to the retired GitHub Pages URL
+# (rankad.github.io/team-schedule) so previously-shared links forward to the
+# Cloudflare site. Run once, by hand, after the migration merges. See DL-028.
+on:
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+
+concurrency:
+  group: legacy-redirect
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload legacy/ as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: legacy
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

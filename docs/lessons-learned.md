@@ -192,6 +192,8 @@
     monthly keepalive commit to `.github/keepalive.log`.
 - **Apply:** For any static-site-from-a-subfolder on GitHub Pages: public repo,
   Actions deploy, single workflow, keepalive. See DL-026.
+- **Superseded on the host choice by DL-028** — site moved to Cloudflare Pages
+  2026-09-04; GitHub Pages retired.
 
 ## LL-017 — A "site is broken" report was correct behaviour over sparse data
 - **Date:** 2026-09-02 (post-launch)
@@ -229,6 +231,20 @@
 - **Apply:** Extend the smoke harness with self-contained `{ const … }` blocks;
   add the `FakeDate` seam whenever a feature branches on the current date.
   (Extends LL-011.)
+
+## LL-019 — `[skip ci]` in an auto-commit silently disables Cloudflare Pages deploys
+- **Date:** 2026-09-04 (hosting migration, caught in whole-branch review)
+- **Context:** `fetch_and_build.py` tagged its twice-daily data commit
+  `[skip ci]` to stop GitHub Actions re-triggering. After moving hosting to
+  Cloudflare Pages (DL-028), deployment is driven by the push webhook — and
+  Cloudflare Pages' git integration ALSO treats `[skip ci]` (and `[ci skip]`,
+  `[no-ci]`, `[skip-ci]`, case-insensitive) as "do not build".
+- **What we learned:** the migration would have shipped a live site frozen at
+  merge time — no error, no signal. Fix: tag the commit `[skip actions]`
+  instead (GitHub honours it, Cloudflare ignores it). When a deploy trigger
+  changes platform, re-check every commit-message convention against the new
+  platform's skip rules.
+- **Status:** Fixed on `feature/hosting-migration-cloudflare` before merge.
 
 <!-- Template
 ## LL-NNN — <title>

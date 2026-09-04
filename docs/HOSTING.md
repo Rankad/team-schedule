@@ -7,13 +7,17 @@
   production branch `main`, no build command, output directory `public/`.
 - **Old URL:** `https://rankad.github.io/team-schedule/` — redirects to the
   Cloudflare URL. Backed by `legacy/` in this repo + the manual
-  `deploy-legacy-redirect` GitHub Actions job.
+  `legacy-redirect.yml` GitHub Actions workflow.
 
 ## How a deploy happens
 1. `build.yml` job `build-data` (twice-daily cron / manual) rebuilds
    `public/data/*.json` and pushes to `main` if the schedule changed.
 2. Cloudflare Pages sees the push and deploys `public/` (~1 min). Any other
    push to `main` (site edit, docs) also triggers a deploy — harmless.
+
+   > The auto-commit from `fetch_and_build.py` is tagged `[skip actions]` (not
+   > `[skip ci]`, which Cloudflare would skip). If you ever change that commit
+   > message, keep it free of `[skip ci]` / `[ci skip]` / `[no-ci]` / `[skip-ci]`.
 3. Watch deploys in the Cloudflare dashboard → the project → **Deployments**.
 
 ## Manual redeploy

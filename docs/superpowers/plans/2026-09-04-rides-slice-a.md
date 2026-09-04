@@ -846,7 +846,7 @@ git commit -m "feat(rides): /api/request + /api/me (per-row KV, 20-row cap)"
     - returns counts.
   - `functions/api/purge.js`: `onRequestPost` — require header `x-purge-key === env.PURGE_KEY` (constant-time-ish compare; missing/wrong → `401 { error: 'unauthorized' }`), then `runPurge(env.RIDES_KV, new Date().toISOString().slice(0,10))` → `200 { ok: true, ...counts }`.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `functions/_lib/__tests__/purge.test.js`:
 ```js
@@ -897,7 +897,7 @@ describe("POST /api/purge", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `functions/_lib/purge.js`**
+- [x] **Step 2: Implement `functions/_lib/purge.js`**
 
 ```js
 import { weekKeyOf } from "./week.js";
@@ -945,7 +945,7 @@ export async function runPurge(kv, todayStr) {
 }
 ```
 
-- [ ] **Step 3: Implement `functions/api/purge.js`**
+- [x] **Step 3: Implement `functions/api/purge.js`**
 
 ```js
 import { json, withCors, preflight, errToResponse, HttpError } from "../_lib/http.js";
@@ -974,7 +974,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 4: Add the workflow step**
+- [x] **Step 4: Add the workflow step**
 
 In `.github/workflows/build.yml`, after the `Push (no-op if fetch_and_build made no commit)` step in job `build-data`, add:
 
@@ -994,12 +994,12 @@ In `.github/workflows/build.yml`, after the `Push (no-op if fetch_and_build made
 
 `continue-on-error: true` + the guard means the data build never fails because of rides. Record `PURGE_KEY` and `RIDES_API` as GitHub repo secrets in `RIDES.md` (Task 12).
 
-- [ ] **Step 5: Confirm the workflow file still parses & data tests are unaffected**
+- [x] **Step 5: Confirm the workflow file still parses & data tests are unaffected**
 
 Run: `pytest -q`
 Expected: green (unchanged). The workflow change is YAML-only; a `git diff` review confirms indentation.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add functions/ .github/workflows/build.yml

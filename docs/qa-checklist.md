@@ -83,6 +83,65 @@ Run before calling any phase "done". Record failures in
       of the page).
 - [ ] Toggle row is ≥ 44px tall and has a visible focus outline.
 
+## Rides — Slice A
+- [ ] A parent (no player token) sees no ride chips anywhere; the schedule
+      view is byte-for-byte the same as before Phase 6.
+- [ ] Role switch to player → consent dialog → name step with a live
+      `יוצג כ` preview → `POST /api/token` → chips appear. One-word name
+      handled; `→ חזרה` reverts to the previous step; `POST /api/token`
+      failure shows an inline error and keeps the name entered.
+- [ ] `shortName` never shows a full surname to a non-manager (initial + `׳`
+      only, e.g. "דניאל כ׳").
+- [ ] Ride chip states (unset / set-round / set-out / set-back) render
+      correctly; every clock time in the caption is wrapped for `ltr`
+      isolation (Hebrew RTL context, LTR time).
+- [ ] Weekly reset: a new week's `week_key` has no request rows for any
+      token — nothing to "clear" client-side, it's just absent server-side.
+- [ ] Bottom sheet write is optimistic (chip updates immediately); a 5xx
+      response reverts the chip and shows a retry toast; a 400 shows a
+      non-retry toast (client error, not transient).
+- [ ] `#screen-rides` empty state lists that week's practices with an
+      "add ride" button each — not a dead screen.
+- [ ] Switching back to parent role prompts, then on confirm deletes
+      `week/<wk>/req/<token>/*` via `DELETE /api/me` (best-effort — local
+      state clears even if the call fails).
+- [ ] With the rides API entirely unreachable (DevTools request-block on
+      `/api/*`), the schedule list, weekly summary, all four export actions,
+      and the changes banner still work exactly as without Phase 6; the
+      rides UI shows a contained "unavailable" state instead of erroring.
+- [ ] Manager dashboard: day stepper works; rows with zero requests are
+      collapsed by default; an orphaned request (session id no longer in
+      `schedule.json`) appears in its own group, not silently dropped;
+      `העתקת תוכנית היום` copies a correct day summary.
+- [ ] `זמני יציאה` settings round-trip through `PUT /api/manager/config` —
+      per-location values persist and feed `computeDepartTimes` on both the
+      player chip caption and the dashboard.
+- [ ] The health footer on the manager dashboard shows `config/global.lastPurge`.
+- [ ] Purge (`POST /api/purge`) deletes only strictly-past weeks' keys; the
+      current and future weeks are untouched; `config/*` is never deleted.
+
+## Rides — privacy & security
+- [ ] Player and manager tokens: high-entropy (CSPRNG), stored only in
+      `localStorage`, never appear in a URL, query string, or the DOM as
+      visible text.
+- [ ] `PUT /api/request` write validation is structural only (shape, field
+      types, `direction` enum, id regex) — confirm it rejects a malformed
+      body and accepts a well-formed one, with no schedule lookup on the
+      write path.
+- [ ] Request body is capped at 1 KB; a token is capped at 20 rows per week
+      (21st write rejected).
+- [ ] Every `/api/manager/*` route returns `401` on a missing, malformed, or
+      expired Bearer token.
+- [ ] `POST /api/purge` returns `401` without a correct `X-Purge-Key` header.
+- [ ] CORS `access-control-allow-origin` equals `SITE_ORIGIN` on every rides
+      response; preflight (`OPTIONS`) is handled.
+- [ ] No names, tokens, or passphrases appear in Cloudflare Function logs.
+- [ ] **The KV last-write-wins race is designed out (per-row keys, DL-029),
+      not testable under Miniflare** — confirm this is documented (not
+      silently assumed) rather than re-litigated as a missing test.
+- [ ] The §8.1 consent notice's `[contact]` / `[מדיניות פרטיות]` placeholders
+      are filled with real stakeholder-provided text before the pilot ships.
+
 ## Non-functional
 - [ ] A full run over a ~430-event window completes in a few seconds.
 - [ ] Only network call during a run is the calendar fetch.

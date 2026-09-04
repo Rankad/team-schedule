@@ -2117,11 +2117,11 @@ git commit -m "feat(rides): manager dashboard + settings + stats (manager.html)"
 
 **Interfaces:** none (docs only).
 
-- [ ] **Step 1: `docs/RIDES.md`** — cover: the live API base + `manager.html` URL; the KV namespace name/id and how to browse/wipe it (`wrangler kv key list`, `wrangler kv key delete`); the three Cloudflare env secrets (`MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`) and how to set them; the two GitHub secrets (`PURGE_KEY`, `RIDES_API`); how to rotate the manager passphrase (change the Cloudflare secret → every existing session token stops verifying, which is the desired effect); the edge Rate Limiting rule (paths, threshold); the CORS `SITE_ORIGIN` var; local dev (`npx wrangler pages dev public --kv RIDES_KV`); how the purge is invoked and how to read `config/global.lastPurge`.
+- [x] **Step 1: `docs/RIDES.md`** — cover: the live API base + `manager.html` URL; the KV namespace name/id and how to browse/wipe it (`wrangler kv key list`, `wrangler kv key delete`); the three Cloudflare env secrets (`MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`) and how to set them; the two GitHub secrets (`PURGE_KEY`, `RIDES_API`); how to rotate the manager passphrase (change the Cloudflare secret → every existing session token stops verifying, which is the desired effect); the edge Rate Limiting rule (paths, threshold); the CORS `SITE_ORIGIN` var; local dev (`npx wrangler pages dev public --kv RIDES_KV`); how the purge is invoked and how to read `config/global.lastPurge`.
 
-- [ ] **Step 2: `docs/decision-log.md`** — append `DL-029` and `DL-030`. `DL-029`: per-row KV keys (LWW race), structural-only write validation, opaque tokens in `localStorage` only, purge via the existing Action not a second scheduler, schema `v:1`. `DL-030`: generated passphrase (not user-chosen), 6 h session, edge Rate Limiting (not a KV counter), Cloudflare Access deferred to Slice B, legal review is a wide-rollout blocker only.
+- [x] **Step 2: `docs/decision-log.md`** — append `DL-029` and `DL-030`. `DL-029`: per-row KV keys (LWW race), structural-only write validation, opaque tokens in `localStorage` only, purge via the existing Action not a second scheduler, schema `v:1`. `DL-030`: generated passphrase (not user-chosen), 6 h session, edge Rate Limiting (not a KV counter), Cloudflare Access deferred to Slice B, legal review is a wide-rollout blocker only.
 
-- [ ] **Step 3: `docs/execution-plan.md`** — add:
+- [x] **Step 3: `docs/execution-plan.md`** — add:
 ```markdown
 ## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`)
 - Goal: player ride requests on each practice + a password-gated coordinator
@@ -2134,13 +2134,13 @@ git commit -m "feat(rides): manager dashboard + settings + stats (manager.html)"
 ```
 and a progress-log entry once built.
 
-- [ ] **Step 4: `docs/qa-checklist.md`** — add the two sections. Rides — Slice A: parent sees no chips; consent → name → token; `shortName` never shows a full surname to a non-manager; chip states + caption `ltr` isolation; weekly reset (no rows for a new week's key); optimistic save + 5xx revert + 400 non-retry; actionable empty state; switch-back deletes `week/<wk>/req/<token>/*`; API-down leaves the schedule fully working; day stepper + collapsed rows + orphan group + `העתקת תוכנית היום`; `זמני יציאה` round-trips; health footer shows `lastPurge`; purge deletes only strictly-past weeks. Rides — privacy & security: token entropy + `localStorage`-only + never in a URL/DOM; structural-only write validation; 1 KB body cap + 20-row cap; manager `401` on missing/bad/expired Bearer; `POST /api/purge` `401` without `X-Purge-Key`; CORS = `SITE_ORIGIN`; no names/tokens in logs; **the KV LWW race is designed out (per-row keys), not testable under Miniflare**; consent contact placeholder filled before the pilot.
+- [x] **Step 4: `docs/qa-checklist.md`** — add the two sections. Rides — Slice A: parent sees no chips; consent → name → token; `shortName` never shows a full surname to a non-manager; chip states + caption `ltr` isolation; weekly reset (no rows for a new week's key); optimistic save + 5xx revert + 400 non-retry; actionable empty state; switch-back deletes `week/<wk>/req/<token>/*`; API-down leaves the schedule fully working; day stepper + collapsed rows + orphan group + `העתקת תוכנית היום`; `זמני יציאה` round-trips; health footer shows `lastPurge`; purge deletes only strictly-past weeks. Rides — privacy & security: token entropy + `localStorage`-only + never in a URL/DOM; structural-only write validation; 1 KB body cap + 20-row cap; manager `401` on missing/bad/expired Bearer; `POST /api/purge` `401` without `X-Purge-Key`; CORS = `SITE_ORIGIN`; no names/tokens in logs; **the KV LWW race is designed out (per-row keys), not testable under Miniflare**; consent contact placeholder filled before the pilot.
 
-- [ ] **Step 5: `docs/architecture.md` + `docs/known-constraints.md` + `docs/ui-ux-spec.md`** — the component block, the constraints list, the UX summary.
+- [x] **Step 5: `docs/architecture.md` + `docs/known-constraints.md` + `docs/ui-ux-spec.md`** — the component block, the constraints list, the UX summary.
 
-- [ ] **Step 6: Verify the doc references resolve** — grep for `2026-09-03-rides-coordination-design.md` and confirm it now exists on the branch/`main` (Task 0 prereq); grep for `rides-spec.md`.
+- [x] **Step 6: Verify the doc references resolve** — grep for `2026-09-03-rides-coordination-design.md` and confirm it now exists on the branch/`main` (Task 0 prereq); grep for `rides-spec.md`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add docs/

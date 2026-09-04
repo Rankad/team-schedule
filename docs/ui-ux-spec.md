@@ -92,8 +92,71 @@ UI.
 - Tap targets ≥ 44px.
 - Works with system font scaling.
 
+## Rides (Phase 6) — player mode + manager page
+Full spec: `docs/rides-spec.md`. Summary only; that document is authoritative.
+
+### Player mode (inside the existing app, `index.html`/`app.js`/`rides.js`)
+- **Entry:** a low-key text action under the follows row —
+  `רישום להסעות — מעבר למצב שחקן` — not a parent/player toggle. Tapping it
+  shows a consent dialog, then an inline "שם מלא" step with a live
+  `יוצג כ: <shortName>` preview before the name is saved.
+- **Persistent player-mode signal:** a rides summary card at the top of My
+  Week (`ההסעות שלי לשבוע זה: 2 · 1 ללא שעה`, or `טרם נרשמת להסעות השבוע`).
+  Tap → `#screen-rides`. This card is also home to `מעבר למצב הורה`, which
+  prompts before deleting the week's requests.
+- **Ride chip:** a full-width tinted strip on each session card, between the
+  time/location line and the notes line — outlined `🚐 הוספת הסעה` (no
+  request) or filled/accent `🚐 <direction> ✓` with a departure-time caption
+  (or `טרם נקבעה שעה`). State is never carried by color alone (no red/green
+  in this palette).
+- **Trip-type bottom sheet:** tapping the chip opens a `<dialog>` bottom
+  sheet — `הלוך וחזור` (preselected) / `הלוך` / `חזור`, plus `ביטול הסעה`
+  when a request exists. Optimistic save with toast-on-failure.
+- **`#screen-rides`:** the week's requests grouped by day, with an actionable
+  empty state (every practice for the week, each with an add-ride button) —
+  never a dead screen. A load failure is a distinct state from "loaded,
+  empty".
+- **Isolation:** if the rides API is unreachable, the ride UI shows a
+  contained "unavailable, retry" state; the schedule list, weekly summary,
+  exports, and changes banner are completely unaffected.
+
+### Manager page — `public/manager.html` (separate page, not a view in the parent app)
+No link from `index.html`; the coordinator bookmarks the URL directly
+(`docs/RIDES.md`). Password-gated (`POST /api/manager/login`), 6 h session.
+Two tabs:
+- **`לוח בקרה` (dashboard):** a day stepper (not 7 chips — overflows mobile);
+  a day header with total riders/rides; one collapsed row per practice with
+  ≥1 request, expanding to the departure times and the named rider list per
+  direction (full names shown **only here**, never to another player);
+  practices with zero requests collapsed behind a toggle; an
+  **orphaned-requests** group for any request whose session no longer
+  matches the published schedule (never silently dropped); a
+  "copy today's plan as text" action for pasting into a drivers' WhatsApp
+  group; a health footer showing the last purge date (a stale date is the
+  fail-loud signal something broke).
+- **`הגדרות` (settings):** one row per practice location from the published
+  schedule with `הלוך` (minutes before start) / `חזור` (minutes after end,
+  blank = global default) number inputs, a "+ add a manual location" field,
+  per-row delete, and one global `ברירת מחדל לחזרה` default.
+- A third **usage stats** view (own tab or bottom of the dashboard) shows
+  approximate counts: registered players (week / all-time), this week's
+  requests by direction, distinct planned rides, active locations, app opens
+  (today / 7-day).
+
+### Accessibility & interaction notes specific to rides
+- Ride chips are real `<button>`s, ≥44×44, `aria-haspopup="dialog"`, with an
+  accessible name describing the current state (e.g.
+  `הסעה: הלוך וחזור, יוצא 16:20; לעריכה`).
+- The bottom sheet traps focus, respects `Esc`/backdrop/`prefers-reduced-motion`,
+  and restores focus to the triggering chip on close; a selection fires an
+  `aria-live` announcement of the new state.
+- Every clock time inside a rides caption is wrapped the same way session
+  times already are (`ltrIsolate`), so digits read correctly under RTL bidi.
+
 ## Out of scope for MVP UI
 - Family / per-child grouping (data model allows it; UI is flat team-follow for
   now — see PRD).
 - Push/WhatsApp opt-in UI.
 - Any schedule editing.
+- Rides Slice B (end-of-week station pickups, per-team coordinators,
+  Cloudflare Access login) — separate spec after the Slice A pilot.

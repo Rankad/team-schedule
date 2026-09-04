@@ -109,3 +109,36 @@ switch systems, fall back to the Excel importer.
 - `data/teams_registry.json` committed is still a **seed** built from the single
   sample week; `T_NNN` numbering is only locked once Phase 2 runs against live
   data. Safe to delete and regenerate until then.
+
+## Rides (Phase 6) — backend, secrets, privacy
+- **KV namespace `RIDES_KV`** must be created and bound to the
+  `gilboa-schedule` Cloudflare Pages project (Production **and** Preview) —
+  a one-time dashboard/`wrangler` step, not committed anywhere. Not yet done
+  as of Task 12 (see `docs/execution-plan.md` "Immediate next step").
+- **Three Cloudflare env secrets** (Production + Preview):
+  `MANAGER_PASSPHRASE` (generated, gates `/api/manager/*`), `SITE_ORIGIN`
+  (CORS allow-origin + the origin Functions fetch `data/schedule.json` /
+  `data/teams.json` from), `PURGE_KEY` (required `X-Purge-Key` header on
+  `POST /api/purge`). None are committed or shipped to the client. See
+  `docs/RIDES.md`.
+- **Two GitHub Actions secrets:** `PURGE_KEY` (same value as above) and
+  `RIDES_API` (= `https://gilboa-schedule.pages.dev`) — read by
+  `.github/workflows/build.yml` to call the purge endpoint after the
+  twice-daily schedule rebuild. Missing either just skips the purge
+  (non-fatal to the schedule build).
+- **Minors' PII / legal review pending:** ride requests store a named minor's
+  full name + which practices they attend + travel direction (rides-spec
+  §8.2, §8.5). The stakeholder still needs to obtain a legal opinion
+  (PPL / Amendment 13 registration, whether the §8.1 consent notice is
+  sufficient). **This blocks club-wide rollout, not the single-team pilot**
+  (DL-030). The §8.1 consent text has `[contact]` / `[מדיניות פרטיות]`
+  placeholders that must be filled from the stakeholder before the pilot
+  ships.
+- **The KV last-write-wins race is not testable under Miniflare** — it is
+  single-threaded/consistent, so concurrent-write behaviour can't be
+  reproduced in `functions/**/__tests__` (Vitest). Correctness instead comes
+  from the per-row key design (DL-029: each ride request is its own KV key,
+  so there is nothing to race on) — verified by code review and the key
+  shape, not by a concurrency test. Documented in `docs/qa-checklist.md`
+  "Rides — privacy & security" so this known gap isn't mistaken for an
+  oversight in a future QA pass.

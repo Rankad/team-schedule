@@ -225,6 +225,10 @@ function renderHeader() {
 }
 
 function renderMyWeek() {
+  // The rides hooks in the `finally` must never be able to break the schedule
+  // render, so the whole schedule body runs inside try/finally (not try/catch —
+  // a real schedule error still propagates exactly as before).
+  try {
   var onboarding = document.getElementById('onboarding');
   var followsRow = document.getElementById('follows-row');
   var content = document.getElementById('week-content');
@@ -295,6 +299,16 @@ function renderMyWeek() {
   // Footer summary.
   renderSummary(weekSessions);
   footer.hidden = false;
+  } finally {
+    if (window.Rides) {
+      try {
+        window.Rides.renderRoleEntry();
+        if (window.Rides.renderSummaryCard) window.Rides.renderSummaryCard();
+      } catch (e) {
+        console.error('rides UI error (schedule unaffected):', e);
+      }
+    }
+  }
 }
 
 function renderFollowChips(row) {
@@ -1034,20 +1048,36 @@ window.icsEsc = icsEsc;
 window.drawWeekImage = drawWeekImage;
 window.groupByDate = groupByDate;
 window.splitWeekByToday = splitWeekByToday;
+// Rides (public/rides.js) drives screen navigation + re-renders through these.
+window.goto = goto;
+window.render = render;
+window.showToast = showToast;
 
 // ---------- Screen navigation ----------
+var SCREEN_IDS = {
+  myweek: 'screen-myweek', addteam: 'screen-addteam',
+  rides: 'screen-rides', privacy: 'screen-privacy'
+};
+
 function goto(screen) {
-  var mw = document.getElementById('screen-myweek');
-  var at = document.getElementById('screen-addteam');
+  var target = SCREEN_IDS[screen] || 'screen-myweek';
+  Object.keys(SCREEN_IDS).forEach(function (k) {
+    var n = document.getElementById(SCREEN_IDS[k]);
+    if (n) n.hidden = (SCREEN_IDS[k] !== target);
+  });
   if (screen === 'addteam') {
-    mw.hidden = true;
-    at.hidden = false;
     document.getElementById('search').value = '';
     renderSearch();
     document.getElementById('search').focus();
+  } else if (screen === 'rides') {
+    if (window.Rides && window.Rides.renderRides) {
+      try { window.Rides.renderRides(); } catch (e) { console.error('rides screen error (schedule unaffected):', e); }
+    }
+  } else if (screen === 'privacy') {
+    if (window.Rides && window.Rides.renderPrivacy) {
+      try { window.Rides.renderPrivacy(); } catch (e) { console.error('privacy screen error:', e); }
+    }
   } else {
-    at.hidden = true;
-    mw.hidden = false;
     render();
   }
   window.scrollTo(0, 0);

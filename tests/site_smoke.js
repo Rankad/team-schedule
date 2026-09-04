@@ -81,6 +81,10 @@ class El {
   dispatch(t) { (this._listeners[t] || []).forEach(fn => fn.call(this, { target: this })); }
   click() { this.dispatch('click'); }
   focus() {}
+  // <dialog> shims — enough for the rides consent flow
+  showModal() { this._open = true; this.setAttribute('open', ''); }
+  show() { this._open = true; this.setAttribute('open', ''); }
+  close(v) { this._open = false; delete this.attrs.open; if (v !== undefined) this.returnValue = String(v); this.dispatch('close'); }
   _walk(fn) { fn(this); this.children.forEach(c => c._walk(fn)); }
   querySelectorAll(sel) { const out = []; this._walk(n => { if (n !== this && m(n, sel)) out.push(n); }); return out; }
   querySelector(sel) { return this.querySelectorAll(sel)[0] || null; }
@@ -115,6 +119,8 @@ mw.appendChild(onb);
 mw.appendChild(mk('div', 'follows-row'));
 const shareFollows = mk('button', 'share-follows'); shareFollows.hidden = true;
 mw.appendChild(shareFollows);
+mw.appendChild(mk('div', 'rides-summary-slot'));
+mw.appendChild(mk('div', 'role-entry-slot'));
 const banner = mk('div', 'changes-banner'); banner.hidden = true;
 const btoggle = mk('button', null, 'changes-toggle'); btoggle.setAttribute('aria-expanded', 'false');
 btoggle.appendChild(mk('span', null, 'changes-summary'));
@@ -134,9 +140,31 @@ at.appendChild(mk('input', 'search'));
 at.appendChild(mk('p', 'search-hint'));
 at.appendChild(mk('div', 'results'));
 
+// Rides screens + consent dialog (Task 9)
+const scrRides = mk('section', 'screen-rides'); scrRides.hidden = true;
+scrRides.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
+scrRides.appendChild(mk('div', 'rides-body'));
+app.appendChild(scrRides);
+const scrPrivacy = mk('section', 'screen-privacy'); scrPrivacy.hidden = true;
+scrPrivacy.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
+scrPrivacy.appendChild(mk('div', 'privacy-body', 'prose'));
+app.appendChild(scrPrivacy);
+const privacyLink = mk('button', null, 'linklike', { 'data-goto': 'privacy' });
+app.appendChild(privacyLink);
+const consent = mk('dialog', 'rides-consent');
+consent.appendChild(mk('div', 'rides-consent-body'));
+consent.appendChild(mk('button', null, 'btn btn-primary', { 'data-consent': 'ok', type: 'button' }));
+consent.appendChild(mk('button', null, 'btn', { 'data-consent': 'cancel', type: 'button' }));
+root.appendChild(consent);
+
 let domLoaded = null;
 global.document = {
-  getElementById: (id) => byId[id] || null,
+  getElementById: (id) => {
+    if (byId[id]) return byId[id];
+    let found = null;
+    root._walk((n) => { if (!found && n.attrs && n.attrs.id === id) found = n; });
+    return found;
+  },
   createElement: (t) => new El(t),
   createTextNode: (t) => { const e = new El('#text'); e._text = String(t); return e; },
   addEventListener: (t, fn) => { if (t === 'DOMContentLoaded') domLoaded = fn; },
@@ -163,7 +191,17 @@ const FAKE_CHANGES = {
       new: { start: '2000-01-01T19:30:00+03:00', end: '2000-01-01T21:30:00+03:00' } },
   ],
 };
-global.fetch = (url) => {
+let TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
+global.fetch = (url, opts) => {
+  if (url.indexOf('/api/token') !== -1) {
+    return Promise.resolve({
+      ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
+      json: () => Promise.resolve(TOKEN_RESPONSE.body),
+    });
+  }
+  if (url.indexOf('/api/') !== -1) {
+    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({}) });
+  }
   const f = url.replace(/^data\//, 'public/data/');
   return Promise.resolve({
     ok: true, status: 200,
@@ -484,6 +522,72 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(dt.outbound === '16:20' && dt.ret === '18:45', 'computeDepartTimes matches the server helper');
 
     assert(R.apiBase() === 'http://localhost:8000/api', 'apiBase is same-origin /api (no token, no hard-coded prod host)');
+  }
+
+  console.log('rides — role + consent + name');
+  {
+    const gid = (id) => global.document.getElementById(id);
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    window.applyTeamsParam('?teams=' + T1);
+    window.render();
+
+    assert(gid('role-entry-slot').textContent.indexOf('מעבר למצב שחקן') !== -1,
+      'parent sees the "switch to player" link');
+    assert(!byId['week-content'].querySelector('.ride-chip'), 'parent sees no ride chips');
+
+    window.Rides.enterPlayerMode();
+    const consentDlg = gid('rides-consent');
+    assert(!!consentDlg, 'consent dialog present');
+    assert(gid('rides-consent-body').textContent.indexOf('נמחק אוטומטית בסוף כל שבוע') !== -1,
+      'consent shows the retention line');
+    consentDlg.querySelector('[data-consent="ok"]').click();
+
+    const nameInput = gid('rides-name-input');
+    assert(!!nameInput, 'name step rendered after consent');
+    nameInput.value = 'דניאל כהן'; nameInput.dispatch('input');
+    assert(gid('rides-name-preview').textContent.indexOf('דניאל כ׳') !== -1, 'live "יוצג כ" preview');
+
+    TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
+    gid('rides-name-save').click();
+    await new Promise(r => setTimeout(r, 10));
+    assert(JSON.parse(store['gilboa.player']).token === 'tok-smoke-123', 'token stored on success');
+    assert(JSON.parse(store['gilboa.player']).fullName === 'דניאל כהן', 'full name stored on success');
+    assert(store['gilboa.role'] === 'player', 'role set to player');
+    assert(!gid('role-entry-slot').textContent, 'role link gone once in player mode');
+
+    // failure path
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    window.Rides.enterPlayerMode();
+    gid('rides-consent').querySelector('[data-consent="ok"]').click();
+    gid('rides-name-input').value = 'מאיה לוי'; gid('rides-name-input').dispatch('input');
+    TOKEN_RESPONSE = { ok: false, status: 500, body: {} };
+    gid('rides-name-save').click();
+    await new Promise(r => setTimeout(r, 10));
+    assert(!store['gilboa.player'], 'no player stored on failure');
+    assert(gid('rides-name-error').textContent.indexOf('לא הצלחנו לשמור') !== -1, 'inline failure message');
+    assert(gid('rides-name-input').value === 'מאיה לוי', 'typed name kept after failure');
+
+    // one-word warning
+    gid('rides-name-input').value = 'מדונה'; gid('rides-name-input').dispatch('input');
+    gid('rides-name-save').click();
+    assert(gid('rides-name-save').textContent.indexOf('שמור בכל זאת') !== -1,
+      'one word => save button becomes "שמור בכל זאת"');
+    assert(!store['gilboa.player'], 'one word, first press: nothing saved yet');
+
+    // back out
+    gid('rides-name-back').click();
+    assert(!store['gilboa.role'] || store['gilboa.role'] !== 'player', '→ חזרה leaves parent mode clean');
+    assert(!store['gilboa.player'], '→ חזרה writes no player credential');
+
+    // privacy screen reachable + carries the full notice
+    window.goto('privacy');
+    assert(gid('screen-privacy').hidden === false, 'privacy screen shows');
+    assert(gid('privacy-body').textContent.indexOf('[contact]') !== -1, 'privacy screen has the contact placeholder');
+    window.goto('myweek');
+    assert(gid('screen-privacy').hidden === true && gid('screen-myweek').hidden === false, 'back to My Week');
+
+    delete store['gilboa.role']; delete store['gilboa.player'];
+    window.render();
   }
 
   console.log('week nav bounds');

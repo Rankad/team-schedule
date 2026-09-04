@@ -1024,7 +1024,7 @@ git commit -m "feat(rides): POST /api/purge + twice-daily purge step in build.ym
   - `depart.js`: `computeDepartTimes(session, locConfig, retDefault)` → `{ outbound: "HH:MM"|null, ret: "HH:MM"|null }`. `session` = `{ start, end, location }` (ISO with `+03:00`). `locConfig` = `{ outbound:int|null, ret:int|null }` or `undefined`. Wall-clock math on the `HH:MM` in the ISO string — **no `Date` timezone conversion**. `outbound = start − locConfig.outbound` minutes; `null` if `locConfig?.outbound == null`. `ret = end + (locConfig.ret ?? retDefault)` minutes; `null` if both are null or `end` missing. Minute arithmetic may cross midnight → clamp to `00:00`..`23:59` display, or wrap (document the choice; wrap is fine, practices don't run past midnight).
   - `login.js`: `onRequestPost` (`{ passphrase }`) → constant-time compare with `env.MANAGER_PASSPHRASE` → `mintManagerToken` → `200 { token, exp }`; mismatch → `401 { error: 'bad_passphrase' }`.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 `functions/_lib/__tests__/depart.test.js`:
 ```js
@@ -1082,7 +1082,7 @@ describe("POST /api/manager/login", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `depart.js`**
+- [x] **Step 2: Implement `depart.js`**
 
 ```js
 function hm(iso) {
@@ -1108,7 +1108,7 @@ export function computeDepartTimes(session, locConfig, retDefault) {
 }
 ```
 
-- [ ] **Step 3: Implement `auth.js` and `login.js`**
+- [x] **Step 3: Implement `auth.js` and `login.js`**
 
 `functions/_lib/auth.js`:
 ```js
@@ -1152,7 +1152,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add functions/

@@ -406,7 +406,7 @@ git commit -m "feat(rides): functions package + _lib helpers (token, http, valid
   - `functions/api/ping.js`: `onRequestPost` → always `204` (never leaks an error to the client), writes `stats/opens/<utc-date>/<rand>`. `onRequestOptions` → preflight.
   - `stats.js`: `bumpPlayersAll(kv)` → `Promise<void>` (get int, `+1`, put; best-effort, swallow errors); `writeOpen(kv)` → `Promise<void>` (`kv.put('stats/opens/'+today+'/'+rand, '1', { expirationTtl: 60*60*24*100 })`); `sumOpens(kv, dateStr)` → `Promise<number>` (`kv.list({ prefix: 'stats/opens/'+dateStr+'/' })`, count keys, page through `list_complete`).
 
-- [ ] **Step 1: Write failing tests for `stats.js`**
+- [x] **Step 1: Write failing tests for `stats.js`**
 
 `functions/_lib/__tests__/stats.test.js`:
 ```js
@@ -433,7 +433,7 @@ describe("stats", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 2: Implement `stats.js`**
+- [x] **Step 2: Implement `stats.js`**
 
 `functions/_lib/stats.js`:
 ```js
@@ -468,7 +468,7 @@ export async function sumOpens(kv, dateStr) {
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 3: Write failing tests for `token.js` / `ping.js` endpoints**
+- [x] **Step 3: Write failing tests for `token.js` / `ping.js` endpoints**
 
 `functions/api/__tests__/token.test.js`:
 ```js
@@ -512,7 +512,7 @@ describe("POST /api/ping", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 4: Implement the endpoints**
+- [x] **Step 4: Implement the endpoints**
 
 `functions/api/token.js`:
 ```js
@@ -548,7 +548,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add functions/

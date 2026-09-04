@@ -189,6 +189,7 @@ FAKE_CHANGES.changes[0].week_key = lastWeek;
 const t1name = teams.find(t => t.team_id === T1).display_name;
 
 require(path.join(ROOT, 'public', 'app.js'));
+require(path.join(ROOT, 'public', 'rides.js'));
 
 (async () => {
   await domLoaded();
@@ -458,6 +459,31 @@ require(path.join(ROOT, 'public', 'app.js'));
     delete store['gilboa.week_collapsed'];
     window.applyTeamsParam('?teams=' + T1);
     } // end GK guard
+  }
+
+  console.log('rides — pure helpers');
+  {
+    const R = window.Rides;
+    assert(!!R, 'window.Rides namespace exists');
+    assert(R.shortName('דניאל כהן') === 'דניאל כ׳', 'shortName: first name + last initial + geresh');
+    assert(R.shortName('מדונה') === 'מדונה', 'shortName: single word unchanged');
+    assert(R.shortName('  אורי   בר   לב ') === 'אורי ב׳', 'shortName: trims + collapses, initial of 2nd word');
+
+    assert(R.weekKey('2026-09-09') === '2026-09-06', 'weekKey: Wednesday -> prior Sunday');
+    assert(R.weekKey('2026-09-06') === '2026-09-06', 'weekKey: Sunday -> itself');
+
+    const cap = R.rideCaption({ outbound: '16:20', ret: '18:45' }).replace(/[⁦⁩]/g, '');
+    assert(cap === 'יוצא מעין חרוד 16:20 · חזרה 18:45', 'rideCaption: both times');
+    assert(R.rideCaption({ outbound: null, ret: null }) === 'טרם נקבעה שעה', 'rideCaption: nothing set');
+    assert(R.rideCaption({ outbound: '16:20', ret: null }).replace(/[⁦⁩]/g, '') === 'יוצא מעין חרוד 16:20 · חזרה —',
+      'rideCaption: missing side shown as —');
+
+    const dt = R.computeDepartTimes(
+      { start: '2026-09-08T17:00:00+03:00', end: '2026-09-08T18:30:00+03:00', location: 'X' },
+      { outbound: 40, ret: 15 }, 15);
+    assert(dt.outbound === '16:20' && dt.ret === '18:45', 'computeDepartTimes matches the server helper');
+
+    assert(R.apiBase() === 'http://localhost:8000/api', 'apiBase is same-origin /api (no token, no hard-coded prod host)');
   }
 
   console.log('week nav bounds');

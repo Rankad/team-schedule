@@ -13,6 +13,13 @@ on:
     # Nov–late March, and 08:00/20:00 during summer time. Do not "fix" to UTC+3.
     - cron: "0 5,17 * * *"
   workflow_dispatch:
+  # Code pushes/PRs run only the functions-tests job below (build-data is gated
+  # to schedule/dispatch by its own `if:`), so a plain push never re-fetches the
+  # calendar or commits data.
+  push:
+    paths: ["functions/**", "public/**", "tests/**"]
+  pull_request:
+    paths: ["functions/**", "public/**", "tests/**"]
 
 permissions:
   contents: write   # build-data commits the regenerated JSON
@@ -23,6 +30,9 @@ concurrency:
 
 jobs:
   build-data:
+    # Only the scheduled/manual runs fetch the calendar and commit data. Plain
+    # pushes and PRs skip this job and run functions-tests only.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -68,3 +78,20 @@ jobs:
           else
             echo "PURGE_KEY / RIDES_API not set — skipping rides purge"
           fi
+
+  functions-tests:
+    # Rides Function unit tests + the static-site smoke test. Runs on every push
+    # and PR (path-filtered above) and on the scheduled runs; never commits.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Functions unit tests
+        run: |
+          cd functions
+          npm ci
+          npm test
+      - name: Site smoke test
+        run: node tests/site_smoke.js

@@ -1944,6 +1944,15 @@ git commit -m "feat(rides): player role entry, consent + name flow, privacy scre
 - Consumes: `Rides.isPlayerWithToken`, `Rides.getPlayer`, `Rides.weekKey`, `Rides.rideCaption`, `Rides.computeDepartTimes`, `Rides.apiBase`, `window.ltrIsolate`, `window.showToast`, `window.DATA` (read-only, for the team display name + the week's practices in the empty state — **read, never mutate**).
 - Produces on `window.Rides`: `decorateSession(card, session)`, `renderSummaryCard()`, `renderRides()`, `openTripSheet(session)`, `putRequest(session, direction)`, `deleteRequest(session)`, `ping()`. Internal in-memory cache `Rides._week` = `{ key, requestsBySession: {}, loaded: bool, failed: bool }`.
 
+> **Deviation (approved 2026-09-04):** the plan drew departure times on the
+> player chip, but `GET /api/me` (Task 3) returned only `{ requests, rideStatus }`
+> — no way to reach the coordinator's per-location offsets. `me.js` was extended
+> to also return `config: { locations, retDefault }` (structural config, **no
+> personal data**); the client computes the times from the schedule data it
+> already holds via `Rides.computeDepartTimes`. `me.test.js` gained one case.
+> `app.js` also exports `window.viewSunday / DATA / followed / HE_WEEKDAY /
+> weekSessionsFor / ltrIsolate` for `rides.js` (read-only).
+
 **Key behaviours (spec §4.6–4.9, §10):**
 - `decorateSession` inserts `.ride-strip` between `.session-line` and `.session-note`. Chip label + caption per the §4.6 table. `aria-haspopup="dialog"`, accessible name per spec. Every clock time in the caption wrapped by `ltrIsolate` (smoke-tested).
 - Sheet: context heading `<team> · <יום X׳> · <location>`; rows `הלוך וחזור` (preselected) / `הלוך` / `חזור`; `ביטול הסעה` only when a request exists, below a divider. `Esc` / backdrop / selection all restore focus to the chip. `prefers-reduced-motion` respected.
@@ -1953,7 +1962,7 @@ git commit -m "feat(rides): player role entry, consent + name flow, privacy scre
 - API-down anywhere → `.ride-strip` shows `שירות ההסעות אינו זמין כרגע` + `נסו שוב`; the schedule list/summary/exports/changes banner all still render (assert this).
 - `ping()`: throttle via `gilboa.ping_ts` ≤ 1/hour; `POST {apiBase}/api/ping` `keepalive`, ignore all errors. Called once on boot in player **and** parent mode (add a call from `app.js` boot, after `render()`).
 
-- [ ] **Step 1: Extend the fetch stub + write failing tests**
+- [x] **Step 1: Extend the fetch stub + write failing tests**
 
 In the harness `global.fetch` stub add controllable `/api/me` and `/api/request`:
 ```javascript
@@ -2023,11 +2032,11 @@ Test block (before `week nav bounds`), building on the player state from Task 9:
 
 Run: `node tests/site_smoke.js` — FAIL.
 
-- [ ] **Step 2: Implement** `decorateSession`, `openTripSheet`, `putRequest`/`deleteRequest`, `loadMyRides`, `renderSummaryCard`, `renderRides`, `ping` in `public/rides.js` per the behaviours above. Add `window.render` / `window.goto` usage. Keep every `fetch` in a `try/catch` + `.catch`; a rejection sets `Rides._week.failed = true` and renders the contained failure UI, never rethrows.
+- [x] **Step 2: Implement** `decorateSession`, `openTripSheet`, `putRequest`/`deleteRequest`, `loadMyRides`, `renderSummaryCard`, `renderRides`, `ping` in `public/rides.js` per the behaviours above. Add `window.render` / `window.goto` usage. Keep every `fetch` in a `try/catch` + `.catch`; a rejection sets `Rides._week.failed = true` and renders the contained failure UI, never rethrows.
 
-- [ ] **Step 3: Add the sheet DOM** to `public/index.html` (`<dialog id="rides-sheet" class="sheet">` with a `#rides-sheet-heading`, a `#rides-sheet-options` container, and a `#rides-sheet-cancel` slot).
+- [x] **Step 3: Add the sheet DOM** to `public/index.html` (`<dialog id="rides-sheet" class="sheet">` with a `#rides-sheet-heading`, a `#rides-sheet-options` container, and a `#rides-sheet-cancel` slot).
 
-- [ ] **Step 4: Wire `renderSession`** in `public/app.js`:
+- [x] **Step 4: Wire `renderSession`** in `public/app.js`:
 ```javascript
   // ... after `return card;` is built but before returning:
   if (window.Rides && window.Rides.isPlayerWithToken()) {
@@ -2037,11 +2046,11 @@ Run: `node tests/site_smoke.js` — FAIL.
 ```
 And in the boot `.then(...)` after `render();` add `if (window.Rides) window.Rides.ping();`.
 
-- [ ] **Step 5: Styles** — `.ride-strip` (tinted full-width block), `.ride-chip` outlined vs `.ride-chip.is-set` accent (no red/green — use `--accent`), `.ride-caption` (small, muted), sheet option rows (`min-height: var(--tap)`), `.ride-cancel` (muted-red, `border-top: 1px solid` divider, `margin-top`).
+- [x] **Step 5: Styles** — `.ride-strip` (tinted full-width block), `.ride-chip` outlined vs `.ride-chip.is-set` accent (no red/green — use `--accent`), `.ride-caption` (small, muted), sheet option rows (`min-height: var(--tap)`), `.ride-cancel` (muted-red, `border-top: 1px solid` divider, `margin-top`).
 
-- [ ] **Step 6: Run all three suites** — `node tests/site_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
+- [x] **Step 6: Run all three suites** — `node tests/site_smoke.js`, `cd functions && npm test`, `pytest -q` → all green.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/ tests/site_smoke.js

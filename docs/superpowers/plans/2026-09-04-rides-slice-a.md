@@ -1195,7 +1195,7 @@ git commit -m "feat(rides): manager login + auth guard + computeDepartTimes"
   - `distinct rides` = count of `(sessionId, direction-expanded)` where `round` counts as both `out` and `back`.
   - `dashboard.js` endpoint: `requireManager` → read `?week=` (validate) → fetch `schedule.json` + `teams.json` from `env.SITE_ORIGIN` → `buildDashboard` → `200 <object>`.
 
-- [ ] **Step 1: Create the fixture**
+- [x] **Step 1: Create the fixture**
 
 `functions/test-fixtures/schedule.sample.json`:
 ```json
@@ -1220,7 +1220,7 @@ git commit -m "feat(rides): manager login + auth guard + computeDepartTimes"
 ```
 `teamsById` fixture is built inline in the test: `{ T_009: { display_name: "נערות א על" }, T_031: { display_name: "נוער על" } }`.
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 `functions/api/__tests__/manager-dashboard.test.js`:
 ```js
@@ -1266,7 +1266,7 @@ describe("buildDashboard", () => {
 
 Run: `cd functions && npm test` — FAIL.
 
-- [ ] **Step 3: Implement `dashboard.js` lib** (full code — this is the join core)
+- [x] **Step 3: Implement `dashboard.js` lib** (full code — this is the join core)
 
 ```js
 import { computeDepartTimes } from "./depart.js";
@@ -1361,7 +1361,7 @@ export async function buildDashboard(kv, scheduleJson, teamsById, week) {
 }
 ```
 
-- [ ] **Step 4: Implement the endpoint**
+- [x] **Step 4: Implement the endpoint**
 
 `functions/api/manager/dashboard.js`:
 ```js
@@ -1396,7 +1396,7 @@ export function onRequestOptions({ env }) { return preflight(env); }
 
 Run: `cd functions && npm test` — PASS. (The endpoint's `fetch` is not unit-tested here; the harness tests `buildDashboard` directly. Endpoint auth is covered by Task 5's guard + a Task 7 cross-check.)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add functions/

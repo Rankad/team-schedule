@@ -16,6 +16,8 @@ on:
 
 permissions:
   contents: write   # build-data commits the regenerated JSON
+  pages: write      # deploy-legacy-redirect publishes the legacy/ folder
+  id-token: write   # OIDC token for deploy-pages
 
 concurrency:
   group: build-data
@@ -56,3 +58,28 @@ jobs:
 
       - name: Push (no-op if fetch_and_build made no commit)
         run: git push
+
+  deploy-legacy-redirect:
+    # Run once, by hand, after the Cloudflare migration: publishes legacy/ to the
+    # old GitHub Pages URL so previously-shared rankad.github.io links forward on.
+    # Not part of the data pipeline. See DL-028.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload legacy/ as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: legacy
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

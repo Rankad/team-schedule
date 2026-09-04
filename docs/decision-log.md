@@ -577,6 +577,40 @@
   passphrase-sharing model before any club-wide rollout (already gated on the
   legal opinion per rides-spec §8.5).
 
+## DL-032 — Edge rate limiting deferred for the pilot: no Cloudflare zone exists yet
+- **Date:** 2026-09-04 (rides Slice A rollout)
+- **Context:** DL-030 specified a Cloudflare **edge Rate Limiting Rule**
+  (free-plan) covering `/api/token`, `/api/request`, `/api/ping`,
+  `/api/manager/login`. Attempting to configure it during rollout surfaced a
+  gap the spec didn't anticipate: Rate Limiting Rules are a **per-zone**
+  product. This Cloudflare account has **no zone** — the site runs on the
+  shared `*.pages.dev` domain, which Cloudflare itself owns as a zone, not
+  us. A custom domain was already deferred (rides-spec OQ-4). The
+  account-level WAF shown as an alternative is a **paid Enterprise add-on**,
+  not a free-plan option.
+- **Decision:** Ship the single-team pilot **without** edge rate limiting.
+  Do not add a custom domain now solely to unlock it — that decision (OQ-4)
+  stays deferred on its own merits, not pulled forward by this.
+- **Why this is an acceptable gap for the pilot, not indefinitely:**
+  - Write endpoints are already gated by a ≥128-bit opaque token
+    (`/api/request`, `/api/me`) or the generated `MANAGER_PASSPHRASE` +
+    6 h session (`/api/manager/*`) — DL-029/DL-030. There is no unauthenticated
+    write path; rate limiting was defense-in-depth against a token/passphrase
+    brute-force or a scripted flood, not the only control.
+  - Single-team pilot = low, predictable traffic from a known small group.
+  - `PUT /api/request` already caps body size (1 KB) and rows-per-token (20) —
+    DL-029 — bounding the damage of even an unthrottled abusive client.
+- **Follow-up:** Re-evaluate before club-wide rollout, alongside the already-
+  planned Cloudflare Access work (DL-030) and the custom-domain decision
+  (OQ-4). If a custom domain is added for any other reason first, add the
+  Rate Limiting Rule at that point rather than waiting for a dedicated gate.
+- **Status:** Accepted (defer). New follow-up item — not a numbered OQ, since
+  it isn't a design fork, just a rollout task blocked on infrastructure that
+  doesn't exist yet.
+- **Risk:** Low for the pilot (see above). Medium if traffic or attacker
+  interest grows before a custom domain exists — tracked in
+  `docs/known-constraints.md`.
+
 ## DL-031 — Rides purge deletes weekly; anonymous weekly stats-rollup deferred to post-pilot
 - **Date:** 2026-09-04 (rides Slice A, Task 4 follow-up — stakeholder question)
 - **Context:** The daily `POST /api/purge` deletes every `week/<wk>/*` KV key once

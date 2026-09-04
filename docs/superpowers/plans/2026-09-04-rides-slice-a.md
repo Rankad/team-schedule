@@ -2151,11 +2151,17 @@ git commit -m "docs(rides): RIDES.md runbook, DL-029/030, QA checklist, arch + c
 
 ## Integration & rollout (after all tasks)
 
-- [ ] All green: `cd functions && npm test`; `node tests/site_smoke.js`; `node tests/manager_smoke.js`; `pytest -q`.
-- [ ] **Cloudflare setup** (stakeholder / one-time, recorded in `RIDES.md`):
-  - Create KV namespace `RIDES_KV`; bind it to the `gilboa-schedule` Pages project (Production + Preview).
-  - Set env vars `SITE_ORIGIN` (= `https://gilboa-schedule.pages.dev`), `MANAGER_PASSPHRASE` (generated 4–5 words), `PURGE_KEY` (random 32+ chars).
-  - Add one edge **Rate Limiting rule**: path in `{/api/token, /api/request, /api/ping, /api/manager/login}` → e.g. 60 req / 10 min / IP.
+- [x] All green: `cd functions && npm test`; `node tests/site_smoke.js`; `node tests/manager_smoke.js`; `pytest -q`.
+- [x] **Cloudflare setup** (done 2026-09-04, recorded in `RIDES.md`):
+  - [x] Create KV namespace `RIDES_KV`; bind it to the `gilboa-schedule` Pages project.
+  - [x] Set env vars `SITE_ORIGIN` (= `https://gilboa-schedule.pages.dev`), `MANAGER_PASSPHRASE` (generated 5 words), `PURGE_KEY` (random 32+ chars, urlsafe).
+  - [x] Retried the Production deployment so the new binding + secrets took effect.
+  - [ ] ~~Add one edge Rate Limiting rule~~ — **deferred, DL-032.** This account has no
+        Cloudflare zone (site is on the shared `*.pages.dev` domain, no custom domain —
+        OQ-4 still deferred); Rate Limiting Rules are per-zone and the account-level WAF
+        shown as an alternative is a paid Enterprise add-on. Shipping the pilot without
+        it; add the rule the first time a custom domain exists, or before club-wide
+        rollout, whichever comes first.
 - [ ] **GitHub secrets:** `PURGE_KEY` (same value), `RIDES_API` (= `https://gilboa-schedule.pages.dev`).
 - [ ] Merge to `main`. Cloudflare auto-deploys site + Functions. Confirm `GET /api/manager/... ` needs auth, `POST /api/token` returns a token, the site still renders with the API reachable and with it blocked (DevTools request-block on `/api/*`).
 - [ ] Fill the §8.1 `[contact]` / `[מדיניות פרטיות]` text from the stakeholder; redeploy.

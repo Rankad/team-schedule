@@ -134,6 +134,14 @@ switch systems, fall back to the Excel importer.
   (DL-030). The §8.1 consent text has `[contact]` / `[מדיניות פרטיות]`
   placeholders that must be filled from the stakeholder before the pilot
   ships.
+- **No edge rate limiting for the pilot (DL-032).** Cloudflare Rate Limiting
+  Rules are per-zone; this account has no zone (the site runs on the shared
+  `*.pages.dev` domain, not a custom domain we control — OQ-4 deferred). The
+  account-level WAF alternative is a paid Enterprise add-on. Shipped without
+  it: write endpoints are still gated by opaque tokens / the manager
+  passphrase, and `/api/request` already caps body size + rows-per-token
+  (DL-029). Revisit when a custom domain exists, or before club-wide rollout,
+  whichever comes first.
 - **The KV last-write-wins race is not testable under Miniflare** — it is
   single-threaded/consistent, so concurrent-write behaviour can't be
   reproduced in `functions/**/__tests__` (Vitest). Correctness instead comes

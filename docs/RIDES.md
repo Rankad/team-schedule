@@ -75,13 +75,20 @@ on every response (and handles preflight). If the site is ever served from an
 additional origin (custom domain), add it there — the Function only ever
 allows the single configured origin, not a wildcard.
 
-## Edge Rate Limiting (Cloudflare dashboard, one-time)
-Security → WAF → Rate limiting rules → one rule covering
-`/api/token`, `/api/request`, `/api/ping`, `/api/manager/login` — e.g. 60
-requests / 10 min / IP. This runs **before** the Function, so it costs nothing
-in KV reads/writes and needs no code. (Free plan includes one rule.) This
-protects the write endpoints; there is deliberately no KV-based counter (same
-last-write-wins race as the data itself — see `docs/decision-log.md` DL-029).
+## Edge Rate Limiting — deferred for the pilot (DL-032)
+The original plan was one Cloudflare **Rate Limiting Rule** (free plan)
+covering `/api/token`, `/api/request`, `/api/ping`, `/api/manager/login`.
+That product is **per-zone**, and this account has no zone — the site runs
+on the shared `*.pages.dev` domain, not a custom domain we control (custom
+domain is its own deferred decision, OQ-4). The account-level WAF shown as
+an alternative in the dashboard is a paid Enterprise add-on.
+**Shipped without it for the single-team pilot** — the write endpoints are
+still gated by an opaque ≥128-bit token or the manager passphrase, and
+`PUT /api/request` caps body size (1 KB) and rows-per-token (20). There is
+deliberately no KV-based counter as a substitute (same last-write-wins race
+as the data itself — DL-029). **Add the Rate Limiting Rule** the first time
+a custom domain exists, or before any club-wide rollout — whichever comes
+first.
 
 ## Local dev
 ```bash

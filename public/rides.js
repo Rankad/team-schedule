@@ -50,14 +50,16 @@
     };
   }
 
+  // Returns the origin only (no trailing /api) — every call site appends
+  // /api/... itself. Matches the manager.js apiBase() convention.
   function apiBase() {
     var h = (window.location && window.location.hostname) || '';
     if (h === 'localhost' || h === '127.0.0.1') {
       // local dev: wrangler pages dev serves Functions on :8788
-      if ((window.location.port || '') === '8788') return window.location.origin + '/api';
-      return 'http://localhost:8788/api';
+      if ((window.location.port || '') === '8788') return window.location.origin;
+      return 'http://localhost:8788';
     }
-    return (window.location.origin || '') + '/api';
+    return (window.location.origin || '');
   }
 
   // ---------- role state (localStorage, all wrapped) ----------

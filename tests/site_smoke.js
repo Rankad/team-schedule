@@ -206,24 +206,32 @@ const FAKE_CHANGES = {
 let TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
 let ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
 let REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+// Exact pathname matching (not substring) so a stray doubled prefix like
+// /api/api/token can never silently match /api/token here — that bug shipped
+// to production once already because indexOf('/api/token') also matches
+// '/api/api/token'. See docs/lessons-learned.md.
+function pathOf(url) {
+  try { return new URL(url, 'http://x.invalid').pathname; } catch (e) { return url; }
+}
 global.fetch = (url, opts) => {
-  if (url.indexOf('/api/token') !== -1) {
+  const p = pathOf(url);
+  if (p === '/api/token') {
     return Promise.resolve({
       ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
       json: () => Promise.resolve(TOKEN_RESPONSE.body),
     });
   }
-  if (url.indexOf('/api/me') !== -1) {
+  if (p === '/api/me') {
     return Promise.resolve({ ok: ME_RESPONSE.ok, status: ME_RESPONSE.status, json: () => Promise.resolve(ME_RESPONSE.body) });
   }
-  if (url.indexOf('/api/request') !== -1) {
+  if (p === '/api/request') {
     return Promise.resolve({ ok: REQ_RESPONSE.ok, status: REQ_RESPONSE.status, json: () => Promise.resolve(REQ_RESPONSE.body) });
   }
-  if (url.indexOf('/api/ping') !== -1) {
+  if (p === '/api/ping') {
     return Promise.resolve({ ok: true, status: 204, json: () => Promise.resolve({}) });
   }
-  if (url.indexOf('/api/') !== -1) {
-    return Promise.resolve({ ok: true, status: 200, json: () => Promise.resolve({}) });
+  if (p.indexOf('/api/') === 0) {
+    return Promise.reject(new Error('site_smoke.js fetch stub: unhandled API path ' + p));
   }
   const f = url.replace(/^data\//, 'public/data/');
   return Promise.resolve({
@@ -544,7 +552,7 @@ require(path.join(ROOT, 'public', 'rides.js'));
       { outbound: 40, ret: 15 }, 15);
     assert(dt.outbound === '16:20' && dt.ret === '18:45', 'computeDepartTimes matches the server helper');
 
-    assert(R.apiBase() === 'http://localhost:8000/api', 'apiBase is same-origin /api (no token, no hard-coded prod host)');
+    assert(R.apiBase() === 'http://localhost:8000', 'apiBase is same-origin, no /api suffix (call sites append it), no hard-coded prod host');
   }
 
   console.log('rides — role + consent + name');

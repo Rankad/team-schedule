@@ -290,6 +290,47 @@
 - **Scope:** reusable (applies to superpowers:executing-plans /
   subagent-driven-development on any project).
 
+## LL-022 — Doubled `/api/api/...` prefix shipped to production; the test stub's `indexOf` masked it
+- **Date:** 2026-09-04 (rides Slice A, live QA after merge)
+- **Context:** First live test of player mode on `gilboa-schedule.pages.dev`
+  after merging Rides Slice A: entering a name and saving failed with
+  "לא הצלחנו לשמור, נסו שוב". Network inspection showed the request went to
+  `POST /api/api/token` (405), not `/api/token`.
+- **Root cause:** `rides.js`'s `apiBase()` returned `origin + '/api'`, but
+  every call site in `rides.js` already did `apiBase() + '/api/token'` /
+  `'/api/me'` / `'/api/request'` / `'/api/ping'` — doubling the prefix.
+  `manager.js` has the *correct* convention (its `apiBase()` returns the
+  origin only, with a comment saying so) and every call site there appends
+  `/api/...` itself — `rides.js` simply diverged from it.
+- **Why 47+all-suites-green missed it:** `tests/site_smoke.js`'s `fetch`
+  stub matched requests with `url.indexOf('/api/token') !== -1` —
+  substring matching that is *also true* for `/api/api/token`. Worse, one
+  assertion (`R.apiBase() === 'http://localhost:8000/api'`) directly
+  encoded the buggy value as the expected one, so the test suite actively
+  certified the wrong behaviour. Cloudflare Functions tests, `pytest`, and
+  `manager_smoke.js` never exercise `rides.js` against a real router, so
+  none of them could have caught it either.
+- **Found by:** manually walking the live site end-to-end (role switch →
+  consent → name → save) right after merge, per this project's "test the
+  golden path in a browser before calling it done" habit — not by any
+  automated suite.
+- **Fix:** `apiBase()` in `rides.js` now returns the origin only, matching
+  `manager.js`. The `site_smoke.js` stub now resolves the exact `pathname`
+  (via `new URL(url, ...).pathname`) instead of substring-matching, and
+  rejects any unhandled `/api/*` path instead of silently returning `200` —
+  so a wrong path fails loudly instead of coincidentally passing.
+- **Apply:**
+  - A fetch/HTTP mock keyed by `indexOf`/`includes` on a URL string will
+    match a doubled or extra path segment. Match on the parsed `pathname`,
+    with `===`, not a substring test.
+  - When two files each implement the same helper (`apiBase()` in both
+    `rides.js` and `manager.js`), diff them against each other, not just
+    read each in isolation — the correct one existed in the same PR.
+  - A green test suite is not a substitute for opening the actual deployed
+    app and clicking through the real flow at least once before calling a
+    feature done — this is already this project's stated practice for UI
+    changes; this bug is the concrete case that justifies it.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

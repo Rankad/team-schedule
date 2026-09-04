@@ -1743,7 +1743,7 @@ git commit -m "feat(rides): rides.js pure helpers + functions CI job"
 
 **Key behaviours (spec §4.1–4.5):** copy strings verbatim from `docs/rides-spec.md` §4 and the appendix. Consent dialog uses the §8.1 draft text. On `POST /api/token` success → `localStorage['gilboa.player'] = JSON.stringify({token, fullName})`, `localStorage['gilboa.role']='player'`, re-render. On failure → inline `לא הצלחנו לשמור, נסו שוב`, keep the typed value, stay. `→ חזרה` / `ביטול` → role stays/returns parent, no `player` key written.
 
-- [ ] **Step 1: Extend the harness fixture + write failing tests**
+- [x] **Step 1: Extend the harness fixture + write failing tests**
 
 In `tests/site_smoke.js` fixture section, add the nodes `renderRoleEntry` expects (`#role-entry`, `#rides-summary-slot`), a fake `<dialog>` (`El` needs `showModal`/`close`/`returnValue` no-ops — add them to the `El` class), and `#screen-rides` / `#screen-privacy` sections. Add a controllable `/api/token` response to the `global.fetch` stub:
 
@@ -1819,7 +1819,7 @@ Then the test block (before `week nav bounds`):
 
 Run: `node tests/site_smoke.js` — FAIL.
 
-- [ ] **Step 2: Add the DOM** — `public/index.html`
+- [x] **Step 2: Add the DOM** — `public/index.html`
 
 Inside `#screen-myweek`, after `#share-follows`:
 ```html
@@ -1856,7 +1856,7 @@ Before `#toast`, add the dialogs:
 ```
 (The name step is rendered **inline** into `#rides-summary-slot` by `rides.js`, not a dialog — spec §4.2.)
 
-- [ ] **Step 3: Implement the flow in `public/rides.js`**
+- [x] **Step 3: Implement the flow in `public/rides.js`**
 
 Add (after the helpers IIFE, or extend it) role state + rendering. Full code is ~150 lines; keep to the spec. Core shape:
 
@@ -1901,7 +1901,7 @@ on ok → `fetch(apiBase()+'/api/me?token=...&week=...', {method:'DELETE'})` bes
 Extend `window.Rides` with `getRole, getPlayer, isPlayerWithToken, renderRoleEntry,
 enterPlayerMode, exitToParent, renderPrivacy`.
 
-- [ ] **Step 4: Wire the hooks in `public/app.js`**
+- [x] **Step 4: Wire the hooks in `public/app.js`**
 
 - In `goto(screen)`, add branches for `'rides'` and `'privacy'` (hide the other screens, show `#screen-rides` / `#screen-privacy`, call `window.Rides.renderRides && window.Rides.renderRides()` / `renderPrivacy()`). Keep the existing `myweek` / `addteam` behaviour.
 - At the **end** of `renderMyWeek()`, add:
@@ -1914,15 +1914,15 @@ enterPlayerMode, exitToParent, renderPrivacy`.
 - Add `'privacy'` and `'rides'` to the `[data-goto]` handling — it already generically calls `goto(b.getAttribute('data-goto'))`, so the new `data-goto` buttons work once `goto` handles the names.
 - Export `window.goto = goto;` and `window.render = render;` if not already (the harness calls `render()` — check; `app.js` currently does not export `render`, add `window.render = render;` near the other exports).
 
-- [ ] **Step 5: Styles** — `public/styles.css`
+- [x] **Step 5: Styles** — `public/styles.css`
 
 Add `.linklike` / `#role-entry-slot .role-link` (styled like `.share-follows`), `.privacy-link-row`, `.prose` (readable paragraph column), `dialog.sheet` + `dialog.sheet::backdrop` + `.sheet-body` + `.sheet-actions` (bottom-sheet: `position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; border-radius: 12px 12px 0 0; max-height: 85vh; overflow: auto`), and `@media (prefers-reduced-motion: no-preference)` slide-up transition. Name-step: `.rides-name-card`, `#rides-name-error` (muted-red text token — add `--warn` if not present; reuse the `.session-warn` colour).
 
-- [ ] **Step 6: Run both suites**
+- [x] **Step 6: Run both suites**
 
 Run: `node tests/site_smoke.js` → PASS. Run: `cd functions && npm test` → PASS. Run: `pytest -q` → PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/ tests/site_smoke.js

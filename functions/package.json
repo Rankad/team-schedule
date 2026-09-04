@@ -1,0 +1,14 @@
+{
+  "name": "gilboa-rides-functions",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.19",
+    "@vitest/runner": "~3.1.0",
+    "@vitest/snapshot": "~3.1.0",
+    "vitest": "~3.1.0"
+  }
+}

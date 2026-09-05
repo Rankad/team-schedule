@@ -386,6 +386,32 @@
     synchronous test harness's deterministic Promise resolution order would
     never trigger on its own.
 
+## LL-024 — Smoke assertions on Hebrew text broke on singular/plural (final vs medial letter)
+- **Date:** 2026-09-05
+- **Context:** `tests/site_smoke.js` checked the "copy as text" weekly summary
+  with `/…אימונ…/`. That matches only the plural `אימונים` (medial nun `נ`);
+  with exactly one session the app writes `אימון אחד`, which ends in a **final
+  nun `ן`** (U+05DF, a different codepoint from `נ` U+05E0). The test picks the
+  last published week for one team, so whether it passed depended on how many
+  sessions the twice/thrice-daily data refresh happened to leave there — it had
+  been latently failing for some time and looked like "a pre-existing flake".
+- **What we learned:**
+  - Hebrew letters with a sofit (final) form — `כ/ך`, `מ/ם`, `נ/ן`, `פ/ף`,
+    `צ/ץ` — are distinct codepoints. A substring/regex that works on a word
+    mid-sentence fails when the same word ends a phrase, and vice-versa.
+  - An assertion whose outcome depends on committed schedule data (session
+    counts, which week is "last") is not deterministic across data refreshes.
+    Assert on structure, not on data-dependent wording.
+- **Apply:**
+  - In text assertions, match a **shared prefix** that is stable across
+    inflections (`אימו`, `קבוצ`, `שע`) rather than a full word, or list both
+    forms explicitly.
+  - When a smoke check reads generated user text, ask "does this phrasing change
+    with the count / the data?" If yes, loosen the match.
+  - A failing assertion that only reproduces "sometimes" is usually
+    data-dependent, not random — find the input that flips it before dismissing
+    it as flaky.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

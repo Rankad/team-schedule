@@ -352,7 +352,10 @@ require(path.join(ROOT, 'public', 'rides.js'));
   assert(/\nשבוע \d+\/\d+–\d+\/\d+/.test(wt), 'week text has a "שבוע d/m–d/m" range line');
   assert(wt.indexOf(t1name) !== -1, 'week text lists the followed team');
   assert(/\n {2}\d\d:\d\d[–\d: ]*·/.test(wt), 'sessions are indented under day headings');
-  assert(/\nסה״כ: .*קבוצ.* · .*אימונ.* · .* שעות/.test(wt), 'week text ends with a summary line');
+  // "קבוצה אחת · אימון אחד · 2 שעות" (singular) or "3 קבוצות · 5 אימונים · 7 שעות"
+  // (plural) — match the shared word prefixes so the count of sessions in the
+  // picked week doesn't matter. (אימון has a final nun, אימונים a medial one.)
+  assert(/\nסה״כ: .*קבוצ.* · .*אימו.* · .*שעות/.test(wt), 'week text ends with a summary line');
   {
     // day headings must be in ascending date order
     const days = wt.split('\n').filter(l => /^(ראשון|שני|שלישי|רביעי|חמישי|שישי|שבת) /.test(l));

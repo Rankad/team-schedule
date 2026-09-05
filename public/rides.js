@@ -104,17 +104,40 @@
     return n;
   }
 
-  // ---------- role toggle (הורה / שחקן) ----------
-  // A segmented control at the top of #onboarding. Only visible on the
-  // no-teams-followed screen (the slot lives inside #onboarding). Selecting
-  // שחקן runs the consent → name flow; the pressed state only follows
-  // gilboa.role, so backing out of that flow leaves it on הורה.
+  // ---------- role entry (הורה / שחקן) ----------
+  // Two presentations of the same choice:
+  //   • #role-toggle-slot (inside #onboarding) — the full segmented control,
+  //     visible only on the no-teams-followed screen.
+  //   • #role-entry-slot — a compact "switch to player" link, shown to a parent
+  //     who has already followed a team (onboarding hidden) so they can still
+  //     reach player mode without unfollowing everything first.
+  // Player mode: neither is shown — the rides summary card is the indicator and
+  // holds the way back.
   function renderRoleToggle() {
-    var slot = document.getElementById('role-toggle-slot');
-    if (!slot) return;
-    slot.innerHTML = '';
-
     var isPlayer = getRole() === 'player';
+    var onb = document.getElementById('onboarding');
+    var onboardingVisible = onb && !onb.hidden;
+
+    var toggleSlot = document.getElementById('role-toggle-slot');
+    if (toggleSlot) {
+      toggleSlot.innerHTML = '';
+      if (onboardingVisible) toggleSlot.appendChild(buildRoleToggle(isPlayer));
+    }
+
+    var linkSlot = document.getElementById('role-entry-slot');
+    if (linkSlot) {
+      linkSlot.innerHTML = '';
+      if (!onboardingVisible && !isPlayer) {
+        var link = ce('button', 'role-link', 'רישום להסעות — מעבר למצב שחקן');
+        link.setAttribute('type', 'button');
+        link.addEventListener('click', function () { enterPlayerMode(); });
+        linkSlot.appendChild(link);
+      }
+    }
+  }
+
+  function buildRoleToggle(isPlayer) {
+    var wrap = ce('div', null);
 
     var group = ce('div', 'role-toggle');
     group.setAttribute('role', 'group');
@@ -138,10 +161,11 @@
 
     group.appendChild(parentBtn);
     group.appendChild(playerBtn);
-    slot.appendChild(group);
+    wrap.appendChild(group);
 
-    slot.appendChild(ce('p', 'role-toggle-help',
+    wrap.appendChild(ce('p', 'role-toggle-help',
       'הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.'));
+    return wrap;
   }
 
   // ---------- consent dialog ----------

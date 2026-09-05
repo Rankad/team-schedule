@@ -675,11 +675,15 @@
     the top of the `#onboarding` card, each half showing its selected state.
     `הורה` is selected by default (unchanged behaviour — `gilboa.role` absent =
     parent). Helper line: *`הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.`*
-  - Scope: **onboarding screen only** (Option A of three considered — the
-    others were "always visible at the top of My Week" and "onboarding + a
-    compact version for parents who already followed a team"). Once teams are
-    followed the card is hidden; player mode keeps the rides summary card as its
-    indicator. Rationale: zero permanent chrome for the ~95% who are parents.
+  - Scope: **the toggle** shows on the onboarding screen only (Option A of three
+    considered — "always visible at the top of My Week" was the other extreme).
+    **Amended 2026-09-05 (QA pass + stakeholder):** the old compact
+    `רישום להסעות — מעבר למצב שחקן` link is *kept* for the case a parent already
+    followed a team (onboarding hidden) — otherwise they'd have to unfollow every
+    team to reach player mode. So effectively Option C: onboarding toggle +
+    compact link for followed-team parents; still nothing in player mode (the
+    rides summary card is the indicator). Rendered by the same
+    `renderRoleToggle()` (`#role-toggle-slot` vs `#role-entry-slot`).
   - Tapping `שחקן` runs the existing consent → name flow; the toggle's pressed
     state only moves once `gilboa.role` actually flips, so backing out stays on
     `הורה`.
@@ -696,5 +700,6 @@
   spotted on this screen where `.share-follows` / `.week-actions` (own `display`)
   ignored the `hidden` attribute and leaked onto the no-teams screen.
 - **Risk:** Low. No API or storage change; `gilboa.role` semantics unchanged.
-  Smoke test updated (138 assertions pass); no code sets `style.display`, so the
-  `[hidden]` rule only ever hides what was already meant to be hidden.
+  Smoke test updated (148 assertions pass); no code sets `style.display`, so the
+  `[hidden]` rule only ever hides what was already meant to be hidden. QA-reviewer
+  pass on the branch: no blockers.

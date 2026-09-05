@@ -102,13 +102,14 @@ Full spec: `docs/rides-spec.md`. Summary only; that document is authoritative.
 
 ### Player mode (inside the existing app, `index.html`/`app.js`/`rides.js`)
 - **Entry:** a `הורה` / `שחקן` segmented control at the top of the onboarding
-  card (only on the no-teams-followed screen); `הורה` selected by default, each
-  half shows its pressed state. A helper line reads
-  `הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.` Tapping `שחקן` shows a
-  consent dialog, then an inline "שם מלא" step — placeholder
-  `שם פרטי ושם משפחה` in the field, a live `יוצג כ: <shortName>` preview, and
-  the empty-field error only after a save attempt. Backing out leaves the
-  toggle on `הורה`.
+  card (no-teams-followed screen); `הורה` selected by default, each half shows
+  its pressed state. Helper line: `הורים — רק צפייה בלוח. שחקנים — גם רישום
+  להסעות.` Once a team is followed the card is hidden, and parents instead get a
+  compact `רישום להסעות — מעבר למצב שחקן` link below the share button so they can
+  still switch. Tapping `שחקן` (either presentation) shows a consent dialog,
+  then an inline "שם מלא" step — placeholder `שם פרטי ושם משפחה` in the field, a
+  live `יוצג כ: <shortName>` preview, and the empty-field error only after a save
+  attempt. Backing out leaves the toggle on `הורה`.
 - **Persistent player-mode signal:** a rides summary card at the top of My
   Week (`ההסעות שלי לשבוע זה: 2 · 1 ללא שעה`, or `טרם נרשמת להסעות השבוע`).
   Tap → `#screen-rides`. This card is also home to `מעבר למצב הורה`, which

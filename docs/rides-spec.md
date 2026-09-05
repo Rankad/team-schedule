@@ -105,9 +105,13 @@ Existing keys (`gilboa.followed`, `gilboa.seen_generated_at`,
 
 ### 4.1 Role entry — `index.html` + `app.js`
 
-A **segmented control** (`הורה` / `שחקן`) at the **top of the `#onboarding`
-card**, above its heading, rendered by `renderRoleToggle()` in `rides.js` into
-`#role-toggle-slot`.
+`renderRoleToggle()` in `rides.js` renders the parent/player choice in **two
+presentations**, picking one per render from `#onboarding`'s visibility and
+`gilboa.role`:
+
+**a) Segmented control** (`הורה` / `שחקן`) at the **top of the `#onboarding`
+card**, in `#role-toggle-slot` — shown only on the first-run / no-teams-followed
+screen.
 
 - One pill split in two. Selected half filled (`--accent`, white text);
   unselected half transparent with `--accent` text. `--tap` min height, RTL
@@ -120,18 +124,23 @@ card**, above its heading, rendered by `renderRoleToggle()` in `rides.js` into
 - Tapping `שחקן` from parent → the §4.2 consent flow. The toggle's pressed
   state does **not** move until `gilboa.role` actually flips, so backing out of
   consent / the name step leaves it on `הורה`.
-- Tapping `הורה` while in player mode → the §4.5 switch-back confirm.
-- The control lives inside `#onboarding`, so it is only visible on the
-  first-run / no-teams-followed screen. Once teams are followed (parent) the
-  card and the toggle are hidden; in player mode the **rides summary card**
-  (§4.7) is the persistent "you are in player mode" signal. There is no
-  separate mode badge.
-- The `#onboarding` heading is role-neutral (`בחירת קבוצה`, not
-  `בחר את הקבוצה של הילד/ה`) since a player picks their own team.
 
-Historical: earlier this was a single low-key text link
-(`רישום להסעות — מעבר למצב שחקן`) under `#follows-row` plus a one-line hook on
-the onboarding card. Players missed it — replaced by the toggle (DL-034).
+**b) Compact link** `רישום להסעות — מעבר למצב שחקן` (styled `.role-link`, like
+`#share-follows`) in `#role-entry-slot` below the share button — shown when the
+`#onboarding` card is **hidden** (teams already followed) **and** role is parent.
+So a parent who set up their teams first can still reach player mode without
+unfollowing everything. Tapping it → the §4.2 consent flow.
+
+In **player mode**, neither is shown — the **rides summary card** (§4.7) is the
+persistent "you are in player mode" signal and holds the §4.5 switch-back. There
+is no separate mode badge.
+
+The `#onboarding` heading is role-neutral (`בחירת קבוצה`, not
+`בחר את הקבוצה של הילד/ה`) since a player picks their own team.
+
+History: originally just the compact link (players missed it) → DL-034 made it
+the onboarding toggle → the compact link was kept for the followed-team parent
+case at stakeholder request (2026-09-05).
 
 ### 4.2 Switch to player — consent, then name
 

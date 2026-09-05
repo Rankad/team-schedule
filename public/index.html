@@ -44,8 +44,11 @@
 
         <!-- Rides (public/rides.js): player mode fills rides-summary-slot with
              the weekly rides summary card / the inline name card. The
-             parent/player toggle lives in #role-toggle-slot inside #onboarding. -->
+             parent/player toggle lives in #role-toggle-slot inside #onboarding;
+             role-entry-slot holds the compact "switch to player" link shown to a
+             parent who has already followed a team (onboarding hidden). -->
         <div id="rides-summary-slot"></div>
+        <div id="role-entry-slot"></div>
 
         <div id="changes-banner" class="changes-banner" hidden>
           <button type="button" class="changes-toggle" aria-expanded="false">

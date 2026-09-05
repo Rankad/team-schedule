@@ -127,6 +127,7 @@ mw.appendChild(mk('div', 'follows-row'));
 const shareFollows = mk('button', 'share-follows'); shareFollows.hidden = true;
 mw.appendChild(shareFollows);
 mw.appendChild(mk('div', 'rides-summary-slot'));
+mw.appendChild(mk('div', 'role-entry-slot'));
 const banner = mk('div', 'changes-banner'); banner.hidden = true;
 const btoggle = mk('button', null, 'changes-toggle'); btoggle.setAttribute('aria-expanded', 'false');
 btoggle.appendChild(mk('span', null, 'changes-summary'));
@@ -588,12 +589,23 @@ require(path.join(ROOT, 'public', 'rides.js'));
   {
     const gid = (id) => global.document.getElementById(id);
     delete store['gilboa.role']; delete store['gilboa.player'];
-    // The role toggle only shows on the onboarding (no-teams-followed) screen.
+
+    // A parent who has already followed a team (onboarding hidden) still gets a
+    // compact link into player mode — not the full toggle.
+    window.applyTeamsParam('?teams=' + T1);
+    window.render();
+    assert(byId['onboarding'].hidden === true, 'onboarding hidden once a team is followed');
+    assert(!gid('role-toggle-slot').textContent, 'full toggle not shown when a team is followed');
+    assert(gid('role-entry-slot').textContent.indexOf('מעבר למצב שחקן') !== -1,
+      'parent with a followed team sees the compact "switch to player" link');
+
+    // The full toggle shows on the onboarding (no-teams-followed) screen.
     let rg = 0, rb;
     while ((rb = byId['follows-row'].querySelectorAll('.chip-remove')).length && rg++ < 12) rb[0].click();
     window.render();
 
     assert(byId['onboarding'].hidden === false, 'onboarding visible with no team followed');
+    assert(!gid('role-entry-slot').textContent, 'compact link not shown on the onboarding screen (toggle instead)');
     const toggle = gid('role-toggle-slot');
     const tBtns = toggle.querySelectorAll('button');
     assert(tBtns.length === 2, 'role toggle renders two buttons');
@@ -634,6 +646,7 @@ require(path.join(ROOT, 'public', 'rides.js'));
     const tBtns2 = gid('role-toggle-slot').querySelectorAll('button');
     assert(tBtns2[1].classList.contains('is-selected') && tBtns2[1].getAttribute('aria-pressed') === 'true',
       'שחקן shows selected once in player mode');
+    assert(!gid('role-entry-slot').textContent, 'no compact "switch to player" link while in player mode');
 
     // failure path
     delete store['gilboa.role']; delete store['gilboa.player'];

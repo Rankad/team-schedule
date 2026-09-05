@@ -249,10 +249,15 @@ server, no database, $0/month. See `docs/architecture.md` and
   (2) added a smoke fixture for the day-moved `time_changed` branch
   (`heWeekdayDate` + `מועד האימון עודכן` were previously uncovered);
   (3) `heWeekdayDate` d/m and the before/after time ranges wrapped in
-  `ltrIsolate()` to match the codebase's RTL-numeric convention. Open item for
-  the stakeholder: DL-034 Option A means a parent who already followed a team
-  has no visible path to player mode (must unfollow first) — confirm that's
-  acceptable for pilot users.
+  `ltrIsolate()` to match the codebase's RTL-numeric convention.
+
+- **2026-09-05 — Kept the compact player-entry link for followed-team parents
+  (amends DL-034).** Stakeholder: a parent who already picked a team must be
+  able to switch to player mode without unfollowing first. `renderRoleToggle()`
+  now renders the full toggle in `#role-toggle-slot` on the onboarding screen
+  *and* the compact `רישום להסעות — מעבר למצב שחקן` link in `#role-entry-slot`
+  when onboarding is hidden and role is parent. Player mode shows neither.
+  Smoke test 148 assertions; browser-verified all three states.
 
 ## Immediate next step
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via

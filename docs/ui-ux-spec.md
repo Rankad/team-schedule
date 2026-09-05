@@ -25,7 +25,11 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
   on another device **merges** the listed teams into that device's follow list
   (never replaces), shows a toast, and strips the `?teams=` query so a refresh
   does not re-apply it. Unknown ids are ignored silently.
-- "changes since last update" banner if any (v0.2), tappable to expand.
+- "changes since last update" banner if any (v0.2), tappable to expand. Each
+  change spells out the old → new value as `לפני: … · אחרי: …` (no arrow — a
+  bare ← is ambiguous and bidi-reordered in the RTL line). A `time_changed`
+  whose day moved is relabelled `מועד האימון עודכן` and shows the weekday +
+  date on each side.
 - Weekly list, grouped by day:
   ```
   ג׳ 8/9

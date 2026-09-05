@@ -326,6 +326,10 @@ require(path.join(ROOT, 'public', 'rides.js'));
   assert(banner.querySelector('.changes-summary').textContent.indexOf('לחץ לפרטים') !== -1, 'banner prompts to expand');
   btoggle.click();
   assert(clist.hidden === false && clist.children.length === 1, 'expands to exactly the followed-team change');
+  var chgText = clist.children[0].textContent;
+  assert(chgText.indexOf('לפני:') !== -1 && chgText.indexOf('אחרי:') !== -1, 'time change spells out before/after');
+  assert(chgText.indexOf('18:00–20:00') !== -1 && chgText.indexOf('19:30–21:30') !== -1, 'time change shows both old and new ranges');
+  assert(chgText.indexOf('←') === -1, 'no ambiguous arrow in the change text');
   assert(store['gilboa.seen_generated_at'] === meta.generated_at, 'viewing the banner sets seen_generated_at');
 
   // ---- export / share features (viewSunday is the last published week, T1 followed) ----

@@ -494,23 +494,46 @@ function renderChangesBanner(followedIds) {
   banner.hidden = false;
 }
 
+// "יום ג׳ 8/9" — Hebrew weekday letter + d/m, per docs/ui-ux-spec.md.
+function heWeekdayDate(ymd) {
+  var dow = new Date(ymdToUTC(ymd)).getUTCDay(); // 0=Sun
+  return 'יום ' + HE_WEEKDAY[dow] + ' ' + dmLabel(ymd);
+}
+
+// Old → new is spelled out as "לפני: … · אחרי: …" (before / after) rather than an
+// arrow: a bare ← is ambiguous in an RTL line and gets reordered by the browser's
+// bidi algorithm. `time_changed` also covers a session moved to a different day
+// (the spec keys it off start/end, which carry the date), so show the weekday +
+// date on each side whenever the day itself moved.
 function describeChange(c) {
   var t = DATA.teamsById[c.team_id];
   var name = t ? t.display_name : c.team_id;
-  var kinds = {
-    added: 'אימון חדש נוסף',            // אימון חדש נוסף
-    removed: 'אימון בוטל',                            // אימון בוטל
-    time_changed: 'שעה עודכנה',                      // שעה עודכנה
-    location_changed: 'מיקום עודכן',            // מיקום עודכן
-    team_changed: 'שיוך קבוצה עודכן' // שיוך קבוצה עודכן
-  };
-  var label = kinds[c.kind] || c.kind;
-  var detail = '';
+  var label, detail = '';
+
   if (c.kind === 'time_changed' && c.old && c.new) {
-    detail = ': ' + hhmm(c.old.start) + '–' + hhmm(c.old.end) +
-      ' ← ' + hhmm(c.new.start) + '–' + hhmm(c.new.end);
+    var oDay = String(c.old.start).slice(0, 10);
+    var nDay = String(c.new.start).slice(0, 10);
+    var oTime = hhmm(c.old.start) + '–' + hhmm(c.old.end);
+    var nTime = hhmm(c.new.start) + '–' + hhmm(c.new.end);
+    if (oDay && nDay && oDay !== nDay) {
+      label = 'מועד האימון עודכן'; // the training was moved to another day
+      detail = ' — לפני: ' + heWeekdayDate(oDay) + ' ' + oTime +
+        ' · אחרי: ' + heWeekdayDate(nDay) + ' ' + nTime;
+    } else {
+      label = 'שעה עודכנה';
+      detail = ' — לפני: ' + oTime + ' · אחרי: ' + nTime;
+    }
   } else if (c.kind === 'location_changed' && c.old && c.new) {
-    detail = ': ' + (c.old.location || '') + ' ← ' + (c.new.location || '');
+    label = 'מיקום עודכן';
+    detail = ' — לפני: ' + (c.old.location || '—') + ' · אחרי: ' + (c.new.location || '—');
+  } else if (c.kind === 'added') {
+    label = 'אימון חדש נוסף';
+  } else if (c.kind === 'removed') {
+    label = 'אימון בוטל';
+  } else if (c.kind === 'team_changed') {
+    label = 'שיוך קבוצה עודכן';
+  } else {
+    label = c.kind;
   }
   return name + ' – ' + label + detail;
 }

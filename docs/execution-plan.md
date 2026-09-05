@@ -224,6 +224,13 @@ server, no database, $0/month. See `docs/architecture.md` and
   now fires three times a day (idempotent). Docs updated (architecture,
   known-constraints, HOSTING, rides-spec, public/README).
 
+- **2026-09-05 — Changes banner: clearer old→new.** `describeChange` in
+  `public/app.js` now writes `לפני: … · אחרי: …` instead of a `←` arrow (the
+  arrow was ambiguous / bidi-reordered in the RTL list). A `time_changed` where
+  the training day moved is relabelled `מועד האימון עודכן` and shows weekday +
+  date on both sides — previously those rendered as an identical-looking time
+  pair. Smoke test extended; `docs/ui-ux-spec.md` updated.
+
 ## Immediate next step
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
 Cloudflare's git integration. Remaining before the single-team pilot (see

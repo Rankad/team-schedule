@@ -28,7 +28,9 @@
       <!-- Screen 1: My Week -->
       <section id="screen-myweek" class="screen">
         <div id="onboarding" class="card onboarding" hidden>
-          <h1>בחר את הקבוצה של הילד/ה</h1>
+          <!-- public/rides.js fills this with the הורה/שחקן segmented control. -->
+          <div id="role-toggle-slot"></div>
+          <h1>בחירת קבוצה</h1>
           <p>מצא את הקבוצה לפי שם הקבוצה או שם המאמן, ותראה כאן רק את האימונים שלה.</p>
           <button type="button" class="btn btn-primary" data-goto="addteam">＋ בחירת קבוצה</button>
         </div>
@@ -40,11 +42,10 @@
           🔗 שתף את הקבוצות שלי
         </button>
 
-        <!-- Rides (public/rides.js) fills these. Parent mode: role-entry-slot
-             holds the "switch to player" link; player mode: rides-summary-slot
-             holds the weekly rides summary card / the inline name card. -->
+        <!-- Rides (public/rides.js): player mode fills rides-summary-slot with
+             the weekly rides summary card / the inline name card. The
+             parent/player toggle lives in #role-toggle-slot inside #onboarding. -->
         <div id="rides-summary-slot"></div>
-        <div id="role-entry-slot"></div>
 
         <div id="changes-banner" class="changes-banner" hidden>
           <button type="button" class="changes-toggle" aria-expanded="false">

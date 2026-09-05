@@ -231,6 +231,17 @@ server, no database, $0/month. See `docs/architecture.md` and
   date on both sides — previously those rendered as an identical-looking time
   pair. Smoke test extended; `docs/ui-ux-spec.md` updated.
 
+- **2026-09-05 — Rides role entry reworked for discoverability (DL-034).**
+  The parent→player text link players kept missing is now a `הורה` / `שחקן`
+  segmented control at the top of the onboarding card (`הורה` default, visible
+  selected state). Onboarding heading made role-neutral (`בחירת קבוצה`). Name
+  step gets a `שם פרטי ושם משפחה` placeholder and no longer shows the empty
+  error until a save attempt. `renderRoleEntry()` → `renderRoleToggle()`.
+  rides-spec §4.1/§4.2, ui-ux-spec, smoke test updated. Also folded in a
+  pre-existing bug found on that screen: `styles.css` had no `[hidden]` rule, so
+  `.share-follows` / `.week-actions` (which set their own `display`) leaked onto
+  the no-teams-followed screen — added `[hidden] { display: none !important; }`.
+
 ## Immediate next step
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
 Cloudflare's git integration. Remaining before the single-team pilot (see

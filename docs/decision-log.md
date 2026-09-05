@@ -662,3 +662,39 @@
 - **Status:** Accepted. Amends the cron line in DL-026; everything else in DL-026
   (keepalive, winter anchor, public repo) stands.
 - **Risk:** Low. Same workflow, one extra cron tick.
+
+## DL-034 — Rides role entry: a הורה/שחקן toggle, not a text link
+- **Date:** 2026-09-05 (stakeholder feedback from first use)
+- **Context:** rides-spec §4.1 shipped the parent→player switch as a single
+  low-key text link (`רישום להסעות — מעבר למצב שחקן`) under the follows row,
+  plus a one-line hook on the onboarding card. A player opening the app for the
+  first time did not notice it — the thing they need to tap does not look like a
+  primary action.
+- **Decision:**
+  - Replace the link + hook with a **segmented control** (`הורה` / `שחקן`) at
+    the top of the `#onboarding` card, each half showing its selected state.
+    `הורה` is selected by default (unchanged behaviour — `gilboa.role` absent =
+    parent). Helper line: *`הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.`*
+  - Scope: **onboarding screen only** (Option A of three considered — the
+    others were "always visible at the top of My Week" and "onboarding + a
+    compact version for parents who already followed a team"). Once teams are
+    followed the card is hidden; player mode keeps the rides summary card as its
+    indicator. Rationale: zero permanent chrome for the ~95% who are parents.
+  - Tapping `שחקן` runs the existing consent → name flow; the toggle's pressed
+    state only moves once `gilboa.role` actually flips, so backing out stays on
+    `הורה`.
+  - `#onboarding` heading made role-neutral: `בחירת קבוצה` (was
+    `בחר את הקבוצה של הילד/ה`, which reads wrong for a player picking their own
+    team).
+  - **Name step:** add a `שם פרטי ושם משפחה` placeholder in the field and stop
+    showing the `יש להזין שם מלא` error on first paint — it now appears only
+    after a save attempt on an empty field. The standing red line was easy to
+    tune out.
+- **Status:** Accepted. Amends rides-spec §4.1 / §4.2; `renderRoleEntry()` →
+  `renderRoleToggle()` in `rides.js`. Same change also adds
+  `[hidden] { display: none !important; }` to `styles.css` — a pre-existing bug
+  spotted on this screen where `.share-follows` / `.week-actions` (own `display`)
+  ignored the `hidden` attribute and leaked onto the no-teams screen.
+- **Risk:** Low. No API or storage change; `gilboa.role` semantics unchanged.
+  Smoke test updated (138 assertions pass); no code sets `style.display`, so the
+  `[hidden]` rule only ever hides what was already meant to be hidden.

@@ -306,7 +306,7 @@ function renderMyWeek() {
   } finally {
     if (window.Rides) {
       try {
-        window.Rides.renderRoleEntry();
+        if (window.Rides.renderRoleToggle) window.Rides.renderRoleToggle();
         if (window.Rides.renderSummaryCard) window.Rides.renderSummaryCard();
       } catch (e) {
         console.error('rides UI error (schedule unaffected):', e);

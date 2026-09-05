@@ -105,16 +105,33 @@ Existing keys (`gilboa.followed`, `gilboa.seen_generated_at`,
 
 ### 4.1 Role entry — `index.html` + `app.js`
 
-**Not** a segmented parent/player toggle by the follow chips. Instead:
+A **segmented control** (`הורה` / `שחקן`) at the **top of the `#onboarding`
+card**, above its heading, rendered by `renderRoleToggle()` in `rides.js` into
+`#role-toggle-slot`.
 
-- A single low-key text action under `#follows-row`, styled like
-  `#share-follows`, separated by whitespace/divider:
-  **`רישום להסעות — מעבר למצב שחקן`**.
-- A one-line hook appended to the empty `#onboarding` card:
-  *`השחקן/ית עצמם? עברו למצב שחקן כדי להירשם להסעות.`*
-- Once in player mode the **rides summary card** (§4.7) is the persistent
-  "you are in player mode" signal and holds the switch-back action. There is no
+- One pill split in two. Selected half filled (`--accent`, white text);
+  unselected half transparent with `--accent` text. `--tap` min height, RTL
+  order (`הורה` leads). `role="group"`, `aria-label="בחירת סוג משתמש"`; each
+  half a `<button aria-pressed>`.
+- Helper line under it, muted / small:
+  *`הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.`*
+- **Default `הורה`** — matches the implicit default (`gilboa.role` absent =
+  parent). Tapping `הורה` while already parent is a no-op.
+- Tapping `שחקן` from parent → the §4.2 consent flow. The toggle's pressed
+  state does **not** move until `gilboa.role` actually flips, so backing out of
+  consent / the name step leaves it on `הורה`.
+- Tapping `הורה` while in player mode → the §4.5 switch-back confirm.
+- The control lives inside `#onboarding`, so it is only visible on the
+  first-run / no-teams-followed screen. Once teams are followed (parent) the
+  card and the toggle are hidden; in player mode the **rides summary card**
+  (§4.7) is the persistent "you are in player mode" signal. There is no
   separate mode badge.
+- The `#onboarding` heading is role-neutral (`בחירת קבוצה`, not
+  `בחר את הקבוצה של הילד/ה`) since a player picks their own team.
+
+Historical: earlier this was a single low-key text link
+(`רישום להסעות — מעבר למצב שחקן`) under `#follows-row` plus a one-line hook on
+the onboarding card. Players missed it — replaced by the toggle (DL-034).
 
 ### 4.2 Switch to player — consent, then name
 
@@ -123,9 +140,13 @@ Existing keys (`gilboa.followed`, `gilboa.seen_generated_at`,
 2. On accept, a **single inline screen** (not a second modal) with the name
    field:
    - Label `שם מלא`, helper `השם המלא גלוי רק לרכז ההסעות.`
+   - **Placeholder inside the field:** `שם פרטי ושם משפחה` — the guidance the
+     player needs is in the box, not a red line they can tune out. It also
+     signals both names are expected (the one-word case below).
    - **Live preview** under the field as they type:
      `יוצג לשחקנים אחרים כ: דניאל כ׳` (uses `shortName`, §4.3).
-   - Empty / whitespace → inline `יש להזין שם מלא`, submit disabled.
+   - Empty / whitespace → submit disabled. The `יש להזין שם מלא` error text
+     shows only **after** a save attempt on an empty field, not on first paint.
    - One word only → warn once `נא להזין שם פרטי ומשפחה`; the button label
      becomes `שמור בכל זאת` so a second press is an explicit confirm.
    - A `→ חזרה` action reverts `gilboa.role` to parent cleanly (no
@@ -446,10 +467,10 @@ Workers free: 100k req/day. KV free: 100k reads, **1k writes**, 1k deletes/day,
 | file | change |
 |---|---|
 | `public/rides.js` | **new** — all player-side rides logic, loaded after `app.js`. Vanilla, no build. Pure helpers on `window`: `shortName`, `weekKey`, `rideCaption`, `computeDepartTimes` |
-| `public/app.js` | minimal hooks: render the role-entry link; in player mode render the rides summary card / inline name card; in `renderSession`, when player mode + token, call `Rides.decorateSession(card, session)`; add a `goto('rides')` target. **No manager code** |
-| `public/index.html` | role-entry link container; summary / name card slot; `#screen-rides`; the `מדיניות פרטיות` footer link + `#screen-privacy`. **No `מנהל` button** |
+| `public/app.js` | minimal hooks: call `Rides.renderRoleToggle()`; in player mode render the rides summary card / inline name card; in `renderSession`, when player mode + token, call `Rides.decorateSession(card, session)`; add a `goto('rides')` target. **No manager code** |
+| `public/index.html` | `#role-toggle-slot` inside `#onboarding` + role-neutral heading; summary / name card slot; `#screen-rides`; the `מדיניות פרטיות` footer link + `#screen-privacy`. **No `מנהל` button** |
 | `public/manager.html` + `manager.js` + `manager.css` | the manager app (§5). Shares `styles.css` |
-| `public/styles.css` | ride chip block + states, bottom sheet, role link, rides summary card, `#screen-rides`, `#screen-privacy`, consent/name dialogs. RTL-first, existing palette, quiet-button pattern, bottom-sheet transition under `prefers-reduced-motion` |
+| `public/styles.css` | ride chip block + states, bottom sheet, `.role-toggle` segmented control, rides summary card, `#screen-rides`, `#screen-privacy`, consent/name dialogs. RTL-first, existing palette, quiet-button pattern, bottom-sheet transition under `prefers-reduced-motion` |
 
 **API base URL** — derived at runtime from `location.hostname`
 (`localhost` / `127.0.0.1` → a local dev URL, else same-origin `/api`). No
@@ -622,7 +643,7 @@ Mirrors `docs/mvp-spec.md` §11. Detailed task breakdown in
    `manager/config`; `computeDepartTimes` server helper; fixture `schedule.json`.
 6. **`rides.js` pure helpers** (TDD in `site_smoke.js`) — `shortName`,
    `weekKey`, `rideCaption`, `computeDepartTimes`, API-base resolver.
-7. **Player UI** — role-entry link; consent + name flow (preview /
+7. **Player UI** — role toggle; consent + name flow (preview /
    `שמור בכל זאת` / back-out / failure); ride chip + bottom sheet; rides summary
    card + `#screen-rides` (actionable empty state); `#screen-privacy`; throttled
    ping. Wire into `app.js`. Extend `site_smoke.js`.

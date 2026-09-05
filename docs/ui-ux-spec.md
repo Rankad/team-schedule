@@ -15,8 +15,9 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
 
 ### 1. Home — "השבוע שלי" (My Week)
 - Header: club name + week range ("7–13 בספטמבר") + prev/next week arrows.
-- If no team followed yet → onboarding card: "בחר את הקבוצה של הילד/ה" → button
-  to screen 2.
+- If no team followed yet → onboarding card: a `הורה` / `שחקן` segmented
+  control at the top (הורה selected by default; see Rides below), a role-neutral
+  heading "בחירת קבוצה", then a button to screen 2.
 - Followed-teams chips row (each: 🏀 team name · coach · ✕ to unfollow) + "＋
   הוסף קבוצה".
 - **Shareable link** (DL-022): directly under the chips, a text action
@@ -100,10 +101,14 @@ UI.
 Full spec: `docs/rides-spec.md`. Summary only; that document is authoritative.
 
 ### Player mode (inside the existing app, `index.html`/`app.js`/`rides.js`)
-- **Entry:** a low-key text action under the follows row —
-  `רישום להסעות — מעבר למצב שחקן` — not a parent/player toggle. Tapping it
-  shows a consent dialog, then an inline "שם מלא" step with a live
-  `יוצג כ: <shortName>` preview before the name is saved.
+- **Entry:** a `הורה` / `שחקן` segmented control at the top of the onboarding
+  card (only on the no-teams-followed screen); `הורה` selected by default, each
+  half shows its pressed state. A helper line reads
+  `הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.` Tapping `שחקן` shows a
+  consent dialog, then an inline "שם מלא" step — placeholder
+  `שם פרטי ושם משפחה` in the field, a live `יוצג כ: <shortName>` preview, and
+  the empty-field error only after a save attempt. Backing out leaves the
+  toggle on `הורה`.
 - **Persistent player-mode signal:** a rides summary card at the top of My
   Week (`ההסעות שלי לשבוע זה: 2 · 1 ללא שעה`, or `טרם נרשמת להסעות השבוע`).
   Tap → `#screen-rides`. This card is also home to `מעבר למצב הורה`, which

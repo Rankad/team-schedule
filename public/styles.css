@@ -17,6 +17,11 @@
 
 * { box-sizing: border-box; }
 
+/* The `hidden` attribute must always win. Several components set a `display`
+   on a class (.share-follows, .week-actions, .screen …) which would otherwise
+   out-specify the UA `[hidden]` rule and leak the element onto the page. */
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; }
 
 body {
@@ -400,29 +405,37 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 .result .r-followed { color: var(--accent); font-size: 0.85rem; font-weight: 600; margin-top: 0.2rem; }
 .results-empty { color: var(--muted); padding: 0.5rem 0; }
 
-/* ---------- Rides — role entry, consent, name capture, privacy ---------- */
-/* Low-key text action, styled like .share-follows. */
-.role-link {
-  display: inline-flex;
-  align-items: center;
+/* ---------- Rides — role toggle, consent, name capture, privacy ---------- */
+/* הורה / שחקן segmented control at the top of the onboarding card. */
+.role-toggle {
+  display: flex;
+  gap: 0;
+  margin: 0 0 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.role-toggle-btn {
+  flex: 1 1 50%;
   min-height: var(--tap);
-  margin: -0.25rem 0 1rem;
-  padding: 0.25rem 0.1rem;
+  padding: 0.35rem 0.75rem;
   background: none;
   border: none;
   color: var(--accent);
   font: inherit;
   font-weight: 600;
-  font-size: 0.9rem;
   cursor: pointer;
 }
-.role-link:active { color: var(--accent-dark); }
-.role-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-.onboarding-rides-hook {
+.role-toggle-btn + .role-toggle-btn { border-inline-start: 1px solid var(--accent); }
+.role-toggle-btn.is-selected { background: var(--accent); color: #fff; }
+.role-toggle-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+.role-toggle-help {
   color: var(--muted);
   font-size: 0.9rem;
-  margin: 0.75rem 0 0;
+  margin: 0 0 1rem;
 }
 
 /* Inline "button that reads as a link". */

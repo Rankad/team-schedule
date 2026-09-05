@@ -93,7 +93,7 @@
   function rerender() {
     try {
       if (typeof window.render === 'function') window.render();
-      else renderRoleEntry();
+      else renderRoleToggle();
     } catch (e) { console.error('rides re-render error (schedule unaffected):', e); }
   }
 
@@ -104,24 +104,44 @@
     return n;
   }
 
-  // ---------- role entry link ----------
-  function renderRoleEntry() {
-    var slot = document.getElementById('role-entry-slot');
+  // ---------- role toggle (הורה / שחקן) ----------
+  // A segmented control at the top of #onboarding. Only visible on the
+  // no-teams-followed screen (the slot lives inside #onboarding). Selecting
+  // שחקן runs the consent → name flow; the pressed state only follows
+  // gilboa.role, so backing out of that flow leaves it on הורה.
+  function renderRoleToggle() {
+    var slot = document.getElementById('role-toggle-slot');
     if (!slot) return;
     slot.innerHTML = '';
-    if (getRole() === 'player') return;
 
-    var btn = ce('button', 'role-link', 'רישום להסעות — מעבר למצב שחקן');
-    btn.setAttribute('type', 'button');
-    btn.addEventListener('click', function () { enterPlayerMode(); });
-    slot.appendChild(btn);
+    var isPlayer = getRole() === 'player';
 
-    var onb = document.getElementById('onboarding');
-    if (onb && !onb.hidden && !onb._ridesHook) {
-      onb._ridesHook = true;
-      onb.appendChild(ce('p', 'onboarding-rides-hook',
-        'השחקן/ית עצמם? עברו למצב שחקן כדי להירשם להסעות.'));
-    }
+    var group = ce('div', 'role-toggle');
+    group.setAttribute('role', 'group');
+    group.setAttribute('aria-label', 'בחירת סוג משתמש');
+
+    var parentBtn = ce('button', 'role-toggle-btn', 'הורה');
+    var playerBtn = ce('button', 'role-toggle-btn', 'שחקן');
+    [parentBtn, playerBtn].forEach(function (b) { b.setAttribute('type', 'button'); });
+
+    parentBtn.classList.toggle('is-selected', !isPlayer);
+    parentBtn.setAttribute('aria-pressed', String(!isPlayer));
+    playerBtn.classList.toggle('is-selected', isPlayer);
+    playerBtn.setAttribute('aria-pressed', String(isPlayer));
+
+    parentBtn.addEventListener('click', function () {
+      if (getRole() === 'player') exitToParent(); // §4.5 confirm + delete
+    });
+    playerBtn.addEventListener('click', function () {
+      if (getRole() !== 'player') enterPlayerMode();
+    });
+
+    group.appendChild(parentBtn);
+    group.appendChild(playerBtn);
+    slot.appendChild(group);
+
+    slot.appendChild(ce('p', 'role-toggle-help',
+      'הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.'));
   }
 
   // ---------- consent dialog ----------
@@ -195,6 +215,7 @@
     input.setAttribute('id', 'rides-name-input');
     input.setAttribute('type', 'text');
     input.setAttribute('autocomplete', 'name');
+    input.setAttribute('placeholder', 'שם פרטי ושם משפחה');
     input.value = '';
     card.appendChild(input);
 
@@ -221,14 +242,18 @@
     slot.appendChild(card);
 
     var warned = false;
+    var emptyAttempted = false; // show the "enter a name" error only after a save press
 
     function refresh() {
       var w = words(input.value);
       if (w.length >= 2) { warned = false; save.textContent = 'שמור'; }
+      if (w.length) { emptyAttempted = false; }
       if (!w.length) {
         preview.textContent = '';
-        errp.hidden = false;
-        errp.textContent = 'יש להזין שם מלא';
+        // The placeholder in the field carries the guidance; only surface a red
+        // error once the player has actually tried to save an empty field.
+        errp.hidden = !emptyAttempted;
+        if (emptyAttempted) errp.textContent = 'יש להזין שם מלא';
         save.disabled = true;
         return;
       }
@@ -246,7 +271,7 @@
 
     save.addEventListener('click', function () {
       var w = words(input.value);
-      if (!w.length) { refresh(); return; }
+      if (!w.length) { emptyAttempted = true; refresh(); return; }
       if (w.length < 2 && !warned) {
         warned = true;
         save.textContent = 'שמור בכל זאת';
@@ -703,7 +728,7 @@
     computeDepartTimes: computeDepartTimes, apiBase: apiBase,
     // role + flow
     getRole: getRole, getPlayer: getPlayer, isPlayerWithToken: isPlayerWithToken,
-    renderRoleEntry: renderRoleEntry, enterPlayerMode: enterPlayerMode,
+    renderRoleToggle: renderRoleToggle, enterPlayerMode: enterPlayerMode,
     exitToParent: exitToParent, renderPrivacy: renderPrivacy,
     // chip / sheet / summary / screen / ping
     decorateSession: decorateSession, renderSummaryCard: renderSummaryCard,

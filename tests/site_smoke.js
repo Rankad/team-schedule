@@ -120,13 +120,13 @@ app.appendChild(prev); app.appendChild(next);
 const mw = mk('section', 'screen-myweek'); const at = mk('section', 'screen-addteam'); at.hidden = true;
 app.appendChild(mw); app.appendChild(at);
 const onb = mk('div', 'onboarding'); onb.hidden = true;
+onb.appendChild(mk('div', 'role-toggle-slot'));
 onb.appendChild(mk('button', null, 'btn btn-primary', { 'data-goto': 'addteam' }));
 mw.appendChild(onb);
 mw.appendChild(mk('div', 'follows-row'));
 const shareFollows = mk('button', 'share-follows'); shareFollows.hidden = true;
 mw.appendChild(shareFollows);
 mw.appendChild(mk('div', 'rides-summary-slot'));
-mw.appendChild(mk('div', 'role-entry-slot'));
 const banner = mk('div', 'changes-banner'); banner.hidden = true;
 const btoggle = mk('button', null, 'changes-toggle'); btoggle.setAttribute('aria-expanded', 'false');
 btoggle.appendChild(mk('span', null, 'changes-summary'));
@@ -270,7 +270,7 @@ require(path.join(ROOT, 'public', 'rides.js'));
   assert(/[א-ת]/.test(byId['week-range'].textContent), 'week range shows Hebrew text');
 
   console.log('add team (team search: partial words + extra spaces)');
-  onb.children[0].click();
+  onb.querySelector('[data-goto]').click();
   assert(at.hidden === false && mw.hidden === true, 'switched to Add Team screen');
 
   // extra / weird spacing between the real words must not matter
@@ -563,14 +563,24 @@ require(path.join(ROOT, 'public', 'rides.js'));
   {
     const gid = (id) => global.document.getElementById(id);
     delete store['gilboa.role']; delete store['gilboa.player'];
-    window.applyTeamsParam('?teams=' + T1);
+    // The role toggle only shows on the onboarding (no-teams-followed) screen.
+    let rg = 0, rb;
+    while ((rb = byId['follows-row'].querySelectorAll('.chip-remove')).length && rg++ < 12) rb[0].click();
     window.render();
 
-    assert(gid('role-entry-slot').textContent.indexOf('מעבר למצב שחקן') !== -1,
-      'parent sees the "switch to player" link');
+    assert(byId['onboarding'].hidden === false, 'onboarding visible with no team followed');
+    const toggle = gid('role-toggle-slot');
+    const tBtns = toggle.querySelectorAll('button');
+    assert(tBtns.length === 2, 'role toggle renders two buttons');
+    assert(tBtns[0].textContent === 'הורה' && tBtns[1].textContent === 'שחקן', 'buttons are הורה / שחקן');
+    assert(tBtns[0].classList.contains('is-selected') && tBtns[0].getAttribute('aria-pressed') === 'true',
+      'הורה selected by default');
+    assert(!tBtns[1].classList.contains('is-selected') && tBtns[1].getAttribute('aria-pressed') === 'false',
+      'שחקן not selected by default');
+    assert(toggle.textContent.indexOf('רק צפייה בלוח') !== -1, 'helper line explains the two roles');
     assert(!byId['week-content'].querySelector('.ride-chip'), 'parent sees no ride chips');
 
-    window.Rides.enterPlayerMode();
+    tBtns[1].click(); // tap שחקן
     const consentDlg = gid('rides-consent');
     assert(!!consentDlg, 'consent dialog present');
     assert(gid('rides-consent-body').textContent.indexOf('נמחק אוטומטית בסוף כל שבוע') !== -1,
@@ -579,7 +589,14 @@ require(path.join(ROOT, 'public', 'rides.js'));
 
     const nameInput = gid('rides-name-input');
     assert(!!nameInput, 'name step rendered after consent');
+    assert(nameInput.getAttribute('placeholder') === 'שם פרטי ושם משפחה', 'name field has the guidance placeholder');
+    assert(gid('rides-name-error').hidden === true, 'no error shown before the player does anything');
+    gid('rides-name-save').click();
+    assert(gid('rides-name-error').hidden === false &&
+      gid('rides-name-error').textContent.indexOf('יש להזין שם מלא') !== -1,
+      'empty-field error shows only after a save attempt');
     nameInput.value = 'דניאל כהן'; nameInput.dispatch('input');
+    assert(gid('rides-name-error').hidden === true, 'error clears once a name is typed');
     assert(gid('rides-name-preview').textContent.indexOf('דניאל כ׳') !== -1, 'live "יוצג כ" preview');
 
     TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
@@ -588,7 +605,10 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(JSON.parse(store['gilboa.player']).token === 'tok-smoke-123', 'token stored on success');
     assert(JSON.parse(store['gilboa.player']).fullName === 'דניאל כהן', 'full name stored on success');
     assert(store['gilboa.role'] === 'player', 'role set to player');
-    assert(!gid('role-entry-slot').textContent, 'role link gone once in player mode');
+    window.render();
+    const tBtns2 = gid('role-toggle-slot').querySelectorAll('button');
+    assert(tBtns2[1].classList.contains('is-selected') && tBtns2[1].getAttribute('aria-pressed') === 'true',
+      'שחקן shows selected once in player mode');
 
     // failure path
     delete store['gilboa.role']; delete store['gilboa.player'];

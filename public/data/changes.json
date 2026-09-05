@@ -1,4 +1,112 @@
 {
-  "changes": [],
-  "generated_at": "2026-09-04T19:15:01Z"
+  "changes": [
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-09T20:30:00+03:00",
+        "location": "גן נר",
+        "start": "2026-09-09T17:00:00+03:00",
+        "team_id": "T_106"
+      },
+      "old": null,
+      "session_id": "097o1slvjmjuuv2n9187rrgfv1",
+      "team_id": "T_106",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-11T14:00:00+03:00",
+        "start": "2026-09-11T10:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-03T14:00:00+03:00",
+        "start": "2026-09-03T10:00:00+03:00"
+      },
+      "session_id": "0g7c0tfnh2h2sokgnb3i7ck3g6",
+      "team_id": "T_042",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-07T19:00:00+03:00",
+        "start": "2026-09-07T15:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-08-31T12:00:00+03:00",
+        "start": "2026-08-31T09:00:00+03:00"
+      },
+      "session_id": "1acn8bdgj45se9i15te0ao5isi",
+      "team_id": "T_042",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-06T14:00:00+03:00",
+        "location": "גן נר",
+        "start": "2026-09-06T10:00:00+03:00",
+        "team_id": "T_042"
+      },
+      "old": null,
+      "session_id": "3v56148srr9v70qgscljji2ncf",
+      "team_id": "T_042",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "location_changed",
+      "new": {
+        "location": "גבע"
+      },
+      "old": {
+        "location": "מגרש פתוח כפר יחזקאל"
+      },
+      "session_id": "40sqhsrfqnpnf0tpddnbvglv7v",
+      "team_id": "T_084",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-12T22:00:00+03:00",
+        "start": "2026-09-12T18:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-08-30T20:00:00+03:00",
+        "start": "2026-08-30T16:00:00+03:00"
+      },
+      "session_id": "6hapb27cru6hahfl59tqiij6ki",
+      "team_id": "T_042",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-09T13:00:00+03:00",
+        "location": "גן נר",
+        "start": "2026-09-09T10:00:00+03:00",
+        "team_id": "T_042"
+      },
+      "old": null,
+      "session_id": "70kuihrtobn7lvnmk68kshad67",
+      "team_id": "T_042",
+      "week_key": "2026-09-06"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-08T14:00:00+03:00",
+        "start": "2026-09-08T10:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-08-28T14:00:00+03:00",
+        "start": "2026-08-28T10:00:00+03:00"
+      },
+      "session_id": "74otp2fe69tcfke7r3r91gqkhu",
+      "team_id": "T_042",
+      "week_key": "2026-09-06"
+    }
+  ],
+  "generated_at": "2026-09-05T08:44:06Z"
 }

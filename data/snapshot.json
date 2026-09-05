@@ -2,23 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
-      "date": "2026-08-28",
-      "end": "2026-08-28T14:00:00+03:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "74otp2fe69tcfke7r3r91gqkhu",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-28T10:00:00+03:00",
-      "team_id": "T_042",
-      "week_key": "2026-08-23",
-      "weekday": 5
-    },
-    {
-      "activity_type": "training",
       "coach_text": "יואב שנקמן",
       "date": "2026-08-29",
       "end": "2026-08-29T22:30:00+03:00",
@@ -49,23 +32,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
-      "date": "2026-08-30",
-      "end": "2026-08-30T20:00:00+03:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "6hapb27cru6hahfl59tqiij6ki",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-30T16:00:00+03:00",
-      "team_id": "T_042",
-      "week_key": "2026-08-30",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
       "coach_text": "יונתן אורן",
       "date": "2026-08-30",
       "end": "2026-08-30T22:00:00+03:00",
@@ -78,23 +44,6 @@
       "team_id": "T_043",
       "week_key": "2026-08-30",
       "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
-      "date": "2026-08-31",
-      "end": "2026-08-31T12:00:00+03:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "1acn8bdgj45se9i15te0ao5isi",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-31T09:00:00+03:00",
-      "team_id": "T_042",
-      "week_key": "2026-08-30",
-      "weekday": 1
     },
     {
       "activity_type": "unknown",
@@ -844,23 +793,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
-      "date": "2026-09-03",
-      "end": "2026-09-03T14:00:00+03:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "0g7c0tfnh2h2sokgnb3i7ck3g6",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-03T10:00:00+03:00",
-      "team_id": "T_042",
-      "week_key": "2026-08-30",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
       "coach_text": "יונתן אורן",
       "date": "2026-09-03",
       "end": "2026-09-03T15:00:00+03:00",
@@ -1534,6 +1466,23 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-09-06",
+      "end": "2026-09-06T14:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "3v56148srr9v70qgscljji2ncf",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-06T10:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-09-06",
+      "weekday": 0
+    },
+    {
+      "activity_type": "training",
       "coach_text": "יונתן אורן",
       "date": "2026-09-06",
       "end": "2026-09-06T15:00:00+03:00",
@@ -2186,6 +2135,23 @@
       "weekday": 0
     },
     {
+      "activity_type": "unknown",
+      "coach_text": null,
+      "date": "2026-09-07",
+      "end": "2026-09-07T12:00:00+03:00",
+      "flags": [
+        "unrecognized_title"
+      ],
+      "id": "6q8uokl4fnei9apinvqu2umqek",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "unknown",
+      "start": "2026-09-07T10:30:00+03:00",
+      "team_id": null,
+      "week_key": "2026-09-06",
+      "weekday": 1
+    },
+    {
       "activity_type": "training",
       "coach_text": "איתן פרג",
       "date": "2026-09-07",
@@ -2216,6 +2182,23 @@
       "sport": "volleyball",
       "start": "2026-09-07T15:00:00+03:00",
       "team_id": null,
+      "week_key": "2026-09-06",
+      "weekday": 1
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-09-07",
+      "end": "2026-09-07T19:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "1acn8bdgj45se9i15te0ao5isi",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-07T15:00:00+03:00",
+      "team_id": "T_042",
       "week_key": "2026-09-06",
       "weekday": 1
     },
@@ -2892,6 +2875,23 @@
       "weekday": 1
     },
     {
+      "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-09-08",
+      "end": "2026-09-08T14:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "74otp2fe69tcfke7r3r91gqkhu",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-08T10:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-09-06",
+      "weekday": 2
+    },
+    {
       "activity_type": "other_sport",
       "coach_text": null,
       "date": "2026-09-08",
@@ -3430,6 +3430,23 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-09-09",
+      "end": "2026-09-09T13:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "70kuihrtobn7lvnmk68kshad67",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-09T10:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-09-06",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "נעה שמעוני",
       "date": "2026-09-09",
       "end": "2026-09-09T15:30:00+03:00",
@@ -3804,6 +3821,26 @@
       "weekday": 3
     },
     {
+      "activity_type": "game",
+      "coach_text": null,
+      "date": "2026-09-09",
+      "end": "2026-09-09T20:30:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "097o1slvjmjuuv2n9187rrgfv1",
+      "location": "גן נר",
+      "notes": [
+        "משחק אימון",
+        "יריב: מתחיל 18:30"
+      ],
+      "sport": "basketball",
+      "start": "2026-09-09T17:00:00+03:00",
+      "team_id": "T_106",
+      "week_key": "2026-09-06",
+      "weekday": 3
+    },
+    {
       "activity_type": "training",
       "coach_text": "עלמה כהן/שירה לוי",
       "date": "2026-09-09",
@@ -3885,7 +3922,7 @@
       "end": "2026-09-09T18:30:00+03:00",
       "flags": null,
       "id": "40sqhsrfqnpnf0tpddnbvglv7v",
-      "location": "מגרש פתוח כפר יחזקאל",
+      "location": "גבע",
       "notes": null,
       "sport": "basketball",
       "start": "2026-09-09T17:30:00+03:00",
@@ -4747,6 +4784,40 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-09-11",
+      "end": "2026-09-11T14:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "0g7c0tfnh2h2sokgnb3i7ck3g6",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-11T10:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-09-06",
+      "weekday": 5
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-09-12",
+      "end": "2026-09-12T22:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "6hapb27cru6hahfl59tqiij6ki",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-12T18:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-09-06",
+      "weekday": 6
+    },
+    {
+      "activity_type": "training",
       "coach_text": "ניר גוב",
       "date": "2026-09-12",
       "end": "2026-09-12T20:30:00+03:00",
@@ -4821,5 +4892,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-09-04T19:15:01Z"
+  "generated_at": "2026-09-05T08:44:06Z"
 }

@@ -838,5 +838,13 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-09-11"
+  },
+  "T_106": {
+    "normalized_name": "הפועל העמק נגד מכבי רג",
+    "display_name": "הפועל העמק נגד מכבי ר\"ג",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-09"
   }
 }

@@ -1150,5 +1150,14 @@
     "sport": "basketball",
     "team_id": "T_105",
     "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [],
+    "display_name": "הפועל העמק נגד מכבי ר\"ג",
+    "sample_note": "משחק אימון",
+    "sport": "basketball",
+    "team_id": "T_106",
+    "tier": null
   }
 ]

@@ -846,5 +846,21 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-09-09"
+  },
+  "T_107": {
+    "normalized_name": "הפועל תא",
+    "display_name": "הפועל ת\"א",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-09"
+  },
+  "T_108": {
+    "normalized_name": "הפועל עפולה",
+    "display_name": "הפועל עפולה",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-10"
   }
 }

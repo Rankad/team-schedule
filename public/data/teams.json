@@ -372,7 +372,7 @@
       "ברק וינריב"
     ],
     "display_name": "ילדים ב חרוד",
-    "sample_note": null,
+    "sample_note": "חצי אולם",
     "sport": "basketball",
     "team_id": "T_034",
     "tier": null
@@ -416,7 +416,7 @@
       "סהר טיבי"
     ],
     "display_name": "נערים ט לאומית",
-    "sample_note": null,
+    "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_038",
     "tier": "לאומית"
@@ -647,7 +647,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "נוער לאומית",
-    "sample_note": null,
+    "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_059",
     "tier": "לאומית"
@@ -1158,6 +1158,24 @@
     "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_106",
+    "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [],
+    "display_name": "הפועל ת\"א",
+    "sample_note": "משחק אימון",
+    "sport": "basketball",
+    "team_id": "T_107",
+    "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [],
+    "display_name": "הפועל עפולה",
+    "sample_note": "משחק אימון",
+    "sport": "basketball",
+    "team_id": "T_108",
     "tier": null
   }
 ]

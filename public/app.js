@@ -494,10 +494,11 @@ function renderChangesBanner(followedIds) {
   banner.hidden = false;
 }
 
-// "יום ג׳ 8/9" — Hebrew weekday letter + d/m, per docs/ui-ux-spec.md.
+// "יום ג׳ 8/9" — Hebrew weekday letter + d/m, per docs/ui-ux-spec.md. The d/m
+// run is LTR-isolated so it doesn't reorder against the surrounding Hebrew.
 function heWeekdayDate(ymd) {
   var dow = new Date(ymdToUTC(ymd)).getUTCDay(); // 0=Sun
-  return 'יום ' + HE_WEEKDAY[dow] + ' ' + dmLabel(ymd);
+  return 'יום ' + HE_WEEKDAY[dow] + ' ' + ltrIsolate(dmLabel(ymd));
 }
 
 // Old → new is spelled out as "לפני: … · אחרי: …" (before / after) rather than an
@@ -508,32 +509,30 @@ function heWeekdayDate(ymd) {
 function describeChange(c) {
   var t = DATA.teamsById[c.team_id];
   var name = t ? t.display_name : c.team_id;
-  var label, detail = '';
+  var kinds = {
+    added: 'אימון חדש נוסף',
+    removed: 'אימון בוטל',
+    time_changed: 'שעה עודכנה',
+    location_changed: 'מיקום עודכן',
+    team_changed: 'שיוך קבוצה עודכן'
+  };
+  var label = kinds[c.kind] || c.kind;
+  var detail = '';
 
   if (c.kind === 'time_changed' && c.old && c.new) {
     var oDay = String(c.old.start).slice(0, 10);
     var nDay = String(c.new.start).slice(0, 10);
-    var oTime = hhmm(c.old.start) + '–' + hhmm(c.old.end);
-    var nTime = hhmm(c.new.start) + '–' + hhmm(c.new.end);
+    var oTime = ltrIsolate(hhmm(c.old.start) + '–' + hhmm(c.old.end));
+    var nTime = ltrIsolate(hhmm(c.new.start) + '–' + hhmm(c.new.end));
     if (oDay && nDay && oDay !== nDay) {
       label = 'מועד האימון עודכן'; // the training was moved to another day
       detail = ' — לפני: ' + heWeekdayDate(oDay) + ' ' + oTime +
         ' · אחרי: ' + heWeekdayDate(nDay) + ' ' + nTime;
     } else {
-      label = 'שעה עודכנה';
       detail = ' — לפני: ' + oTime + ' · אחרי: ' + nTime;
     }
   } else if (c.kind === 'location_changed' && c.old && c.new) {
-    label = 'מיקום עודכן';
     detail = ' — לפני: ' + (c.old.location || '—') + ' · אחרי: ' + (c.new.location || '—');
-  } else if (c.kind === 'added') {
-    label = 'אימון חדש נוסף';
-  } else if (c.kind === 'removed') {
-    label = 'אימון בוטל';
-  } else if (c.kind === 'team_changed') {
-    label = 'שיוך קבוצה עודכן';
-  } else {
-    label = c.kind;
   }
   return name + ' – ' + label + detail;
 }

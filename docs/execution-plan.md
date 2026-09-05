@@ -242,6 +242,18 @@ server, no database, $0/month. See `docs/architecture.md` and
   `.share-follows` / `.week-actions` (which set their own `display`) leaked onto
   the no-teams-followed screen — added `[hidden] { display: none !important; }`.
 
+- **2026-09-05 — QA review pass on the 5-commit branch (qa-reviewer sub-agent).**
+  Verdict: OK to release, no blockers; all four suites green. Fixes applied from
+  its findings: (1) `describeChange` label now resolves from a kind→Hebrew map
+  first so a malformed change object can't render the raw English `kind`;
+  (2) added a smoke fixture for the day-moved `time_changed` branch
+  (`heWeekdayDate` + `מועד האימון עודכן` were previously uncovered);
+  (3) `heWeekdayDate` d/m and the before/after time ranges wrapped in
+  `ltrIsolate()` to match the codebase's RTL-numeric convention. Open item for
+  the stakeholder: DL-034 Option A means a parent who already followed a team
+  has no visible path to player mode (must unfollow first) — confirm that's
+  acceptable for pilot users.
+
 ## Immediate next step
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
 Cloudflare's git integration. Remaining before the single-team pilot (see

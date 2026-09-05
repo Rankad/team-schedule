@@ -332,6 +332,28 @@ require(path.join(ROOT, 'public', 'rides.js'));
   assert(chgText.indexOf('←') === -1, 'no ambiguous arrow in the change text');
   assert(store['gilboa.seen_generated_at'] === meta.generated_at, 'viewing the banner sets seen_generated_at');
 
+  // time_changed where the practice moved to a different day: relabelled and the
+  // weekday + date shown on each side (2026-09-08 = Tue, 2026-09-10 = Thu).
+  {
+    const savedChanges = window.DATA.changes;
+    window.DATA.changes = [{
+      team_id: T1, week_key: lastWeek, kind: 'time_changed',
+      old: { start: '2026-09-08T17:00:00+03:00', end: '2026-09-08T18:00:00+03:00' },
+      new: { start: '2026-09-10T17:00:00+03:00', end: '2026-09-10T18:00:00+03:00' },
+    }];
+    delete store['gilboa.seen_generated_at'];
+    window.render();
+    if (clist.hidden) btoggle.click();
+    const dm = clist.children[0].textContent.replace(/[⁦⁩]/g, '');
+    assert(dm.indexOf('מועד האימון עודכן') !== -1, 'day-moved change is relabelled "מועד האימון עודכן"');
+    assert(/יום .׳? ?8\/9/.test(dm) && /יום .׳? ?10\/9/.test(dm), 'day-moved change shows weekday + date on both sides');
+    assert(dm.indexOf('17:00–18:00') !== -1, 'day-moved change still shows the time');
+    assert(dm.indexOf('לפני:') !== -1 && dm.indexOf('אחרי:') !== -1, 'day-moved change keeps before/after framing');
+    window.DATA.changes = savedChanges;
+    store['gilboa.seen_generated_at'] = meta.generated_at;
+    window.render();
+  }
+
   // ---- export / share features (viewSunday is the last published week, T1 followed) ----
   console.log('action row visibility');
   assert(byId['share-follows'].hidden === false, 'share-my-teams action visible while following');

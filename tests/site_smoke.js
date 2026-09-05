@@ -626,13 +626,38 @@ require(path.join(ROOT, 'public', 'rides.js'));
 
     const nameInput = gid('rides-name-input');
     assert(!!nameInput, 'name step rendered after consent');
-    assert(nameInput.getAttribute('placeholder') === 'שם פרטי ושם משפחה', 'name field has the guidance placeholder');
+
+    // While filling in the name (consent accepted, not yet saved) the toggle
+    // must show שחקן as the active choice, and pressing הורה must abandon the
+    // name step — not silently do nothing.
+    {
+      const eb = gid('role-toggle-slot').querySelectorAll('button');
+      assert(eb[1].classList.contains('is-selected') && eb[1].getAttribute('aria-pressed') === 'true',
+        'שחקן shows selected while entering player mode');
+      assert(!eb[0].classList.contains('is-selected'), 'הורה not selected while entering player mode');
+    }
+    // press הורה to back out
+    gid('role-toggle-slot').querySelectorAll('button')[0].click();
+    assert(!gid('rides-name-input'), 'pressing הורה abandons the name step');
+    assert(byId['onboarding'].hidden === false, 'back on the onboarding screen after backing out');
+    assert((store['gilboa.role'] || 'parent') === 'parent', 'role stays parent after backing out via הורה');
+    {
+      const rb = gid('role-toggle-slot').querySelectorAll('button');
+      assert(rb[0].classList.contains('is-selected'), 'הורה selected again after backing out');
+    }
+
+    // re-enter to continue the happy path
+    gid('role-toggle-slot').querySelectorAll('button')[1].click();
+    gid('rides-consent').querySelector('[data-consent="ok"]').click();
+    const nameInput2 = gid('rides-name-input');
+    assert(!!nameInput2, 'name step rendered again after re-entering');
+    assert(nameInput2.getAttribute('placeholder') === 'שם פרטי ושם משפחה', 'name field has the guidance placeholder');
     assert(gid('rides-name-error').hidden === true, 'no error shown before the player does anything');
     gid('rides-name-save').click();
     assert(gid('rides-name-error').hidden === false &&
       gid('rides-name-error').textContent.indexOf('יש להזין שם מלא') !== -1,
       'empty-field error shows only after a save attempt');
-    nameInput.value = 'דניאל כהן'; nameInput.dispatch('input');
+    nameInput2.value = 'דניאל כהן'; nameInput2.dispatch('input');
     assert(gid('rides-name-error').hidden === true, 'error clears once a name is typed');
     assert(gid('rides-name-preview').textContent.indexOf('דניאל כ׳') !== -1, 'live "יוצג כ" preview');
 

@@ -412,6 +412,35 @@
     data-dependent, not random — find the input that flips it before dismissing
     it as flaky.
 
+## LL-025 — A toggle whose state is derived only from persisted role looked "dead" mid-flow
+- **Date:** 2026-09-05
+- **Context:** The new `הורה`/`שחקן` role toggle (DL-034) derived its pressed
+  state purely from `gilboa.role`. `gilboa.role` only becomes `player` *after*
+  the consent + name step succeeds. So for the whole consent→name flow the
+  toggle still showed `הורה` selected, and its `הורה` half — guarded by
+  `if (getRole() === 'player')` — did nothing. A user who tapped `שחקן` saw no
+  feedback and then could not get back via the control they had just used; the
+  only way out was a small `→ חזרה` inside the name card. The brainstormed spec
+  even *specified* "pressed state does not move until `gilboa.role` flips" — the
+  spec was wrong about the UX.
+- **What we learned:**
+  - A control the user is looking at must reflect **in-progress intent**, not
+    just committed/persisted state. Model the transient state explicitly
+    (`pendingPlayer`) — don't infer UI state solely from the datastore.
+  - Every visible button needs a defined behaviour for *every* state it can be
+    seen in. "Tapping X while in state Y does nothing" is a bug unless that
+    no-op is intentional and obvious.
+  - When two affordances do the same thing (toggle `הורה` vs card `→ חזרה`),
+    factor the action into one function (`cancelPlayerEntry()`) so they can't
+    drift.
+  - A spec sentence describing UI behaviour is a claim to test against reality,
+    not a law. This one shipped and the first real user hit the gap immediately.
+- **Apply:**
+  - For any multi-step entry flow behind a toggle/tab, add a `pending*` flag set
+    when the flow starts and cleared on success *and* every abandon path.
+  - In review, for each interactive element ask: "what does this do on every
+    screen it appears on?" A dead branch is a finding.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

@@ -121,9 +121,13 @@ screen.
   *`הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.`*
 - **Default `הורה`** — matches the implicit default (`gilboa.role` absent =
   parent). Tapping `הורה` while already parent is a no-op.
-- Tapping `שחקן` from parent → the §4.2 consent flow. The toggle's pressed
-  state does **not** move until `gilboa.role` actually flips, so backing out of
-  consent / the name step leaves it on `הורה`.
+- Tapping `שחקן` from parent → the §4.2 consent flow. If consent is **cancelled**
+  the toggle stays on `הורה` (nothing started). Once consent is **accepted** and
+  the name step is showing (`pendingPlayer` — no token yet, `gilboa.role` still
+  `parent`), the toggle shows **`שחקן` selected**, the `#onboarding` team-picker
+  content is hidden (`.is-entering`), and tapping **`הורה` abandons the name
+  step** — same action as the card's `→ חזרה`. This is the fix for the toggle
+  looking dead / the user being stranded on the name screen (2026-09-05).
 
 **b) Compact link** `רישום להסעות — מעבר למצב שחקן` (styled `.role-link`, like
 `#share-follows`) in `#role-entry-slot` below the share button — shown when the
@@ -158,8 +162,9 @@ case at stakeholder request (2026-09-05).
      shows only **after** a save attempt on an empty field, not on first paint.
    - One word only → warn once `נא להזין שם פרטי ומשפחה`; the button label
      becomes `שמור בכל זאת` so a second press is an explicit confirm.
-   - A `→ חזרה` action reverts `gilboa.role` to parent cleanly (no
-     `role=player` + no-token limbo).
+   - `→ חזרה` **and** the toggle's `הורה` both abandon the step cleanly via
+     `cancelPlayerEntry()` (clear `pendingPlayer`, drop the name card, role →
+     parent, re-render). No `role=player` + no-token limbo.
 3. On save: `POST /api/token`. On `200` store
    `gilboa.player = { token, fullName }`, set `gilboa.role = 'player'`, re-render.
    On failure: inline `לא הצלחנו לשמור, נסו שוב` + retry, keep the typed name,

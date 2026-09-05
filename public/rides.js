@@ -113,21 +113,31 @@
   //     reach player mode without unfollowing everything first.
   // Player mode: neither is shown — the rides summary card is the indicator and
   // holds the way back.
+  //
+  // pendingPlayer: consent accepted, the name step is showing, no token saved
+  // yet. `gilboa.role` is still 'parent' at this point, but the toggle must show
+  // שחקן as the active choice and pressing הורה must abandon the name step
+  // (otherwise the button looks dead and the user is stuck — see the name-step
+  // `→ חזרה` for the same action).
+  var pendingPlayer = false;
+
   function renderRoleToggle() {
     var isPlayer = getRole() === 'player';
+    var entering = pendingPlayer && !isPlayer;
     var onb = document.getElementById('onboarding');
+    if (onb) onb.classList.toggle('is-entering', entering); // CSS hides the team-picker content
     var onboardingVisible = onb && !onb.hidden;
 
     var toggleSlot = document.getElementById('role-toggle-slot');
     if (toggleSlot) {
       toggleSlot.innerHTML = '';
-      if (onboardingVisible) toggleSlot.appendChild(buildRoleToggle(isPlayer));
+      if (onboardingVisible) toggleSlot.appendChild(buildRoleToggle(isPlayer || entering));
     }
 
     var linkSlot = document.getElementById('role-entry-slot');
     if (linkSlot) {
       linkSlot.innerHTML = '';
-      if (!onboardingVisible && !isPlayer) {
+      if (!onboardingVisible && !isPlayer && !entering) {
         var link = ce('button', 'role-link', 'רישום להסעות — מעבר למצב שחקן');
         link.setAttribute('type', 'button');
         link.addEventListener('click', function () { enterPlayerMode(); });
@@ -136,7 +146,7 @@
     }
   }
 
-  function buildRoleToggle(isPlayer) {
+  function buildRoleToggle(playerSelected) {
     var wrap = ce('div', null);
 
     var group = ce('div', 'role-toggle');
@@ -147,16 +157,17 @@
     var playerBtn = ce('button', 'role-toggle-btn', 'שחקן');
     [parentBtn, playerBtn].forEach(function (b) { b.setAttribute('type', 'button'); });
 
-    parentBtn.classList.toggle('is-selected', !isPlayer);
-    parentBtn.setAttribute('aria-pressed', String(!isPlayer));
-    playerBtn.classList.toggle('is-selected', isPlayer);
-    playerBtn.setAttribute('aria-pressed', String(isPlayer));
+    parentBtn.classList.toggle('is-selected', !playerSelected);
+    parentBtn.setAttribute('aria-pressed', String(!playerSelected));
+    playerBtn.classList.toggle('is-selected', playerSelected);
+    playerBtn.setAttribute('aria-pressed', String(playerSelected));
 
     parentBtn.addEventListener('click', function () {
-      if (getRole() === 'player') exitToParent(); // §4.5 confirm + delete
+      if (getRole() === 'player') exitToParent();  // §4.5 confirm + delete
+      else if (pendingPlayer) cancelPlayerEntry(); // abandon the name step
     });
     playerBtn.addEventListener('click', function () {
-      if (getRole() !== 'player') enterPlayerMode();
+      if (getRole() !== 'player' && !pendingPlayer) enterPlayerMode();
     });
 
     group.appendChild(parentBtn);
@@ -166,6 +177,16 @@
     wrap.appendChild(ce('p', 'role-toggle-help',
       'הורים — רק צפייה בלוח. שחקנים — גם רישום להסעות.'));
     return wrap;
+  }
+
+  // Leave the name step without saving — from the toggle's הורה or the card's
+  // "→ חזרה". Never leave role=player without a token.
+  function cancelPlayerEntry() {
+    pendingPlayer = false;
+    var slot = document.getElementById('rides-summary-slot');
+    if (slot) slot.innerHTML = '';
+    setRole('parent');
+    rerender();
   }
 
   // ---------- consent dialog ----------
@@ -226,6 +247,8 @@
     var slot = document.getElementById('rides-summary-slot');
     if (!slot) return;
     slot.innerHTML = '';
+    pendingPlayer = true;
+    renderRoleToggle(); // reflect "entering player mode" in the toggle
 
     var card = ce('div', 'card rides-name-card');
 
@@ -311,6 +334,7 @@
         save.setAttribute('aria-busy', 'false');
         save.disabled = false;
         if (token) {
+          pendingPlayer = false;
           setPlayer({ token: token, fullName: fullName });
           setRole('player');
           slot.innerHTML = '';
@@ -322,11 +346,7 @@
       });
     });
 
-    back.addEventListener('click', function () {
-      slot.innerHTML = '';
-      setRole('parent'); // never leave role=player without a token
-      rerender();
-    });
+    back.addEventListener('click', function () { cancelPlayerEntry(); });
   }
 
   // ---------- switch back to parent ----------

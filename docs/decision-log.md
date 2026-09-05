@@ -700,6 +700,13 @@
   spotted on this screen where `.share-follows` / `.week-actions` (own `display`)
   ignored the `hidden` attribute and leaked onto the no-teams screen.
 - **Risk:** Low. No API or storage change; `gilboa.role` semantics unchanged.
-  Smoke test updated (148 assertions pass); no code sets `style.display`, so the
+  Smoke test updated (155 assertions pass); no code sets `style.display`, so the
   `[hidden]` rule only ever hides what was already meant to be hidden. QA-reviewer
   pass on the branch: no blockers.
+- **Follow-up 2026-09-05 (post-deploy stakeholder report):** the toggle looked
+  dead during player-entry — `שחקן` never highlighted (pressed state was tied to
+  `gilboa.role`, which only flips on save) and `הורה` did nothing on the name
+  step, stranding the user. Fixed with a `pendingPlayer` flag: during the name
+  step the toggle shows `שחקן` selected, the onboarding team-picker content is
+  hidden (`.onboarding.is-entering`), and `הורה` calls the same
+  `cancelPlayerEntry()` as the card's `→ חזרה`. See LL-025.

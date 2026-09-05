@@ -259,6 +259,14 @@ server, no database, $0/month. See `docs/architecture.md` and
   when onboarding is hidden and role is parent. Player mode shows neither.
   Smoke test 148 assertions; browser-verified all three states.
 
+- **2026-09-05 — Fixed the role toggle looking dead during player entry
+  (follow-up to DL-034, LL-025).** Post-deploy the stakeholder reported: tapping
+  `שחקן` gave no visual feedback and `הורה` did nothing on the name screen —
+  stuck. `renderRoleToggle` now tracks `pendingPlayer`: during the name step the
+  toggle shows `שחקן` selected, `.onboarding.is-entering` hides the team-picker
+  content, and `הורה` runs the same `cancelPlayerEntry()` as `→ חזרה`. Smoke
+  155; browser-verified both back paths.
+
 ## Immediate next step
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
 Cloudflare's git integration. Remaining before the single-team pilot (see

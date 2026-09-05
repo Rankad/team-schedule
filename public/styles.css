@@ -128,6 +128,13 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 /* ---------- Onboarding ---------- */
 .onboarding p { color: var(--muted); margin: 0.25rem 0 1rem; }
 
+/* While entering player mode (name step showing) only the role toggle stays —
+   the team-picker heading / text / button would be noise stacked above the
+   name card. rides.js toggles .is-entering. */
+.onboarding.is-entering > h1,
+.onboarding.is-entering > p,
+.onboarding.is-entering > [data-goto] { display: none; }
+
 /* ---------- Chips (followed teams) ---------- */
 .chips {
   display: flex;

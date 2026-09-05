@@ -7,11 +7,13 @@ name: Build schedule data
 # published by .github/workflows/legacy-redirect.yml.
 on:
   schedule:
-    # Twice daily: a morning refresh + an evening one that catches daytime edits.
+    # Three times daily: a morning refresh, a mid-afternoon one, and an evening
+    # one that catches daytime edits.
     # GitHub cron is UTC-only and can't follow Israeli DST. Anchored to WINTER
-    # time (UTC+2) on purpose: 05:00/17:00 UTC = 07:00/19:00 Asia/Jerusalem
-    # Nov–late March, and 08:00/20:00 during summer time. Do not "fix" to UTC+3.
-    - cron: "0 5,17 * * *"
+    # time (UTC+2) on purpose: 05:00/13:00/17:00 UTC = 07:00/15:00/19:00
+    # Asia/Jerusalem Nov–late March, and 08:00/16:00/20:00 during summer time.
+    # Do not "fix" to UTC+3.
+    - cron: "0 5,13,17 * * *"
   workflow_dispatch:
   # Code pushes/PRs run only the functions-tests job below (build-data is gated
   # to schedule/dispatch by its own `if:`), so a plain push never re-fetches the

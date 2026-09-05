@@ -216,6 +216,14 @@ server, no database, $0/month. See `docs/architecture.md` and
   still deferred), so the free-plan Rate Limiting Rule has nothing to attach
   to; revisit when a custom domain exists or before club-wide rollout.
 
+- **2026-09-05 — Data build cron widened to three times daily (DL-033).**
+  `.github/workflows/build.yml` cron `0 5,17 * * *` → `0 5,13,17 * * *` UTC, at
+  stakeholder request — adds a mid-afternoon scan so same-day schedule edits
+  reach parents before evening practice. Winter-anchored: ~07:00/15:00/19:00
+  Jerusalem in winter, ~08:00/16:00/20:00 in summer. $0 impact; the rides purge
+  now fires three times a day (idempotent). Docs updated (architecture,
+  known-constraints, HOSTING, rides-spec, public/README).
+
 ## Immediate next step
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
 Cloudflare's git integration. Remaining before the single-team pilot (see

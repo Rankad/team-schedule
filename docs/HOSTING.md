@@ -10,7 +10,8 @@
   `legacy-redirect.yml` GitHub Actions workflow.
 
 ## How a deploy happens
-1. `build.yml` job `build-data` (twice-daily cron / manual) rebuilds
+1. `build.yml` job `build-data` (thrice-daily cron `0 5,13,17 * * *` UTC ≈
+   07:00/15:00/19:00 Jerusalem winter, 08:00/16:00/20:00 summer / manual) rebuilds
    `public/data/*.json` and pushes to `main` if the schedule changed.
 2. Cloudflare Pages sees the push and deploys `public/` (~1 min). Any other
    push to `main` (site edit, docs) also triggers a deploy — harmless.

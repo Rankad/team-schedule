@@ -78,7 +78,9 @@ Stateless script; its only "memory" between runs is committed files.
    `data/history/<date>.json`.
 6. `git commit` only if something changed → triggers the host to redeploy.
 
-Schedule: daily cron (e.g. `0 5 * * *` UTC) + `workflow_dispatch` for manual
+Schedule: cron `0 5,13,17 * * *` UTC — three times daily, ~07:00/15:00/19:00
+Asia/Jerusalem in winter, ~08:00/16:00/20:00 in summer (winter-anchored; DL-033)
++ `workflow_dispatch` for manual
 runs. Note: GitHub disables cron workflows after 60 days with no repo activity;
 the periodic data commits keep it alive, plus a monthly keepalive.
 
@@ -157,10 +159,11 @@ Cloudflare KV namespace  RIDES_KV
   `POST /api/token`. Manager = `Authorization: Bearer` token, HMAC'd from the
   `MANAGER_PASSPHRASE` Cloudflare secret, 6 h TTL, checked by every
   `/api/manager/*` route.
-- **No second scheduler:** the daily purge (`POST /api/purge`, `X-Purge-Key`
-  auth) is called from the *existing* twice-daily GitHub Action
+- **No second scheduler:** the purge (`POST /api/purge`, `X-Purge-Key`
+  auth) is called from the *existing* thrice-daily GitHub Action
   (`.github/workflows/build.yml`, job `build-data`), right after the normal
-  schedule rebuild. Pages Functions have no native cron.
+  schedule rebuild. Idempotent, so running it three times a day is harmless.
+  Pages Functions have no native cron.
 - **Isolation boundary (enforced in code review):** every rides call is
   wrapped so a failure shows a contained "unavailable" state in the rides UI
   — it never touches `renderMyWeek`'s schedule rendering path. See
@@ -218,7 +221,7 @@ team schedule/
 
 ## Deployment
 1. GitHub Actions (`.github/workflows/build.yml`, job `build-data`) runs on the
-   twice-daily cron and on manual dispatch: `pytest` → fetch calendar →
+   thrice-daily cron (`0 5,13,17 * * *` UTC) and on manual dispatch: `pytest` → fetch calendar →
    rebuild `public/data/*.json` → commit & push to `main` if anything changed.
 2. **Cloudflare Pages** is connected to `Rankad/team-schedule` with no build
    command and output directory `public/`. Every push to `main` — the data

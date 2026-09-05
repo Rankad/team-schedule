@@ -61,7 +61,8 @@ UI. Never invent proper nouns — take them from the stakeholder or the source.
   The static site needs no Cloudflare secrets. (The rides feature will add
   Cloudflare environment secrets later — not part of hosting.)
 - The Python build + commit still runs on GitHub Actions
-  (`.github/workflows/build.yml`, job `build-data`), twice daily. GitHub
+  (`.github/workflows/build.yml`, job `build-data`), three times daily
+  (`0 5,13,17 * * *` UTC ≈ 07:00/15:00/19:00 Jerusalem winter, DL-033). GitHub
   disables scheduled workflows after 60 days of repo inactivity — the periodic
   data commits plus `keepalive.yml` keep it alive.
 - GitHub Pages is retired; `rankad.github.io/team-schedule/` serves a redirect
@@ -123,8 +124,8 @@ switch systems, fall back to the Excel importer.
   `docs/RIDES.md`.
 - **Two GitHub Actions secrets:** `PURGE_KEY` (same value as above) and
   `RIDES_API` (= `https://gilboa-schedule.pages.dev`) — read by
-  `.github/workflows/build.yml` to call the purge endpoint after the
-  twice-daily schedule rebuild. Missing either just skips the purge
+  `.github/workflows/build.yml` to call the purge endpoint after each
+  scheduled rebuild (three times daily). Missing either just skips the purge
   (non-fatal to the schedule build).
 - **Minors' PII / legal review pending:** ride requests store a named minor's
   full name + which practices they attend + travel direction (rides-spec

@@ -48,7 +48,7 @@ passphrase is set/rotated.
 ## Deploy
 
 Hosted on **Cloudflare Pages** (git integration, no build command, output
-directory `public/`). Every push to `main` — the twice-daily data commits from
+directory `public/`). Every push to `main` — the thrice-daily data commits from
 `.github/workflows/build.yml`, plus any site edit — triggers a Cloudflare deploy
 that uploads this folder. Live at `https://gilboa-schedule.pages.dev`. The old
 `rankad.github.io/team-schedule/` URL redirects here. See `docs/HOSTING.md` and

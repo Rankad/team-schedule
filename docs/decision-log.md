@@ -422,6 +422,8 @@
     widened from once-daily `0 5 * * *` on 2026-09-02 at stakeholder request —
     $0 impact, public-repo Actions minutes are unlimited). Plus
     `workflow_dispatch`. Resolves the Phase 3 "enable the cron" item.
+    *(Widened again to three times daily — `0 5,13,17 * * *`, adds a ~15:00–16:00
+    Jerusalem run — on 2026-09-05; see DL-033.)*
   - **Monthly keepalive** (`.github/workflows/keepalive.yml`) — a no-op commit to
     `.github/keepalive.log` on the 1st of each month so GitHub's 60-day
     inactivity rule never pauses the scheduled build. It touches only
@@ -643,3 +645,20 @@
   weekly rides-stats rollup? which dimensions?" — to be answered from pilot use.
 - **Risk:** Low. No privacy downside to the deferral (less data kept). If adopted
   later it is an additive change to `runPurge` + the stats tab, no migration.
+
+## DL-033 — Data build cron widened to three times daily (adds a 15:00 Israel run)
+- **Date:** 2026-09-05 (stakeholder request)
+- **Context:** DL-026 set the `build-data` cron to twice daily (~07:00–08:00 and
+  ~19:00–20:00 Asia/Jerusalem). The stakeholder asked for a third run in the
+  afternoon so schedule edits the club makes during the day show up before
+  evening practices, without waiting for the 19:00/20:00 run.
+- **Decision:** Cron is now **`0 5,13,17 * * *` UTC** — three runs a day. Still
+  winter-anchored (DL-026): 05:00/13:00/17:00 UTC = **07:00 / 15:00 / 19:00**
+  Asia/Jerusalem Nov–late March, and **08:00 / 16:00 / 20:00** during Israeli
+  summer time. `workflow_dispatch` unchanged.
+- **Impact:** $0 — public-repo Actions minutes are unlimited. The extra run also
+  fires the `POST /api/purge` rides cleanup a third time (idempotent, non-fatal
+  on failure). A run still only commits + deploys when the calendar data changed.
+- **Status:** Accepted. Amends the cron line in DL-026; everything else in DL-026
+  (keepalive, winter anchor, public repo) stands.
+- **Risk:** Low. Same workflow, one extra cron tick.

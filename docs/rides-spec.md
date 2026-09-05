@@ -41,7 +41,7 @@ rides API down (§10.4, §12).
 ### Already done
 - **Hosting migration to Cloudflare Pages** (DL-028) — merged to `main`
   2026-09-04. The site is served by Cloudflare Pages git integration; the
-  twice-daily GitHub Action still builds `public/data/*.json` and pushes to
+  scheduled GitHub Action still builds `public/data/*.json` and pushes to
   `main`, which auto-deploys. This spec builds on that.
 
 ### Before writing code
@@ -339,9 +339,10 @@ secrets store. API routes are Pages Functions under `functions/api/` (e.g.
 `functions/api/request.js`). One KV namespace **`RIDES_KV`**. Env vars:
 `MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`. No framework.
 
-The **daily purge** cannot be a Pages Functions cron (unsupported). It is one
-authenticated `POST /api/purge` called by the **existing twice-daily GitHub
-Action** (`build.yml`, job `build-data`) — no second scheduler. The call carries
+The **purge** cannot be a Pages Functions cron (unsupported). It is one
+authenticated `POST /api/purge` called by the **existing scheduled GitHub
+Action** (`build.yml`, job `build-data`, which runs three times a day) — no
+second scheduler. It is idempotent. The call carries
 `X-Purge-Key: <PURGE_KEY>` (also a GitHub secret).
 
 ### 6.2 KV keys — per-row, never a per-week array

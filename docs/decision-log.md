@@ -884,8 +884,20 @@
 - **`resolve._is_external_club_fixture` stays** as the backstop for shape (2):
   a game row where neither side is a Gilboa team still resolves to
   `team_id = None` and never lands in `teams.json`.
-- **Verified:** `python -m pytest -q` → 158 passed. `node tests/site_smoke.js`
-  and `node tests/manager_smoke.js` unaffected. The six live reference titles,
+- **Registry entries `T_106` / `T_107` / `T_108`** (minted by the pre-fix bug
+  from `הפועל העמק נגד מכבי ר"ג` / `הפועל ת"א` / `הפועל עפולה`) are **kept as
+  inert registry rows**, not deleted. After the fix nothing resolves to their
+  normalized names, so they mint no sessions and never reach `teams.json`. They
+  stay because `resolve._next_id` takes the max existing `T_NNN` as its
+  high-water mark: dropping the top ids would let the next new team re-issue an
+  id that is still live in `public/data/teams.json`, silently moving a parent
+  who follows it onto a different team. The "teams are never deleted" invariant
+  (`resolve.py` docstring, `mvp-spec.md` §5) therefore still holds without
+  exception. Regression guard: `test_resolve.py::
+  test_next_id_never_reissues_a_removed_or_absent_top_id`.
+- **Verified:** `python -m pytest -q` → 159 passed (158 + the `_next_id`
+  monotonicity guard). `node tests/site_smoke.js` and
+  `node tests/manager_smoke.js` unaffected. The six live reference titles,
   run through `parse_title → classify → resolve_team` against
   `data/teams_registry.json`:
 
@@ -906,6 +918,14 @@
   side of the hyphen (row 5 above) the opponent note reads
   `יריב: בתל אביב נגד הפועל ת"א` — the team still resolves correctly; only the
   note text is untidy. Left for a later pass.
+- **Known rough edge (not blocking):** an **opponent-first matchup-token**
+  title — `<outside club> נגד/מול <Gilboa group>` with no hyphen and the club
+  written first — is not caught by the side-swap (which only runs on the
+  team/coach hyphen split). Such a title would keep the outside club as the
+  team side and drop the game to `team_id = null`. **Verified: 0 occurrences
+  across the full public-calendar history (13,477 events) as of 2026-09-06.**
+  Documented, not fixed; the build-log "team-less game rows" counter
+  (`fetch_and_build.py`) would surface it if the club ever starts writing them.
 - **Risk:** Low–moderate. The swap is deliberately narrow (needs a club token
   *and* a Gilboa category/tier on the other side); no title in the committed
   sample-week fixture triggers it. The one real-data risk: a genuine

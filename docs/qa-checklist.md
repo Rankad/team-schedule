@@ -109,8 +109,20 @@ Run before calling any phase "done". Record failures in
       player with a token (not a pure parent). Confirm → deletes
       `week/<wk>/req/<token>/*` via `DELETE /api/me` (best-effort — local token
       clears even if the call fails) → returns to a clean parent view.
+- [ ] The `מחיקת נתוני ההסעות שלי` confirm copy varies by the visible week's
+      ride-request count (DL-037): the firm `…אי אפשר לשחזר` wording with ≥1
+      request, the lighter `…לא נרשמו בקשות הסעה למחיקה` at 0, and the
+      `…ולמחוק את בקשות ההסעה שלך לשבוע זה?` wording when rides data has not
+      loaded. `renderPrivacy()` kicks off a best-effort `loadMyRides` so the
+      count is usually known by the time the button is tapped.
 - [ ] Consent + privacy copy: "מחיקה מיידית" points at the privacy screen, not
-      at "switching back to parent".
+      at "switching back to parent". Docs (spec / known-constraints) lead with
+      the privacy-screen delete as the clean exit from player mode, not
+      clear-site-data (DL-037).
+- [ ] On a shared device left in player mode, a stray tap on a ride chip can add
+      or cancel a request under the child's name — confirm this is captured as a
+      **documented known limitation** (DL-037 / `known-constraints.md`), not
+      filed as a bug.
 - [ ] With the rides API entirely unreachable (DevTools request-block on
       `/api/*`), the schedule list, weekly summary, all four export actions,
       and the changes banner still work exactly as without Phase 6; the
@@ -159,6 +171,15 @@ Run before calling any phase "done". Record failures in
       `manager.html` uses manager-appropriate title/description text.
 - [ ] Pasting the prod link into WhatsApp/Slack shows the title + description
       (no `og:image` card yet — deferred with the logo asset).
+- [ ] Error / warning **text** (`.rides-load-error`, `.rides-name-error`,
+      `.session-warn`) uses `--warn` `#b54708`, not the brand red (DL-037).
+      Destructive **buttons** (`.ride-del`, `.ride-cancel`, `.privacy-delete`)
+      keep `--accent-dark`.
+- [ ] `.ride-strip` is neutral (`--bg`/`--border`); amber (`--banner-bg`) appears
+      only on the changes banner and the rides summary card, never the ride
+      strip (DL-037).
+- [ ] Week-nav arrows: glyph is `var(--text)`, disabled arrow `#8b9096` — no
+      brand red on the nav chrome (DL-037).
 
 ## Non-functional
 - [ ] A full run over a ~430-event window completes in a few seconds.

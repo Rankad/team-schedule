@@ -205,3 +205,29 @@ this ships. Low risk (it is the club's own tool), but it is their mark.
 - Contrast: every `--accent` / `--accent-dark` foreground/background pair checked
   ≥ 4.5:1 (or ≥ 3:1 for large text / UI components, per WCAG) with a tool.
 - `pytest` and the Functions job are unaffected (no code path changes).
+
+---
+
+## Amended after UX review (2026-09-06)
+
+A UX-review round (ui-ux-designer) after the §3 recolour shipped; stakeholder
+pick: **"minimal visual restraint"**. See **DL-037**. Items touching this spec:
+
+3. **S3 — brand red is not a status colour.** New `:root` token
+   `--warn: #b54708` (burnt-orange). Error / warning **text**
+   (`.rides-load-error`, `.rides-name-error`, `.session-warn`) uses `--warn`.
+   Destructive **buttons** (`.ride-del`, `.ride-cancel`, `.privacy-delete`)
+   deliberately keep `--accent-dark` — a reddish delete control is conventional
+   and matches the original rides-spec §4.7 "muted-red text" intent. This
+   supersedes the §3 table's `--accent-dark` note, which had listed
+   `.rides-load-error` and the `.week-arrow` glyph as accent-dark users — they
+   are now `--warn` and `--text` respectively.
+4. **S4 — `.ride-strip` de-ambered:** now `var(--bg)` / `var(--border)` neutral.
+   Amber (`--banner-bg`) is reserved for banner-style attention elements
+   (`#changes-banner`, and the deliberately banner-styled rides summary card),
+   not the strip. §3's note that `--banner-bg`/`--banner-border` "stays amber …
+   deliberately not the brand colour" still holds — S4 only removes amber from
+   the ride strip, which was never a banner.
+5. **S6 — week-nav arrows:** `.week-arrow` glyph is `var(--text)` (was
+   `--accent`); disabled state `#b8bcc2` → `#8b9096` for visibility. Brand red is
+   not spent on nav chrome.

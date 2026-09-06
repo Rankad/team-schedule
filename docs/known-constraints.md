@@ -151,12 +151,24 @@ switch systems, fall back to the Excel importer.
   shape, not by a concurrency test. Documented in `docs/qa-checklist.md`
   "Rides — privacy & security" so this known gap isn't mistaken for an
   oversight in a future QA pass.
-- **Player mode has no in-app exit (DL-035).** It is a superset of parent mode,
-  so there is deliberately no "switch back to parent" control. A device wrongly
-  in player mode recovers only by clearing site data (followed teams are
-  per-device and re-set easily anyway). The only deliberate exit is the
-  privacy-screen `מחיקת נתוני ההסעות שלי` action, which deletes ride data —
-  it is not a mode toggle.
+- **Player mode is one-way; the privacy-screen delete is the exit (DL-035,
+  recovery wording reframed by DL-037).** Player mode is a superset of parent
+  mode, so there is deliberately no "switch back to parent" toggle. To leave
+  player mode, a player uses the privacy-screen `מחיקת נתוני ההסעות שלי` action:
+  it deletes the visible week's ride data, clears the local token + role, and
+  re-renders as a parent — a clean, supported exit, worded as deletion rather
+  than a mode switch. Clearing site data is only a last resort (e.g. a device
+  stuck with no rides data loaded). The confirm wording scales to how many
+  requests exist for the week (DL-037).
+- **Shared family phone in player mode — stray-tap ride fumble (DL-037, S1;
+  documented, not fixed — revisit after the pilot).** A phone left in player
+  mode has live ride chips on every session card. Ride writes are save-on-tap
+  with `הלוך וחזור` preselected (rides-spec §4.7), so anyone holding the phone
+  can, with one stray tap, add a bogus rider under the child's name — or hit
+  `ביטול הסעה` and drop a real request. Either way the coordinator headcount the
+  feature exists to produce is corrupted. The stakeholder chose to document
+  rather than fix for now; revisit after the single-team pilot (candidate fix:
+  require an explicit save for NEW requests in the bottom sheet).
 
 ## Branding (DL-036)
 - **Brand assets are self-hosted** in the repo, never hotlinked from

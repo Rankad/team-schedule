@@ -232,3 +232,26 @@ tests (`functions/api/__tests__/me.test.js`) are unaffected.
 - Manual: as a player, register for ≥1 ride → open privacy screen → confirm the
   delete button appears, deletes, and returns to a clean parent view; reopen as a
   pure parent → no delete button; confirm there is no `מעבר למצב הורה` anywhere.
+
+---
+
+## Amended after UX review (2026-09-06)
+
+A UX-review round (ui-ux-designer) after this spec shipped; stakeholder pick:
+**"reframe the wording, no new flows"**. See **DL-037**. Items touching this
+spec:
+
+1. **§3.1 `deleteMyRidesData()` confirm copy is now conditional** on the known
+   ride-request count for the visible week — it is no longer the single
+   `למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.` string:
+   - ≥ 1 request: `פעולה זו תמחק את בקשות ההסעה שלך לשבוע זה ותחזיר את המכשיר למצב הורה. אי אפשר לשחזר.`
+   - 0 requests: `לצאת ממצב שחקן? לא נרשמו בקשות הסעה למחיקה.`
+   - count unknown (rides data not loaded): `לצאת ממצב שחקן ולמחוק את בקשות ההסעה שלך לשבוע זה?`
+   `renderPrivacy()` fires a best-effort `loadMyRides(currentWeek())` when it
+   appends the button so the accurate copy is usually ready.
+2. **Recovery wording reframed.** §3.6's `known-constraints.md` note said
+   "recovery for a wrongly-player device is clear-site-data". The privacy-screen
+   `מחיקת נתוני ההסעות שלי` is itself a clean, working exit from player mode
+   (clears token + role, re-renders as a parent); the docs now lead with it and
+   treat clear-site-data as a last resort only. No code change — the button
+   already behaved this way.

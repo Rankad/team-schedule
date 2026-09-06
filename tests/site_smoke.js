@@ -214,8 +214,10 @@ let REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
 function pathOf(url) {
   try { return new URL(url, 'http://x.invalid').pathname; } catch (e) { return url; }
 }
+const FETCH_LOG = [];
 global.fetch = (url, opts) => {
   const p = pathOf(url);
+  FETCH_LOG.push({ method: (opts && opts.method) || 'GET', path: p, url: String(url) });
   if (p === '/api/token') {
     return Promise.resolve({
       ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
@@ -257,6 +259,23 @@ const T1 = Object.keys(busy).sort((a, b) => busy[b] - busy[a])[0];
 FAKE_CHANGES.changes[0].team_id = T1;
 FAKE_CHANGES.changes[0].week_key = lastWeek;
 const t1name = teams.find(t => t.team_id === T1).display_name;
+
+// branding <head>: share/theme meta tags on both entry documents
+console.log('branding <head> meta');
+{
+  const idxHtml = fs.readFileSync(path.join(ROOT, 'public/index.html'), 'utf8');
+  const mgrHtml = fs.readFileSync(path.join(ROOT, 'public/manager.html'), 'utf8');
+  [['index.html', idxHtml], ['manager.html', mgrHtml]].forEach(([name, html]) => {
+    assert(/name="theme-color"[^>]*content="#D0212C"/.test(html), name + ' sets theme-color #D0212C');
+    assert(html.indexOf('property="og:title"') !== -1, name + ' has an og:title tag');
+    assert(html.indexOf('property="og:description"') !== -1, name + ' has an og:description tag');
+    assert(html.indexOf('name="twitter:card"') !== -1, name + ' has a twitter:card tag');
+  });
+  assert(idxHtml.indexOf('content="הלו״ז שלי — גלבוע מעיינות"') !== -1,
+    'index.html og:title uses the parent-app copy');
+  assert(mgrHtml.indexOf('content="ניהול הסעות — גלבוע מעיינות"') !== -1,
+    'manager.html og:title uses the manager copy, not the parent-app copy');
+}
 
 require(path.join(ROOT, 'public', 'app.js'));
 require(path.join(ROOT, 'public', 'rides.js'));
@@ -622,6 +641,10 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(!!consentDlg, 'consent dialog present');
     assert(gid('rides-consent-body').textContent.indexOf('נמחק אוטומטית בסוף כל שבוע') !== -1,
       'consent shows the retention line');
+    assert(gid('rides-consent-body').textContent.indexOf('מעבר חזרה למצב הורה') === -1,
+      'consent body no longer mentions switching back to parent');
+    assert(gid('rides-consent-body').textContent.indexOf('מסך מדיניות הפרטיות') !== -1,
+      'consent body points at the privacy screen for immediate deletion');
     consentDlg.querySelector('[data-consent="ok"]').click();
 
     const nameInput = gid('rides-name-input');
@@ -668,9 +691,11 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(JSON.parse(store['gilboa.player']).fullName === 'דניאל כהן', 'full name stored on success');
     assert(store['gilboa.role'] === 'player', 'role set to player');
     window.render();
-    const tBtns2 = gid('role-toggle-slot').querySelectorAll('button');
-    assert(tBtns2[1].classList.contains('is-selected') && tBtns2[1].getAttribute('aria-pressed') === 'true',
-      'שחקן shows selected once in player mode');
+    // Player mode is one-way: an established player who has unfollowed every
+    // team lands on the onboarding screen but sees NO role toggle at all.
+    window.Rides.renderRoleToggle();
+    assert(!gid('role-toggle-slot').querySelector('.role-toggle'),
+      'established player on the unfollow-everything screen: renderRoleToggle renders no .role-toggle');
     assert(!gid('role-entry-slot').textContent, 'no compact "switch to player" link while in player mode');
 
     // failure path
@@ -727,6 +752,13 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(!!chip, 'player with a token sees a ride chip on each session');
     assert(chip.textContent.indexOf('הוספת הסעה') !== -1, 'no request => "הוספת הסעה"');
 
+    // The rides summary card is the whole of the summary slot now — no
+    // "מעבר למצב הורה" button, no .rides-exit-parent.
+    const sumSlot = gid('rides-summary-slot');
+    assert(!!sumSlot.querySelector('.rides-summary-card'), 'player-with-token summary slot has the summary card');
+    assert(sumSlot.textContent.indexOf('מעבר למצב הורה') === -1 && !sumSlot.querySelector('.rides-exit-parent'),
+      'summary slot has no "switch back to parent" control');
+
     REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
     chip.click();
     const sheet = byId['rides-sheet'];
@@ -779,6 +811,77 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(byId['week-content'].querySelectorAll('.day-group').length > 0, 'schedule list still renders when the rides API is down');
     assert(byId['summary'].textContent.length > 0, 'weekly summary still renders when the rides API is down');
     assert(byId['week-content'].textContent.indexOf('שירות ההסעות אינו זמין') !== -1, 'ride strip shows the unavailable message when the API is down');
+
+    // privacy screen: a player is offered "מחיקת נתוני ההסעות שלי"; clicking it
+    // (confirm stubbed true, fetch stubbed) clears the token + the _week cache.
+    // Case A: _week loaded for the visible week with one request => the confirm
+    // copy names the deletion ("תמחק ... אי אפשר לשחזר").
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
+    window.goto('privacy');
+    const delBtn = byId['privacy-body'].querySelector('.privacy-delete');
+    assert(!!delBtn && delBtn.textContent === 'מחיקת נתוני ההסעות שלי',
+      'privacy screen as a player appends the delete-my-rides-data button');
+    let confirmMsg;
+    window.confirm = (m) => { confirmMsg = m; return true; };
+    window.Rides._week.key = window.viewSunday;
+    window.Rides._week.loaded = true;
+    window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
+    FETCH_LOG.length = 0;
+    delBtn.click();
+    await new Promise(r => setTimeout(r, 10));
+    delete window.confirm;
+    assert(confirmMsg && confirmMsg.indexOf('תמחק') !== -1 && confirmMsg.indexOf('לשחזר') !== -1,
+      'delete confirm with one known request names the deletion');
+    const delCall = FETCH_LOG.find(c => c.method === 'DELETE' && c.path === '/api/me');
+    assert(!!delCall && /token=/.test(delCall.url) && /week=/.test(delCall.url),
+      'clicking delete issues DELETE /api/me?token=&week=');
+    assert(!store['gilboa.player'] && !store['gilboa.role'],
+      'clicking delete clears gilboa.player + gilboa.role');
+    assert(window.Rides._week.key === null && Object.keys(window.Rides._week.bySession).length === 0,
+      'clicking delete resets the _week cache');
+    window.goto('privacy');
+    assert(!byId['privacy-body'].querySelector('.privacy-delete'),
+      'a pure parent gets no delete control on the privacy screen');
+
+    // Case B: _week loaded for the visible week with zero requests => softer
+    // "exit player mode, nothing to delete" copy.
+    store['gilboa.role'] = 'player';
+    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.goto('privacy');
+    const delBtn0 = byId['privacy-body'].querySelector('.privacy-delete');
+    let confirmMsg0;
+    window.confirm = (m) => { confirmMsg0 = m; return true; };
+    window.Rides._week.key = window.viewSunday;
+    window.Rides._week.loaded = true;
+    window.Rides._week.bySession = {};
+    delBtn0.click();
+    await new Promise(r => setTimeout(r, 10));
+    delete window.confirm;
+    assert(confirmMsg0 && confirmMsg0.indexOf('לצאת ממצב שחקן') !== -1 && confirmMsg0.indexOf('לא נרשמו') !== -1,
+      'delete confirm with zero known requests uses the softer exit-player-mode copy');
+
+    // Case C: _week NOT loaded for the visible week => the count is unknown, so
+    // the confirm copy uses the generic "exit player mode and delete" string
+    // (no request count, no "cannot be undone" wording).
+    store['gilboa.role'] = 'player';
+    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.goto('privacy');
+    const delBtnC = byId['privacy-body'].querySelector('.privacy-delete');
+    let confirmMsgC;
+    window.confirm = (m) => { confirmMsgC = m; return true; };
+    delBtnC.click();
+    await new Promise(r => setTimeout(r, 10));
+    delete window.confirm;
+    assert(confirmMsgC && confirmMsgC.indexOf('לצאת ממצב שחקן ולמחוק') !== -1
+      && confirmMsgC.indexOf('לא נרשמו') === -1 && confirmMsgC.indexOf('אי אפשר לשחזר') === -1,
+      'delete confirm with an unknown request count uses the generic exit-and-delete copy');
+    window.goto('myweek');
 
     // restore
     delete store['gilboa.role']; delete store['gilboa.player'];

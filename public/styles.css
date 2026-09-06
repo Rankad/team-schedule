@@ -7,8 +7,9 @@
   --text: #1a1d21;
   --muted: #4b5563;
   --border: #e2e4e8;
-  --accent: #1d6a8c;
-  --accent-dark: #14506b;
+  --accent: #D0212C;
+  --accent-dark: #A81B24;
+  --warn: #b54708;
   --banner-bg: #fff4e5;
   --banner-border: #f0c68a;
   --radius: 12px;
@@ -84,12 +85,12 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
   line-height: 1;
   border: 1px solid var(--border);
   background: var(--surface);
-  color: var(--accent);
+  color: var(--text);
   border-radius: var(--radius);
   cursor: pointer;
 }
 .week-arrow svg { display: block; }
-.week-arrow:disabled { color: #b8bcc2; cursor: default; }
+.week-arrow:disabled { color: #8b9096; cursor: default; }
 .week-arrow:active:not(:disabled) { background: var(--bg); }
 
 /* ---------- Layout ---------- */
@@ -352,7 +353,7 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 .session-warn {
   margin-top: 0.35rem;
   font-size: 0.9rem;
-  color: #b54708;
+  color: var(--warn);
 }
 
 .empty-team,
@@ -493,7 +494,7 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 }
 .rides-name-card input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 .rides-name-preview { color: var(--muted); font-size: 0.9rem; margin: 0.5rem 0 0; min-height: 1.2em; }
-.rides-name-error { color: var(--accent-dark); font-size: 0.9rem; font-weight: 600; margin: 0.4rem 0 0; }
+.rides-name-error { color: var(--warn); font-size: 0.9rem; font-weight: 600; margin: 0.4rem 0 0; }
 .rides-name-actions { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.9rem; }
 
 /* Privacy screen prose. */
@@ -536,8 +537,8 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
   gap: 0.4rem 0.6rem;
   margin-top: 0.55rem;
   padding: 0.5rem 0.6rem;
-  background: var(--banner-bg);
-  border: 1px solid var(--banner-border);
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 10px;
 }
 .ride-chip {
@@ -591,7 +592,8 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
 }
 .ride-opt.is-preselected { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .sheet-cancel:empty { display: none; }
-.ride-cancel {
+.ride-cancel,
+.privacy-delete {
   width: 100%;
   min-height: var(--tap);
   margin-top: 0.75rem;
@@ -615,20 +617,6 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
   cursor: pointer;
 }
 .rides-summary-line { font-weight: 600; }
-.rides-exit-parent {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap);
-  margin: 0 0 1rem;
-  padding: 0.25rem 0.1rem;
-  background: none;
-  border: none;
-  color: var(--accent);
-  font: inherit;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
 
 /* #screen-rides body */
 #rides-body .rides-empty-head { font-weight: 700; margin: 0.5rem 0 0.75rem; }
@@ -667,7 +655,7 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
 }
 .ride-add { margin-inline-start: auto; border-color: var(--accent); }
 .ride-del { color: var(--accent-dark); margin-inline-start: auto; }
-.rides-load-error { color: var(--accent-dark); font-weight: 600; }
+.rides-load-error { color: var(--warn); font-weight: 600; }
 
 /* ---------- Fatal error ---------- */
 .fatal { padding: 2rem 0.875rem; max-width: 40rem; margin: 0 auto; }

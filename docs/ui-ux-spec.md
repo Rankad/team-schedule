@@ -81,6 +81,32 @@ carries the last-updated time; show it discreetly in the footer
 ("עודכן: <date/time>"). Parse failures surface in the GitHub Action log, not the
 UI.
 
+## Visual identity (DL-036)
+- **Brand accent:** the club's red `#D0212C` (`--accent`), `#A81B24` for pressed
+  states and heavier accent text (`--accent-dark`). Replaced the earlier
+  contrast-chosen teal. Surface white, background `#f4f5f7`.
+- State is never carried by hue alone (the palette has no green; brand red is
+  the brand colour, not a status). Error / warning **text**
+  (`.rides-load-error`, `.rides-name-error`, `.session-warn`) uses a dedicated
+  `--warn` token — burnt-orange `#b54708` — never the brand red (DL-037).
+- Destructive action **buttons** (`.ride-del`, `.ride-cancel`,
+  `.privacy-delete`) deliberately keep the reddish `--accent-dark`: a reddish
+  delete control is conventional and reads as destructive without a separate
+  status colour, and it is always backed by a label + confirm dialog.
+- `.ride-strip` (the per-session ride block) is **neutral** (`--bg` / `--border`).
+  Amber (`--banner-bg`) is reserved for banner-style attention elements — the
+  changes banner and the deliberately banner-styled rides summary card — not the
+  strip (DL-037).
+- Week-nav arrows use neutral `var(--text)` for the glyph (not the brand
+  accent); the disabled arrow is `#8b9096` (DL-037).
+- **Team dot palette** (`app.js` `PALETTE`) is independent of the brand accent —
+  8 fixed accessible hues, assigned by follow order, none of them the brand red.
+- Header: club wordmark. A logo lockup + favicon/manifest/share-image are
+  specced (`2026-09-06-club-branding-theme-design.md`) but deferred pending a
+  high-res logo from the club.
+- Share tags: `theme-color` + text OG/Twitter tags on `index.html` /
+  `manager.html` so a pasted link shows a title + description.
+
 ## Interaction details
 - Week navigation never loads a week with no data silently — show "אין נתונים
   לשבוע זה" and a hint to import.
@@ -110,12 +136,26 @@ Full spec: `docs/rides-spec.md`. Summary only; that document is authoritative.
   then an inline "שם מלא" step — placeholder `שם פרטי ושם משפחה` in the field, a
   live `יוצג כ: <shortName>` preview, and the empty-field error only after a save
   attempt. Backing out leaves the toggle on `הורה`.
+- **One-way (DL-035; recovery reframed by DL-037):** player mode is a superset of
+  parent mode, so there is no switch back — no button anywhere. To leave player
+  mode, use `מחיקת נתוני ההסעות שלי` on the privacy screen (below): it is a
+  working, clean exit (clears the token + role, re-renders as a parent), framed
+  as deletion rather than a mode change. Clearing site data is only a last
+  resort.
 - **Persistent player-mode signal:** a rides summary card at the top of My
   Week (`ההסעות שלי לשבוע זה: 2 · 1 ללא שעה`, or `טרם נרשמת להסעות השבוע`).
-  Tap → `#screen-rides`. This card is also home to `מעבר למצב הורה`, which
-  prompts before deleting the week's requests.
-- **Ride chip:** a full-width tinted strip on each session card, between the
-  time/location line and the notes line — outlined `🚐 הוספת הסעה` (no
+  Tap → `#screen-rides`. It carries no exit control.
+- **Privacy screen (`#screen-privacy`):** the consent text in full plus, **for a
+  player with a token only**, a `מחיקת נתוני ההסעות שלי` button. The confirm copy
+  scales to the visible week's ride-request count (DL-037): a firm "this deletes
+  your requests, can't be undone" when ≥1 request exists, a lighter "leave player
+  mode? nothing to delete" at 0, and a middle wording when the rides data has not
+  loaded yet. Confirm → deletes the week's requests + clears the local player
+  token/role → returns to a clean parent view. Styled like `.ride-cancel`
+  (destructive by label + confirm, not by hue).
+- **Ride chip:** a full-width neutral strip (`--bg`/`--border`, not amber —
+  DL-037) on each session card, between the time/location line and the notes
+  line — outlined `🚐 הוספת הסעה` (no
   request) or filled/accent `🚐 <direction> ✓` with a departure-time caption
   (or `טרם נקבעה שעה`). State is never carried by color alone (no red/green
   in this palette).

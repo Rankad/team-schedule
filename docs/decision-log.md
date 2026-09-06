@@ -710,3 +710,140 @@
   step the toggle shows `שחקן` selected, the onboarding team-picker content is
   hidden (`.onboarding.is-entering`), and `הורה` calls the same
   `cancelPlayerEntry()` as the card's `→ חזרה`. See LL-025.
+
+## DL-035 — Rides: player mode is one-way; deletion is a privacy action, not a role switch
+- **Date:** 2026-09-06 (stakeholder feedback)
+- **Context:** rides-spec §4.5 shipped a `מעבר למצב הורה` button on the rides
+  summary card that prompted once and then `DELETE /api/me` — wiping the week's
+  ride requests — and dropped the player token. Player mode is a strict superset
+  of parent mode (same schedule, same followed teams, same exports, plus ride
+  chips), so the "switch" had no functional purpose, but its accidental cost was
+  total: the player loses their picks and the coordinator loses the headcount the
+  feature exists to produce.
+- **Decision:**
+  - Remove the player→parent switch entirely. No button, no `exitToParent()`.
+    A player stays a player. `renderRoleToggle()` renders no toggle for an
+    established player even on the (unfollow-everything) onboarding screen — the
+    player just re-follows a team.
+  - No player→parent movement deletes ride data. Backing out of name entry
+    (pre-token, `cancelPlayerEntry()`) already deletes nothing; that is the only
+    "movement" left.
+  - Keep an explicit deletion capability — required to keep the §8.1 consent
+    promise honest — as a `מחיקת נתוני ההסעות שלי` button on `#screen-privacy`,
+    shown only to a player with a token (`deleteMyRidesData()`). It calls the same
+    `DELETE /api/me` (best-effort) then `clearPlayer()`. Worded as deletion the
+    user chose, not a mode change; confirm dialog is
+    `למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.`
+  - Consent + privacy copy: "immediate deletion" now points at the privacy
+    screen, not at "switching back to parent".
+- **Status:** Accepted, implemented on `feature/rides-one-way-player-mode`. Amends
+  rides-spec §4.1/§4.5/§4.9/§8.1/§11.2. **No API or KV change** — `DELETE /api/me`
+  is reused; `localStorage` semantics unchanged (`clearPlayer()` still clears both
+  keys). Spec: `docs/superpowers/specs/2026-09-06-rides-remove-player-to-parent-switch-design.md`.
+- **Risk:** Low. Backend untouched; the one removed network call was
+  fire-and-forget. Smoke test extended (155 → 177 across this change and the
+  DL-037 follow-up + polish pass); green. QA-reviewer pass:
+  code ship-quality, isolation boundary holds, no stranding in the toggle states.
+  The only user-visible loss is the ability to leave player mode without clearing
+  site data — deliberate (see LL-026).
+- **Amended by DL-037** (2026-09-06, UX review): the §4.5 confirm copy is now
+  conditional on the visible week's ride-request count (no longer the single
+  `הפעולה אינה הפיכה` string); the "recovery = clear-site-data" framing is
+  reversed — the privacy-screen delete is the stated clean exit, clear-site-data
+  the last resort.
+
+## DL-036 — Adopt the club's red-and-white visual identity (colours + share tags; logo deferred)
+- **Date:** 2026-09-06
+- **Context:** the app shipped unbranded — a system-font wordmark on white, a teal
+  `--accent` (`#1d6a8c`) picked only for contrast, no favicon, no share preview.
+  Parents are told to share the link (`known-constraints.md`), and a bare
+  `*.pages.dev` URL with no title card reads as untrustworthy in WhatsApp.
+- **Research (2026-09-06, gilboamaayanot.co.il):** primary red **`#D0212C`**
+  (rgb 208,33,44) — their nav bar, headings, buttons, and the basketball in the
+  logo. Logo is a 170×170 circular emblem (`assets/img/logo.png`): black ring with
+  Hebrew club name, red basketball + monogram, white fill — too low-res for a
+  512px icon or a crisp share image. Body font is the same system stack the app
+  already uses. Regional-council crest on their site is a partner mark — not ours.
+- **Decision (this pass):**
+  - `--accent` `#1d6a8c` → **`#D0212C`** (the club's exact red — `#D0212C`-on-white
+    and white-on-`#D0212C` are both ≈ **5.3:1**, clearing WCAG AA for normal text,
+    so no compromise tint was needed). `--accent-dark` `#14506b` → **`#A81B24`**
+    (≈ 7.4:1 on white). `--bg` left at `#f4f5f7`. `app.js` `PALETTE` (team colours)
+    deliberately untouched — team identity is independent of the brand accent.
+  - Added `theme-color` + text-only OG/Twitter tags (`og:type/title/description/
+    locale`, `twitter:card="summary"` — not `summary_large_image`, since there is
+    no `og:image` yet) to `index.html` and `manager.html`.
+  - **Deferred** (needs a high-res / SVG logo from the club): the header logo
+    lockup, favicon, apple-touch-icon, web manifest, and the `og:image` share
+    card. Tracked in the branding spec §7 Q1.
+- **Status:** Accepted, partial implementation on
+  `feature/rides-one-way-player-mode`. Spec:
+  `docs/superpowers/specs/2026-09-06-club-branding-theme-design.md`.
+- **Risk:** Low. Presentation only — no behaviour, data, parser, or API change.
+  Recolour propagates through `var(--accent)` / `var(--accent-dark)`; `manager.css`
+  had no hard-coded hex. Contrast verified with a checker (QA pass). **Courtesy:**
+  the club approved the *app* (OQ-6); a heads-up that we are also adopting their
+  logo + colours is still outstanding (branding spec §7 Q3).
+- **Amended by DL-037** (2026-09-06, UX review): brand red is not a status
+  colour — new `--warn #b54708` token for error/warning text (S3); `.ride-strip`
+  de-ambered to neutral (S4); week-nav arrows neutralised to `var(--text)` (S6).
+
+## DL-037 — Rides + branding: UX-review adjustments
+- **Date:** 2026-09-06
+- **Context:** A UX-review round (ui-ux-designer) over the two 2026-09-06 changes
+  already on `feature/rides-one-way-player-mode` — DL-035 (one-way player mode)
+  and DL-036 (club recolour). The stakeholder picked the lightest options on
+  offer: **"reframe the wording, no new flows"** and **"minimal visual
+  restraint"**. This entry amends DL-035 (§4.5 confirm copy; the recovery
+  wording) and DL-036 (colour usage — S3/S4/S6). Code is final at commit
+  `0856eb2`; this pass is documentation catch-up plus one newly-documented
+  limitation.
+- **Decisions:**
+  1. **`deleteMyRidesData()` confirm copy is now conditional** on the known
+     ride-request count for the visible week. `renderPrivacy()` fires a
+     best-effort `loadMyRides(currentWeek())` when it appends the button so the
+     accurate text is usually ready:
+     - count ≥ 1: `פעולה זו תמחק את בקשות ההסעה שלך לשבוע זה ותחזיר את המכשיר למצב הורה. אי אפשר לשחזר.`
+     - count 0: `לצאת ממצב שחקן? לא נרשמו בקשות הסעה למחיקה.`
+     - count unknown (rides data not loaded): `לצאת ממצב שחקן ולמחוק את בקשות ההסעה שלך לשבוע זה?`
+     Replaces the single `למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.` string
+     from DL-035 / rides-spec §4.5.
+  2. **Recovery wording reframed.** The privacy-screen `מחיקת נתוני ההסעות שלי`
+     IS a working, clean exit from player mode (clears token + role, re-renders
+     as a parent). Docs that read "recovery for a device wrongly in player mode
+     is clear-site-data" now lead with the privacy-screen delete and treat
+     clear-site-data as the last resort only. No code change — the button already
+     behaved this way; the docs undersold it.
+  3. **S3 — brand red is not a status colour.** New `:root` token
+     `--warn: #b54708` (burnt-orange). Error/warning **text**
+     (`.rides-load-error`, `.rides-name-error`, `.session-warn`) uses `--warn`.
+     Destructive action **buttons** (`.ride-del`, `.ride-cancel`,
+     `.privacy-delete`) deliberately keep `--accent-dark` — a reddish delete
+     control is conventional and matches the original rides-spec §4.7 "muted-red
+     text" intent.
+  4. **S4 — `.ride-strip` de-ambered.** The per-session ride strip is now
+     `var(--bg)` / `var(--border)` (neutral), not the attention amber. Amber
+     (`--banner-bg`) is reserved for banner-style attention elements — the
+     changes banner and the deliberately banner-styled rides summary card —
+     never the strip.
+  5. **S6 — week-nav arrows neutralised.** `.week-arrow` glyph is `var(--text)`
+     (was `--accent`); the disabled state darkened `#b8bcc2` → `#8b9096` for
+     visibility. Brand red is no longer spent on chrome the user is not meant to
+     focus on.
+  6. **S1 — new known limitation (stakeholder chose "document, no code
+     change").** On a shared family phone left in player mode, anyone holding the
+     phone can fumble a ride chip: save-on-tap with `הלוך וחזור` preselected
+     (rides-spec §4.7) means one stray tap adds a bogus rider under the child's
+     name, or `ביטול הסעה` kills a real request — corrupting the coordinator
+     headcount the feature exists to produce. Recorded in
+     `docs/known-constraints.md`; revisit after the single-team pilot (candidate
+     fix: require an explicit save for NEW requests in the bottom sheet).
+- **Status:** Accepted, implemented on `feature/rides-one-way-player-mode` (code
+  final at `0856eb2`). **No API, KV, parser, or data change** — CSS token +
+  client copy only. Amended specs:
+  `docs/superpowers/specs/2026-09-06-rides-remove-player-to-parent-switch-design.md`
+  (items 1–2) and
+  `docs/superpowers/specs/2026-09-06-club-branding-theme-design.md` (items 3–5),
+  each with an "Amended after UX review" section.
+- **Risk:** Low. Presentation + wording. The S1 shared-phone limitation is the
+  one open item and is deliberately deferred, not unresolved by accident.

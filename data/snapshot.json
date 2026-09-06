@@ -2,21 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "יואב שנקמן",
-      "date": "2026-08-29",
-      "end": "2026-08-29T22:30:00+03:00",
-      "flags": null,
-      "id": "4j4afecd43h2am8g0ntco5e3i2",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-29T20:30:00+03:00",
-      "team_id": "T_031",
-      "week_key": "2026-08-23",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
       "coach_text": "עמית נרדע",
       "date": "2026-08-30",
       "end": "2026-08-30T15:00:00+03:00",
@@ -3881,6 +3866,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "נעה שמעוני",
+      "date": "2026-09-09",
+      "end": "2026-09-09T19:30:00+03:00",
+      "flags": null,
+      "id": "50q1tvn40o6apvepmjlf5ap81b",
+      "location": "אחווה נעורה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-09T17:30:00+03:00",
+      "team_id": "T_036",
+      "week_key": "2026-09-06",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "עדן אוריה",
       "date": "2026-09-09",
       "end": "2026-09-09T18:30:00+03:00",
@@ -3921,21 +3921,6 @@
       "sport": "basketball",
       "start": "2026-09-09T18:00:00+03:00",
       "team_id": "T_030",
-      "week_key": "2026-09-06",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-09-09",
-      "end": "2026-09-09T19:30:00+03:00",
-      "flags": null,
-      "id": "7lpjn0lkm6svihdlf6spfu96a5",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-09T18:00:00+03:00",
-      "team_id": "T_032",
       "week_key": "2026-09-06",
       "weekday": 3
     },
@@ -4065,16 +4050,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "נעה שמעוני",
+      "coach_text": "עדי גלמן",
       "date": "2026-09-09",
       "end": "2026-09-09T21:30:00+03:00",
       "flags": null,
-      "id": "50q1tvn40o6apvepmjlf5ap81b",
+      "id": "7lpjn0lkm6svihdlf6spfu96a5",
       "location": "אחווה נעורה",
       "notes": null,
       "sport": "basketball",
       "start": "2026-09-09T19:30:00+03:00",
-      "team_id": "T_036",
+      "team_id": "T_032",
       "week_key": "2026-09-06",
       "weekday": 3
     },
@@ -4881,5 +4866,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-09-05T18:43:03Z"
+  "generated_at": "2026-09-06T09:13:08Z"
 }

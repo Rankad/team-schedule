@@ -847,3 +847,68 @@
   each with an "Amended after UX review" section.
 - **Risk:** Low. Presentation + wording. The S1 shared-phone limitation is the
   one open item and is deliberately deferred, not unresolved by accident.
+
+## DL-038 — Games are not teams: matchup split, external-club guard, and side-swap
+- **Date:** 2026-09-06 (branch `fix/games-are-not-teams`)
+- **Context:** Practice-game ("משחק אימון") rows in the club calendar name the
+  opposing club in the same field the parser uses for team/coach. Three shapes
+  occur, and the first cut of this fix only handled two of them:
+  1. `<Gilboa team> נגד/מול <opponent>` — the standalone `נגד`/`מול` split
+     already peels the opponent off (commit `d00a145`).
+  2. `<opponent club>-<opponent club>` with neither side a Gilboa group — must
+     never mint a followable "team"; `resolve._is_external_club_fixture` is the
+     backstop (commit `7c59012`).
+  3. **`<opponent club>-<real Gilboa group>`** (opponent written *first*), e.g.
+     `הפועל ת"א-נערים לאומית(משחק אימון)`, `הפועל עפולה-ילדים לאומית(משחק אימון מתחיל 19:30)`.
+     Verified against the live public calendar: **the Gilboa team is on the
+     RIGHT of the hyphen**, the opponent on the left. The earlier fix dropped
+     these to `team_id = None` (external-club guard), which killed the "fake
+     team" symptom but also lost the game for the real team's parents.
+- **Decision (Option B — attach the game to the real Gilboa team):** add a
+  **side-swap heuristic** in `parse_title`, after the team/coach hyphen split
+  and before the `נגד`/`מול` handling. Swap the two sides when **both**:
+  - the left (team) side carries a club token (`הפועל` / `מכבי` / `ת"א`), **and**
+  - the right side names a real Gilboa group — a category keyword
+    (`_CATEGORY_RULES`) or a tier token (`_TIER_TOKENS` / standalone `על`).
+  On a swap: real `team_name` = the right side; the left side becomes an
+  `יריב: <opponent>` note (deduped); `activity_type = "game"`; `coaches = []`;
+  new observability flag `matchup_sides_swapped` (the `team_name_has_club_token`
+  flag is *not* set — the real name has no club token). **No swap** when the
+  left side has no club token (normal `Gilboa-team - coach` / `- opponent`
+  rows) or when the right side is only coach name(s) with no category/tier —
+  `הפועל העמק-שרון אברהמי/גולן יבלונבסקי` (DL-014) stays a training row with
+  real coaches.
+- **Also fixed:** `_extract_notes` used to discard any text after `משחק אימון`
+  inside a parenthetical — `(משחק אימון מתחיל 19:30)` now keeps `מתחיל 19:30`
+  as its own plain note.
+- **`resolve._is_external_club_fixture` stays** as the backstop for shape (2):
+  a game row where neither side is a Gilboa team still resolves to
+  `team_id = None` and never lands in `teams.json`.
+- **Verified:** `python -m pytest -q` → 158 passed. `node tests/site_smoke.js`
+  and `node tests/manager_smoke.js` unaffected. The six live reference titles,
+  run through `parse_title → classify → resolve_team` against
+  `data/teams_registry.json`:
+
+  | live title | team_name | activity | flags | resolves to | new `T_`? |
+  |---|---|---|---|---|---|
+  | `הפועל ת"א-נערים לאומית(משחק אימון)` | `נערים לאומית` | game | `matchup_sides_swapped` | **T_039** | no |
+  | `הפועל עפולה-ילדים לאומית(משחק אימון מתחיל 19:30)` | `ילדים לאומית` | game | `matchup_sides_swapped` | **T_005** | no |
+  | `הפועל העמק משחק אימון נגד מכבי ר"ג-מתחיל 18:30` | `הפועל העמק` | game | `team_name_has_club_token` | **T_042** | no |
+  | `נערים לאומית-הפועל ת"א(משחק אימון)` | `נערים לאומית` | game | — | T_039 | no |
+  | `נוער על- משחק אימון בתל אביב נגד הפועל ת"א(מתחיל 20:30)` | `נוער על` | game | — | T_031 | no |
+  | `הפועל העמק-שרון אברהמי/גולן יבלונבסקי` | `הפועל העמק` | training | `team_name_has_club_token` | T_042 | no |
+
+  `build_teams()` over rows 1–3 puts the games under `נערים לאומית` / `ילדים
+  לאומית` / `הפועל העמק` and mints **no** `הפועל ת"א` / `הפועל עפולה` / `מכבי`
+  team; registry unchanged.
+- **Status:** Accepted; implemented on `fix/games-are-not-teams`.
+- **Known rough edge (not blocking):** when `נגד`/`מול` sits on the *coach*
+  side of the hyphen (row 5 above) the opponent note reads
+  `יריב: בתל אביב נגד הפועל ת"א` — the team still resolves correctly; only the
+  note text is untidy. Left for a later pass.
+- **Risk:** Low–moderate. The swap is deliberately narrow (needs a club token
+  *and* a Gilboa category/tier on the other side); no title in the committed
+  sample-week fixture triggers it. The one real-data risk: a genuine
+  `הפועל העמק` (T_042) home game titled `הפועל העמק-<Gilboa group>` would swap
+  the game onto the Gilboa group and away from T_042 — accepted per Option B,
+  and T_042 is itself an external-club edge case (DL-014).

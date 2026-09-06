@@ -116,18 +116,19 @@ def test_non_team_row_resolves_to_none():
 
 
 # --------------------------------------------------------------------------- #
-# external-club game fixtures must not mint a followable team (DL-035)
+# external-club game fixtures must not mint a followable team (DL-038)
 # --------------------------------------------------------------------------- #
-def test_external_club_game_fixture_does_not_mint_a_team():
-    # no coach, no category, no tier, club token in the name, activity == game
+def test_external_club_game_fixture_with_no_gilboa_side_does_not_mint():
+    # neither side is a Gilboa group (a hall booked for two outside clubs):
+    # no coach, no category, no tier, club token in the name, activity == game.
     reg = {}
-    parsed = parse_title('הפועל ת"א - נערים לאומית (משחק אימון)')
+    parsed = parse_title('הפועל ת"א-מכבי חיפה(משחק אימון)')
     tid, reg = resolve.resolve_team(parsed, reg, seen_date="2026-09-09")
     assert tid is None
     assert reg == {}
 
 
-def test_external_club_game_fixture_attaches_to_matching_registry_team():
+def test_matchup_fixture_attaches_to_matching_registry_team():
     reg = {
         "T_042": {
             "normalized_name": resolve.normalize_name("הפועל העמק"),
@@ -138,10 +139,57 @@ def test_external_club_game_fixture_attaches_to_matching_registry_team():
             "first_seen": "2026-09-03",
         }
     }
-    parsed = parse_title('הפועל העמק נגד מכבי ר"ג (משחק אימון) - מתחיל 18:30')
+    parsed = parse_title('הפועל העמק משחק אימון נגד מכבי ר"ג-מתחיל 18:30')
     tid, reg = resolve.resolve_team(parsed, reg, seen_date="2026-09-09")
     assert tid == "T_042"
     assert set(reg) == {"T_042"}
+
+
+# --------------------------------------------------------------------------- #
+# opponent-first fixtures ("<club>-<Gilboa group>") swap to the real team and
+# resolve there — no new T_ key is minted when the team is already registered.
+# --------------------------------------------------------------------------- #
+def test_swapped_fixture_resolves_to_existing_team_without_minting():
+    reg = {
+        "T_050": {
+            "normalized_name": resolve.normalize_name("נערים לאומית"),
+            "display_name": "נערים לאומית",
+            "category": "youth",
+            "tier": "לאומית",
+            "sport": "basketball",
+            "first_seen": "2026-09-02",
+        },
+        "T_051": {
+            "normalized_name": resolve.normalize_name("ילדים לאומית"),
+            "display_name": "ילדים לאומית",
+            "category": "kids",
+            "tier": "לאומית",
+            "sport": "basketball",
+            "first_seen": "2026-09-02",
+        },
+    }
+    a, reg = resolve.resolve_team(
+        parse_title('הפועל ת"א-נערים לאומית(משחק אימון)'), reg, seen_date="2026-09-09"
+    )
+    b, reg = resolve.resolve_team(
+        parse_title("הפועל עפולה-ילדים לאומית(משחק אימון מתחיל 19:30)"),
+        reg,
+        seen_date="2026-09-09",
+    )
+    assert a == "T_050"
+    assert b == "T_051"
+    assert set(reg) == {"T_050", "T_051"}  # no new key minted
+
+
+def test_swapped_fixture_mints_the_real_gilboa_team_when_absent():
+    reg = {}
+    tid, reg = resolve.resolve_team(
+        parse_title('הפועל ת"א-נערים לאומית(משחק אימון)'), reg, seen_date="2026-09-09"
+    )
+    assert tid == "T_001"
+    assert reg["T_001"]["normalized_name"] == resolve.normalize_name("נערים לאומית")
+    assert reg["T_001"]["category"] == "youth"
+    assert reg["T_001"]["tier"] == "לאומית"
 
 
 def test_matchup_game_row_with_a_real_left_side_team_still_resolves():

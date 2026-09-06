@@ -56,6 +56,10 @@ def _is_external_club_fixture(parsed: dict) -> bool:
     tier, and the name carries a club token (הפועל / מכבי / ת"א). Such a row
     must never mint a followable team (DL-038); if it matches an existing
     registry team by normalized name the game attaches there instead.
+
+    Opponent-first fixtures (`<club>-<Gilboa group>`) are handled upstream by
+    the ``parse_title`` side-swap, so by the time a real Gilboa game reaches
+    here it has a category / tier and never trips this guard.
     """
     return (
         parsed.get("activity_type") == "game"

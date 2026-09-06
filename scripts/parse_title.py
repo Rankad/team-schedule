@@ -119,6 +119,9 @@ def _extract_notes(text: str):
         if "משחק אימון" in inner:
             is_game = True
             notes.append("משחק אימון")
+            rest = inner.replace("משחק אימון", " ").strip(" -")
+            if rest:
+                notes.append(rest)
         elif "חדר כושר" in inner:
             notes.append(inner)
         elif "חצי אולם" in inner:
@@ -237,6 +240,28 @@ def parse_title(text: str) -> dict:
     if not team_name:
         return _non_team("unknown", "unknown", notes, ["unrecognized_title"])
 
+    # Opponent-first external-club fixture: swap the sides. Some game rows are
+    # written "<outside club>-<real Gilboa group>", e.g.
+    # "הפועל ת\"א-נערים לאומית(משחק אימון)". If the LEFT (team) side carries a
+    # club token AND the RIGHT side names a real Gilboa group (a category
+    # keyword or a tier token), the hyphen split put the sides the wrong way
+    # round: the real team is the right side, the left side is the opponent.
+    # NOT triggered when the left side has no club token (a normal
+    # "Gilboa-team - coach / opponent" row) or when the right side is just a
+    # coach name with no category/tier (DL-014: "הפועל העמק-<coach>" stays).
+    sides_swapped = False
+    if (
+        coach_blob
+        and any(tok in team_name for tok in _CLUB_TOKENS)
+        and (detect_category(coach_blob) is not None or detect_tier(coach_blob) is not None)
+    ):
+        opponent_left = team_name
+        team_name = coach_blob
+        coach_blob = ""
+        notes = _dedup(notes + [f"יריב: {opponent_left}"])
+        is_game = True
+        sides_swapped = True
+
     # A standalone נגד / מול in the team-side text is a game fixture: peel the
     # opponent off and mark the row a game even without a "(משחק אימון)" note.
     split_name, opponent = split_matchup(team_name)
@@ -251,6 +276,8 @@ def parse_title(text: str) -> dict:
         return _non_team("unknown", "unknown", notes, ["unrecognized_title"])
 
     flags: list[str] = []
+    if sides_swapped:
+        flags.append("matchup_sides_swapped")
     coaches: list[str] = []
     if is_matchup:
         is_game = True

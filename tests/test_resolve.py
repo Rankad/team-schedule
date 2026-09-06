@@ -1,10 +1,14 @@
 """Tests for scripts/resolve.py - stable team_id (mvp-spec 4.5 + 5)."""
 import json
+import re
+from pathlib import Path
 
 import pytest
 
 import resolve
 from parse_title import parse_title
+
+REAL_REGISTRY = Path(__file__).resolve().parent.parent / "data" / "teams_registry.json"
 
 
 # The six proven same-team pairs from docs/mvp-spec.md 4.5.
@@ -66,6 +70,17 @@ def test_shared_coach_alone_never_merges_two_teams():
     assert id1 != id2
 
 
+def test_next_id_never_reissues_a_removed_or_absent_top_id():
+    """A registry entry that is deleted (or was never written) must not lower
+    _next_id's high-water mark - otherwise the next new team reuses a T_NNN id
+    that is still live in public/data/teams.json (DL-038 regression)."""
+    reg = json.loads(REAL_REGISTRY.read_text(encoding="utf-8"))
+    nid = resolve._next_id(reg)
+    numbered = [int(k[2:]) for k in reg if re.fullmatch(r"T_\d+", k)]
+    assert nid not in reg
+    assert int(nid[2:]) > max(numbered)
+
+
 def test_mints_zero_padded_sequential_ids():
     reg = {}
     id1, reg = resolve.resolve_team(parse_title("ילדים א מזרח-אור רותם"), reg, seen_date="2026-09-02")
@@ -113,3 +128,99 @@ def test_non_team_row_resolves_to_none():
     tid, reg = resolve.resolve_team(parse_title("אולם בית אלפא תפוס"), reg, seen_date="2026-09-02")
     assert tid is None
     assert reg == {}
+
+
+# --------------------------------------------------------------------------- #
+# external-club game fixtures must not mint a followable team (DL-038)
+# --------------------------------------------------------------------------- #
+def test_external_club_game_fixture_with_no_gilboa_side_does_not_mint():
+    # neither side is a Gilboa group (a hall booked for two outside clubs):
+    # no coach, no category, no tier, club token in the name, activity == game.
+    reg = {}
+    parsed = parse_title('הפועל ת"א-מכבי חיפה(משחק אימון)')
+    tid, reg = resolve.resolve_team(parsed, reg, seen_date="2026-09-09")
+    assert tid is None
+    assert reg == {}
+
+
+def test_matchup_fixture_attaches_to_matching_registry_team():
+    reg = {
+        "T_042": {
+            "normalized_name": resolve.normalize_name("הפועל העמק"),
+            "display_name": "הפועל העמק",
+            "category": None,
+            "tier": None,
+            "sport": "basketball",
+            "first_seen": "2026-09-03",
+        }
+    }
+    parsed = parse_title('הפועל העמק משחק אימון נגד מכבי ר"ג-מתחיל 18:30')
+    tid, reg = resolve.resolve_team(parsed, reg, seen_date="2026-09-09")
+    assert tid == "T_042"
+    assert set(reg) == {"T_042"}
+
+
+# --------------------------------------------------------------------------- #
+# opponent-first fixtures ("<club>-<Gilboa group>") swap to the real team and
+# resolve there — no new T_ key is minted when the team is already registered.
+# --------------------------------------------------------------------------- #
+def test_swapped_fixture_resolves_to_existing_team_without_minting():
+    reg = {
+        "T_050": {
+            "normalized_name": resolve.normalize_name("נערים לאומית"),
+            "display_name": "נערים לאומית",
+            "category": "youth",
+            "tier": "לאומית",
+            "sport": "basketball",
+            "first_seen": "2026-09-02",
+        },
+        "T_051": {
+            "normalized_name": resolve.normalize_name("ילדים לאומית"),
+            "display_name": "ילדים לאומית",
+            "category": "kids",
+            "tier": "לאומית",
+            "sport": "basketball",
+            "first_seen": "2026-09-02",
+        },
+    }
+    a, reg = resolve.resolve_team(
+        parse_title('הפועל ת"א-נערים לאומית(משחק אימון)'), reg, seen_date="2026-09-09"
+    )
+    b, reg = resolve.resolve_team(
+        parse_title("הפועל עפולה-ילדים לאומית(משחק אימון מתחיל 19:30)"),
+        reg,
+        seen_date="2026-09-09",
+    )
+    assert a == "T_050"
+    assert b == "T_051"
+    assert set(reg) == {"T_050", "T_051"}  # no new key minted
+
+
+def test_swapped_fixture_mints_the_real_gilboa_team_when_absent():
+    reg = {}
+    tid, reg = resolve.resolve_team(
+        parse_title('הפועל ת"א-נערים לאומית(משחק אימון)'), reg, seen_date="2026-09-09"
+    )
+    assert tid == "T_001"
+    assert reg["T_001"]["normalized_name"] == resolve.normalize_name("נערים לאומית")
+    assert reg["T_001"]["category"] == "youth"
+    assert reg["T_001"]["tier"] == "לאומית"
+
+
+def test_matchup_game_row_with_a_real_left_side_team_still_resolves():
+    reg = {}
+    tid, reg = resolve.resolve_team(
+        parse_title('נוער על - הפועל ת"א (משחק אימון)'), reg, seen_date="2026-09-02"
+    )
+    assert tid == "T_001"
+    assert reg["T_001"]["category"] == "juniors"
+    assert reg["T_001"]["tier"] == "על"
+
+
+def test_real_coach_training_row_with_club_token_still_mints():
+    reg = {}
+    tid, reg = resolve.resolve_team(
+        parse_title("הפועל העמק-שרון אברהמי/גולן יבלונבסקי"), reg, seen_date="2026-09-02"
+    )
+    assert tid == "T_001"
+    assert reg["T_001"]["normalized_name"] == resolve.normalize_name("הפועל העמק")

@@ -27,6 +27,11 @@ _AGE_RES = [
 
 _CLUB_TOKENS = ("הפועל", "מכבי", 'ת"א')
 
+# A standalone נגד / מול on the team side marks a game *fixture*: left is the
+# real team, right is the opponent. Word-bounded exactly like the "על" tier
+# token (DL-013) so "מול" inside e.g. "מולדת" is never a split point.
+_MATCHUP_RE = re.compile(r"(?<![^\W\d_])(?:נגד|מול)(?![^\W\d_])")
+
 _JUDO_RE = re.compile(r"ג['׳’]?ודו")
 _LETTER_RE = re.compile(r"[^\W\d_]", re.UNICODE)
 _CLASS_RANGE_RE = re.compile(r"^[א-ת]-[א-ת]$")
@@ -114,6 +119,9 @@ def _extract_notes(text: str):
         if "משחק אימון" in inner:
             is_game = True
             notes.append("משחק אימון")
+            rest = inner.replace("משחק אימון", " ").strip(" -")
+            if rest:
+                notes.append(rest)
         elif "חדר כושר" in inner:
             notes.append(inner)
         elif "חצי אולם" in inner:
@@ -191,6 +199,22 @@ def detect_tier(team_name: str):
     return None
 
 
+def split_matchup(team_name: str):
+    """Split a ``<team> נגד/מול <opponent>`` string.
+
+    Returns ``(team_name, opponent)``. When there is no standalone matchup
+    token (or nothing is left of it), returns ``(team_name, None)`` unchanged.
+    """
+    m = _MATCHUP_RE.search(team_name)
+    if not m:
+        return team_name, None
+    left = team_name[:m.start()].strip(" -")
+    right = team_name[m.end():].strip(" -")
+    if not left:
+        return team_name, None
+    return left, (right or None)
+
+
 # --------------------------------------------------------------------------- #
 # entrypoint
 # --------------------------------------------------------------------------- #
@@ -216,19 +240,59 @@ def parse_title(text: str) -> dict:
     if not team_name:
         return _non_team("unknown", "unknown", notes, ["unrecognized_title"])
 
+    # Opponent-first external-club fixture: swap the sides. Some game rows are
+    # written "<outside club>-<real Gilboa group>", e.g.
+    # "הפועל ת\"א-נערים לאומית(משחק אימון)". If the LEFT (team) side carries a
+    # club token AND the RIGHT side names a real Gilboa group (a category
+    # keyword or a tier token), the hyphen split put the sides the wrong way
+    # round: the real team is the right side, the left side is the opponent.
+    # NOT triggered when the left side has no club token (a normal
+    # "Gilboa-team - coach / opponent" row) or when the right side is just a
+    # coach name with no category/tier (DL-014: "הפועל העמק-<coach>" stays).
+    sides_swapped = False
+    if (
+        coach_blob
+        and any(tok in team_name for tok in _CLUB_TOKENS)
+        and (detect_category(coach_blob) is not None or detect_tier(coach_blob) is not None)
+    ):
+        opponent_left = team_name
+        team_name = coach_blob
+        coach_blob = ""
+        notes = _dedup(notes + [f"יריב: {opponent_left}"])
+        is_game = True
+        sides_swapped = True
+
+    # A standalone נגד / מול in the team-side text is a game fixture: peel the
+    # opponent off and mark the row a game even without a "(משחק אימון)" note.
+    split_name, opponent = split_matchup(team_name)
+    is_matchup = split_name != team_name
+    team_name = split_name
+
     category = detect_category(team_name)
     tier = detect_tier(team_name)
 
-    # 4.1 junk: no hyphen AND no team keyword
-    if not _has_real_hyphen(body) and category is None:
+    # 4.1 junk: no hyphen AND no team keyword (a matchup title is a game row)
+    if not _has_real_hyphen(body) and category is None and not is_matchup:
         return _non_team("unknown", "unknown", notes, ["unrecognized_title"])
 
     flags: list[str] = []
+    if sides_swapped:
+        flags.append("matchup_sides_swapped")
     coaches: list[str] = []
+    if is_matchup:
+        is_game = True
     activity_type = "game" if is_game else "training"
 
     right_has_club = any(tok in coach_blob for tok in _CLUB_TOKENS)
-    if coach_blob and (is_game or right_has_club):
+    if is_matchup:
+        # the matchup opponent wins; any leftover tail the hyphen split peeled
+        # into coach_blob (e.g. "מתחיל 18:30") is a plain note, never a יריב:.
+        if opponent:
+            notes = _dedup(notes + [f"יריב: {opponent}"])
+        if coach_blob:
+            notes = _dedup(notes + [coach_blob])
+        coaches = []
+    elif coach_blob and (is_game or right_has_club):
         notes = _dedup(notes + [f"יריב: {coach_blob}"])
         coaches = []
     else:

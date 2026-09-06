@@ -158,8 +158,14 @@ def main(argv=None) -> int:
         stamp = args.today or datetime.now(JERUSALEM).date().isoformat()
         write_json(data_dir / "history" / f"{stamp}.json", snapshot)
 
+    teamless_games = sum(
+        1 for s in sessions
+        if s["activity_type"] == "game" and s["team_id"] is None
+    )
+
     print(f"built {len(sessions)} sessions from {source}; "
           f"{len(teams)} teams; {len(changes)} change(s); window {window[0]}..{window[1]}")
+    print(f"team-less game rows: {teamless_games}")
 
     # 6. guarded commit
     if args.commit:

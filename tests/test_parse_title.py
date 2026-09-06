@@ -143,10 +143,13 @@ def test_opponent_not_coach_via_game():
 
 
 def test_opponent_not_coach_via_club_token_without_paren_space():
+    # non-swap regression: Gilboa team on the LEFT, opponent on the right.
     r = pt("נערים לאומית-הפועל ת\"א(משחק אימון)")
     assert r["coaches"] == []
     assert r["activity_type"] == "game"
     assert r["team_name"] == "נערים לאומית"
+    assert 'יריב: הפועל ת"א' in r["notes"]
+    assert "matchup_sides_swapped" not in r["flags"]
 
 
 def test_no_hyphen_team_has_no_coach():
@@ -156,9 +159,83 @@ def test_no_hyphen_team_has_no_coach():
 
 
 def test_club_token_on_left_is_still_team_name():
+    # non-swap regression (DL-014): the right side is real coach name(s) with
+    # no category / tier, so the sides are NOT reversed.
     r = pt("הפועל העמק-שרון אברהמי/גולן יבלונבסקי")
     assert r["team_name"] == "הפועל העמק"
     assert r["coaches"] == ["שרון אברהמי", "גולן יבלונבסקי"]
+    assert r["activity_type"] == "training"
+    assert "matchup_sides_swapped" not in r["flags"]
+
+
+# --------------------------------------------------------------------------- #
+# 4.4c opponent-first external-club fixture: the hyphen sides are swapped
+# --------------------------------------------------------------------------- #
+def test_swap_when_left_is_a_club_and_right_is_a_gilboa_group():
+    r = pt('הפועל ת"א-נערים לאומית(משחק אימון)')
+    assert r["team_name"] == "נערים לאומית"
+    assert r["activity_type"] == "game"
+    assert 'יריב: הפועל ת"א' in r["notes"]
+    assert r["coaches"] == []
+    assert "matchup_sides_swapped" in r["flags"]
+    assert "team_name_has_club_token" not in r["flags"]
+
+
+def test_swap_keeps_a_trailing_paren_note_as_a_plain_note():
+    r = pt("הפועל עפולה-ילדים לאומית(משחק אימון מתחיל 19:30)")
+    assert r["team_name"] == "ילדים לאומית"
+    assert r["activity_type"] == "game"
+    assert "יריב: הפועל עפולה" in r["notes"]
+    assert "מתחיל 19:30" in r["notes"]
+    # the trailing "מתחיל 19:30" is a plain note, never a second יריב:
+    assert sum(1 for n in r["notes"] if n.startswith("יריב:")) == 1
+    assert r["coaches"] == []
+    assert r["category"] == "kids"
+    assert r["tier"] == "לאומית"
+
+
+# --------------------------------------------------------------------------- #
+# 4.4b matchup titles (נגד / מול) - a game fixture, never a coach split
+# --------------------------------------------------------------------------- #
+def test_matchup_neged_splits_team_from_opponent():
+    # real live-ICS title: "משחק אימון" un-parenthesised, tail after the hyphen.
+    r = pt('הפועל העמק משחק אימון נגד מכבי ר"ג-מתחיל 18:30')
+    assert r["team_name"] == "הפועל העמק"
+    assert r["activity_type"] == "game"
+    assert 'יריב: מכבי ר"ג' in r["notes"]
+    assert "משחק אימון" in r["notes"]
+    assert "מתחיל 18:30" in r["notes"]
+    # the leftover tail is a plain note, not a second יריב:
+    assert not any(n.startswith("יריב: מתחיל") for n in r["notes"])
+    assert sum(1 for n in r["notes"] if n.startswith("יריב:")) == 1
+    assert r["coaches"] == []
+    assert "team_name_has_club_token" in r["flags"]
+    assert "matchup_sides_swapped" not in r["flags"]
+
+
+def test_matchup_mul_splits_on_standalone_word_without_a_game_note():
+    # a נגד / מול title is a game even with no "(משחק אימון)" marker
+    r = pt("מכבי חיפה מול הפועל גלבוע")
+    assert r["team_name"] == "מכבי חיפה"
+    assert r["activity_type"] == "game"
+    assert "יריב: הפועל גלבוע" in r["notes"]
+    assert r["coaches"] == []
+    assert r["is_team"] is True
+
+
+def test_matchup_token_must_be_a_standalone_word():
+    # "מול" inside "מולדת" is not a matchup token - the team name stays whole.
+    r = pt("טרום קט סל מולדת/רמת צבי (ג-ד)-פלא תמיר")
+    assert r["team_name"] == "טרום קט סל מולדת/רמת צבי"
+    assert r["coaches"] == ["פלא תמיר"]
+    assert not any(n.startswith("יריב:") for n in r["notes"])
+
+
+def test_matchup_regex_is_word_bounded():
+    assert parse_title._MATCHUP_RE.search("מולדת") is None
+    assert parse_title._MATCHUP_RE.search("התנגדות") is None
+    assert parse_title._MATCHUP_RE.search("מכבי חיפה מול הפועל גלבוע") is not None
+    assert parse_title._MATCHUP_RE.search('הפועל העמק נגד מכבי ר"ג') is not None
 
 
 # --------------------------------------------------------------------------- #

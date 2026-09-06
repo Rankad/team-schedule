@@ -162,6 +162,47 @@ def test_club_token_on_left_is_still_team_name():
 
 
 # --------------------------------------------------------------------------- #
+# 4.4b matchup titles (נגד / מול) - a game fixture, never a coach split
+# --------------------------------------------------------------------------- #
+def test_matchup_neged_splits_team_from_opponent():
+    r = pt('הפועל העמק נגד מכבי ר"ג (משחק אימון) - מתחיל 18:30')
+    assert r["team_name"] == "הפועל העמק"
+    assert r["activity_type"] == "game"
+    assert 'יריב: מכבי ר"ג' in r["notes"]
+    assert "משחק אימון" in r["notes"]
+    # the leftover tail is a plain note, not a second יריב:
+    assert not any(n.startswith("יריב: מתחיל") for n in r["notes"])
+    assert sum(1 for n in r["notes"] if n.startswith("יריב:")) == 1
+    assert r["coaches"] == []
+    assert "team_name_has_club_token" in r["flags"]
+
+
+def test_matchup_mul_splits_on_standalone_word_without_a_game_note():
+    # a נגד / מול title is a game even with no "(משחק אימון)" marker
+    r = pt("מכבי חיפה מול הפועל גלבוע")
+    assert r["team_name"] == "מכבי חיפה"
+    assert r["activity_type"] == "game"
+    assert "יריב: הפועל גלבוע" in r["notes"]
+    assert r["coaches"] == []
+    assert r["is_team"] is True
+
+
+def test_matchup_token_must_be_a_standalone_word():
+    # "מול" inside "מולדת" is not a matchup token - the team name stays whole.
+    r = pt("טרום קט סל מולדת/רמת צבי (ג-ד)-פלא תמיר")
+    assert r["team_name"] == "טרום קט סל מולדת/רמת צבי"
+    assert r["coaches"] == ["פלא תמיר"]
+    assert not any(n.startswith("יריב:") for n in r["notes"])
+
+
+def test_matchup_regex_is_word_bounded():
+    assert parse_title._MATCHUP_RE.search("מולדת") is None
+    assert parse_title._MATCHUP_RE.search("התנגדות") is None
+    assert parse_title._MATCHUP_RE.search("מכבי חיפה מול הפועל גלבוע") is not None
+    assert parse_title._MATCHUP_RE.search('הפועל העמק נגד מכבי ר"ג') is not None
+
+
+# --------------------------------------------------------------------------- #
 # 4.6 category / tier
 # --------------------------------------------------------------------------- #
 import pytest

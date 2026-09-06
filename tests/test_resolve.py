@@ -113,3 +113,51 @@ def test_non_team_row_resolves_to_none():
     tid, reg = resolve.resolve_team(parse_title("אולם בית אלפא תפוס"), reg, seen_date="2026-09-02")
     assert tid is None
     assert reg == {}
+
+
+# --------------------------------------------------------------------------- #
+# external-club game fixtures must not mint a followable team (DL-035)
+# --------------------------------------------------------------------------- #
+def test_external_club_game_fixture_does_not_mint_a_team():
+    # no coach, no category, no tier, club token in the name, activity == game
+    reg = {}
+    parsed = parse_title('הפועל ת"א - נערים לאומית (משחק אימון)')
+    tid, reg = resolve.resolve_team(parsed, reg, seen_date="2026-09-09")
+    assert tid is None
+    assert reg == {}
+
+
+def test_external_club_game_fixture_attaches_to_matching_registry_team():
+    reg = {
+        "T_042": {
+            "normalized_name": resolve.normalize_name("הפועל העמק"),
+            "display_name": "הפועל העמק",
+            "category": None,
+            "tier": None,
+            "sport": "basketball",
+            "first_seen": "2026-09-03",
+        }
+    }
+    parsed = parse_title('הפועל העמק נגד מכבי ר"ג (משחק אימון) - מתחיל 18:30')
+    tid, reg = resolve.resolve_team(parsed, reg, seen_date="2026-09-09")
+    assert tid == "T_042"
+    assert set(reg) == {"T_042"}
+
+
+def test_matchup_game_row_with_a_real_left_side_team_still_resolves():
+    reg = {}
+    tid, reg = resolve.resolve_team(
+        parse_title('נוער על - הפועל ת"א (משחק אימון)'), reg, seen_date="2026-09-02"
+    )
+    assert tid == "T_001"
+    assert reg["T_001"]["category"] == "juniors"
+    assert reg["T_001"]["tier"] == "על"
+
+
+def test_real_coach_training_row_with_club_token_still_mints():
+    reg = {}
+    tid, reg = resolve.resolve_team(
+        parse_title("הפועל העמק-שרון אברהמי/גולן יבלונבסקי"), reg, seen_date="2026-09-02"
+    )
+    assert tid == "T_001"
+    assert reg["T_001"]["normalized_name"] == resolve.normalize_name("הפועל העמק")

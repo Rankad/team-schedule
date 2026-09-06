@@ -178,6 +178,7 @@ switch systems, fall back to the Excel importer.
   share-image are deferred** until the club supplies an SVG or ≥512px PNG
   (branding spec §7 Q1). Shipped now: the `#D0212C` accent recolour + text-only
   share tags.
-- **Courtesy:** the club approved the *app* (OQ-6). A heads-up that the app now
-  also uses their **logo and colours** is still outstanding (branding spec
-  §7 Q3) — low risk (it is the club's own tool) but their mark.
+- **Courtesy:** the club approved the app's use of their **logo and colours**
+  on 2026-09-06 (branding spec §7 Q3; extends the OQ-6 app approval). The
+  deferred logo-asset work above is unaffected — still deferred on the missing
+  SVG / ≥512px source, no longer gated on a courtesy note.

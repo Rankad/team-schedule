@@ -49,7 +49,8 @@ code yet. Not a git repo yet. Next: Phase 0 + 1 of `docs/execution-plan.md`.
   runner.
 - WhatsApp / other channels are a later phase behind its own approval gate.
 - Courtesy: the club was told about the app and approved it (OQ-6, done
-  2026-09-02); the link may be shared with parents.
+  2026-09-02); the link may be shared with parents. The club also approved the
+  app's use of their colours and logo (2026-09-06).
 
 ## Working style for this project
 - **Always use the PM Agent + sub-agent system — every phase, not just build/QA.

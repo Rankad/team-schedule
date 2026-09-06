@@ -8,7 +8,8 @@ apple-touch-icon / manifest / `og:image`). Proceeding now: **§3 palette recolou
 `og:description`, `og:locale`, `twitter:card` — no `og:image` yet). The deferred
 items wait on §7 Q1 (a high-res / SVG logo from the club).
 **Relates to:** `docs/ui-ux-spec.md` (visual language), `docs/known-constraints.md`
-(courtesy: club approved the app, OQ-6). Independent of the rides
+(courtesy: club approved the app, OQ-6; club also approved use of their logo +
+colours on 2026-09-06 — see §7 Q3). Independent of the rides
 player-mode change (`2026-09-06-rides-remove-player-to-parent-switch-design.md`).
 
 ---
@@ -174,7 +175,11 @@ polished share card in a follow-up.
 - **C — Full:** B + themed dialogs/splash, manager-page rebrand, PWA service
   worker. Not recommended now — the service worker is its own decision.
 
-**Q3 — Courtesy.** The club approved the *app* (OQ-6). Using their **logo and
+**Q3 — Courtesy. RESOLVED 2026-09-06** — the club approved the app's use of
+their **logo and colours** (stakeholder confirmed; extends the OQ-6 app
+approval). No note outstanding.
+
+_Original question:_ The club approved the *app* (OQ-6). Using their **logo and
 colours** is a small extra step worth a heads-up: "we're giving the app the
 club's look so it's recognisably yours — OK?" Recommend sending that note before
 this ships. Low risk (it is the club's own tool), but it is their mark.

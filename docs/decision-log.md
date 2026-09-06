@@ -782,8 +782,8 @@
 - **Risk:** Low. Presentation only — no behaviour, data, parser, or API change.
   Recolour propagates through `var(--accent)` / `var(--accent-dark)`; `manager.css`
   had no hard-coded hex. Contrast verified with a checker (QA pass). **Courtesy:**
-  the club approved the *app* (OQ-6); a heads-up that we are also adopting their
-  logo + colours is still outstanding (branding spec §7 Q3).
+  the club approved the app's use of their colours and logo on 2026-09-06
+  (extends OQ-6) — branding spec §7 Q3 resolved, no longer outstanding.
 - **Amended by DL-037** (2026-09-06, UX review): brand red is not a status
   colour — new `--warn #b54708` token for error/warning text (S3); `.ride-strip`
   de-ambered to neutral (S4); week-nav arrows neutralised to `var(--text)` (S6).

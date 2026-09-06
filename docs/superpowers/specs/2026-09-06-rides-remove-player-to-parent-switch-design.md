@@ -1,7 +1,8 @@
 # Rides — remove the player→parent switch; add a privacy delete control
 
 **Date:** 2026-09-06
-**Status:** design approved (stakeholder, 2026-09-06); ready for an implementation plan
+**Status:** design approved (stakeholder, 2026-09-06); in implementation on
+`feature/rides-one-way-player-mode`
 **Amends:** `docs/rides-spec.md` §4.1, §4.5, §4.9, §8.1, §11.2; `docs/ui-ux-spec.md`
 Rides section; supersedes the "switch back to parent" behaviour from the rides
 Slice A design (`2026-09-03-rides-coordination-design.md` §4.5).

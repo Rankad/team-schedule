@@ -1,8 +1,12 @@
 # Club branding — logo, colours, share preview
 
 **Date:** 2026-09-06
-**Status:** draft for stakeholder review — the three open questions in §7 need an
-answer before this becomes an implementation plan
+**Status:** partially in implementation (2026-09-06). Stakeholder decision:
+**defer everything that needs the logo asset** (§4 header lockup, §5 favicon /
+apple-touch-icon / manifest / `og:image`). Proceeding now: **§3 palette recolour**
++ the `theme-color` meta + the text-only OG/Twitter tags (`og:type`, `og:title`,
+`og:description`, `og:locale`, `twitter:card` — no `og:image` yet). The deferred
+items wait on §7 Q1 (a high-res / SVG logo from the club).
 **Relates to:** `docs/ui-ux-spec.md` (visual language), `docs/known-constraints.md`
 (courtesy: club approved the app, OQ-6). Independent of the rides
 player-mode change (`2026-09-06-rides-remove-player-to-parent-switch-design.md`).

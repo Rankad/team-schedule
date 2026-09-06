@@ -622,6 +622,10 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(!!consentDlg, 'consent dialog present');
     assert(gid('rides-consent-body').textContent.indexOf('נמחק אוטומטית בסוף כל שבוע') !== -1,
       'consent shows the retention line');
+    assert(gid('rides-consent-body').textContent.indexOf('מעבר חזרה למצב הורה') === -1,
+      'consent body no longer mentions switching back to parent');
+    assert(gid('rides-consent-body').textContent.indexOf('מסך מדיניות הפרטיות') !== -1,
+      'consent body points at the privacy screen for immediate deletion');
     consentDlg.querySelector('[data-consent="ok"]').click();
 
     const nameInput = gid('rides-name-input');
@@ -668,9 +672,11 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(JSON.parse(store['gilboa.player']).fullName === 'דניאל כהן', 'full name stored on success');
     assert(store['gilboa.role'] === 'player', 'role set to player');
     window.render();
-    const tBtns2 = gid('role-toggle-slot').querySelectorAll('button');
-    assert(tBtns2[1].classList.contains('is-selected') && tBtns2[1].getAttribute('aria-pressed') === 'true',
-      'שחקן shows selected once in player mode');
+    // Player mode is one-way: an established player who has unfollowed every
+    // team lands on the onboarding screen but sees NO role toggle at all.
+    window.Rides.renderRoleToggle();
+    assert(!gid('role-toggle-slot').querySelector('.role-toggle'),
+      'established player on the unfollow-everything screen: renderRoleToggle renders no .role-toggle');
     assert(!gid('role-entry-slot').textContent, 'no compact "switch to player" link while in player mode');
 
     // failure path
@@ -727,6 +733,13 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(!!chip, 'player with a token sees a ride chip on each session');
     assert(chip.textContent.indexOf('הוספת הסעה') !== -1, 'no request => "הוספת הסעה"');
 
+    // The rides summary card is the whole of the summary slot now — no
+    // "מעבר למצב הורה" button, no .rides-exit-parent.
+    const sumSlot = gid('rides-summary-slot');
+    assert(!!sumSlot.querySelector('.rides-summary-card'), 'player-with-token summary slot has the summary card');
+    assert(sumSlot.textContent.indexOf('מעבר למצב הורה') === -1 && !sumSlot.querySelector('.rides-exit-parent'),
+      'summary slot has no "switch back to parent" control');
+
     REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
     chip.click();
     const sheet = byId['rides-sheet'];
@@ -779,6 +792,28 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(byId['week-content'].querySelectorAll('.day-group').length > 0, 'schedule list still renders when the rides API is down');
     assert(byId['summary'].textContent.length > 0, 'weekly summary still renders when the rides API is down');
     assert(byId['week-content'].textContent.indexOf('שירות ההסעות אינו זמין') !== -1, 'ride strip shows the unavailable message when the API is down');
+
+    // privacy screen: a player is offered "מחיקת נתוני ההסעות שלי"; clicking it
+    // (confirm stubbed true, fetch stubbed) clears the token + the _week cache.
+    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
+    window.goto('privacy');
+    const delBtn = byId['privacy-body'].querySelector('.privacy-delete');
+    assert(!!delBtn && delBtn.textContent === 'מחיקת נתוני ההסעות שלי',
+      'privacy screen as a player appends the delete-my-rides-data button');
+    window.confirm = () => true;
+    delBtn.click();
+    await new Promise(r => setTimeout(r, 10));
+    delete window.confirm;
+    assert(!store['gilboa.player'] && !store['gilboa.role'],
+      'clicking delete clears gilboa.player + gilboa.role');
+    assert(window.Rides._week.key === null && Object.keys(window.Rides._week.bySession).length === 0,
+      'clicking delete resets the _week cache');
+    window.goto('privacy');
+    assert(!byId['privacy-body'].querySelector('.privacy-delete'),
+      'a pure parent gets no delete control on the privacy screen');
+    window.goto('myweek');
 
     // restore
     delete store['gilboa.role']; delete store['gilboa.player'];

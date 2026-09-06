@@ -111,8 +111,8 @@
   //   • #role-entry-slot — a compact "switch to player" link, shown to a parent
   //     who has already followed a team (onboarding hidden) so they can still
   //     reach player mode without unfollowing everything first.
-  // Player mode: neither is shown — the rides summary card is the indicator and
-  // holds the way back.
+  // Player mode: neither is shown — the rides summary card is the indicator.
+  // Player mode is one-way; there is no in-app switch back to parent (DL-035).
   //
   // pendingPlayer: consent accepted, the name step is showing, no token saved
   // yet. `gilboa.role` is still 'parent' at this point, but the toggle must show
@@ -131,7 +131,12 @@
     var toggleSlot = document.getElementById('role-toggle-slot');
     if (toggleSlot) {
       toggleSlot.innerHTML = '';
-      if (onboardingVisible) toggleSlot.appendChild(buildRoleToggle(isPlayer || entering));
+      // An established player never needs a role toggle — not even on the
+      // unfollow-everything onboarding screen. Only a parent, or someone
+      // mid name-entry, sees it.
+      if (onboardingVisible && (!isPlayer || entering)) {
+        toggleSlot.appendChild(buildRoleToggle(isPlayer || entering));
+      }
     }
 
     var linkSlot = document.getElementById('role-entry-slot');
@@ -163,8 +168,7 @@
     playerBtn.setAttribute('aria-pressed', String(playerSelected));
 
     parentBtn.addEventListener('click', function () {
-      if (getRole() === 'player') exitToParent();  // §4.5 confirm + delete
-      else if (pendingPlayer) cancelPlayerEntry(); // abandon the name step
+      if (pendingPlayer) cancelPlayerEntry(); // abandon the name step; no-op otherwise
     });
     playerBtn.addEventListener('click', function () {
       if (getRole() !== 'player' && !pendingPlayer) enterPlayerMode();
@@ -195,7 +199,7 @@
     ['p', 'כדי לתאם לך הסעה, נשמור את השם המלא שהזנת ואת בקשות ההסעה שלך (לאילו אימונים, לאיזה כיוון).'],
     ['p', 'מי רואה: רכז ההסעות של המועדון בלבד, במסך מוגן בסיסמה. השם המלא אינו מוצג לאף הורה או שחקן אחר — הם רואים "דניאל כ׳".'],
     ['p', 'לכמה זמן: נמחק אוטומטית בסוף כל שבוע.'],
-    ['p', 'מחיקה מיידית: מעבר חזרה למצב הורה מוחק את הנתונים שלך עכשיו.']
+    ['p', 'מחיקה מיידית: אפשר למחוק את נתוני ההסעות שלך בכל רגע ממסך מדיניות הפרטיות.']
   ];
 
   function closeDialog(dlg) { try { if (dlg && dlg.close) dlg.close(); } catch (e) {} }
@@ -349,35 +353,47 @@
     back.addEventListener('click', function () { cancelPlayerEntry(); });
   }
 
-  // ---------- switch back to parent ----------
-  function exitToParent() {
-    var msg = 'המעבר למצב הורה ימחק את בקשות ההסעה שלך לשבוע זה. להמשיך?';
-    var ok = (typeof window.confirm === 'function') ? window.confirm(msg) : true;
-    if (!ok) return;
-    var p = getPlayer();
-    var wk = (typeof window.viewSunday === 'string' && window.viewSunday)
-      ? window.viewSunday
-      : weekKey(new Date().toISOString().slice(0, 10));
-    if (p && p.token) {
-      try {
-        fetch(apiBase() + '/api/me?token=' + encodeURIComponent(p.token) +
-          '&week=' + encodeURIComponent(wk), { method: 'DELETE' })['catch'](function () {});
-      } catch (e) {}
-    }
-    clearPlayer();
-    rerender();
-  }
-
   // ---------- privacy screen ----------
   var PRIVACY_LINES = CONSENT_LINES.concat([
     ['p', 'פרטים מלאים ובקשת מחיקה: [contact].']
   ]);
+
+  // Explicit, user-chosen deletion of the player's ride data — the honest home
+  // of the "immediate deletion" the consent promises. Not a role switch: no
+  // flow deletes ride data as a side effect any more.
+  function deleteMyRidesData() {
+    var p = getPlayer();
+    if (!p) return;
+    var msg = 'למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.';
+    var ok = (typeof window.confirm === 'function') ? window.confirm(msg) : true;
+    if (!ok) return;
+    var wk = currentWeek();
+    try {
+      fetch(apiBase() + '/api/me?token=' + encodeURIComponent(p.token) +
+        '&week=' + encodeURIComponent(wk), { method: 'DELETE' })['catch'](function () {});
+    } catch (e) {}
+    clearPlayer();
+    _week.key = null;
+    _week.bySession = {};
+    _week.loaded = false;
+    _week.failed = false;
+    toast('נתוני ההסעות נמחקו');
+    var priv = document.getElementById('screen-privacy');
+    if (priv && priv.hidden === false && typeof window.goto === 'function') window.goto('myweek');
+    else rerender();
+  }
 
   function renderPrivacy() {
     var body = document.getElementById('privacy-body');
     if (!body) return;
     body.innerHTML = '';
     PRIVACY_LINES.forEach(function (pair) { body.appendChild(ce(pair[0], null, pair[1])); });
+    if (getPlayer()) {
+      var del = ce('button', 'privacy-delete', 'מחיקת נתוני ההסעות שלי');
+      del.type = 'button';
+      del.addEventListener('click', deleteMyRidesData);
+      body.appendChild(del);
+    }
   }
 
   // ================= ride chip / sheet / summary / #screen-rides =================
@@ -656,11 +672,6 @@
       card.addEventListener('click', function () { if (typeof window.goto === 'function') window.goto('rides'); });
     }
     slot.appendChild(card);
-
-    var exit = ce('button', 'rides-exit-parent', 'מעבר למצב הורה');
-    exit.setAttribute('type', 'button');
-    exit.addEventListener('click', function () { exitToParent(); });
-    slot.appendChild(exit);
   }
 
   // ---------- #screen-rides ----------
@@ -773,7 +784,7 @@
     // role + flow
     getRole: getRole, getPlayer: getPlayer, isPlayerWithToken: isPlayerWithToken,
     renderRoleToggle: renderRoleToggle, enterPlayerMode: enterPlayerMode,
-    exitToParent: exitToParent, renderPrivacy: renderPrivacy,
+    deleteMyRidesData: deleteMyRidesData, renderPrivacy: renderPrivacy,
     // chip / sheet / summary / screen / ping
     decorateSession: decorateSession, renderSummaryCard: renderSummaryCard,
     renderRides: renderRides, openTripSheet: openTripSheet,

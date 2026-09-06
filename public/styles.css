@@ -591,7 +591,8 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
 }
 .ride-opt.is-preselected { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
 .sheet-cancel:empty { display: none; }
-.ride-cancel {
+.ride-cancel,
+.privacy-delete {
   width: 100%;
   min-height: var(--tap);
   margin-top: 0.75rem;
@@ -615,20 +616,6 @@ dialog.sheet::backdrop { background: rgba(0, 0, 0, 0.4); }
   cursor: pointer;
 }
 .rides-summary-line { font-weight: 600; }
-.rides-exit-parent {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap);
-  margin: 0 0 1rem;
-  padding: 0.25rem 0.1rem;
-  background: none;
-  border: none;
-  color: var(--accent);
-  font: inherit;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
 
 /* #screen-rides body */
 #rides-body .rides-empty-head { font-weight: 700; margin: 0.5rem 0 0.75rem; }

@@ -136,15 +136,25 @@ So a parent who set up their teams first can still reach player mode without
 unfollowing everything. Tapping it → the §4.2 consent flow.
 
 In **player mode**, neither is shown — the **rides summary card** (§4.7) is the
-persistent "you are in player mode" signal and holds the §4.5 switch-back. There
-is no separate mode badge.
+persistent "you are in player mode" signal. There is no separate mode badge.
+An established player who unfollows every team lands on the onboarding
+team-picker with **no** role toggle (`renderRoleToggle()` renders it only when
+`!isPlayer || entering`) — they re-follow a team and stay a player.
+
+**Player mode is one-way (DL-035).** It is a strict superset of parent mode, so
+there is no "switch back to parent" — no button, no `exitToParent()`. Recovery
+for a device wrongly in player mode is clear-site-data (accepted — followed
+teams are per-device anyway). The only deliberate exit is §4.5's
+`מחיקת נתוני ההסעות שלי` on the privacy screen, which is framed as *deletion*,
+not a mode change.
 
 The `#onboarding` heading is role-neutral (`בחירת קבוצה`, not
 `בחר את הקבוצה של הילד/ה`) since a player picks their own team.
 
 History: originally just the compact link (players missed it) → DL-034 made it
 the onboarding toggle → the compact link was kept for the followed-team parent
-case at stakeholder request (2026-09-05).
+case at stakeholder request (2026-09-05) → DL-035 removed the reverse
+(player→parent) direction entirely (2026-09-06).
 
 ### 4.2 Switch to player — consent, then name
 
@@ -186,12 +196,22 @@ In player mode with no `gilboa.player.token`:
   `כדי להירשם להסעות, הזינו שם מלא` + the name field + `שמור`, inline. Same
   save / failure behaviour as §4.2 step 3.
 
-### 4.5 Switch back to parent — from the rides summary card
+### 4.5 Delete my rides data — from the privacy screen (`deleteMyRidesData()`)
 
-Prompt: `המעבר למצב הורה ימחק את בקשות ההסעה שלך לשבוע זה. להמשיך?`
-On confirm: `DELETE /api/me?token=…&week=<wk>`, then clear `gilboa.player`, set
-role parent, re-render. Best-effort: on call failure still clear locally (the
-weekly purge removes the server rows).
+There is no "switch back to parent" (DL-035). The one deliberate exit is a
+`מחיקת נתוני ההסעות שלי` button appended to `#screen-privacy` by
+`renderPrivacy()` — **only when `getPlayer()` returns a token** (a pure parent
+has nothing to delete and sees no button).
+
+Prompt: `למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.`
+On confirm: best-effort `DELETE /api/me?token=…&week=<visible week>`, then
+`clearPlayer()` (drops `gilboa.player` **and** `gilboa.role`), reset the
+in-memory `_week` cache (`key`/`bySession`/`loaded`/`failed`), toast
+`נתוני ההסעות נמחקו`, and navigate to My Week (`goto('myweek')` if currently on
+`#screen-privacy`, else `rerender()`). On call failure still clear locally — the
+weekly purge removes any server rows. Only the visible week is deleted
+server-side (the `DELETE /api/me` contract is `?week=`-scoped); other weeks are
+left to the purge — same known-limitation class as before.
 
 ### 4.6 Ride chip on each session card — `Rides.decorateSession(card, session)`
 
@@ -263,8 +283,9 @@ weeks — wrong condition for a week-level feature).
 - **Rides summary card** — top of My Week in player mode, directly under the
   follows row / share link, styled like `#changes-banner` (a tappable summary):
   `ההסעות שלי לשבוע זה: 2 · 1 ללא שעה` — or `טרם נרשמת להסעות השבוע`. Tap →
-  `goto('rides')`. Also the player-mode indicator and the home of
-  `מעבר למצב הורה`. Parent mode: not shown.
+  `goto('rides')`. Also the player-mode indicator (no other badge). It carries
+  no exit control — deletion lives on the privacy screen (§4.5). Parent mode:
+  not shown.
 - **`#screen-rides`** (same pattern as `#screen-addteam`, `goto('rides')`):
   - For the **visible week**, every ride the player requested, grouped by day:
     practice name · location · direction · departure time(s) · `עריכה` (reopens
@@ -503,7 +524,7 @@ hard-coded const to edit before deploy (the DL-015 footgun). Documented in
 > **מי רואה:** רכז ההסעות של המועדון בלבד, במסך מוגן בסיסמה. השם המלא אינו מוצג
 > לאף הורה או שחקן אחר — הם רואים "דניאל כ׳".
 > **לכמה זמן:** נמחק אוטומטית בסוף כל שבוע.
-> **מחיקה מיידית:** מעבר חזרה למצב הורה מוחק את הנתונים שלך עכשיו.
+> **מחיקה מיידית:** אפשר למחוק את נתוני ההסעות שלך בכל רגע ממסך מדיניות הפרטיות.
 > פרטים מלאים ובקשת מחיקה: [מדיניות פרטיות].
 
 The persistent `מדיניות פרטיות` footer link → `#screen-privacy` with the full
@@ -619,7 +640,11 @@ Both are later slices, **no migration**.
 6. `#screen-rides` — grouped by day; `עריכה` reopens the sheet; `ביטול` removes
    the row; **empty state lists practices with add-buttons**; `GET /api/me`
    failure → `לא ניתן לטעון` + retry (distinct from empty).
-7. Switch back to parent → prompt → local clear → `DELETE /api/me`.
+7. No `מעבר למצב הורה` anywhere; an established player who unfollowed every team
+   sees no `.role-toggle`. Privacy screen: `מחיקת נתוני ההסעות שלי` shown only
+   for a player with a token → confirm (stub) → `DELETE /api/me` + `clearPlayer()`
+   → clean parent view; pure parent sees no button. Consent body says
+   `מסך מדיניות הפרטיות`, not `מעבר חזרה למצב הורה`.
 8. API down → chips / summary show unavailable + `נסו שוב`; the weekly list,
    summary, exports, changes banner all still render.
 

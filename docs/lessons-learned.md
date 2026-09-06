@@ -441,6 +441,32 @@
   - In review, for each interactive element ask: "what does this do on every
     screen it appears on?" A dead branch is a finding.
 
+## LL-026 — A role switch that is also a destructive delete is a footgun
+- **Date:** 2026-09-06
+- **Context:** rides-spec §4.5 gave a player a `מעבר למצב הורה` button that, on one
+  confirm, ran `DELETE /api/me` — erasing every ride request that player had made
+  that week — and cleared the player token. It was framed as a *mode change*, but
+  its real effect was *data deletion*. Player mode is a strict superset of parent
+  mode, so the switch bought the user nothing and an accidental tap cost them (and
+  the ride coordinator) everything. The stakeholder flagged it after real use.
+- **What we learned:**
+  - Don't bundle a destructive, hard-to-undo operation into a control whose label
+    describes something else ("switch mode", "log out", "go back"). Name the
+    destructive thing as itself (`מחיקת נתוני ההסעות שלי`) and put it where a user
+    goes *looking* to delete — here, the privacy screen — not on the main path.
+  - When mode B is a superset of mode A, there is no "switch back to A" — there is
+    only "I don't want to see B's extra UI", which is a preference, or "delete my
+    B data", which is a privacy action. Neither needs a role toggle.
+  - A privacy promise in consent copy ("immediate deletion") is a feature you must
+    keep somewhere. Removing the only delete path silently breaks the promise —
+    relocate it, don't drop it.
+- **Apply:**
+  - In review, for every button ask: "what is the worst thing one confident tap
+    here does, and does the label say so?" If the label undersells the damage,
+    it's a finding.
+  - Recovery from a wrong mode should be non-destructive by default; destruction
+    is a separate, explicitly-labelled, confirm-gated action.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

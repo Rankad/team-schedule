@@ -114,7 +114,8 @@ Currently **none**. Add:
 <meta property="og:description" content="רק האימונים של הקבוצה שלך, לשבוע הקרוב.">
 <meta property="og:image" content="brand/og-cover.png"><!-- 1200×630, absolute URL at build or hard-coded to the prod origin -->
 <meta property="og:locale" content="he_IL">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary_large_image"><!-- until the logo lands, ship `summary` (a large-image card with no og:image renders blank) -->
+<!-- manager.html gets the same tags with manager-appropriate og:title/og:description -->
 ```
 
 - **`og:image`** — a 1200×630 card: club logo + "הלו״ז שלי · גלבוע מעיינות" on

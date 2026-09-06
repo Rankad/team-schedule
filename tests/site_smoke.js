@@ -214,8 +214,10 @@ let REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
 function pathOf(url) {
   try { return new URL(url, 'http://x.invalid').pathname; } catch (e) { return url; }
 }
+const FETCH_LOG = [];
 global.fetch = (url, opts) => {
   const p = pathOf(url);
+  FETCH_LOG.push({ method: (opts && opts.method) || 'GET', path: p, url: String(url) });
   if (p === '/api/token') {
     return Promise.resolve({
       ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
@@ -803,9 +805,13 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(!!delBtn && delBtn.textContent === 'מחיקת נתוני ההסעות שלי',
       'privacy screen as a player appends the delete-my-rides-data button');
     window.confirm = () => true;
+    FETCH_LOG.length = 0;
     delBtn.click();
     await new Promise(r => setTimeout(r, 10));
     delete window.confirm;
+    const delCall = FETCH_LOG.find(c => c.method === 'DELETE' && c.path === '/api/me');
+    assert(!!delCall && /token=/.test(delCall.url) && /week=/.test(delCall.url),
+      'clicking delete issues DELETE /api/me?token=&week=');
     assert(!store['gilboa.player'] && !store['gilboa.role'],
       'clicking delete clears gilboa.player + gilboa.role');
     assert(window.Rides._week.key === null && Object.keys(window.Rides._week.bySession).length === 0,

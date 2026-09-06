@@ -151,3 +151,21 @@ switch systems, fall back to the Excel importer.
   shape, not by a concurrency test. Documented in `docs/qa-checklist.md`
   "Rides — privacy & security" so this known gap isn't mistaken for an
   oversight in a future QA pass.
+- **Player mode has no in-app exit (DL-035).** It is a superset of parent mode,
+  so there is deliberately no "switch back to parent" control. A device wrongly
+  in player mode recovers only by clearing site data (followed teams are
+  per-device and re-set easily anyway). The only deliberate exit is the
+  privacy-screen `מחיקת נתוני ההסעות שלי` action, which deletes ride data —
+  it is not a mode toggle.
+
+## Branding (DL-036)
+- **Brand assets are self-hosted** in the repo, never hotlinked from
+  `gilboamaayanot.co.il`. The club's public logo (`assets/img/logo.png`) is only
+  **170×170** — enough for a small header mark and a favicon, not for a 512px
+  icon or a crisp `og:image`. The **logo lockup, favicon, web manifest, and
+  share-image are deferred** until the club supplies an SVG or ≥512px PNG
+  (branding spec §7 Q1). Shipped now: the `#D0212C` accent recolour + text-only
+  share tags.
+- **Courtesy:** the club approved the *app* (OQ-6). A heads-up that the app now
+  also uses their **logo and colours** is still outstanding (branding spec
+  §7 Q3) — low risk (it is the club's own tool) but their mark.

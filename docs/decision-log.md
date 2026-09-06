@@ -710,3 +710,71 @@
   step the toggle shows `שחקן` selected, the onboarding team-picker content is
   hidden (`.onboarding.is-entering`), and `הורה` calls the same
   `cancelPlayerEntry()` as the card's `→ חזרה`. See LL-025.
+
+## DL-035 — Rides: player mode is one-way; deletion is a privacy action, not a role switch
+- **Date:** 2026-09-06 (stakeholder feedback)
+- **Context:** rides-spec §4.5 shipped a `מעבר למצב הורה` button on the rides
+  summary card that prompted once and then `DELETE /api/me` — wiping the week's
+  ride requests — and dropped the player token. Player mode is a strict superset
+  of parent mode (same schedule, same followed teams, same exports, plus ride
+  chips), so the "switch" had no functional purpose, but its accidental cost was
+  total: the player loses their picks and the coordinator loses the headcount the
+  feature exists to produce.
+- **Decision:**
+  - Remove the player→parent switch entirely. No button, no `exitToParent()`.
+    A player stays a player. `renderRoleToggle()` renders no toggle for an
+    established player even on the (unfollow-everything) onboarding screen — the
+    player just re-follows a team.
+  - No player→parent movement deletes ride data. Backing out of name entry
+    (pre-token, `cancelPlayerEntry()`) already deletes nothing; that is the only
+    "movement" left.
+  - Keep an explicit deletion capability — required to keep the §8.1 consent
+    promise honest — as a `מחיקת נתוני ההסעות שלי` button on `#screen-privacy`,
+    shown only to a player with a token (`deleteMyRidesData()`). It calls the same
+    `DELETE /api/me` (best-effort) then `clearPlayer()`. Worded as deletion the
+    user chose, not a mode change; confirm dialog is
+    `למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.`
+  - Consent + privacy copy: "immediate deletion" now points at the privacy
+    screen, not at "switching back to parent".
+- **Status:** Accepted, implemented on `feature/rides-one-way-player-mode`. Amends
+  rides-spec §4.1/§4.5/§4.9/§8.1/§11.2. **No API or KV change** — `DELETE /api/me`
+  is reused; `localStorage` semantics unchanged (`clearPlayer()` still clears both
+  keys). Spec: `docs/superpowers/specs/2026-09-06-rides-remove-player-to-parent-switch-design.md`.
+- **Risk:** Low. Backend untouched; the one removed network call was
+  fire-and-forget. Smoke test 155 → 163 assertions, green. QA-reviewer pass:
+  code ship-quality, isolation boundary holds, no stranding in the toggle states.
+  The only user-visible loss is the ability to leave player mode without clearing
+  site data — deliberate (see LL-026).
+
+## DL-036 — Adopt the club's red-and-white visual identity (colours + share tags; logo deferred)
+- **Date:** 2026-09-06
+- **Context:** the app shipped unbranded — a system-font wordmark on white, a teal
+  `--accent` (`#1d6a8c`) picked only for contrast, no favicon, no share preview.
+  Parents are told to share the link (`known-constraints.md`), and a bare
+  `*.pages.dev` URL with no title card reads as untrustworthy in WhatsApp.
+- **Research (2026-09-06, gilboamaayanot.co.il):** primary red **`#D0212C`**
+  (rgb 208,33,44) — their nav bar, headings, buttons, and the basketball in the
+  logo. Logo is a 170×170 circular emblem (`assets/img/logo.png`): black ring with
+  Hebrew club name, red basketball + monogram, white fill — too low-res for a
+  512px icon or a crisp share image. Body font is the same system stack the app
+  already uses. Regional-council crest on their site is a partner mark — not ours.
+- **Decision (this pass):**
+  - `--accent` `#1d6a8c` → **`#D0212C`** (the club's exact red — `#D0212C`-on-white
+    and white-on-`#D0212C` are both ≈ **5.3:1**, clearing WCAG AA for normal text,
+    so no compromise tint was needed). `--accent-dark` `#14506b` → **`#A81B24`**
+    (≈ 7.4:1 on white). `--bg` left at `#f4f5f7`. `app.js` `PALETTE` (team colours)
+    deliberately untouched — team identity is independent of the brand accent.
+  - Added `theme-color` + text-only OG/Twitter tags (`og:type/title/description/
+    locale`, `twitter:card="summary"` — not `summary_large_image`, since there is
+    no `og:image` yet) to `index.html` and `manager.html`.
+  - **Deferred** (needs a high-res / SVG logo from the club): the header logo
+    lockup, favicon, apple-touch-icon, web manifest, and the `og:image` share
+    card. Tracked in the branding spec §7 Q1.
+- **Status:** Accepted, partial implementation on
+  `feature/rides-one-way-player-mode`. Spec:
+  `docs/superpowers/specs/2026-09-06-club-branding-theme-design.md`.
+- **Risk:** Low. Presentation only — no behaviour, data, parser, or API change.
+  Recolour propagates through `var(--accent)` / `var(--accent-dark)`; `manager.css`
+  had no hard-coded hex. Contrast verified with a checker (QA pass). **Courtesy:**
+  the club approved the *app* (OQ-6); a heads-up that we are also adopting their
+  logo + colours is still outstanding (branding spec §7 Q3).

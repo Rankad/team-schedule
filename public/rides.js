@@ -364,10 +364,20 @@
   function deleteMyRidesData() {
     var p = getPlayer();
     if (!p) return;
-    var msg = 'למחוק את כל נתוני ההסעות שלך? הפעולה אינה הפיכה.';
+    var wkNow = currentWeek();
+    var known = (_week.key === wkNow && _week.loaded);
+    var msg;
+    if (known) {
+      var n = objVals(_week.key === wkNow ? _week.bySession : {}).length;
+      msg = (n >= 1)
+        ? 'פעולה זו תמחק את בקשות ההסעה שלך לשבוע זה ותחזיר את המכשיר למצב הורה. אי אפשר לשחזר.'
+        : 'לצאת ממצב שחקן? לא נרשמו בקשות הסעה למחיקה.';
+    } else {
+      msg = 'לצאת ממצב שחקן ולמחוק את בקשות ההסעה שלך לשבוע זה?';
+    }
     var ok = (typeof window.confirm === 'function') ? window.confirm(msg) : true;
     if (!ok) return;
-    var wk = currentWeek();
+    var wk = wkNow;
     try {
       fetch(apiBase() + '/api/me?token=' + encodeURIComponent(p.token) +
         '&week=' + encodeURIComponent(wk), { method: 'DELETE' })['catch'](function () {});
@@ -389,6 +399,12 @@
     body.innerHTML = '';
     PRIVACY_LINES.forEach(function (pair) { body.appendChild(ce(pair[0], null, pair[1])); });
     if (getPlayer()) {
+      // Best-effort warm-up so the confirm copy can reflect the real request
+      // count for the visible week. No UI depends on this resolving.
+      try {
+        var wp = loadMyRides(currentWeek());
+        if (wp && typeof wp['catch'] === 'function') wp['catch'](function () {});
+      } catch (e) {}
       var del = ce('button', 'privacy-delete', 'מחיקת נתוני ההסעות שלי');
       del.type = 'button';
       del.addEventListener('click', deleteMyRidesData);

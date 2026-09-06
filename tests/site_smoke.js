@@ -797,6 +797,8 @@ require(path.join(ROOT, 'public', 'rides.js'));
 
     // privacy screen: a player is offered "מחיקת נתוני ההסעות שלי"; clicking it
     // (confirm stubbed true, fetch stubbed) clears the token + the _week cache.
+    // Case A: _week loaded for the visible week with one request => the confirm
+    // copy names the deletion ("תמחק ... אי אפשר לשחזר").
     ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
     window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
     window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
@@ -804,11 +806,17 @@ require(path.join(ROOT, 'public', 'rides.js'));
     const delBtn = byId['privacy-body'].querySelector('.privacy-delete');
     assert(!!delBtn && delBtn.textContent === 'מחיקת נתוני ההסעות שלי',
       'privacy screen as a player appends the delete-my-rides-data button');
-    window.confirm = () => true;
+    let confirmMsg;
+    window.confirm = (m) => { confirmMsg = m; return true; };
+    window.Rides._week.key = window.viewSunday;
+    window.Rides._week.loaded = true;
+    window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
     FETCH_LOG.length = 0;
     delBtn.click();
     await new Promise(r => setTimeout(r, 10));
     delete window.confirm;
+    assert(confirmMsg && confirmMsg.indexOf('תמחק') !== -1 && confirmMsg.indexOf('לשחזר') !== -1,
+      'delete confirm with one known request names the deletion');
     const delCall = FETCH_LOG.find(c => c.method === 'DELETE' && c.path === '/api/me');
     assert(!!delCall && /token=/.test(delCall.url) && /week=/.test(delCall.url),
       'clicking delete issues DELETE /api/me?token=&week=');
@@ -819,6 +827,25 @@ require(path.join(ROOT, 'public', 'rides.js'));
     window.goto('privacy');
     assert(!byId['privacy-body'].querySelector('.privacy-delete'),
       'a pure parent gets no delete control on the privacy screen');
+
+    // Case B: _week loaded for the visible week with zero requests => softer
+    // "exit player mode, nothing to delete" copy.
+    store['gilboa.role'] = 'player';
+    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.goto('privacy');
+    const delBtn0 = byId['privacy-body'].querySelector('.privacy-delete');
+    let confirmMsg0;
+    window.confirm = (m) => { confirmMsg0 = m; return true; };
+    window.Rides._week.key = window.viewSunday;
+    window.Rides._week.loaded = true;
+    window.Rides._week.bySession = {};
+    delBtn0.click();
+    await new Promise(r => setTimeout(r, 10));
+    delete window.confirm;
+    assert(confirmMsg0 && confirmMsg0.indexOf('לצאת ממצב שחקן') !== -1 && confirmMsg0.indexOf('לא נרשמו') !== -1,
+      'delete confirm with zero known requests uses the softer exit-player-mode copy');
     window.goto('myweek');
 
     // restore

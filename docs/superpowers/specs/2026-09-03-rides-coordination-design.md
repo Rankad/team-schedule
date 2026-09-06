@@ -162,6 +162,12 @@ In player mode with no `gilboa.player.token`:
 
 ### 4.6 Switching back to הורה **[A]**
 
+> **Superseded by DL-035 / DL-037.** Player mode is now one-way: there is no
+> `מעבר למצב הורה` / `exitToParent` switch on the rides summary card. Leaving
+> player mode is a privacy action — the `מחיקת נתוני ההסעות שלי` control on
+> `#screen-privacy`. `docs/rides-spec.md` §4.5 is authoritative for the current
+> flow and confirm copy. The rest of this section is kept for history only.
+
 From the rides summary card. Prompt:
 *"המעבר למצב הורה ימחק את בקשות ההסעה שלך לשבוע זה. להמשיך?"*. On confirm:
 `DELETE /api/me?token=…` (removes this token's ride rows + station row for the

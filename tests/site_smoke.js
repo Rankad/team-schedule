@@ -260,6 +260,23 @@ FAKE_CHANGES.changes[0].team_id = T1;
 FAKE_CHANGES.changes[0].week_key = lastWeek;
 const t1name = teams.find(t => t.team_id === T1).display_name;
 
+// branding <head>: share/theme meta tags on both entry documents
+console.log('branding <head> meta');
+{
+  const idxHtml = fs.readFileSync(path.join(ROOT, 'public/index.html'), 'utf8');
+  const mgrHtml = fs.readFileSync(path.join(ROOT, 'public/manager.html'), 'utf8');
+  [['index.html', idxHtml], ['manager.html', mgrHtml]].forEach(([name, html]) => {
+    assert(/name="theme-color"[^>]*content="#D0212C"/.test(html), name + ' sets theme-color #D0212C');
+    assert(html.indexOf('property="og:title"') !== -1, name + ' has an og:title tag');
+    assert(html.indexOf('property="og:description"') !== -1, name + ' has an og:description tag');
+    assert(html.indexOf('name="twitter:card"') !== -1, name + ' has a twitter:card tag');
+  });
+  assert(idxHtml.indexOf('content="הלו״ז שלי — גלבוע מעיינות"') !== -1,
+    'index.html og:title uses the parent-app copy');
+  assert(mgrHtml.indexOf('content="ניהול הסעות — גלבוע מעיינות"') !== -1,
+    'manager.html og:title uses the manager copy, not the parent-app copy');
+}
+
 require(path.join(ROOT, 'public', 'app.js'));
 require(path.join(ROOT, 'public', 'rides.js'));
 
@@ -846,6 +863,24 @@ require(path.join(ROOT, 'public', 'rides.js'));
     delete window.confirm;
     assert(confirmMsg0 && confirmMsg0.indexOf('לצאת ממצב שחקן') !== -1 && confirmMsg0.indexOf('לא נרשמו') !== -1,
       'delete confirm with zero known requests uses the softer exit-player-mode copy');
+
+    // Case C: _week NOT loaded for the visible week => the count is unknown, so
+    // the confirm copy uses the generic "exit player mode and delete" string
+    // (no request count, no "cannot be undone" wording).
+    store['gilboa.role'] = 'player';
+    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.goto('privacy');
+    const delBtnC = byId['privacy-body'].querySelector('.privacy-delete');
+    let confirmMsgC;
+    window.confirm = (m) => { confirmMsgC = m; return true; };
+    delBtnC.click();
+    await new Promise(r => setTimeout(r, 10));
+    delete window.confirm;
+    assert(confirmMsgC && confirmMsgC.indexOf('לצאת ממצב שחקן ולמחוק') !== -1
+      && confirmMsgC.indexOf('לא נרשמו') === -1 && confirmMsgC.indexOf('אי אפשר לשחזר') === -1,
+      'delete confirm with an unknown request count uses the generic exit-and-delete copy');
     window.goto('myweek');
 
     // restore

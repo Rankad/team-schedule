@@ -741,7 +741,8 @@
   is reused; `localStorage` semantics unchanged (`clearPlayer()` still clears both
   keys). Spec: `docs/superpowers/specs/2026-09-06-rides-remove-player-to-parent-switch-design.md`.
 - **Risk:** Low. Backend untouched; the one removed network call was
-  fire-and-forget. Smoke test 155 → 163 assertions, green. QA-reviewer pass:
+  fire-and-forget. Smoke test extended (155 → 177 across this change and the
+  DL-037 follow-up + polish pass); green. QA-reviewer pass:
   code ship-quality, isolation boundary holds, no stranding in the toggle states.
   The only user-visible loss is the ability to leave player mode without clearing
   site data — deliberate (see LL-026).

@@ -1,10 +1,14 @@
 """Tests for scripts/resolve.py - stable team_id (mvp-spec 4.5 + 5)."""
 import json
+import re
+from pathlib import Path
 
 import pytest
 
 import resolve
 from parse_title import parse_title
+
+REAL_REGISTRY = Path(__file__).resolve().parent.parent / "data" / "teams_registry.json"
 
 
 # The six proven same-team pairs from docs/mvp-spec.md 4.5.
@@ -64,6 +68,17 @@ def test_shared_coach_alone_never_merges_two_teams():
     id1, reg = resolve.resolve_team(parse_title("ילדים א מזרח-אור רותם"), reg, seen_date="2026-09-02")
     id2, reg = resolve.resolve_team(parse_title("נערים ט מזרח-אור רותם"), reg, seen_date="2026-09-02")
     assert id1 != id2
+
+
+def test_next_id_never_reissues_a_removed_or_absent_top_id():
+    """A registry entry that is deleted (or was never written) must not lower
+    _next_id's high-water mark - otherwise the next new team reuses a T_NNN id
+    that is still live in public/data/teams.json (DL-038 regression)."""
+    reg = json.loads(REAL_REGISTRY.read_text(encoding="utf-8"))
+    nid = resolve._next_id(reg)
+    numbered = [int(k[2:]) for k in reg if re.fullmatch(r"T_\d+", k)]
+    assert nid not in reg
+    assert int(nid[2:]) > max(numbered)
 
 
 def test_mints_zero_padded_sequential_ids():

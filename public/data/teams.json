@@ -49,7 +49,7 @@
       "עמית נרדע"
     ],
     "display_name": "ילדים לאומית",
-    "sample_note": null,
+    "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_005",
     "tier": "לאומית"
@@ -1149,33 +1149,6 @@
     "sample_note": "כיתות ג-ד",
     "sport": "basketball",
     "team_id": "T_105",
-    "tier": null
-  },
-  {
-    "category": null,
-    "coaches": [],
-    "display_name": "הפועל העמק נגד מכבי ר\"ג",
-    "sample_note": "משחק אימון",
-    "sport": "basketball",
-    "team_id": "T_106",
-    "tier": null
-  },
-  {
-    "category": null,
-    "coaches": [],
-    "display_name": "הפועל ת\"א",
-    "sample_note": "משחק אימון",
-    "sport": "basketball",
-    "team_id": "T_107",
-    "tier": null
-  },
-  {
-    "category": null,
-    "coaches": [],
-    "display_name": "הפועל עפולה",
-    "sample_note": "משחק אימון",
-    "sport": "basketball",
-    "team_id": "T_108",
     "tier": null
   }
 ]

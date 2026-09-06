@@ -18,6 +18,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 from clean import to_parse_form
+from parse_title import _CLUB_TOKENS
 
 # Standalone age-range tokens - unify the two spellings (א/ב  ==  א-ב).
 _AGE_PAIRS = [("א", "ב"), ("ה", "ו"), ("ג", "ד"), ("א", "ג"), ("א", "ד")]
@@ -49,6 +50,22 @@ def normalize_name(team_name: str | None) -> str:
     return text.casefold()
 
 
+def _is_external_club_fixture(parsed: dict) -> bool:
+    """True for a game row whose 'team' side is really an outside club or a
+    matchup string: activity is a game, there is no coach, no category and no
+    tier, and the name carries a club token (הפועל / מכבי / ת"א). Such a row
+    must never mint a followable team (DL-038); if it matches an existing
+    registry team by normalized name the game attaches there instead.
+    """
+    return (
+        parsed.get("activity_type") == "game"
+        and not parsed.get("coaches")
+        and parsed.get("category") is None
+        and parsed.get("tier") is None
+        and any(tok in (parsed.get("team_name") or "") for tok in _CLUB_TOKENS)
+    )
+
+
 def _next_id(registry: dict) -> str:
     nums = [int(k.split("_", 1)[1]) for k in registry if re.fullmatch(r"T_\d+", k)]
     return f"T_{(max(nums) + 1) if nums else 1:03d}"
@@ -69,6 +86,12 @@ def resolve_team(parsed: dict, registry: dict, seen_date: str | None = None):
     for team_id, entry in registry.items():
         if entry.get("normalized_name") == norm:
             return team_id, registry
+
+    # An outside-club game fixture that matches no existing team stays a
+    # team-less game row (it lands in schedule.json with team_id null, never
+    # in teams.json).
+    if _is_external_club_fixture(parsed):
+        return None, registry
 
     team_id = _next_id(registry)
     registry[team_id] = {

@@ -52,7 +52,10 @@ code yet. Not a git repo yet. Next: Phase 0 + 1 of `docs/execution-plan.md`.
   2026-09-02); the link may be shared with parents.
 
 ## Working style for this project
-- Use the PM Agent system as the main workflow.
+- **Always use the PM Agent + sub-agent system — every phase, not just build/QA.
+  See `.claude/rules/agent-workflow.md` (mandatory).** The PM agent coordinates
+  and delegates; it does not do research, UX, implementation, QA, docs, or memory
+  work directly when a sub-agent exists for that phase.
 - Stop before major decisions and present options, risks, and recommendations.
 - Ask for approval when there is more than one good path, when scope may expand, or when a change is hard to reverse.
 - If no suitable sub-agent or skill exists, say so clearly and recommend creating one.
@@ -60,14 +63,17 @@ code yet. Not a git repo yet. Next: Phase 0 + 1 of `docs/execution-plan.md`.
 
 ## How to work on this project
 - Prefer small, reviewable steps.
-- Research similar products when discovery is needed.
-- Use the UI/UX agent for flows, screens, and interaction structure.
-- Use the planner/researcher agent for market or feature discovery.
-- Use the builder agent for implementation.
-- Use the QA agent before calling work complete.
-- Use the memory curator after failures, fixes, or major decisions.
+- Delegate by phase per `.claude/rules/agent-workflow.md`:
+  - `project-planner-researcher` — discovery, research, reading external sites/APIs, planning.
+  - `ui-ux-designer` — flows, screens, interaction structure, visual/brand decisions, spec critique.
+  - `product-architect` — stack, module boundaries, data flow.
+  - `builder-tech-lead` — all implementation.
+  - `qa-reviewer` — before calling work complete.
+  - `documentation-packager` — the `docs/` set and handoff docs.
+  - `memory-curator` — after failures, fixes, or major decisions.
 
 ## Project files to keep updated
+- `.claude/rules/agent-workflow.md`
 - `.claude/rules/approval-gates.md`
 - `.claude/rules/memory-policy.md`
 - `docs/project-brief.md`

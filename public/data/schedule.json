@@ -1,36 +1,6 @@
 {
-  "generated_at": "2026-09-06T18:56:53Z",
+  "generated_at": "2026-09-07T10:01:12Z",
   "sessions": [
-    {
-      "activity_type": "training",
-      "coach_text": "עמית נרדע",
-      "date": "2026-08-30",
-      "end": "2026-08-30T15:00:00+03:00",
-      "flags": null,
-      "id": "1g0noliipbidn44ad0ma4kq415",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-30T13:00:00+03:00",
-      "team_id": "T_005",
-      "week_key": "2026-08-30",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-08-30",
-      "end": "2026-08-30T22:00:00+03:00",
-      "flags": null,
-      "id": "19ti7ngce3roqa6ipop13id8bc",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-30T20:30:00+03:00",
-      "team_id": "T_043",
-      "week_key": "2026-08-30",
-      "weekday": 0
-    },
     {
       "activity_type": "unknown",
       "coach_text": null,
@@ -2003,6 +1973,23 @@
       "sport": "basketball",
       "start": "2026-09-06T18:30:00+03:00",
       "team_id": "T_061",
+      "week_key": "2026-09-06",
+      "weekday": 0
+    },
+    {
+      "activity_type": "unknown",
+      "coach_text": null,
+      "date": "2026-09-06",
+      "end": "2026-09-06T21:00:00+03:00",
+      "flags": [
+        "unrecognized_title"
+      ],
+      "id": "36t9cburgonm1uhh6eiv83nqaq",
+      "location": "חמדיה",
+      "notes": null,
+      "sport": "unknown",
+      "start": "2026-09-06T19:00:00+03:00",
+      "team_id": null,
       "week_key": "2026-09-06",
       "weekday": 0
     },

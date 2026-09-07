@@ -1,31 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-08-30T22:00:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-08-30T20:30:00+03:00",
-        "team_id": "T_043"
-      },
-      "session_id": "19ti7ngce3roqa6ipop13id8bc",
-      "team_id": "T_043",
-      "week_key": "2026-08-30"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-08-30T15:00:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-08-30T13:00:00+03:00",
-        "team_id": "T_005"
-      },
-      "session_id": "1g0noliipbidn44ad0ma4kq415",
-      "team_id": "T_005",
-      "week_key": "2026-08-30"
-    }
-  ],
-  "generated_at": "2026-09-07T10:01:12Z"
+  "changes": [],
+  "generated_at": "2026-09-07T18:10:00Z"
 }

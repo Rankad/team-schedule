@@ -1,32 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-08-31T19:30:00+03:00",
-        "location": "גן נר",
-        "start": "2026-08-31T18:00:00+03:00",
-        "team_id": "T_043"
-      },
-      "session_id": "1o17qi867bb666v81fv888amnt",
-      "team_id": "T_043",
-      "week_key": "2026-08-30"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-08T21:30:00+03:00",
-        "start": "2026-09-08T19:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T22:30:00+03:00",
-        "start": "2026-09-08T20:30:00+03:00"
-      },
-      "session_id": "5t8eqsrte18ljda2fhbd2664cf",
-      "team_id": "T_043",
-      "week_key": "2026-09-06"
-    }
-  ],
-  "generated_at": "2026-09-08T09:26:46Z"
+  "changes": [],
+  "generated_at": "2026-09-08T17:08:19Z"
 }

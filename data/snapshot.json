@@ -1,38 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "unknown",
-      "coach_text": null,
-      "date": "2026-08-31",
-      "end": "2026-08-31T21:00:00+03:00",
-      "flags": [
-        "unrecognized_title"
-      ],
-      "id": "7vjnuc2j4hf3nm9eqq98a8t5q3",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "unknown",
-      "start": "2026-08-31T18:00:00+03:00",
-      "team_id": null,
-      "week_key": "2026-08-30",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-08-31",
-      "end": "2026-08-31T19:30:00+03:00",
-      "flags": null,
-      "id": "1o17qi867bb666v81fv888amnt",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-08-31T18:00:00+03:00",
-      "team_id": "T_043",
-      "week_key": "2026-08-30",
-      "weekday": 1
-    },
-    {
       "activity_type": "training",
       "coach_text": "יוגב פרטי",
       "date": "2026-09-01",
@@ -3322,6 +3290,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "יונתן אורן",
+      "date": "2026-09-08",
+      "end": "2026-09-08T21:30:00+03:00",
+      "flags": null,
+      "id": "5t8eqsrte18ljda2fhbd2664cf",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-08T19:30:00+03:00",
+      "team_id": "T_043",
+      "week_key": "2026-09-06",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
       "coach_text": "גילי בן זאב",
       "date": "2026-09-08",
       "end": "2026-09-08T21:30:00+03:00",
@@ -3362,21 +3345,6 @@
       "sport": "basketball",
       "start": "2026-09-08T20:30:00+03:00",
       "team_id": "T_040",
-      "week_key": "2026-09-06",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-09-08",
-      "end": "2026-09-08T22:30:00+03:00",
-      "flags": null,
-      "id": "5t8eqsrte18ljda2fhbd2664cf",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-08T20:30:00+03:00",
-      "team_id": "T_043",
       "week_key": "2026-09-06",
       "weekday": 2
     },
@@ -4836,5 +4804,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-09-07T18:10:00Z"
+  "generated_at": "2026-09-08T09:26:46Z"
 }

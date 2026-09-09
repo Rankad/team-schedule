@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-09T09:28:18Z",
+  "generated_at": "2026-09-09T17:05:00Z",
   "sessions": [
     {
       "activity_type": "training",
@@ -4144,6 +4144,21 @@
       "weekday": 4
     },
     {
+      "activity_type": "training",
+      "coach_text": "ניר גוב",
+      "date": "2026-09-10",
+      "end": "2026-09-10T17:00:00+03:00",
+      "flags": null,
+      "id": "7f2rfadt9u61hiiji90ufb7vc3",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-10T15:00:00+03:00",
+      "team_id": "T_039",
+      "week_key": "2026-09-06",
+      "weekday": 4
+    },
+    {
       "activity_type": "blocked_hall",
       "coach_text": null,
       "date": "2026-09-10",
@@ -4342,16 +4357,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "ניר גוב",
+      "coach_text": "סהר טיבי",
       "date": "2026-09-10",
       "end": "2026-09-10T19:00:00+03:00",
       "flags": null,
-      "id": "7f2rfadt9u61hiiji90ufb7vc3",
+      "id": "52fece6lo9en463jhf56m5u4qi",
       "location": "עין חרוד",
       "notes": null,
       "sport": "basketball",
       "start": "2026-09-10T17:00:00+03:00",
-      "team_id": "T_039",
+      "team_id": "T_038",
       "week_key": "2026-09-06",
       "weekday": 4
     },
@@ -4545,30 +4560,15 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "סהר טיבי",
+      "coach_text": "טל יזרעאלי",
       "date": "2026-09-10",
       "end": "2026-09-10T21:00:00+03:00",
       "flags": null,
-      "id": "52fece6lo9en463jhf56m5u4qi",
+      "id": "38sjm1d3qao6ddakj70orr4vg9",
       "location": "עין חרוד",
       "notes": null,
       "sport": "basketball",
       "start": "2026-09-10T19:00:00+03:00",
-      "team_id": "T_038",
-      "week_key": "2026-09-06",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-09-10",
-      "end": "2026-09-10T21:30:00+03:00",
-      "flags": null,
-      "id": "38sjm1d3qao6ddakj70orr4vg9",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-10T19:30:00+03:00",
       "team_id": "T_059",
       "week_key": "2026-09-06",
       "weekday": 4

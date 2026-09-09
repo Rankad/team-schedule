@@ -1,4 +1,18 @@
 {
-  "changes": [],
-  "generated_at": "2026-09-08T17:08:19Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-01T18:00:00+03:00",
+        "location": "אומן",
+        "start": "2026-09-01T17:00:00+03:00",
+        "team_id": "T_098"
+      },
+      "session_id": "7rr52odt38hjp9qp1uqlgr4dn8",
+      "team_id": "T_098",
+      "week_key": "2026-08-30"
+    }
+  ],
+  "generated_at": "2026-09-09T09:28:18Z"
 }

@@ -1,21 +1,6 @@
 {
-  "generated_at": "2026-09-08T17:08:19Z",
+  "generated_at": "2026-09-09T09:28:18Z",
   "sessions": [
-    {
-      "activity_type": "training",
-      "coach_text": "יוגב פרטי",
-      "date": "2026-09-01",
-      "end": "2026-09-01T18:00:00+03:00",
-      "flags": null,
-      "id": "7rr52odt38hjp9qp1uqlgr4dn8",
-      "location": "אומן",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-01T17:00:00+03:00",
-      "team_id": "T_098",
-      "week_key": "2026-08-30",
-      "weekday": 2
-    },
     {
       "activity_type": "training",
       "coach_text": "נעה שמעוני",

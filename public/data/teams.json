@@ -11,28 +11,6 @@
     "tier": null
   },
   {
-    "category": "pre_mini",
-    "coaches": [
-      "איתן פרג"
-    ],
-    "display_name": "טרום קט סל בנים דקלים",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_002",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "טל גילת"
-    ],
-    "display_name": "טרום קט סל גוש חרוד",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_003",
-    "tier": null
-  },
-  {
     "category": "mini_a",
     "coaches": [
       "יוגב פרטי"
@@ -135,17 +113,6 @@
   {
     "category": "recreational",
     "coaches": [
-      "איתן פרג"
-    ],
-    "display_name": "חוגי בנים עין הנציב",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_013",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
       "בן רצין"
     ],
     "display_name": "חוגי גוש חרוד א-ב בנים",
@@ -170,7 +137,7 @@
     "coaches": [
       "יהלי שגב"
     ],
-    "display_name": "חוגי שלפים/רשפים/שלוחות-א/ב בנים",
+    "display_name": "חוגי שלפים/רשפים/שלוחות א/ב בנים",
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_016",
@@ -224,17 +191,6 @@
   {
     "category": "recreational",
     "coaches": [
-      "עדן אוריה"
-    ],
-    "display_name": "חוגי בנים כפר יחזקאל/גדעונה/גבע",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_021",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
       "בן רצין"
     ],
     "display_name": "חוגי גוש חרוד גן חובה",
@@ -277,39 +233,6 @@
     "tier": null
   },
   {
-    "category": "recreational",
-    "coaches": [
-      "איתן פרג"
-    ],
-    "display_name": "חוגי טירת צבי בנים א/ב",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_026",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "פז תשובה"
-    ],
-    "display_name": "טרום קט סל בנות מזרח",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_027",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "יהלי שגב"
-    ],
-    "display_name": "טרום קט סל רימון בנים",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_028",
-    "tier": null
-  },
-  {
     "category": "kids_a",
     "coaches": [
       "טל יזרעאלי"
@@ -339,7 +262,7 @@
       "ניר גוב"
     ],
     "display_name": "נוער על",
-    "sample_note": "חצי שעה ראשונה חדר כושר",
+    "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_031",
     "tier": "על"

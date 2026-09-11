@@ -262,7 +262,7 @@
       "ניר גוב"
     ],
     "display_name": "נוער על",
-    "sample_note": "משחק אימון",
+    "sample_note": "חצי שעה ראשונה חדר כושר",
     "sport": "basketball",
     "team_id": "T_031",
     "tier": "על"
@@ -406,7 +406,7 @@
     "coaches": [
       "יובל בר לב"
     ],
-    "display_name": "חוגי דדו א/ב בנים",
+    "display_name": "חוגי דדו א-ב בנים",
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_044",
@@ -430,28 +430,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_046",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "חוגי גן חובה גן נר",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_047",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "פלא תמיר"
-    ],
-    "display_name": "טרום קט סל מולדת/רמת צבי",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_048",
     "tier": null
   },
   {

@@ -862,5 +862,21 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-09-10"
+  },
+  "T_109": {
+    "normalized_name": "מצוינות בנות",
+    "display_name": "מצוינות בנות",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-15"
+  },
+  "T_110": {
+    "normalized_name": "נערים לאומית נוער על",
+    "display_name": "נערים לאומית/נוער על",
+    "category": "youth",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-17"
   }
 }

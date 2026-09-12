@@ -262,7 +262,7 @@
       "ניר גוב"
     ],
     "display_name": "נוער על",
-    "sample_note": "חצי שעה ראשונה חדר כושר",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_031",
     "tier": "על"
@@ -385,7 +385,7 @@
       "שרון אברהמי"
     ],
     "display_name": "הפועל העמק",
-    "sample_note": null,
+    "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_042",
     "tier": null
@@ -1018,5 +1018,27 @@
     "sport": "basketball",
     "team_id": "T_105",
     "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [
+      "צוות מקצועי מחלקת הבנות"
+    ],
+    "display_name": "מצוינות בנות",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_109",
+    "tier": null
+  },
+  {
+    "category": "youth",
+    "coaches": [
+      "ניר גוב"
+    ],
+    "display_name": "נערים לאומית/נוער על",
+    "sample_note": "מי שלא עמק חרוד בנים",
+    "sport": "basketball",
+    "team_id": "T_110",
+    "tier": "לאומית"
   }
 ]

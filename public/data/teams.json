@@ -622,28 +622,6 @@
   {
     "category": "recreational",
     "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "חוגי גן נר א/ב בנים",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_066",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "טרום קט סל גן נר בנים",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_067",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
       "איתן פרג"
     ],
     "display_name": "חוג דקלים א-ב בנים",

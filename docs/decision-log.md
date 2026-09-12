@@ -932,3 +932,42 @@
   `הפועל העמק` (T_042) home game titled `הפועל העמק-<Gilboa group>` would swap
   the game onto the Gilboa group and away from T_042 — accepted per Option B,
   and T_042 is itself an external-club edge case (DL-014).
+
+## DL-039 — Skip (not hard-fail) `site_smoke.js`'s adjacent-week sanity check when live data has a bye week
+- **Date:** 2026-09-12
+- **Context:** The stakeholder was getting a daily CI failure email for the
+  "Build schedule data" workflow's `functions-tests` job ("Site smoke test"
+  step). Reproduced by checking out the exact failing commit
+  (`b36da78263b29e7b7e321837ceb55a19523ce5ef`) and running
+  `tests/site_smoke.js` locally: `FAIL sanity: the adjacent week has sessions
+  for the test team (0)`. Root cause: the "earlier-days — expander UI" test
+  block deterministically picks whichever `(week_key, team_id)` pair sorts
+  first alphabetically among teams training on ≥2 distinct days in the
+  **live**, thrice-daily-refreshed `public/data/schedule.json`, then hard-
+  asserts the same team also has ≥1 session in the immediately adjacent week.
+  Real schedules have bye weeks, holidays, and not-yet-published weeks, so that
+  adjacent week can legitimately be empty for whichever team the alphabetical
+  sort happens to pick that data cycle — not an app defect. Intermittent since
+  ~09-11/09-12, depending on live data content.
+- **Decision:** When the adjacent week has 0 sessions for the picked test
+  team, **skip** the two dependent assertions instead of failing, logging
+  `skip adjacent-week checks (test team has no sessions in the adjacent week
+  this data cycle)` — mirroring the existing skip idiom already in the same
+  file (the notes-line check, ~line 410).
+- **Rejected alternatives:**
+  - **(B) Build a synthetic fixture** for this test block instead of reading
+    live data — more correct long-term (fully deterministic), but more work;
+    deferred.
+  - **(C) Hardcode an "always-trains" team id** — still flaky long-term (that
+    team can itself get a bye week or be renamed); rejected.
+- **Status:** Accepted, stakeholder-approved. Scope confirmed limited to
+  `tests/site_smoke.js` (~lines 559–566) — no app code touched, happy-path
+  behaviour unchanged. QA-reviewer cleared the change; all three suites
+  (`site_smoke.js`, `manager_smoke.js`, functions `npm test`) pass. Committed
+  as `fix(tests): skip adjacent-week sanity check when test team has no
+  sessions in the adjacent week` (`7812f0e`, pushed as `deefcbb` after a
+  rebase onto `origin/main`).
+- **Risk:** Low. Test-only change. Same class of gap as DL-011/LL-024 in
+  spirit: a test asserting something specific to live, human-entered data can
+  legitimately have that precondition go false on any given data refresh —
+  see LL-027.

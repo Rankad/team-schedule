@@ -170,6 +170,31 @@ switch systems, fall back to the Excel importer.
   rather than fix for now; revisit after the single-team pilot (candidate fix:
   require an explicit save for NEW requests in the bottom sheet).
 
+## Testing — tests coupled to live production data (DL-039 / LL-027)
+- `tests/site_smoke.js` has (at least) two assertions whose fixture is picked
+  dynamically from the **live**, thrice-daily-refreshed
+  `public/data/schedule.json` rather than a frozen fixture file: the "which
+  Hebrew word form appears in the last published week's summary" case
+  (LL-024) and the "earlier-days — expander UI" adjacent-week sanity check
+  (DL-039 / LL-027). Both have intermittently "failed" in CI purely because
+  real schedule content changed (bye weeks, holidays, singular vs. plural
+  session counts) — not because of an app defect. The adjacent-week case is
+  now handled by skipping (logging, not failing) the dependent assertions
+  when its precondition doesn't hold that data cycle; the general pattern
+  (any test that derives its own fixture from live data must make downstream
+  assertions conditional, or use a synthetic fixture instead) is documented
+  in LL-027 and should be applied to any *new* smoke assertion that reads
+  `public/data/*.json` directly.
+- **GitHub Actions log access:** this repo's Actions log **viewer** requires
+  GitHub sign-in even though the repo is public, so raw step log text is not
+  fetchable via an unauthenticated browser or the plain public REST API. Job
+  **conclusions, timing, and the failing `head_sha`** ARE fetchable without
+  auth via `api.github.com/repos/<owner>/<repo>/actions/runs...` (and
+  `.../actions/runs/<id>/jobs`) — usually specific enough (e.g. a fast ~1s
+  failing step name) to reproduce by checking out that exact commit into a
+  worktree and re-running the suite locally, without needing the raw log text
+  at all.
+
 ## Branding (DL-036)
 - **Brand assets are self-hosted** in the repo, never hotlinked from
   `gilboamaayanot.co.il`. The club's public logo (`assets/img/logo.png`) is only

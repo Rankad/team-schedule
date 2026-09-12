@@ -467,6 +467,52 @@
   - Recovery from a wrong mode should be non-destructive by default; destruction
     is a separate, explicitly-labelled, confirm-gated action.
 
+## LL-027 — A smoke test that picks its own fixture from LIVE production data will intermittently "fail" on real-world data coincidences, not app bugs
+- **Date:** 2026-09-12
+- **Context:** The stakeholder got a recurring CI failure email for
+  `tests/site_smoke.js`'s "earlier-days — expander UI" sanity block. It
+  dynamically finds "some team training on ≥2 distinct days" in the live,
+  thrice-daily-refreshed `public/data/schedule.json`, picks the
+  alphabetically-first `(week, team)` match, then hard-asserts that same team
+  also has ≥1 session in the adjacent week. Reproduced locally by checking out
+  the exact failing CI commit and re-running the suite.
+- **What we learned:** Real basketball schedules have bye weeks, holidays, and
+  weeks the club hasn't published yet. A test fixture chosen dynamically from
+  live data can legitimately land on a team/week where a downstream assumption
+  ("this team also trains next week") is false that cycle — this is a data
+  coincidence, not a regression. The test had been failing intermittently for
+  ~2 days before anyone looked, and would fail again on any future data
+  refresh that happened to pick a bye-week team. This is the same underlying
+  failure class as LL-024 (a smoke assertion whose truth depends on which week
+  the live data refresh happens to leave as "current") — this project has now
+  hit it twice, in two different tests, which makes it a pattern worth
+  designing against, not just patching each time.
+- **Apply:**
+  - When a test needs "some record with property X" and pulls it from live,
+    frequently-refreshed production data, either (a) pin it to a small
+    synthetic/fixture dataset built for that test, or (b) make every
+    *downstream* assertion that depends on a further precondition (e.g. "and
+    this record also has Y") **conditional/skippable** when that precondition
+    doesn't hold this cycle — log a `skip …` line (existing idiom in
+    `site_smoke.js`) rather than hard-failing the whole suite over a data
+    coincidence.
+  - When a CI job fails intermittently and the code hasn't changed, suspect
+    the **live data content** before suspecting a race or flake in the test
+    harness itself — especially in this project, where `public/data/*.json`
+    is rewritten by a cron job three times a day and several tests already
+    read it directly.
+  - Reproduction recipe that worked well here: get the failing run's
+    `head_sha` from the GitHub Actions run/job JSON
+    (`api.github.com/repos/<owner>/<repo>/actions/runs/<id>/jobs`, works
+    **without auth** for a public repo even though the log *viewer* itself
+    requires sign-in), check that exact commit out into a worktree, and
+    re-run the suite locally against the data as committed at that point.
+  - **Reusable beyond this project:** any test suite that derives its own test
+    fixture from a live/mutable data source (not a frozen fixture file) needs
+    every assertion chained off that fixture to declare and check its own
+    preconditions, or it will eventually fail on a true-but-unhelpful "the
+    world changed" report instead of a stable pass/fail signal.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

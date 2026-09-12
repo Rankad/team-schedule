@@ -438,7 +438,7 @@
       "יובל בר לב"
     ],
     "display_name": "ילדים ב מערב",
-    "sample_note": null,
+    "sample_note": "במקום 16:15 חד פעמי",
     "sport": "basketball",
     "team_id": "T_049",
     "tier": null
@@ -592,7 +592,7 @@
       "יהלי שגב"
     ],
     "display_name": "ילדים ב מזרח",
-    "sample_note": null,
+    "sample_note": "במקום יום חמישי 19:30 חד פעמי",
     "sport": "basketball",
     "team_id": "T_063",
     "tier": null
@@ -603,7 +603,7 @@
       "נתי כהן"
     ],
     "display_name": "נערים ט מזרח",
-    "sample_note": null,
+    "sample_note": "משותף עם נערים ט שקד",
     "sport": "basketball",
     "team_id": "T_064",
     "tier": null
@@ -614,7 +614,7 @@
       "אילן היימן"
     ],
     "display_name": "נערים ט שקד",
-    "sample_note": null,
+    "sample_note": "משותף עם נערים ט מזרח",
     "sport": "basketball",
     "team_id": "T_065",
     "tier": null
@@ -1040,5 +1040,16 @@
     "sport": "basketball",
     "team_id": "T_110",
     "tier": "לאומית"
+  },
+  {
+    "category": null,
+    "coaches": [
+      "צוות חינוך לפסגות"
+    ],
+    "display_name": "חינוך לפסגות",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_111",
+    "tier": null
   }
 ]

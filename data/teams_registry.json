@@ -878,5 +878,13 @@
     "tier": "לאומית",
     "sport": "basketball",
     "first_seen": "2026-09-17"
+  },
+  "T_111": {
+    "normalized_name": "חינוך לפסגות",
+    "display_name": "חינוך לפסגות",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-13"
   }
 }

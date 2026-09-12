@@ -1,1219 +1,30 @@
 {
   "changes": [
     {
-      "kind": "time_changed",
+      "kind": "location_changed",
       "new": {
-        "end": "2026-09-06T18:00:00+03:00",
-        "start": "2026-09-06T16:30:00+03:00"
+        "location": "מגרש פתוח גן נר ותיקה"
       },
       "old": {
-        "end": "2026-09-06T17:30:00+03:00",
-        "start": "2026-09-06T16:00:00+03:00"
+        "location": "גן נר"
       },
-      "session_id": "4re86sev0e62go6jntgsrqgtb9",
-      "team_id": "T_094",
+      "session_id": "5u9c30e62tjhjhruo1puvnqo7r",
+      "team_id": "T_062",
       "week_key": "2026-09-06"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-15T16:30:00+03:00",
-        "start": "2026-09-15T15:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T16:30:00+03:00",
-        "start": "2026-09-08T15:30:00+03:00"
-      },
-      "session_id": "025dbbscb8pum1c2tgi8i4m1kt",
-      "team_id": "T_093",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T20:00:00+03:00",
-        "start": "2026-09-16T18:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T20:00:00+03:00",
-        "start": "2026-09-09T18:30:00+03:00"
-      },
-      "session_id": "03pjjcrtileil32bnu4iug9tsd",
-      "team_id": "T_033",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T22:00:00+03:00",
-        "start": "2026-09-14T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T22:00:00+03:00",
-        "start": "2026-09-07T20:30:00+03:00"
-      },
-      "session_id": "05qca4cujh4srui8vatu63udt4",
-      "team_id": "T_035",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-14T20:30:00+03:00",
-        "location": "גן נר",
-        "start": "2026-09-14T16:30:00+03:00",
-        "team_id": "T_042"
-      },
-      "old": null,
-      "session_id": "097o1slvjmjuuv2n9187rrgfv1",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-17T17:00:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-17T15:00:00+03:00",
-        "team_id": "T_110"
-      },
-      "old": null,
-      "session_id": "0bir81in878hc7n6aieuv808ae",
-      "team_id": "T_110",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-18T16:00:00+03:00",
-        "start": "2026-09-18T12:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-11T14:00:00+03:00",
-        "start": "2026-09-11T10:00:00+03:00"
-      },
-      "session_id": "0g7c0tfnh2h2sokgnb3i7ck3g6",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T20:30:00+03:00",
-        "start": "2026-09-15T19:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T20:30:00+03:00",
-        "start": "2026-09-08T19:00:00+03:00"
-      },
-      "session_id": "0jngl27kouun57gomc7kjcdb7l",
-      "team_id": "T_064",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T22:00:00+03:00",
-        "start": "2026-09-14T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T22:00:00+03:00",
-        "start": "2026-09-07T20:30:00+03:00"
-      },
-      "session_id": "0l5lndf3dsbrcnmrvu7lh3tevp",
-      "team_id": "T_076",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-13T22:30:00+03:00",
-        "start": "2026-09-13T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-05T22:30:00+03:00",
-        "start": "2026-09-05T20:30:00+03:00"
-      },
-      "session_id": "0lojh79mnavjp6rj94v2cndril",
-      "team_id": "T_031",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:45:00+03:00",
-        "start": "2026-09-14T16:15:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:45:00+03:00",
-        "start": "2026-09-07T16:15:00+03:00"
-      },
-      "session_id": "0n5avbgcofeupf8p4k4a5agdvq",
-      "team_id": "T_049",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T19:30:00+03:00",
-        "start": "2026-09-14T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T19:30:00+03:00",
-        "start": "2026-09-07T18:00:00+03:00"
-      },
-      "session_id": "0oquc8n050e6erfqv7snbp88g3",
-      "team_id": "T_060",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T18:15:00+03:00",
-        "start": "2026-09-17T17:15:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T18:15:00+03:00",
-        "start": "2026-09-10T17:15:00+03:00"
-      },
-      "session_id": "0tn9un8g51gd9n3gh5gn4gms8a",
-      "team_id": "T_054",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:00:00+03:00",
-        "start": "2026-09-17T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T19:00:00+03:00",
-        "start": "2026-09-10T17:30:00+03:00"
-      },
-      "session_id": "12s398nc0eajgj6b9k86496thn",
-      "team_id": "T_055",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-15T09:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-15T08:30:00+03:00",
-        "team_id": "T_109"
-      },
-      "old": null,
-      "session_id": "14ncsb4uno2glc099hl2611ac5",
-      "team_id": "T_109",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T19:00:00+03:00",
-        "start": "2026-09-14T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T19:00:00+03:00",
-        "start": "2026-09-07T17:30:00+03:00"
-      },
-      "session_id": "153naoj9okoprv2e56v34d9l57",
-      "team_id": "T_019",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-13T22:30:00+03:00",
-        "location": "אחווה נעורה",
-        "start": "2026-09-13T21:00:00+03:00",
-        "team_id": "T_039"
-      },
-      "old": null,
-      "session_id": "16j8ssh3mbf1p0mkldbtdrk2l3",
-      "team_id": "T_039",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-13T22:30:00+03:00",
-        "location": "גן נר",
-        "start": "2026-09-13T20:30:00+03:00",
-        "team_id": "T_043"
-      },
-      "old": null,
-      "session_id": "19ti7ngce3roqa6ipop13id8bc",
-      "team_id": "T_043",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T12:00:00+03:00",
-        "start": "2026-09-14T10:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T19:00:00+03:00",
-        "start": "2026-09-07T15:00:00+03:00"
-      },
-      "session_id": "1acn8bdgj45se9i15te0ao5isi",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T18:30:00+03:00",
-        "start": "2026-09-15T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T18:30:00+03:00",
-        "start": "2026-09-08T17:00:00+03:00"
-      },
-      "session_id": "1dapkv3v9toobar6bjl5p9k4p5",
-      "team_id": "T_056",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-18T10:40:00+03:00",
-        "start": "2026-09-18T09:10:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-11T10:40:00+03:00",
-        "start": "2026-09-11T09:10:00+03:00"
-      },
-      "session_id": "1e3eifmc4r133n48gr6e0ci4am",
-      "team_id": "T_105",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T18:30:00+03:00",
-        "start": "2026-09-15T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T18:30:00+03:00",
-        "start": "2026-09-08T17:00:00+03:00"
-      },
-      "session_id": "1ebghl6fb3qhtndt46f30313bk",
-      "team_id": "T_055",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T20:00:00+03:00",
-        "start": "2026-09-17T18:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T20:00:00+03:00",
-        "start": "2026-09-10T18:30:00+03:00"
-      },
-      "session_id": "1huf82pi7i71i501d5pcu9ve15",
-      "team_id": "T_033",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "מולדת"
-      },
-      "old": {
-        "location": "רמת צבי"
-      },
-      "session_id": "1keteehth19nvke5hu5bubl4mi",
-      "team_id": "T_094",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T18:30:00+03:00",
-        "start": "2026-09-17T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "start": "2026-09-10T16:00:00+03:00"
-      },
-      "session_id": "1keteehth19nvke5hu5bubl4mi",
-      "team_id": "T_094",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "מסילות"
-      },
-      "old": {
-        "location": "מגרש מקורה בית השיטה"
-      },
-      "session_id": "1p4vavqp9h0r3odu36u2cdts57",
-      "team_id": "T_006",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:00:00+03:00",
-        "start": "2026-09-16T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T16:00:00+03:00"
-      },
-      "session_id": "1p4vavqp9h0r3odu36u2cdts57",
-      "team_id": "T_006",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "אחווה נעורה"
-      },
-      "old": {
-        "location": "עין חרוד"
-      },
-      "session_id": "1pl3n97m8feh5fmasckc925hd6",
-      "team_id": "T_005",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T18:00:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
         "end": "2026-09-07T20:00:00+03:00",
-        "start": "2026-09-07T18:00:00+03:00"
-      },
-      "session_id": "1pl3n97m8feh5fmasckc925hd6",
-      "team_id": "T_005",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T20:30:00+03:00",
-        "start": "2026-09-16T18:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T20:30:00+03:00",
-        "start": "2026-09-09T18:30:00+03:00"
-      },
-      "session_id": "1rfu4mcp2l010p03vc486j8v5p",
-      "team_id": "T_031",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T19:30:00+03:00",
-        "start": "2026-09-15T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T19:30:00+03:00",
-        "start": "2026-09-08T18:00:00+03:00"
-      },
-      "session_id": "1v0sca4oa2jb4j0okdf1s1a0ig",
-      "team_id": "T_049",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T20:30:00+03:00",
-        "start": "2026-09-14T19:00:00+03:00"
+        "start": "2026-09-07T18:30:00+03:00"
       },
       "old": {
         "end": "2026-09-07T20:30:00+03:00",
         "start": "2026-09-07T19:00:00+03:00"
       },
-      "session_id": "20nsc26fc3jf0p7b85473gh2ak",
-      "team_id": "T_040",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T22:00:00+03:00",
-        "start": "2026-09-15T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T22:00:00+03:00",
-        "start": "2026-09-08T20:30:00+03:00"
-      },
-      "session_id": "2138uicjsov8v9rbcq04jfn48k",
-      "team_id": "T_040",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T17:30:00+03:00",
-        "start": "2026-09-16T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T16:00:00+03:00"
-      },
-      "session_id": "21ag76ok3qo5kjijalrg4e32qi",
-      "team_id": "T_008",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T19:30:00+03:00",
-        "start": "2026-09-16T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T19:30:00+03:00",
-        "start": "2026-09-09T18:00:00+03:00"
-      },
-      "session_id": "22blndtciihio6aso5etif5707",
-      "team_id": "T_087",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T18:30:00+03:00",
-        "start": "2026-09-15T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T18:30:00+03:00",
-        "start": "2026-09-08T17:00:00+03:00"
-      },
-      "session_id": "244vntu2c0r6njst2dfm9dc0ns",
-      "team_id": "T_019",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:30:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:30:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "2495am8d3oilf1s8tfsbiuuhoo",
-      "team_id": "T_050",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T21:00:00+03:00",
-        "start": "2026-09-17T19:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T21:00:00+03:00",
-        "start": "2026-09-10T19:30:00+03:00"
-      },
-      "session_id": "24oab5oqvm86mfjrasct7bf225",
-      "team_id": "T_063",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T17:30:00+03:00",
-        "start": "2026-09-16T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T16:00:00+03:00"
-      },
-      "session_id": "28j8rbomd98ekktjjen0108sla",
-      "team_id": "T_007",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T19:00:00+03:00",
-        "start": "2026-09-16T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T19:00:00+03:00",
-        "start": "2026-09-09T17:30:00+03:00"
-      },
-      "session_id": "29c6o2tulkn59plago0sar25iq",
-      "team_id": "T_023",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T17:30:00+03:00",
-        "start": "2026-09-17T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "start": "2026-09-10T16:00:00+03:00"
-      },
-      "session_id": "2d5dfjrd9m4v63lm44q2m6491v",
-      "team_id": "T_050",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T16:30:00+03:00",
-        "start": "2026-09-14T15:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T16:30:00+03:00",
-        "start": "2026-09-07T15:00:00+03:00"
-      },
-      "session_id": "2e0al5r34958cq4grv6rhile33",
-      "team_id": "T_034",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T17:00:00+03:00"
-      },
-      "session_id": "2fho2ds6udmv7k5lit8aoilv3q",
-      "team_id": "T_017",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T20:30:00+03:00",
-        "start": "2026-09-14T18:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T18:30:00+03:00",
-        "start": "2026-09-08T16:30:00+03:00"
-      },
-      "session_id": "2jn396d118kveh354m3e792a64",
-      "team_id": "T_038",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T10:30:00+03:00",
-        "start": "2026-09-17T08:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T10:30:00+03:00",
-        "start": "2026-09-10T08:30:00+03:00"
-      },
-      "session_id": "2mrn42gfmn8jk6590n4gmaj50d",
-      "team_id": "T_043",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:00:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:00:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "2stnsnso8ov3c7l4h1hrej15s0",
-      "team_id": "T_016",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:00:00+03:00",
-        "start": "2026-09-17T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T19:00:00+03:00",
-        "start": "2026-09-10T17:30:00+03:00"
-      },
-      "session_id": "2t19j6h3lqdicqr9odcim5a30j",
-      "team_id": "T_024",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T18:30:00+03:00",
-        "start": "2026-09-14T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T18:30:00+03:00",
-        "start": "2026-09-07T17:00:00+03:00"
-      },
-      "session_id": "2vvrpd0vg4istfcjj14m3rqjk0",
-      "team_id": "T_087",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:00:00+03:00",
-        "start": "2026-09-17T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T19:00:00+03:00",
-        "start": "2026-09-10T17:30:00+03:00"
-      },
-      "session_id": "32a79v2k97j98lirnv6rnfokbd",
-      "team_id": "T_056",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T14:30:00+03:00",
-        "start": "2026-09-17T13:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T14:30:00+03:00",
-        "start": "2026-09-10T13:30:00+03:00"
-      },
-      "session_id": "36ketjaakisc1qmphff8s37qv3",
-      "team_id": "T_044",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T21:00:00+03:00",
-        "start": "2026-09-16T19:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T21:00:00+03:00",
-        "start": "2026-09-09T19:30:00+03:00"
-      },
-      "session_id": "37rh8h5eg492du9d07bv3t5hg0",
-      "team_id": "T_037",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T17:00:00+03:00",
-        "start": "2026-09-15T15:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T17:00:00+03:00",
-        "start": "2026-09-08T15:30:00+03:00"
-      },
-      "session_id": "39mi71tsbqupmfel7kvp10k9km",
-      "team_id": "T_051",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T20:00:00+03:00",
-        "start": "2026-09-15T18:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T20:00:00+03:00",
-        "start": "2026-09-08T18:30:00+03:00"
-      },
-      "session_id": "3cf7hb648sfar6dlb38l11sv8h",
-      "team_id": "T_065",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T18:30:00+03:00",
-        "start": "2026-09-14T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-06T18:30:00+03:00",
-        "start": "2026-09-06T16:30:00+03:00"
-      },
-      "session_id": "3gmrvuivp4j77rsncooqv6qitt",
-      "team_id": "T_031",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-19T12:00:00+03:00",
-        "location": "גן נר",
-        "start": "2026-09-19T10:00:00+03:00",
-        "team_id": "T_042"
-      },
-      "old": null,
-      "session_id": "3jj0k4ade2oupg3736u8c7snn9",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T20:30:00+03:00",
-        "start": "2026-09-17T19:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T20:00:00+03:00",
-        "start": "2026-09-10T18:30:00+03:00"
-      },
-      "session_id": "3klgfk3kna4d83l58mrtfdtidp",
-      "team_id": "T_061",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:45:00+03:00",
-        "start": "2026-09-16T17:45:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:45:00+03:00",
-        "start": "2026-09-09T17:45:00+03:00"
-      },
-      "session_id": "3kma6pkrukbel585mqf812imuh",
-      "team_id": "T_102",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T17:30:00+03:00",
-        "start": "2026-09-16T15:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T15:30:00+03:00"
-      },
-      "session_id": "3lsjf70nnkn3m9q08hfstrtbrg",
-      "team_id": "T_005",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T16:00:00+03:00",
-        "start": "2026-09-17T14:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T16:00:00+03:00",
-        "start": "2026-09-10T14:30:00+03:00"
-      },
-      "session_id": "3mfqrtv7ohu60059s1j41qeqhs",
-      "team_id": "T_045",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T16:10:00+03:00",
-        "start": "2026-09-14T14:40:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T16:10:00+03:00",
-        "start": "2026-09-07T14:40:00+03:00"
-      },
-      "session_id": "3qoiouc5pgv7u7f5cqgmi9olj4",
-      "team_id": "T_078",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:30:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:30:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "3rq6u8t99ugnogv6c2q5u7lvqu",
-      "team_id": "T_011",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-15T20:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-15T18:30:00+03:00",
-        "team_id": "T_038"
-      },
-      "old": null,
-      "session_id": "3t3ii88a9v7n6v20srav8koj5n",
-      "team_id": "T_038",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:00:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:00:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "3tqiluacu2a4dnk7mqm3fc70ii",
-      "team_id": "T_080",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T16:30:00+03:00",
-        "start": "2026-09-15T15:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T16:30:00+03:00",
-        "start": "2026-09-08T15:00:00+03:00"
-      },
-      "session_id": "3v4t8dcn8515ipi353v8i6qc4g",
-      "team_id": "T_018",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T17:30:00+03:00"
-      },
-      "session_id": "40sqhsrfqnpnf0tpddnbvglv7v",
-      "team_id": "T_084",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T20:00:00+03:00",
-        "start": "2026-09-14T18:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T20:00:00+03:00",
-        "start": "2026-09-07T18:30:00+03:00"
-      },
-      "session_id": "456r2ucn3bmg95a57ha7u87kgv",
-      "team_id": "T_007",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:00:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:00:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "46bc9pqlju1oed2kmkq97mnaqd",
-      "team_id": "T_081",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T17:30:00+03:00",
-        "start": "2026-09-15T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T17:30:00+03:00",
-        "start": "2026-09-08T16:30:00+03:00"
-      },
-      "session_id": "47aeku6mbmq7r9n6l3b266sl25",
-      "team_id": "T_095",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T16:30:00+03:00",
-        "start": "2026-09-15T15:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T16:30:00+03:00",
-        "start": "2026-09-08T15:00:00+03:00"
-      },
-      "session_id": "4h7gfmoegqf49mvvlatsqln6h2",
-      "team_id": "T_092",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-19T22:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-19T20:30:00+03:00",
-        "team_id": "T_031"
-      },
-      "old": null,
-      "session_id": "4hd70hb863ffjojgl4heqn22l0",
-      "team_id": "T_031",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T18:00:00+03:00",
-        "start": "2026-09-15T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T18:00:00+03:00",
-        "start": "2026-09-08T16:30:00+03:00"
-      },
-      "session_id": "4l6ku0cpbaljbhhhkr974titnj",
-      "team_id": "T_010",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T21:30:00+03:00",
-        "start": "2026-09-15T19:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T21:00:00+03:00",
-        "start": "2026-09-08T19:00:00+03:00"
-      },
-      "session_id": "4nhocg76kid0afk4qed8cr6vqd",
-      "team_id": "T_005",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T22:30:00+03:00",
-        "start": "2026-09-14T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T22:30:00+03:00",
-        "start": "2026-09-08T20:30:00+03:00"
-      },
-      "session_id": "4rqnbc8nqiv35sac1idrec5rbg",
-      "team_id": "T_039",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T14:45:00+03:00",
-        "start": "2026-09-16T13:45:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T14:45:00+03:00",
-        "start": "2026-09-09T13:45:00+03:00"
-      },
-      "session_id": "4rsiq8sogqoafu9d657k1dr4a6",
-      "team_id": "T_001",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-18T09:10:00+03:00",
-        "start": "2026-09-18T08:10:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-11T09:10:00+03:00",
-        "start": "2026-09-11T08:10:00+03:00"
-      },
-      "session_id": "4srgc7bpe2li1ma1j8aseuta1c",
-      "team_id": "T_104",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T16:10:00+03:00",
-        "start": "2026-09-16T14:40:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T16:10:00+03:00",
-        "start": "2026-09-09T14:40:00+03:00"
-      },
-      "session_id": "4t692g2pdotb7ddsbnnli4p1u6",
-      "team_id": "T_078",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T22:30:00+03:00",
-        "start": "2026-09-15T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T14:00:00+03:00",
-        "start": "2026-09-08T12:00:00+03:00"
-      },
-      "session_id": "4t6tb9f6bbnat4dnf73psi886m",
-      "team_id": "T_031",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "גן נר"
-      },
-      "old": {
-        "location": "עין חרוד"
-      },
-      "session_id": "4tpgpfk281pbgf11hna50urtk9",
-      "team_id": "T_038",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T22:30:00+03:00",
-        "start": "2026-09-09T20:30:00+03:00"
-      },
-      "session_id": "4tpgpfk281pbgf11hna50urtk9",
-      "team_id": "T_038",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-13T20:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-13T19:00:00+03:00",
-        "team_id": "T_009"
-      },
-      "old": null,
-      "session_id": "4upboc9hpv0mbf3hnuf74fdtod",
-      "team_id": "T_009",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T21:30:00+03:00",
-        "start": "2026-09-14T20:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T21:30:00+03:00",
-        "start": "2026-09-07T20:00:00+03:00"
-      },
-      "session_id": "4v9fj5k70lipeks3sa24ei3970",
-      "team_id": "T_037",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T21:30:00+03:00",
-        "start": "2026-09-16T19:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T19:30:00+03:00",
-        "start": "2026-09-09T17:30:00+03:00"
-      },
-      "session_id": "50q1tvn40o6apvepmjlf5ap81b",
-      "team_id": "T_036",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:30:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:30:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "50tb3hoqfubvnsr6pqhpf4dsq4",
-      "team_id": "T_051",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T15:40:00+03:00",
-        "start": "2026-09-17T14:40:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T15:40:00+03:00",
-        "start": "2026-09-10T14:40:00+03:00"
-      },
-      "session_id": "52csc3i5042463r41rf8sim92u",
-      "team_id": "T_046",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:00:00+03:00",
-        "start": "2026-09-17T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T19:00:00+03:00",
-        "start": "2026-09-10T17:00:00+03:00"
-      },
-      "session_id": "52fece6lo9en463jhf56m5u4qi",
-      "team_id": "T_038",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T20:00:00+03:00",
-        "start": "2026-09-14T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T20:00:00+03:00",
-        "start": "2026-09-07T18:00:00+03:00"
-      },
-      "session_id": "52sb26276n3tffcog7btlbj5qk",
-      "team_id": "T_036",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T21:00:00+03:00",
-        "start": "2026-09-17T19:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T21:00:00+03:00",
-        "start": "2026-09-10T19:30:00+03:00"
-      },
-      "session_id": "571h2sti23c6e7g96mlbsh4o0m",
-      "team_id": "T_064",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:45:00+03:00",
-        "start": "2026-09-17T18:15:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T19:45:00+03:00",
-        "start": "2026-09-10T18:15:00+03:00"
-      },
-      "session_id": "57rb6skhfv7v4ic10ctlksgtlr",
-      "team_id": "T_060",
-      "week_key": "2026-09-13"
+      "session_id": "5u9c30e62tjhjhruo1puvnqo7r",
+      "team_id": "T_062",
+      "week_key": "2026-09-06"
     },
     {
       "kind": "time_changed",
@@ -1225,146 +36,34 @@
         "end": "2026-09-10T19:30:00+03:00",
         "start": "2026-09-10T18:00:00+03:00"
       },
-      "session_id": "5bki8m0b9vt8h757cdcmtgrjbo",
-      "team_id": "T_036",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T20:30:00+03:00",
-        "start": "2026-09-14T19:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T20:30:00+03:00",
-        "start": "2026-09-07T19:00:00+03:00"
-      },
-      "session_id": "5d9f9e5mg151k5r0n3mq2sdckd",
-      "team_id": "T_063",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T17:30:00+03:00",
-        "start": "2026-09-17T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "start": "2026-09-10T16:00:00+03:00"
-      },
-      "session_id": "5do8avlumsmfsu9bplkqbn3lr2",
-      "team_id": "T_015",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T19:30:00+03:00",
-        "start": "2026-09-16T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T19:30:00+03:00",
-        "start": "2026-09-09T18:00:00+03:00"
-      },
-      "session_id": "5e93qb4f1em4303f31hhpm0f9p",
-      "team_id": "T_030",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T23:00:00+03:00",
-        "start": "2026-09-16T21:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T23:00:00+03:00",
-        "start": "2026-09-09T21:00:00+03:00"
-      },
-      "session_id": "5jn69ao2g6n18j4oktv4ao6uc8",
-      "team_id": "T_041",
+      "session_id": "08kakslh0khgf2jpjkp4kjcc3j",
+      "team_id": "T_057",
       "week_key": "2026-09-13"
     },
     {
       "kind": "location_changed",
       "new": {
-        "location": "עין חרוד"
+        "location": "ביכורה"
       },
       "old": {
-        "location": "גן נר"
+        "location": "ניר דוד"
       },
-      "session_id": "5ju39b1t7vkp5taskbpqhaj9kd",
-      "team_id": "T_039",
+      "session_id": "0jngl27kouun57gomc7kjcdb7l",
+      "team_id": "T_064",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-16T22:30:00+03:00",
-        "start": "2026-09-16T20:30:00+03:00"
+        "end": "2026-09-15T20:00:00+03:00",
+        "start": "2026-09-15T18:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T16:30:00+03:00"
+        "end": "2026-09-15T20:30:00+03:00",
+        "start": "2026-09-15T19:00:00+03:00"
       },
-      "session_id": "5ju39b1t7vkp5taskbpqhaj9kd",
-      "team_id": "T_039",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T22:30:00+03:00",
-        "start": "2026-09-14T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T22:30:00+03:00",
-        "start": "2026-09-07T20:30:00+03:00"
-      },
-      "session_id": "5ni5jd6000mr1j3nl46hsbaqh3",
-      "team_id": "T_043",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:30:00+03:00",
-        "start": "2026-09-14T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:30:00+03:00",
-        "start": "2026-09-07T16:30:00+03:00"
-      },
-      "session_id": "5nlu362hprlingknget9r4a33j",
-      "team_id": "T_085",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T17:30:00+03:00",
-        "start": "2026-09-16T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T16:00:00+03:00"
-      },
-      "session_id": "5nu7hn6o45snta40cakfhilgb5",
-      "team_id": "T_011",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T17:30:00+03:00"
-      },
-      "session_id": "5q7l2rlelstpjgfoabuqqa28ja",
-      "team_id": "T_020",
+      "session_id": "0jngl27kouun57gomc7kjcdb7l",
+      "team_id": "T_064",
       "week_key": "2026-09-13"
     },
     {
@@ -1374,11 +73,161 @@
         "start": "2026-09-17T20:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-10T22:00:00+03:00",
-        "start": "2026-09-10T20:30:00+03:00"
+        "end": "2026-09-14T22:00:00+03:00",
+        "start": "2026-09-14T20:30:00+03:00"
       },
-      "session_id": "5qson7ofssb3g9do75hj1stmnv",
-      "team_id": "T_065",
+      "session_id": "0l5lndf3dsbrcnmrvu7lh3tevp",
+      "team_id": "T_076",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-16T09:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-16T07:00:00+03:00",
+        "team_id": "T_111"
+      },
+      "old": null,
+      "session_id": "0mc20lm7ecj139rsf8o6550eq9",
+      "team_id": "T_111",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-14T20:45:00+03:00",
+        "start": "2026-09-14T19:15:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-14T17:45:00+03:00",
+        "start": "2026-09-14T16:15:00+03:00"
+      },
+      "session_id": "0n5avbgcofeupf8p4k4a5agdvq",
+      "team_id": "T_049",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T21:30:00+03:00",
+        "start": "2026-09-17T19:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-06T18:00:00+03:00",
+        "start": "2026-09-06T16:00:00+03:00"
+      },
+      "session_id": "0o6rh086k4b4r1hafikh1sfh8q",
+      "team_id": "T_005",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "location_changed",
+      "new": {
+        "location": "גן נר"
+      },
+      "old": {
+        "location": "מגרש פתוח גן נר ותיקה"
+      },
+      "session_id": "11k96tjad8jkhtlhdj2nu54oka",
+      "team_id": "T_062",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-15T22:00:00+03:00",
+        "start": "2026-09-15T20:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-08T20:00:00+03:00",
+        "start": "2026-09-08T18:30:00+03:00"
+      },
+      "session_id": "11k96tjad8jkhtlhdj2nu54oka",
+      "team_id": "T_062",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-15T09:30:00+03:00",
+        "start": "2026-09-15T07:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-15T09:30:00+03:00",
+        "start": "2026-09-15T08:30:00+03:00"
+      },
+      "session_id": "14ncsb4uno2glc099hl2611ac5",
+      "team_id": "T_109",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-16T22:00:00+03:00",
+        "start": "2026-09-16T20:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-09T22:30:00+03:00",
+        "start": "2026-09-09T20:30:00+03:00"
+      },
+      "session_id": "1c54ibrlhcnk5soo8925af4e86",
+      "team_id": "T_059",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T20:30:00+03:00",
+        "start": "2026-09-17T19:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-11T13:00:00+03:00",
+        "start": "2026-09-11T11:00:00+03:00"
+      },
+      "session_id": "1dg9uk19h2ukmt1c43m5js49lg",
+      "team_id": "T_029",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-13T09:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-13T07:00:00+03:00",
+        "team_id": "T_111"
+      },
+      "old": null,
+      "session_id": "1dhdnavb5mjscbijdadgflspss",
+      "team_id": "T_111",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T20:30:00+03:00",
+        "start": "2026-09-17T19:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-17T20:00:00+03:00",
+        "start": "2026-09-17T18:30:00+03:00"
+      },
+      "session_id": "1huf82pi7i71i501d5pcu9ve15",
+      "team_id": "T_033",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T21:00:00+03:00",
+        "start": "2026-09-17T19:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-10T21:00:00+03:00",
+        "start": "2026-09-10T19:30:00+03:00"
+      },
+      "session_id": "1j0q32cbm9p0et1tqs1me083r7",
+      "team_id": "T_062",
       "week_key": "2026-09-13"
     },
     {
@@ -1388,39 +237,38 @@
         "start": "2026-09-16T19:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-09T21:00:00+03:00",
-        "start": "2026-09-09T19:30:00+03:00"
+        "end": "2026-09-15T19:30:00+03:00",
+        "start": "2026-09-15T18:00:00+03:00"
       },
-      "session_id": "5r9164ehj809jtedcfdui45jr1",
-      "team_id": "T_010",
+      "session_id": "1v0sca4oa2jb4j0okdf1s1a0ig",
+      "team_id": "T_049",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-17T16:45:00+03:00",
-        "start": "2026-09-17T16:00:00+03:00"
+        "end": "2026-09-16T21:15:00+03:00",
+        "start": "2026-09-16T19:45:00+03:00"
       },
       "old": {
-        "end": "2026-09-10T16:45:00+03:00",
-        "start": "2026-09-10T16:00:00+03:00"
+        "end": "2026-09-17T21:00:00+03:00",
+        "start": "2026-09-17T19:30:00+03:00"
       },
-      "session_id": "5re0gs30lfp829mm7rnqcf7ko2",
-      "team_id": "T_103",
+      "session_id": "24oab5oqvm86mfjrasct7bf225",
+      "team_id": "T_063",
       "week_key": "2026-09-13"
     },
     {
-      "kind": "time_changed",
+      "kind": "added",
       "new": {
-        "end": "2026-09-14T19:00:00+03:00",
-        "start": "2026-09-14T17:30:00+03:00"
+        "end": "2026-09-18T13:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-18T11:30:00+03:00",
+        "team_id": "T_059"
       },
-      "old": {
-        "end": "2026-09-07T19:00:00+03:00",
-        "start": "2026-09-07T17:30:00+03:00"
-      },
-      "session_id": "5tlar3vmq6atcrshk0mb8e3iq2",
-      "team_id": "T_024",
+      "old": null,
+      "session_id": "2d059l3n1o5p3p7qtmgrnfec6o",
+      "team_id": "T_059",
       "week_key": "2026-09-13"
     },
     {
@@ -1433,22 +281,115 @@
         "end": "2026-09-07T18:30:00+03:00",
         "start": "2026-09-07T17:00:00+03:00"
       },
-      "session_id": "5u1dghdkj7plgdf3e37u17pnu9",
-      "team_id": "T_015",
+      "session_id": "2og5m96kqu9v60cll1i8qfmcp7",
+      "team_id": "T_057",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-16T16:30:00+03:00",
-        "start": "2026-09-16T15:00:00+03:00"
+        "end": "2026-09-16T20:30:00+03:00",
+        "start": "2026-09-16T18:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-09T16:30:00+03:00",
-        "start": "2026-09-09T15:00:00+03:00"
+        "end": "2026-09-09T20:30:00+03:00",
+        "start": "2026-09-09T18:30:00+03:00"
       },
-      "session_id": "5vsrpsvcnqf619lpvd2omf5flv",
-      "team_id": "T_018",
+      "session_id": "31138402dhv1ippq9obkjb5u3d",
+      "team_id": "T_029",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T22:00:00+03:00",
+        "start": "2026-09-17T20:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-10T21:00:00+03:00",
+        "start": "2026-09-10T19:00:00+03:00"
+      },
+      "session_id": "38sjm1d3qao6ddakj70orr4vg9",
+      "team_id": "T_059",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "location_changed",
+      "new": {
+        "location": "גן נר"
+      },
+      "old": {
+        "location": "מגרש פתוח גן נר ותיקה"
+      },
+      "session_id": "3fa0lfovpltv8ceq6qp2u2q48i",
+      "team_id": "T_057",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-15T20:30:00+03:00",
+        "start": "2026-09-15T19:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-08T18:30:00+03:00",
+        "start": "2026-09-08T17:00:00+03:00"
+      },
+      "session_id": "3fa0lfovpltv8ceq6qp2u2q48i",
+      "team_id": "T_057",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T17:30:00+03:00",
+        "start": "2026-09-17T16:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-10T17:30:00+03:00",
+        "start": "2026-09-10T16:00:00+03:00"
+      },
+      "session_id": "3pjjt5pncf49fb2alipjvf8bgr",
+      "team_id": "T_034",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-14T09:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-14T07:00:00+03:00",
+        "team_id": "T_111"
+      },
+      "old": null,
+      "session_id": "3u5hhdg9vnq2pmpss62g1tbtkv",
+      "team_id": "T_111",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-15T09:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-15T07:00:00+03:00",
+        "team_id": "T_111"
+      },
+      "old": null,
+      "session_id": "40h8qukvmdeeaka444njj6a2pv",
+      "team_id": "T_111",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-14T20:30:00+03:00",
+        "location": "ביכורה",
+        "start": "2026-09-14T18:30:00+03:00",
+        "team_id": "T_029"
+      },
+      "old": null,
+      "session_id": "4h5lmr38b4dhmp9omd8ai382sf",
+      "team_id": "T_029",
       "week_key": "2026-09-13"
     },
     {
@@ -1461,436 +402,114 @@
         "end": "2026-09-09T20:00:00+03:00",
         "start": "2026-09-09T18:30:00+03:00"
       },
-      "session_id": "62uoifgp9611m4jdt9ju3f8d49",
-      "team_id": "T_025",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-17T07:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-17T06:30:00+03:00",
-        "team_id": "T_109"
-      },
-      "old": null,
-      "session_id": "64pblndrua8b3qc7o8u520uo4c",
-      "team_id": "T_109",
+      "session_id": "4l8dvh1rnk3ef9dmm8h25v8c6k",
+      "team_id": "T_034",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-16T17:30:00+03:00",
-        "start": "2026-09-16T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T16:30:00+03:00"
-      },
-      "session_id": "6557mbr6a000t6tfh0jmi0givh",
-      "team_id": "T_014",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "גבע"
-      },
-      "old": {
-        "location": "אחווה נעורה"
-      },
-      "session_id": "67gfis42bdquvgc9apqnaa4rft",
-      "team_id": "T_061",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T20:30:00+03:00",
+        "end": "2026-09-15T21:00:00+03:00",
         "start": "2026-09-15T19:00:00+03:00"
       },
       "old": {
-        "end": "2026-09-08T19:00:00+03:00",
-        "start": "2026-09-08T17:30:00+03:00"
+        "end": "2026-09-15T21:30:00+03:00",
+        "start": "2026-09-15T19:30:00+03:00"
       },
-      "session_id": "67gfis42bdquvgc9apqnaa4rft",
-      "team_id": "T_061",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T17:45:00+03:00",
-        "start": "2026-09-17T16:45:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:45:00+03:00",
-        "start": "2026-09-10T16:45:00+03:00"
-      },
-      "session_id": "67ghdtf7ichjvg57v3ufkg388n",
-      "team_id": "T_053",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T17:30:00+03:00"
-      },
-      "session_id": "67gv39kff9mp0c1gqjdhc404b4",
-      "team_id": "T_022",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:15:00+03:00",
-        "start": "2026-09-14T16:15:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:15:00+03:00",
-        "start": "2026-09-07T16:15:00+03:00"
-      },
-      "session_id": "6829drndrl4s41rd827lejtpap",
-      "team_id": "T_084",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "גן נר"
-      },
-      "old": {
-        "location": "אחווה נעורה"
-      },
-      "session_id": "6ah505kufg3ot0e0s7edla3p3s",
-      "team_id": "T_039",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-19T22:30:00+03:00",
-        "start": "2026-09-19T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-19T20:30:00+03:00",
-        "start": "2026-09-19T18:30:00+03:00"
-      },
-      "session_id": "6ah505kufg3ot0e0s7edla3p3s",
-      "team_id": "T_039",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T16:30:00+03:00",
-        "start": "2026-09-16T15:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T16:30:00+03:00",
-        "start": "2026-09-09T15:00:00+03:00"
-      },
-      "session_id": "6bl7vpp6mdb8t4qf5lm7v17jof",
-      "team_id": "T_004",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T19:00:00+03:00",
-        "start": "2026-09-14T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T19:00:00+03:00",
-        "start": "2026-09-07T17:30:00+03:00"
-      },
-      "session_id": "6cpoijtb06ae44806f7dlctovi",
-      "team_id": "T_008",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T17:00:00+03:00"
-      },
-      "session_id": "6er5be6k3n6dl59vkl8op1eshj",
-      "team_id": "T_079",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T19:30:00+03:00",
-        "start": "2026-09-15T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-16T18:00:00+03:00",
-        "start": "2026-09-16T16:00:00+03:00"
-      },
-      "session_id": "6gi6q8vom3kvo7vmirkdnalta7",
-      "team_id": "T_009",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T17:30:00+03:00",
-        "start": "2026-09-17T15:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "start": "2026-09-10T15:30:00+03:00"
-      },
-      "session_id": "6gkc3brh2o8gtksp1tmvg37oqk",
-      "team_id": "T_032",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T17:30:00+03:00",
-        "start": "2026-09-16T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:30:00+03:00",
-        "start": "2026-09-09T16:30:00+03:00"
-      },
-      "session_id": "6mf7nndauv2rpfg9jbia95ull0",
-      "team_id": "T_100",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T22:00:00+03:00",
-        "start": "2026-09-16T20:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T22:00:00+03:00",
-        "start": "2026-09-09T20:30:00+03:00"
-      },
-      "session_id": "6n0unt1ue4rk55dtehavbpgj1e",
-      "team_id": "T_040",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-09-13T20:30:00+03:00",
-        "location": "גן נר",
-        "start": "2026-09-13T16:30:00+03:00",
-        "team_id": "T_042"
-      },
-      "old": null,
-      "session_id": "6ooqo6v2avkqae3u5phu7d7mph",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:30:00+03:00",
-        "start": "2026-09-16T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:30:00+03:00",
-        "start": "2026-09-09T17:00:00+03:00"
-      },
-      "session_id": "6ov8ua2nbk9tnautghg8rqhupt",
-      "team_id": "T_019",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T20:30:00+03:00",
-        "start": "2026-09-16T19:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T20:30:00+03:00",
-        "start": "2026-09-09T19:00:00+03:00"
-      },
-      "session_id": "6pdtbam3sg3dnqjl40asm6qda7",
-      "team_id": "T_035",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T17:30:00+03:00",
-        "start": "2026-09-15T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T17:30:00+03:00",
-        "start": "2026-09-08T16:30:00+03:00"
-      },
-      "session_id": "6q37cl49un5asfjto16thlet08",
-      "team_id": "T_096",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T19:30:00+03:00",
-        "start": "2026-09-15T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T19:30:00+03:00",
-        "start": "2026-09-08T18:00:00+03:00"
-      },
-      "session_id": "6qg3bclan4ba8uhrol312o2ge0",
-      "team_id": "T_072",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T17:30:00+03:00",
-        "start": "2026-09-17T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "start": "2026-09-10T16:00:00+03:00"
-      },
-      "session_id": "6rb0jut71fp8amt2motfae9l9c",
-      "team_id": "T_051",
+      "session_id": "4nhocg76kid0afk4qed8cr6vqd",
+      "team_id": "T_005",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
         "end": "2026-09-14T22:00:00+03:00",
+        "start": "2026-09-14T20:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-14T21:30:00+03:00",
         "start": "2026-09-14T20:00:00+03:00"
       },
-      "old": {
-        "end": "2026-09-07T22:00:00+03:00",
-        "start": "2026-09-07T20:00:00+03:00"
-      },
-      "session_id": "6rpt4j789e4balstq13tokf5gj",
-      "team_id": "T_032",
+      "session_id": "4v9fj5k70lipeks3sa24ei3970",
+      "team_id": "T_037",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-14T18:00:00+03:00",
-        "start": "2026-09-14T17:00:00+03:00"
+        "end": "2026-09-19T22:00:00+03:00",
+        "start": "2026-09-19T20:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-07T18:00:00+03:00",
-        "start": "2026-09-07T17:00:00+03:00"
+        "end": "2026-09-05T22:00:00+03:00",
+        "start": "2026-09-05T20:30:00+03:00"
       },
-      "session_id": "6vk3rjds20mbmvi64kues49ajo",
-      "team_id": "T_086",
+      "session_id": "5dpe6d193tq80htplhk3j764kc",
+      "team_id": "T_040",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-18T11:30:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-18T10:00:00+03:00",
+        "team_id": "T_029"
+      },
+      "old": null,
+      "session_id": "5o5s8m6o1p1smpmm1r04ertp01",
+      "team_id": "T_029",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "added",
+      "new": {
+        "end": "2026-09-17T09:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-17T07:00:00+03:00",
+        "team_id": "T_111"
+      },
+      "old": null,
+      "session_id": "5pkmorej1khdalkqfsag4murlg",
+      "team_id": "T_111",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "location_changed",
+      "new": {
+        "location": "ניר דוד"
+      },
+      "old": {
+        "location": "ביכורה"
+      },
+      "session_id": "5qson7ofssb3g9do75hj1stmnv",
+      "team_id": "T_065",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-16T19:30:00+03:00",
-        "start": "2026-09-16T18:00:00+03:00"
+        "end": "2026-09-17T21:00:00+03:00",
+        "start": "2026-09-17T19:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-09T19:30:00+03:00",
-        "start": "2026-09-09T18:00:00+03:00"
+        "end": "2026-09-17T22:00:00+03:00",
+        "start": "2026-09-17T20:30:00+03:00"
       },
-      "session_id": "707016m7h0ne5pe59k48ipa7ce",
-      "team_id": "T_074",
+      "session_id": "5qson7ofssb3g9do75hj1stmnv",
+      "team_id": "T_065",
       "week_key": "2026-09-13"
     },
     {
-      "kind": "time_changed",
+      "kind": "location_changed",
       "new": {
-        "end": "2026-09-16T14:30:00+03:00",
-        "start": "2026-09-16T10:30:00+03:00"
+        "location": "מגרש מקורה רם און"
       },
       "old": {
-        "end": "2026-09-09T13:00:00+03:00",
-        "start": "2026-09-09T10:00:00+03:00"
+        "location": "דדו"
       },
-      "session_id": "70kuihrtobn7lvnmk68kshad67",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T19:30:00+03:00",
-        "start": "2026-09-14T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T19:30:00+03:00",
-        "start": "2026-09-07T18:00:00+03:00"
-      },
-      "session_id": "73mdk8p7aai018066s7270del5",
-      "team_id": "T_006",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T18:30:00+03:00",
-        "start": "2026-09-14T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T18:30:00+03:00",
-        "start": "2026-09-07T17:30:00+03:00"
-      },
-      "session_id": "73tliou0ijbaun48vop82vt6d3",
-      "team_id": "T_089",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T14:00:00+03:00",
-        "start": "2026-09-17T10:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T14:00:00+03:00",
-        "start": "2026-09-08T10:00:00+03:00"
-      },
-      "session_id": "74otp2fe69tcfke7r3r91gqkhu",
-      "team_id": "T_042",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:00:00+03:00",
-        "start": "2026-09-17T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T21:30:00+03:00",
-        "start": "2026-09-10T20:00:00+03:00"
-      },
-      "session_id": "76v43425av6inphhri2rg6d6c1",
-      "team_id": "T_025",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T17:30:00+03:00",
-        "start": "2026-09-15T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T17:30:00+03:00",
-        "start": "2026-09-08T16:30:00+03:00"
-      },
-      "session_id": "77er016jjsr5mm4h34h793kvkv",
-      "team_id": "T_097",
+      "session_id": "5r9164ehj809jtedcfdui45jr1",
+      "team_id": "T_010",
       "week_key": "2026-09-13"
     },
     {
@@ -1900,193 +519,25 @@
         "start": "2026-09-16T17:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-09T19:00:00+03:00",
-        "start": "2026-09-09T17:30:00+03:00"
+        "end": "2026-09-16T21:00:00+03:00",
+        "start": "2026-09-16T19:30:00+03:00"
       },
-      "session_id": "78kbrb1kd2agkr8fijtqvm2co4",
-      "team_id": "T_024",
+      "session_id": "5r9164ehj809jtedcfdui45jr1",
+      "team_id": "T_010",
       "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-17T17:30:00+03:00",
-        "start": "2026-09-17T16:00:00+03:00"
+        "end": "2026-09-17T08:30:00+03:00",
+        "start": "2026-09-17T06:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "start": "2026-09-10T16:00:00+03:00"
+        "end": "2026-09-17T07:30:00+03:00",
+        "start": "2026-09-17T06:30:00+03:00"
       },
-      "session_id": "7aq7jkvsfqkq3rvjefrsfq9ppl",
-      "team_id": "T_049",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T18:45:00+03:00",
-        "start": "2026-09-14T17:45:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T18:45:00+03:00",
-        "start": "2026-09-07T17:45:00+03:00"
-      },
-      "session_id": "7b8nhb8ui07r1u22et2smjfc7l",
-      "team_id": "T_090",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T16:30:00+03:00",
-        "start": "2026-09-15T15:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T16:30:00+03:00",
-        "start": "2026-09-08T15:00:00+03:00"
-      },
-      "session_id": "7ck5eio23k7hlapi1c6g6c6116",
-      "team_id": "T_004",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T18:30:00+03:00",
-        "start": "2026-09-15T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T17:00:00+03:00",
-        "start": "2026-09-10T15:00:00+03:00"
-      },
-      "session_id": "7f2rfadt9u61hiiji90ufb7vc3",
-      "team_id": "T_039",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:00:00+03:00",
-        "start": "2026-09-16T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:00:00+03:00",
-        "start": "2026-09-09T17:00:00+03:00"
-      },
-      "session_id": "7ho2id0ohlv8ofidji1vtrk706",
-      "team_id": "T_101",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-17T19:00:00+03:00",
-        "start": "2026-09-17T18:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-10T19:00:00+03:00",
-        "start": "2026-09-10T18:00:00+03:00"
-      },
-      "session_id": "7l71rv73fqvovh75kq2q9e79i6",
-      "team_id": "T_058",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T19:30:00+03:00",
-        "start": "2026-09-16T17:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T21:30:00+03:00",
-        "start": "2026-09-09T19:30:00+03:00"
-      },
-      "session_id": "7lpjn0lkm6svihdlf6spfu96a5",
-      "team_id": "T_032",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T19:15:00+03:00",
-        "start": "2026-09-14T17:45:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T19:15:00+03:00",
-        "start": "2026-09-07T17:45:00+03:00"
-      },
-      "session_id": "7n1qddmc9d28ffo3khjpu2altt",
-      "team_id": "T_017",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T17:00:00+03:00",
-        "start": "2026-09-14T16:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T17:00:00+03:00",
-        "start": "2026-09-07T16:00:00+03:00"
-      },
-      "session_id": "7rhau3adktj5fra6ktt4tf6ieg",
-      "team_id": "T_082",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-14T18:30:00+03:00",
-        "start": "2026-09-14T17:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-07T18:30:00+03:00",
-        "start": "2026-09-07T17:00:00+03:00"
-      },
-      "session_id": "7s7phuvevcf6nmr8stdtafndoj",
-      "team_id": "T_079",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T17:00:00+03:00",
-        "start": "2026-09-16T16:15:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T17:00:00+03:00",
-        "start": "2026-09-09T16:15:00+03:00"
-      },
-      "session_id": "7sa09ruf5t1u14ja223utbq13r",
-      "team_id": "T_012",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-16T18:00:00+03:00",
-        "start": "2026-09-16T16:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-09T18:00:00+03:00",
-        "start": "2026-09-09T16:30:00+03:00"
-      },
-      "session_id": "7u5ctp3h3uv4v86h945val672e",
-      "team_id": "T_015",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-09-15T15:30:00+03:00",
-        "start": "2026-09-15T14:30:00+03:00"
-      },
-      "old": {
-        "end": "2026-09-08T15:30:00+03:00",
-        "start": "2026-09-08T14:30:00+03:00"
-      },
-      "session_id": "7vjbhmuf8p2od8thj7qifkb24c",
-      "team_id": "T_091",
+      "session_id": "64pblndrua8b3qc7o8u520uo4c",
+      "team_id": "T_109",
       "week_key": "2026-09-13"
     },
     {
@@ -2095,26 +546,82 @@
         "location": "אחווה נעורה"
       },
       "old": {
-        "location": "עין חרוד"
+        "location": "גבע"
       },
-      "session_id": "0aqt1k71rtu3v04moic890mcm4",
-      "team_id": "T_032",
-      "week_key": "2026-09-20"
+      "session_id": "67gfis42bdquvgc9apqnaa4rft",
+      "team_id": "T_061",
+      "week_key": "2026-09-13"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-09-22T19:30:00+03:00",
-        "start": "2026-09-22T17:30:00+03:00"
+        "end": "2026-09-15T19:00:00+03:00",
+        "start": "2026-09-15T17:30:00+03:00"
       },
       "old": {
-        "end": "2026-09-08T20:30:00+03:00",
-        "start": "2026-09-08T18:30:00+03:00"
+        "end": "2026-09-15T20:30:00+03:00",
+        "start": "2026-09-15T19:00:00+03:00"
       },
-      "session_id": "0aqt1k71rtu3v04moic890mcm4",
-      "team_id": "T_032",
-      "week_key": "2026-09-20"
+      "session_id": "67gfis42bdquvgc9apqnaa4rft",
+      "team_id": "T_061",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-15T19:00:00+03:00",
+        "start": "2026-09-15T17:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-15T19:30:00+03:00",
+        "start": "2026-09-15T17:30:00+03:00"
+      },
+      "session_id": "6gi6q8vom3kvo7vmirkdnalta7",
+      "team_id": "T_009",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-18T10:00:00+03:00",
+        "start": "2026-09-18T08:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-05T21:00:00+03:00",
+        "start": "2026-09-05T19:00:00+03:00"
+      },
+      "session_id": "6lt1lgfvgttrge5r032o92vtir",
+      "team_id": "T_009",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T19:00:00+03:00",
+        "start": "2026-09-17T17:30:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-17T17:30:00+03:00",
+        "start": "2026-09-17T16:00:00+03:00"
+      },
+      "session_id": "7aq7jkvsfqkq3rvjefrsfq9ppl",
+      "team_id": "T_049",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-09-17T20:30:00+03:00",
+        "start": "2026-09-17T19:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-09-10T20:30:00+03:00",
+        "start": "2026-09-10T19:00:00+03:00"
+      },
+      "session_id": "7ioq0hu58cbt8im8s4lcij01mu",
+      "team_id": "T_030",
+      "week_key": "2026-09-13"
     }
   ],
-  "generated_at": "2026-09-12T16:06:00Z"
+  "generated_at": "2026-09-12T19:02:56Z"
 }

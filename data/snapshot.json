@@ -2,36 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "ניר גוב/יובל בר לב",
-      "date": "2026-09-05",
-      "end": "2026-09-05T20:30:00+03:00",
-      "flags": null,
-      "id": "0satku2u8va5o3nv2nj7cfjbd2",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-05T18:30:00+03:00",
-      "team_id": "T_039",
-      "week_key": "2026-08-30",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "סהר טיבי",
-      "date": "2026-09-05",
-      "end": "2026-09-05T22:30:00+03:00",
-      "flags": null,
-      "id": "6u6u55c6f909o3b76cho0udk0t",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-05T20:30:00+03:00",
-      "team_id": "T_038",
-      "week_key": "2026-08-30",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
       "coach_text": "שרון אברהמי/גולן יבלונבסקי",
       "date": "2026-09-06",
       "end": "2026-09-06T14:00:00+03:00",
@@ -3828,5 +3798,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-09-12T19:02:56Z"
+  "generated_at": "2026-09-13T10:04:43Z"
 }

@@ -756,21 +756,6 @@
       "weekday": 1
     },
     {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-09-07",
-      "end": "2026-09-07T20:00:00+03:00",
-      "flags": null,
-      "id": "5u9c30e62tjhjhruo1puvnqo7r",
-      "location": "מגרש פתוח גן נר ותיקה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-07T18:30:00+03:00",
-      "team_id": "T_062",
-      "week_key": "2026-09-06",
-      "weekday": 1
-    },
-    {
       "activity_type": "game",
       "coach_text": null,
       "date": "2026-09-07",
@@ -1446,7 +1431,9 @@
       "flags": null,
       "id": "153naoj9okoprv2e56v34d9l57",
       "location": "מסילות",
-      "notes": null,
+      "notes": [
+        "ניר גוב מחליף"
+      ],
       "sport": "basketball",
       "start": "2026-09-14T17:30:00+03:00",
       "team_id": "T_019",
@@ -1604,6 +1591,21 @@
       "sport": "basketball",
       "start": "2026-09-14T18:30:00+03:00",
       "team_id": "T_038",
+      "week_key": "2026-09-13",
+      "weekday": 1
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "ברק וינריב",
+      "date": "2026-09-14",
+      "end": "2026-09-14T20:00:00+03:00",
+      "flags": null,
+      "id": "5u9c30e62tjhjhruo1puvnqo7r",
+      "location": "מגרש פתוח גן נר ותיקה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-14T18:30:00+03:00",
+      "team_id": "T_062",
       "week_key": "2026-09-13",
       "weekday": 1
     },
@@ -1817,7 +1819,8 @@
       "id": "7ck5eio23k7hlapi1c6g6c6116",
       "location": "עין חרוד",
       "notes": [
-        "חצי אולם"
+        "חצי אולם",
+        "יואב שנקמן מחליף"
       ],
       "sport": "basketball",
       "start": "2026-09-15T15:00:00+03:00",
@@ -1897,7 +1900,9 @@
       "flags": null,
       "id": "39mi71tsbqupmfel7kvp10k9km",
       "location": "ניר דוד",
-      "notes": null,
+      "notes": [
+        "רועי שביט מחליף"
+      ],
       "sport": "basketball",
       "start": "2026-09-15T15:30:00+03:00",
       "team_id": "T_051",
@@ -1927,7 +1932,9 @@
       "flags": null,
       "id": "4l6ku0cpbaljbhhhkr974titnj",
       "location": "דדו",
-      "notes": null,
+      "notes": [
+        "מחליף סהר טיבי"
+      ],
       "sport": "basketball",
       "start": "2026-09-15T16:30:00+03:00",
       "team_id": "T_010",
@@ -2002,7 +2009,9 @@
       "flags": null,
       "id": "244vntu2c0r6njst2dfm9dc0ns",
       "location": "ניר דוד",
-      "notes": null,
+      "notes": [
+        "רועי שביט מחליף"
+      ],
       "sport": "basketball",
       "start": "2026-09-15T17:00:00+03:00",
       "team_id": "T_019",
@@ -2302,7 +2311,8 @@
       "id": "6bl7vpp6mdb8t4qf5lm7v17jof",
       "location": "עין חרוד",
       "notes": [
-        "חצי אולם"
+        "חצי אולם",
+        "סהר טיבי מחליף"
       ],
       "sport": "basketball",
       "start": "2026-09-16T15:00:00+03:00",
@@ -2577,21 +2587,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "יוגב פרטי",
-      "date": "2026-09-16",
-      "end": "2026-09-16T18:30:00+03:00",
-      "flags": null,
-      "id": "6ov8ua2nbk9tnautghg8rqhupt",
-      "location": "חמדיה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-16T17:00:00+03:00",
-      "team_id": "T_019",
-      "week_key": "2026-09-13",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
       "coach_text": "טל גילת",
       "date": "2026-09-16",
       "end": "2026-09-16T18:30:00+03:00",
@@ -2619,21 +2614,6 @@
       "sport": "basketball",
       "start": "2026-09-16T17:00:00+03:00",
       "team_id": "T_101",
-      "week_key": "2026-09-13",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יובל בר לב",
-      "date": "2026-09-16",
-      "end": "2026-09-16T19:00:00+03:00",
-      "flags": null,
-      "id": "5r9164ehj809jtedcfdui45jr1",
-      "location": "מגרש מקורה רם און",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-16T17:30:00+03:00",
-      "team_id": "T_010",
       "week_key": "2026-09-13",
       "weekday": 3
     },
@@ -2699,21 +2679,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-09-16",
-      "end": "2026-09-16T19:30:00+03:00",
-      "flags": null,
-      "id": "7lpjn0lkm6svihdlf6spfu96a5",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-16T17:30:00+03:00",
-      "team_id": "T_032",
-      "week_key": "2026-09-13",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
       "coach_text": "עדן אוריה",
       "date": "2026-09-16",
       "end": "2026-09-16T18:30:00+03:00",
@@ -2744,6 +2709,23 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "יוגב פרטי",
+      "date": "2026-09-16",
+      "end": "2026-09-16T19:30:00+03:00",
+      "flags": null,
+      "id": "6ov8ua2nbk9tnautghg8rqhupt",
+      "location": "חמדיה",
+      "notes": [
+        "לירן וינקור מחליף"
+      ],
+      "sport": "basketball",
+      "start": "2026-09-16T18:00:00+03:00",
+      "team_id": "T_019",
+      "week_key": "2026-09-13",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "רועי שביט",
       "date": "2026-09-16",
       "end": "2026-09-16T19:30:00+03:00",
@@ -2754,6 +2736,21 @@
       "sport": "basketball",
       "start": "2026-09-16T18:00:00+03:00",
       "team_id": "T_030",
+      "week_key": "2026-09-13",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "עדי גלמן",
+      "date": "2026-09-16",
+      "end": "2026-09-16T19:30:00+03:00",
+      "flags": null,
+      "id": "7lpjn0lkm6svihdlf6spfu96a5",
+      "location": "אחווה נעורה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-16T18:00:00+03:00",
+      "team_id": "T_032",
       "week_key": "2026-09-13",
       "weekday": 3
     },
@@ -3166,6 +3163,24 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "יובל בר לב",
+      "date": "2026-09-17",
+      "end": "2026-09-17T17:30:00+03:00",
+      "flags": null,
+      "id": "5r9164ehj809jtedcfdui45jr1",
+      "location": "דדו",
+      "notes": [
+        "במקום יום ד",
+        "רועי שביט מחליף"
+      ],
+      "sport": "basketball",
+      "start": "2026-09-17T16:00:00+03:00",
+      "team_id": "T_010",
+      "week_key": "2026-09-13",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
       "coach_text": "עדי פירסטנברג",
       "date": "2026-09-17",
       "end": "2026-09-17T17:30:00+03:00",
@@ -3518,14 +3533,18 @@
       "weekday": 4
     },
     {
-      "activity_type": "training",
-      "coach_text": "עמית נרדע",
+      "activity_type": "game",
+      "coach_text": null,
       "date": "2026-09-17",
       "end": "2026-09-17T21:30:00+03:00",
       "flags": null,
       "id": "0o6rh086k4b4r1hafikh1sfh8q",
       "location": "אחווה נעורה",
-      "notes": null,
+      "notes": [
+        "משחק אימון",
+        "מתחיל ב 20:00",
+        "יריב: גליל תבור"
+      ],
       "sport": "basketball",
       "start": "2026-09-17T19:30:00+03:00",
       "team_id": "T_005",
@@ -3724,6 +3743,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "טל יזרעאלי",
+      "date": "2026-09-19",
+      "end": "2026-09-19T20:30:00+03:00",
+      "flags": null,
+      "id": "497isdf5el8rmlhhpn4qqn8rlh",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-19T19:00:00+03:00",
+      "team_id": "T_059",
+      "week_key": "2026-09-13",
+      "weekday": 6
+    },
+    {
+      "activity_type": "training",
       "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
       "date": "2026-09-19",
       "end": "2026-09-19T22:30:00+03:00",
@@ -3798,5 +3832,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-09-13T10:04:43Z"
+  "generated_at": "2026-09-13T16:53:41Z"
 }

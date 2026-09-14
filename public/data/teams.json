@@ -620,50 +620,6 @@
     "tier": null
   },
   {
-    "category": "recreational",
-    "coaches": [
-      "איתן פרג"
-    ],
-    "display_name": "חוג דקלים א-ב בנים",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_068",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "חוגי בית השיטה א-ב בנים",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_069",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "יובל בר לב"
-    ],
-    "display_name": "חוגי גן חובה דדו",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_070",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "איתן פרג"
-    ],
-    "display_name": "חוגי מולדת/רמת צבי א-ב בנים",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_071",
-    "tier": null
-  },
-  {
     "category": "pre_mini",
     "coaches": [
       "יהלי שגב"
@@ -675,17 +631,6 @@
     "tier": null
   },
   {
-    "category": "recreational",
-    "coaches": [
-      "פז תשובה"
-    ],
-    "display_name": "חוגי בנות שלפים",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_073",
-    "tier": null
-  },
-  {
     "category": "pre_mini",
     "coaches": [
       "פז תשובה"
@@ -694,17 +639,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_074",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "ירון רוטנברג"
-    ],
-    "display_name": "חוגי בנות מבוגרות",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_075",
     "tier": null
   },
   {
@@ -788,18 +722,6 @@
   {
     "category": "recreational",
     "coaches": [
-      "רתם הטב",
-      "שקד היימן"
-    ],
-    "display_name": "חוגי בנות מעלה גלבוע",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_083",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
       "עדן אוריה"
     ],
     "display_name": "חוגי בנים א-ג כפר יחזקאל/גדעונה/גבע",
@@ -839,18 +761,6 @@
     "sample_note": "כיתות ג-ד",
     "sport": "basketball",
     "team_id": "T_087",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "רתם הטב",
-      "שקד היימן"
-    ],
-    "display_name": "חוגי בנות מירב",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_088",
     "tier": null
   },
   {

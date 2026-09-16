@@ -653,17 +653,6 @@
     "tier": null
   },
   {
-    "category": "youth",
-    "coaches": [
-      "גילי בן זאב"
-    ],
-    "display_name": "נערים מחוזית",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_077",
-    "tier": "מחוזית"
-  },
-  {
     "category": "pre_mini",
     "coaches": [
       "איתן פרג"

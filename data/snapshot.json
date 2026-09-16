@@ -1,66 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "training",
-      "coach_text": "רועי שביט",
-      "date": "2026-09-08",
-      "end": "2026-09-08T18:00:00+03:00",
-      "flags": null,
-      "id": "4nq7usrh0ori9ggbc1bgdfuokn",
-      "location": "מעלה גלבוע",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-08T16:30:00+03:00",
-      "team_id": "T_052",
-      "week_key": "2026-09-06",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-09-08",
-      "end": "2026-09-08T19:30:00+03:00",
-      "flags": null,
-      "id": "4a2v7tkdsgcchtduvntiv9tgu7",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-08T17:30:00+03:00",
-      "team_id": "T_029",
-      "week_key": "2026-09-06",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-09-08",
-      "end": "2026-09-08T21:30:00+03:00",
-      "flags": null,
-      "id": "5t8eqsrte18ljda2fhbd2664cf",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-08T19:30:00+03:00",
-      "team_id": "T_043",
-      "week_key": "2026-09-06",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "גילי בן זאב",
-      "date": "2026-09-08",
-      "end": "2026-09-08T21:30:00+03:00",
-      "flags": null,
-      "id": "0uep6f3q4o5e2b9qu68mdl8ctv",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-08T20:00:00+03:00",
-      "team_id": "T_077",
-      "week_key": "2026-09-06",
-      "weekday": 2
-    },
-    {
       "activity_type": "game",
       "coach_text": null,
       "date": "2026-09-09",
@@ -3058,5 +2998,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-09-15T17:33:32Z"
+  "generated_at": "2026-09-16T09:46:05Z"
 }

@@ -1,18 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-09T22:30:00+03:00",
-        "location": "תיכונט ע\"ש אלתרמן, שושנה פרסיץ 3, תל אביב-יפו, ישראל",
-        "start": "2026-09-09T20:00:00+03:00",
-        "team_id": "T_039"
-      },
-      "session_id": "5ilk10gqofi4egmo4ojt1sb5np",
-      "team_id": "T_039",
-      "week_key": "2026-09-06"
-    }
-  ],
-  "generated_at": "2026-09-17T09:53:47Z"
+  "changes": [],
+  "generated_at": "2026-09-17T17:32:45Z"
 }

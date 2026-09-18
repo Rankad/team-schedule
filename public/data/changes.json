@@ -1,44 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-10T21:30:00+03:00",
-        "location": "אולם בגין עפולה",
-        "start": "2026-09-10T19:00:00+03:00",
-        "team_id": "T_005"
-      },
-      "session_id": "0rfbsqvi15boecp9tk4vdveqo4",
-      "team_id": "T_005",
-      "week_key": "2026-09-06"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-10T17:00:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-10T15:30:00+03:00",
-        "team_id": "T_031"
-      },
-      "session_id": "28vrdctgna04gqduua4h9f2io1",
-      "team_id": "T_031",
-      "week_key": "2026-09-06"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-10T17:30:00+03:00",
-        "location": "מעלה גלבוע",
-        "start": "2026-09-10T16:00:00+03:00",
-        "team_id": "T_052"
-      },
-      "session_id": "69s79tid5rrd4ji8k794hqvafu",
-      "team_id": "T_052",
-      "week_key": "2026-09-06"
-    }
-  ],
-  "generated_at": "2026-09-18T09:29:26Z"
+  "changes": [],
+  "generated_at": "2026-09-18T16:59:58Z"
 }

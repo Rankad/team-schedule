@@ -83,7 +83,7 @@
       "יובל בר לב"
     ],
     "display_name": "קט סל א דדו",
-    "sample_note": "מחליף סהר טיבי",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_010",
     "tier": null
@@ -306,7 +306,7 @@
       "עמית נרדע"
     ],
     "display_name": "נוער ארצית",
-    "sample_note": null,
+    "sample_note": "משחק אימון",
     "sport": "basketball",
     "team_id": "T_035",
     "tier": "ארצית"
@@ -460,7 +460,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "קט סל א מרכז",
-    "sample_note": "רועי שביט מחליף",
+    "sample_note": "חד פעמי במקום 16:00",
     "sport": "basketball",
     "team_id": "T_051",
     "tier": null
@@ -537,7 +537,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "נוער לאומית",
-    "sample_note": null,
+    "sample_note": "אחר כך הולכים לבית שטורמן",
     "sport": "basketball",
     "team_id": "T_059",
     "tier": "לאומית"
@@ -581,7 +581,7 @@
       "יהלי שגב"
     ],
     "display_name": "ילדים ב מזרח",
-    "sample_note": "במקום יום חמישי 19:30 חד פעמי",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_063",
     "tier": null
@@ -938,6 +938,15 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_111",
+    "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [],
+    "display_name": "עמק חפר",
+    "sample_note": "משחק אימון",
+    "sport": "basketball",
+    "team_id": "T_112",
     "tier": null
   }
 ]

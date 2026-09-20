@@ -2,38 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
-      "date": "2026-09-12",
-      "end": "2026-09-12T22:00:00+03:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "6hapb27cru6hahfl59tqiij6ki",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-12T18:00:00+03:00",
-      "team_id": "T_042",
-      "week_key": "2026-09-06",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ירון רוטנברג",
-      "date": "2026-09-12",
-      "end": "2026-09-12T22:00:00+03:00",
-      "flags": null,
-      "id": "4r5a7s5hhq4ekp3g8ts1iipsjr",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-12T20:30:00+03:00",
-      "team_id": "T_040",
-      "week_key": "2026-09-06",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
       "coach_text": "צוות חינוך לפסגות",
       "date": "2026-09-13",
       "end": "2026-09-13T09:00:00+03:00",
@@ -1155,6 +1123,21 @@
       "sport": "basketball",
       "start": "2026-09-15T17:30:00+03:00",
       "team_id": "T_009",
+      "week_key": "2026-09-13",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "עדי גלמן",
+      "date": "2026-09-15",
+      "end": "2026-09-15T19:30:00+03:00",
+      "flags": null,
+      "id": "0aqt1k71rtu3v04moic890mcm4",
+      "location": "אחווה נעורה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-15T17:30:00+03:00",
+      "team_id": "T_032",
       "week_key": "2026-09-13",
       "weekday": 2
     },
@@ -2915,17 +2898,81 @@
       "activity_type": "training",
       "coach_text": "עדי גלמן",
       "date": "2026-09-22",
-      "end": "2026-09-22T19:30:00+03:00",
+      "end": "2026-09-22T12:00:00+03:00",
       "flags": null,
-      "id": "0aqt1k71rtu3v04moic890mcm4",
-      "location": "אחווה נעורה",
+      "id": "4tu3ku1ua598ndifarlqteaq5q",
+      "location": "עין חרוד",
       "notes": null,
       "sport": "basketball",
-      "start": "2026-09-22T17:30:00+03:00",
+      "start": "2026-09-22T10:00:00+03:00",
       "team_id": "T_032",
       "week_key": "2026-09-20",
       "weekday": 2
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "סהר טיבי",
+      "date": "2026-09-22",
+      "end": "2026-09-22T14:00:00+03:00",
+      "flags": null,
+      "id": "42saj2ts8ia2ta0qgfu9pm07vv",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-22T12:00:00+03:00",
+      "team_id": "T_038",
+      "week_key": "2026-09-20",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "ניר גוב/יובל בר לב",
+      "date": "2026-09-22",
+      "end": "2026-09-22T19:00:00+03:00",
+      "flags": null,
+      "id": "4gbbq5tpnm66aq4h8rnbnrgf29",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-22T17:00:00+03:00",
+      "team_id": "T_039",
+      "week_key": "2026-09-20",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
+      "date": "2026-09-22",
+      "end": "2026-09-22T21:00:00+03:00",
+      "flags": null,
+      "id": "2bpt98blia09tfu884ni97vpaa",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-09-22T19:00:00+03:00",
+      "team_id": "T_031",
+      "week_key": "2026-09-20",
+      "weekday": 2
+    },
+    {
+      "activity_type": "game",
+      "coach_text": null,
+      "date": "2026-09-24",
+      "end": "2026-09-24T15:00:00+03:00",
+      "flags": null,
+      "id": "6cssh3r8182onf6drka8otq80q",
+      "location": "עין חרוד",
+      "notes": [
+        "משחק אימון",
+        "מתחיל ב13:30",
+        "יריב: עמק יזרעאל"
+      ],
+      "sport": "basketball",
+      "start": "2026-09-24T12:30:00+03:00",
+      "team_id": "T_031",
+      "week_key": "2026-09-20",
+      "weekday": 4
     }
   ],
-  "generated_at": "2026-09-19T19:14:32Z"
+  "generated_at": "2026-09-20T09:39:27Z"
 }

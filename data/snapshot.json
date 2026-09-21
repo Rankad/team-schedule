@@ -3,98 +3,6 @@
     {
       "activity_type": "training",
       "coach_text": "צוות חינוך לפסגות",
-      "date": "2026-09-13",
-      "end": "2026-09-13T09:00:00+03:00",
-      "flags": null,
-      "id": "1dhdnavb5mjscbijdadgflspss",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-13T07:00:00+03:00",
-      "team_id": "T_111",
-      "week_key": "2026-09-13",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
-      "date": "2026-09-13",
-      "end": "2026-09-13T20:30:00+03:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "6ooqo6v2avkqae3u5phu7d7mph",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-13T16:30:00+03:00",
-      "team_id": "T_042",
-      "week_key": "2026-09-13",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-09-13",
-      "end": "2026-09-13T20:30:00+03:00",
-      "flags": null,
-      "id": "4upboc9hpv0mbf3hnuf74fdtod",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-13T19:00:00+03:00",
-      "team_id": "T_009",
-      "week_key": "2026-09-13",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
-      "date": "2026-09-13",
-      "end": "2026-09-13T22:30:00+03:00",
-      "flags": null,
-      "id": "0lojh79mnavjp6rj94v2cndril",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-13T20:30:00+03:00",
-      "team_id": "T_031",
-      "week_key": "2026-09-13",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-09-13",
-      "end": "2026-09-13T22:30:00+03:00",
-      "flags": null,
-      "id": "19ti7ngce3roqa6ipop13id8bc",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-13T20:30:00+03:00",
-      "team_id": "T_043",
-      "week_key": "2026-09-13",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ניר גוב/יובל בר לב",
-      "date": "2026-09-13",
-      "end": "2026-09-13T22:30:00+03:00",
-      "flags": null,
-      "id": "16j8ssh3mbf1p0mkldbtdrk2l3",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-13T21:00:00+03:00",
-      "team_id": "T_039",
-      "week_key": "2026-09-13",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "צוות חינוך לפסגות",
       "date": "2026-09-14",
       "end": "2026-09-14T09:00:00+03:00",
       "flags": null,
@@ -3156,5 +3064,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-09-20T19:18:28Z"
+  "generated_at": "2026-09-21T10:30:37Z"
 }

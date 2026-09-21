@@ -251,14 +251,40 @@ const teams = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/teams.json
 const meta = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/meta.json'), 'utf8'));
 FAKE_CHANGES.generated_at = meta.generated_at;
 
-// pick a real team that has sessions in the last published week
-const lastWeek = schedule.weeks.slice().sort().pop();
-const busy = {};
-schedule.sessions.forEach(s => { if (s.team_id && s.week_key === lastWeek) busy[s.team_id] = (busy[s.team_id] || 0) + 1; });
+// pick a real team that has sessions in the last published week that actually
+// carries any team-attributed session (a holiday/off week can be published
+// with zero team_id sessions — walk backwards until we find one that qualifies)
+const weeksDesc = schedule.weeks.slice().sort().reverse();
+let lastWeek = null;
+let busy = {};
+for (const wk of weeksDesc) {
+  const b = {};
+  schedule.sessions.forEach(s => { if (s.team_id && s.week_key === wk) b[s.team_id] = (b[s.team_id] || 0) + 1; });
+  if (Object.keys(b).length) { lastWeek = wk; busy = b; break; }
+}
+if (!lastWeek) {
+  // genuinely no week in the whole dataset has a team-attributed session —
+  // that's a real data problem, not a coincidence to skip past.
+  throw new Error('no published week has any team-attributed session — cannot pick a test team (T1)');
+}
 const T1 = Object.keys(busy).sort((a, b) => busy[b] - busy[a])[0];
 FAKE_CHANGES.changes[0].team_id = T1;
 FAKE_CHANGES.changes[0].week_key = lastWeek;
 const t1name = teams.find(t => t.team_id === T1).display_name;
+
+// Navigate the UI to `lastWeek` specifically. That's only the same as "click
+// next until disabled, then back one" when the calendar's literal last
+// published week happens to be the one carrying T1's sessions — which isn't
+// guaranteed (see the lastWeek search above), so later checks that need to
+// land on T1's week must use this instead of that older next/prev idiom.
+const weeksSorted = schedule.weeks.slice().sort();
+const lastWeekIdx = weeksSorted.indexOf(lastWeek);
+function gotoLastWeek() {
+  let g = 0;
+  while (!prev.disabled && g++ < 40) prev.click();
+  next.click();                                       // -> weeksSorted[0]
+  for (let k = 0; k < lastWeekIdx; k++) next.click();  // -> lastWeek
+}
 
 // branding <head>: share/theme meta tags on both entry documents
 console.log('branding <head> meta');
@@ -328,10 +354,9 @@ require(path.join(ROOT, 'public', 'rides.js'));
   assert(mw.hidden === false, 'returned to My Week after follow');
   assert(store['gilboa.followed'] && JSON.parse(store['gilboa.followed']).indexOf(T1) !== -1, 'followed persisted to localStorage');
 
-  // navigate to the last published week: next until disabled (one past), then back one
+  // navigate to lastWeek (T1's week — see gotoLastWeek above)
   let guard = 0;
-  while (!next.disabled && guard++ < 12) next.click();
-  prev.click();
+  gotoLastWeek();
   assert(byId['week-content'].textContent.indexOf('אין נתונים לשבוע זה') === -1, 'last published week has data');
   const wc = byId['week-content'];
   assert(wc.children.length > 0, 'week content has day groups');
@@ -746,8 +771,8 @@ require(path.join(ROOT, 'public', 'rides.js'));
     ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
     window.applyTeamsParam('?teams=' + T1);
 
-    // go to the last published week
-    let g = 0; while (!next.disabled && g++ < 12) next.click(); prev.click();
+    // go to lastWeek (T1's week — see gotoLastWeek above)
+    gotoLastWeek();
     window.render();
     await new Promise(r => setTimeout(r, 15));
 

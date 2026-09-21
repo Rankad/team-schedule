@@ -513,6 +513,65 @@
     preconditions, or it will eventually fail on a true-but-unhelpful "the
     world changed" report instead of a stable pass/fail signal.
 
+## LL-028 — Same live-data-coupled-fixture pattern, but this time it crashed the whole test script instead of failing one assertion — the fix idiom needs a "no valid fixture at all" escape hatch too
+- **Date:** 2026-09-21
+- **Context:** `functions-tests` crashed (not just failed) twice on 2026-09-21
+  with `TypeError: Cannot read properties of undefined (reading
+  'display_name')`. `tests/site_smoke.js` picked its fixture team from the
+  literal last key in `schedule.weeks` (`.slice().sort().pop()`), assuming
+  that week would have at least one team-attributed session. The live
+  snapshot's actual last published week was a holiday/bye week: sessions
+  existed, but none carried a `team_id`, so the "busiest team in the last
+  week" lookup returned `undefined` and the next line's `.find(...)
+  .display_name` threw uncaught. This is the **third** time this project has
+  hit "smoke-test fixture picked from live, cron-refreshed data doesn't have
+  the property a downstream step assumes" — LL-024 (word form), DL-039/LL-027
+  (adjacent week has 0 sessions) — but the **first** time the failure mode
+  was an uncaught crash rather than a clean, isolated assertion failure.
+- **What we learned:**
+  - The existing fix idiom from LL-027 ("skip the *downstream* assertion when
+    its precondition doesn't hold") is not sufficient on its own — it assumes
+    the *fixture itself* (the week/team picked) is always valid, just that
+    some later fact about it might not hold. Here the fixture-picking step
+    itself produced an invalid fixture (`undefined`), so there was no
+    assertion left to gracefully skip; the crash happened one step
+    earlier than any of the previous fixes anticipated.
+  - The fuller fix idiom is: (1) when picking a fixture from live data, walk/
+    filter to a value that actually satisfies the fixture's own minimum
+    contract (here: "picks a week that has ≥1 team-attributed session") rather
+    than picking blindly and hoping; and (2) if literally nothing in the
+    dataset satisfies that minimum contract, **fail loudly and explicitly**
+    (`throw new Error(...)`) at the point of picking, not several lines later
+    via an unrelated-looking `undefined` property crash. A named, immediate
+    error is debuggable in an email/CI-log glance; a `Cannot read properties
+    of undefined` two call-frames downstream is not.
+  - Fixing the fixture-picker in one place can propagate its previously-hidden
+    assumptions into other call paths that used to be independent. Here, a
+    new `gotoLastWeek()` helper had to be added to keep UI navigation in sync
+    with the (now smarter) fixture pick — and QA found that helper inherits
+    the *same* unproven "no gaps in `schedule.weeks`" assumption already
+    latent in the older `gotoWeekIndex()`. That assumption is currently false
+    only in a synthetic QA test, not in production, but the fix widened its
+    blast radius from one call site to two. **When hardening a fixture-picker,
+    explicitly check whether the fix's own new helpers reintroduce assumptions
+    already known-latent elsewhere in the same file** — don't assume "I fixed
+    the bug" means "I didn't also duplicate its precondition."
+- **Apply:**
+  - When picking "some record with property X" from live/cron-refreshed data
+    (extends LL-027): validate the pick satisfies X before using it, not just
+    before asserting further facts about it. If no record satisfies X at all,
+    throw an explicit, named error immediately — don't let it surface three
+    lines later as an unrelated-looking crash.
+  - After fixing a live-data-fixture crash, grep the same file for *other*
+    functions that share an index/order assumption with the one just fixed
+    (e.g. any other week/date "step by position" helper) — a targeted fix can
+    still leave a sibling function's identical latent assumption un-widened,
+    or can accidentally extend that assumption's reach.
+  - **Reusable beyond this project:** "skip the downstream assertion" and
+    "validate + fail loudly at the pick site" are two different layers of the
+    same live-fixture-coupling defense — a mature test suite needs both,
+    because a bad pick can fail before any assertion runs at all.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

@@ -170,21 +170,59 @@ switch systems, fall back to the Excel importer.
   rather than fix for now; revisit after the single-team pilot (candidate fix:
   require an explicit save for NEW requests in the bottom sheet).
 
-## Testing — tests coupled to live production data (DL-039 / LL-027)
-- `tests/site_smoke.js` has (at least) two assertions whose fixture is picked
+## Testing — tests coupled to live production data (DL-039/040 / LL-027/028)
+- `tests/site_smoke.js` has (at least) three cases whose fixture is picked
   dynamically from the **live**, thrice-daily-refreshed
   `public/data/schedule.json` rather than a frozen fixture file: the "which
   Hebrew word form appears in the last published week's summary" case
-  (LL-024) and the "earlier-days — expander UI" adjacent-week sanity check
-  (DL-039 / LL-027). Both have intermittently "failed" in CI purely because
-  real schedule content changed (bye weeks, holidays, singular vs. plural
-  session counts) — not because of an app defect. The adjacent-week case is
-  now handled by skipping (logging, not failing) the dependent assertions
-  when its precondition doesn't hold that data cycle; the general pattern
-  (any test that derives its own fixture from live data must make downstream
-  assertions conditional, or use a synthetic fixture instead) is documented
-  in LL-027 and should be applied to any *new* smoke assertion that reads
-  `public/data/*.json` directly.
+  (LL-024); the "earlier-days — expander UI" adjacent-week sanity check
+  (DL-039 / LL-027); and the "pick the last week's busiest team as the
+  general-purpose fixture `T1`" picker (DL-040 / LL-028, 2026-09-21). All
+  three have "failed" in CI purely because real schedule content changed (bye
+  weeks, holidays, singular vs. plural session counts, or — in the DL-040
+  case — a published week with sessions but zero of them team-tagged) — not
+  because of an app defect. The third occurrence (DL-040) was also the first
+  to **crash the whole script** (uncaught `TypeError`) rather than fail one
+  assertion cleanly, because the fixture-picker itself, not just a downstream
+  assertion, was invalid. Current state:
+  - The adjacent-week case (DL-039/LL-027) skips (logs, doesn't fail) the
+    dependent assertions when its precondition doesn't hold that data cycle.
+  - The `T1` fixture picker (DL-040/LL-028) now walks `schedule.weeks`
+    descending to the first week with ≥1 team-attributed session, and throws
+    an explicit, named `Error` immediately if no week in the dataset
+    qualifies — rather than picking blindly and crashing several lines later.
+  - The general pattern — any test that derives its own fixture from live
+    data must either validate the pick before use (fail loudly if nothing
+    qualifies) or make downstream assertions conditional, never assume the
+    pick is automatically valid — is documented in LL-027 (extended by
+    LL-028) and should be applied to any *new* smoke assertion that reads
+    `public/data/*.json` directly.
+
+## Known open risk (tracked, not blocking) — week-navigation helpers assume `schedule.weeks` has no gaps
+- **Recorded:** 2026-09-21 (DL-040 follow-up, found by QA while reviewing the
+  DL-040 fix; not fixed, not a release blocker — dormant in current data).
+- Both `gotoWeekIndex()` (pre-existing) and the new `gotoLastWeek()`
+  (DL-040/LL-028) in `tests/site_smoke.js` assume `schedule.weeks` is a
+  gap-free run of consecutive 7-day weeks, so "index i" and "i next-clicks
+  from `weeksSorted[0]`" stay interchangeable. `scripts/build_outputs.py`
+  builds `weeks = sorted({s["week_key"] for s in sessions})` — a calendar
+  week with **zero sessions of any kind** would silently vanish from that
+  array, breaking the no-gaps assumption. QA verified 0 gaps in current
+  production data, but also reproduced the failure synthetically (deleted all
+  sessions for one middle week) and got two bad outcomes: `gotoLastWeek()`
+  silently landing on the **wrong** week while several assertions
+  coincidentally still passed (silent false confidence, not a loud failure);
+  and the pre-existing `gotoWeekIndex()` crashing with the same
+  uncaught-`TypeError` class as the DL-040 bug, in the "earlier-days —
+  expander UI" block.
+- **Recommended follow-up (not yet actioned):** make week navigation
+  date-based (step by real calendar-day difference ÷ 7) instead of
+  index-based in both helpers; or, cheaper, add an assertion near the top of
+  `site_smoke.js` that `schedule.weeks` is consecutive, gap-free, 7-day
+  Sundays, failing loudly (per this project's "fail loudly, never publish
+  partial data" principle) if it ever is not. Track alongside any future
+  `site_smoke.js` maintenance; revisit sooner if a fully sessionless week is
+  ever observed in production data.
 - **GitHub Actions log access:** this repo's Actions log **viewer** requires
   GitHub sign-in even though the repo is public, so raw step log text is not
   fetchable via an unauthenticated browser or the plain public REST API. Job

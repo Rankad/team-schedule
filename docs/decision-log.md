@@ -971,3 +971,67 @@
   spirit: a test asserting something specific to live, human-entered data can
   legitimately have that precondition go false on any given data refresh —
   see LL-027.
+
+## DL-040 — `site_smoke.js` fixture picker: pick the last week with a team-attributed session, not the last week in the array; propagated a dormant gap-assumption risk into a more central call path
+- **Date:** 2026-09-21
+- **Context:** `functions-tests` crashed twice in one day (10:30 and 18:33 UTC,
+  commit `7630557`) with an uncaught `TypeError: Cannot read properties of
+  undefined (reading 'display_name')` at the old `site_smoke.js` line 261 —
+  not a normal assertion failure, a script crash. Root cause: the test set
+  `lastWeek = schedule.weeks.slice().sort().pop()` and then picked the
+  busiest team in that literal last week as fixture `T1`, with no check that
+  any session in that week actually carried a `team_id`. The live data
+  snapshot's chronologically-last published week (2026-10-04) had sessions
+  but **zero** of them tagged with a team — a holiday/bye week — so `T1` was
+  `undefined` and `.find(...).display_name` threw, taking down the whole
+  script instead of failing one assertion. This is the **third** occurrence
+  of the live-data-coupled-test pattern (LL-024, DL-039/LL-027) and the
+  **first** where the failure mode was an uncaught crash rather than a clean
+  assertion failure.
+- **Decision:**
+  1. `lastWeek`/`T1` picking now walks `schedule.weeks` **descending** and
+     takes the first week that has ≥1 team-attributed session, instead of
+     trusting the literal last week key. If **no** week in the whole dataset
+     has any team-attributed session, the test now throws a clear, explicit
+     `Error` immediately — verified this surfaces as a clean non-zero CI exit,
+     not a confusing crash two lines later — matching this project's
+     "fail loudly, never publish/pass on partial data" principle.
+  2. Added a `gotoLastWeek()` helper (mirrors the pre-existing
+     `gotoWeekIndex` idiom) so the UI navigation step actually lands on the
+     same week the fixture picker chose — those two could silently diverge
+     once `lastWeek` stopped meaning "the literal last calendar week".
+- **New follow-up risk surfaced by QA (not fixed now — tracked, not a release
+  blocker):** both `gotoLastWeek()` and the pre-existing `gotoWeekIndex()`
+  assume `schedule.weeks` has no gaps (every calendar week between the first
+  and last published week present, exactly 7 days apart), so "index i" and
+  "i next-clicks from `weeksSorted[0]`" stay interchangeable. Holds in
+  current production data (QA verified 0 gaps) but is **not guaranteed** by
+  the parser: `scripts/build_outputs.py` builds
+  `weeks = sorted({s["week_key"] for s in sessions})`, so a calendar week
+  with **zero sessions of any kind** (stricter than the bug just fixed, which
+  still had a session, just no team on it) would silently vanish from the
+  array — a true gap. QA reproduced this synthetically (deleted all sessions
+  for one middle week) and got two bad outcomes: (a) `gotoLastWeek()`
+  **silently landing on the wrong week** while several assertions still
+  coincidentally passed — silent false confidence, worse than a loud
+  failure — and (b) the pre-existing `gotoWeekIndex` in the "earlier-days —
+  expander UI" block **crashing** with the same uncaught-`TypeError` class as
+  the original bug. This is a pre-existing weakness in `gotoWeekIndex`, not
+  introduced by this fix, but this fix's `gotoLastWeek()` propagates the same
+  assumption into a second, more central call path. Recorded as an open
+  tracked item in `docs/known-constraints.md` (not filed as a numbered OQ —
+  it is a test-hardening task, not a design fork).
+- **Recommended (not yet actioned) follow-ups, from QA:** either make week
+  navigation date-based (step by real calendar-day difference ÷ 7) instead of
+  index-based in both `gotoLastWeek` and `gotoWeekIndex`; or, cheaper, add an
+  assertion near the top of `site_smoke.js` that `schedule.weeks` is
+  consecutive, gap-free, 7-day Sundays, failing loudly if not.
+- **Status:** Accepted; implemented and QA-reviewed on `tests/site_smoke.js`.
+  Extends the DL-039/LL-027 skip-idiom pattern one level earlier: this time
+  the fix is skip-the-broken-fixture-pick (walk back to a valid week) plus a
+  loud explicit failure if the whole dataset has no valid week, rather than
+  skip-a-downstream-assertion.
+- **Risk:** Low for this fix (test-only, no app code touched). Medium-low,
+  dormant, tracked for the gap-assumption follow-up above — currently false
+  in production data, would surface as silent-wrong-week or a crash if a
+  fully sessionless week is ever committed.

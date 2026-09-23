@@ -2,70 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-09-15",
-      "end": "2026-09-15T19:30:00+03:00",
-      "flags": null,
-      "id": "0aqt1k71rtu3v04moic890mcm4",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-15T17:30:00+03:00",
-      "team_id": "T_032",
-      "week_key": "2026-09-13",
-      "weekday": 2
-    },
-    {
-      "activity_type": "blocked_hall",
-      "coach_text": null,
-      "date": "2026-09-15",
-      "end": "2026-09-15T20:00:00+03:00",
-      "flags": null,
-      "id": "4tas4duv1u07aftmlh8nlth510",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "n/a",
-      "start": "2026-09-15T18:30:00+03:00",
-      "team_id": null,
-      "week_key": "2026-09-13",
-      "weekday": 2
-    },
-    {
-      "activity_type": "game",
-      "coach_text": null,
-      "date": "2026-09-15",
-      "end": "2026-09-15T20:30:00+03:00",
-      "flags": null,
-      "id": "3t3ii88a9v7n6v20srav8koj5n",
-      "location": "עין חרוד",
-      "notes": [
-        "משחק אימון",
-        "מתחיל 19:00",
-        "יריב: עמק חפר"
-      ],
-      "sport": "basketball",
-      "start": "2026-09-15T18:30:00+03:00",
-      "team_id": "T_038",
-      "week_key": "2026-09-13",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
-      "date": "2026-09-15",
-      "end": "2026-09-15T22:30:00+03:00",
-      "flags": null,
-      "id": "4t6tb9f6bbnat4dnf73psi886m",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-15T20:30:00+03:00",
-      "team_id": "T_031",
-      "week_key": "2026-09-13",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
       "coach_text": "עמית נרדע",
       "date": "2026-09-16",
       "end": "2026-09-16T17:30:00+03:00",
@@ -2362,5 +2298,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-09-22T17:34:15Z"
+  "generated_at": "2026-09-23T09:49:20Z"
 }

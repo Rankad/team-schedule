@@ -1,44 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-15T19:30:00+03:00",
-        "location": "אחווה נעורה",
-        "start": "2026-09-15T17:30:00+03:00",
-        "team_id": "T_032"
-      },
-      "session_id": "0aqt1k71rtu3v04moic890mcm4",
-      "team_id": "T_032",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-15T20:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-15T18:30:00+03:00",
-        "team_id": "T_038"
-      },
-      "session_id": "3t3ii88a9v7n6v20srav8koj5n",
-      "team_id": "T_038",
-      "week_key": "2026-09-13"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-09-15T22:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-09-15T20:30:00+03:00",
-        "team_id": "T_031"
-      },
-      "session_id": "4t6tb9f6bbnat4dnf73psi886m",
-      "team_id": "T_031",
-      "week_key": "2026-09-13"
-    }
-  ],
-  "generated_at": "2026-09-23T09:49:20Z"
+  "changes": [],
+  "generated_at": "2026-09-23T17:46:22Z"
 }

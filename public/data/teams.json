@@ -27,7 +27,7 @@
       "עמית נרדע"
     ],
     "display_name": "ילדים לאומית",
-    "sample_note": "משחק אימון",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_005",
     "tier": "לאומית"
@@ -266,17 +266,6 @@
     "sport": "basketball",
     "team_id": "T_032",
     "tier": "על"
-  },
-  {
-    "category": "mini_a",
-    "coaches": [
-      "עופר כספי"
-    ],
-    "display_name": "קט סל א בנות מערב",
-    "sample_note": "במקום 19:00 חד פעמי",
-    "sport": "basketball",
-    "team_id": "T_033",
-    "tier": null
   },
   {
     "category": "kids_b",
@@ -827,17 +816,6 @@
     "sport": "basketball",
     "team_id": "T_109",
     "tier": null
-  },
-  {
-    "category": "youth",
-    "coaches": [
-      "ניר גוב"
-    ],
-    "display_name": "נערים לאומית/נוער על",
-    "sample_note": "מי שלא עמק חרוד בנים",
-    "sport": "basketball",
-    "team_id": "T_110",
-    "tier": "לאומית"
   },
   {
     "category": null,

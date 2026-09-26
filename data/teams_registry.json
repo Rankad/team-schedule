@@ -894,5 +894,69 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-09-23"
+  },
+  "T_113": {
+    "normalized_name": "טרום טירת צבי שדא",
+    "display_name": "טרום טירת צבי/שד\"א",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-27"
+  },
+  "T_114": {
+    "normalized_name": "טרום עין הנציב ביכורה",
+    "display_name": "טרום עין הנציב/ביכורה",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-27"
+  },
+  "T_115": {
+    "normalized_name": "נערות ב לאומית עפולה",
+    "display_name": "נערות ב לאומית עפולה",
+    "category": "girls_youth",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-09-27"
+  },
+  "T_116": {
+    "normalized_name": "חוגי א ב בנים דדו",
+    "display_name": "חוגי א/ב בנים דדו",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-28"
+  },
+  "T_117": {
+    "normalized_name": "ילדות א בוגרות ילדות א צעירות",
+    "display_name": "ילדות א בוגרות/ילדות א צעירות",
+    "category": "girls_kids",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-28"
+  },
+  "T_118": {
+    "normalized_name": "טרום קט סל בנות מרכז טרום קט סל בנות מזרח",
+    "display_name": "טרום קט סל בנות מרכז/טרום קט סל בנות מזרח",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-28"
+  },
+  "T_119": {
+    "normalized_name": "עפולה חן",
+    "display_name": "עפולה חן",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-09-28"
+  },
+  "T_120": {
+    "normalized_name": "בנות הרצליה",
+    "display_name": "בנות הרצליה",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-01"
   }
 }

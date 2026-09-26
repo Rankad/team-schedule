@@ -1,4 +1,31 @@
 {
-  "changes": [],
-  "generated_at": "2026-09-25T17:50:16Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-18T13:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-18T11:30:00+03:00",
+        "team_id": "T_059"
+      },
+      "session_id": "2d059l3n1o5p3p7qtmgrnfec6o",
+      "team_id": "T_059",
+      "week_key": "2026-09-13"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-18T11:30:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-18T10:00:00+03:00",
+        "team_id": "T_029"
+      },
+      "session_id": "5o5s8m6o1p1smpmm1r04ertp01",
+      "team_id": "T_029",
+      "week_key": "2026-09-13"
+    }
+  ],
+  "generated_at": "2026-09-26T09:45:18Z"
 }

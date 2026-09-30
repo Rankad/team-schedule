@@ -849,17 +849,6 @@
     "tier": null
   },
   {
-    "category": "pre_mini",
-    "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "טרום קט סל בנים גן נר/מגן שאול/נורית",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_092",
-    "tier": null
-  },
-  {
     "category": "recreational",
     "coaches": [
       "וורוד זועבי"
@@ -890,17 +879,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_095",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "חוגי בנים א/ב גן נר/מגן שאול/נורית",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_096",
     "tier": null
   },
   {

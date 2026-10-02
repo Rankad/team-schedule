@@ -123,17 +123,6 @@
     "tier": null
   },
   {
-    "category": "girls_kids",
-    "coaches": [
-      "עדי פירסטנברג"
-    ],
-    "display_name": "ילדות א צעירות",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_015",
-    "tier": null
-  },
-  {
     "category": "recreational",
     "coaches": [
       "יהלי שגב"
@@ -264,7 +253,7 @@
       "ניר גוב"
     ],
     "display_name": "נוער על",
-    "sample_note": "משחק אימון",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_031",
     "tier": "על"
@@ -457,17 +446,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_051",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "עופר כספי"
-    ],
-    "display_name": "חוגי בנות גן נר",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_053",
     "tier": null
   },
   {
@@ -923,17 +901,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_102",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "בן רצין"
-    ],
-    "display_name": "חוגי גן- גן נר",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_103",
     "tier": null
   },
   {

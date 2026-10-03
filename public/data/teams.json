@@ -16,7 +16,7 @@
       "יוגב פרטי"
     ],
     "display_name": "קט סל א חרוד",
-    "sample_note": "חד פעמי במקום 15:00",
+    "sample_note": "חצי אולם",
     "sport": "basketball",
     "team_id": "T_004",
     "tier": null
@@ -80,11 +80,10 @@
   {
     "category": "mini_a",
     "coaches": [
-      "יובל בר לב",
-      "יובל בר לב + קט סל א גן נר"
+      "יובל בר לב"
     ],
     "display_name": "קט סל א דדו",
-    "sample_note": "אימון משותף",
+    "sample_note": "במקום יום א",
     "sport": "basketball",
     "team_id": "T_010",
     "tier": null
@@ -275,7 +274,7 @@
       "ברק וינריב"
     ],
     "display_name": "ילדים ב חרוד",
-    "sample_note": null,
+    "sample_note": "חצי אולם",
     "sport": "basketball",
     "team_id": "T_034",
     "tier": null
@@ -362,7 +361,8 @@
   {
     "category": "women",
     "coaches": [
-      "יונתן אורן"
+      "יונתן אורן",
+      "משחק חוץ בגליל"
     ],
     "display_name": "נשים לאומית",
     "sample_note": null,
@@ -553,7 +553,7 @@
       "נתי כהן"
     ],
     "display_name": "נערים ט מזרח",
-    "sample_note": "משותף עם נערים ט שקד",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_064",
     "tier": null
@@ -564,7 +564,7 @@
       "אילן היימן"
     ],
     "display_name": "נערים ט שקד",
-    "sample_note": "משותף עם נערים ט מזרח",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_065",
     "tier": null
@@ -816,6 +816,17 @@
     "tier": null
   },
   {
+    "category": "pre_mini",
+    "coaches": [
+      "בן רצין"
+    ],
+    "display_name": "טרום קט סל בנים גן נר/מגן שאול/נורית",
+    "sample_note": "כיתות ג-ד",
+    "sport": "basketball",
+    "team_id": "T_092",
+    "tier": null
+  },
+  {
     "category": "recreational",
     "coaches": [
       "וורוד זועבי"
@@ -846,6 +857,17 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_095",
+    "tier": null
+  },
+  {
+    "category": "recreational",
+    "coaches": [
+      "בן רצין"
+    ],
+    "display_name": "חוגי בנים א/ב גן נר/מגן שאול/נורית",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_096",
     "tier": null
   },
   {
@@ -890,6 +912,39 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_102",
+    "tier": null
+  },
+  {
+    "category": "recreational",
+    "coaches": [
+      "בן רצין"
+    ],
+    "display_name": "חוגי גן- גן נר",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_103",
+    "tier": null
+  },
+  {
+    "category": "recreational",
+    "coaches": [
+      "בן רצין"
+    ],
+    "display_name": "חוגי א/ב בנים גן נר",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_104",
+    "tier": null
+  },
+  {
+    "category": "pre_mini",
+    "coaches": [
+      "בן רצין"
+    ],
+    "display_name": "טרום קט סל גן נר",
+    "sample_note": "כיתות ג-ד",
+    "sport": "basketball",
+    "team_id": "T_105",
     "tier": null
   },
   {
@@ -997,5 +1052,14 @@
     "sport": "basketball",
     "team_id": "T_120",
     "tier": null
+  },
+  {
+    "category": "youth",
+    "coaches": [],
+    "display_name": "נערים לאומית בגבת",
+    "sample_note": "משחק אימון",
+    "sport": "basketball",
+    "team_id": "T_121",
+    "tier": "לאומית"
   }
 ]

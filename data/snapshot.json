@@ -2,121 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "איתן פרג",
-      "date": "2026-09-28",
-      "end": "2026-09-28T16:10:00+03:00",
-      "flags": null,
-      "id": "3qoiouc5pgv7u7f5cqgmi9olj4",
-      "location": "חמדיה",
-      "notes": [
-        "כיתות ג-ד"
-      ],
-      "sport": "basketball",
-      "start": "2026-09-28T14:40:00+03:00",
-      "team_id": "T_078",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "game",
-      "coach_text": null,
-      "date": "2026-09-28",
-      "end": "2026-09-28T18:00:00+03:00",
-      "flags": null,
-      "id": "0o6rh086k4b4r1hafikh1sfh8q",
-      "location": "אחווה נעורה",
-      "notes": [
-        "משחק אימון",
-        "מתחיל ב 16:30",
-        "יריב: עמק יזרעאל"
-      ],
-      "sport": "basketball",
-      "start": "2026-09-28T16:00:00+03:00",
-      "team_id": "T_005",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "פז תשובה",
-      "date": "2026-09-28",
-      "end": "2026-09-28T17:30:00+03:00",
-      "flags": null,
-      "id": "5nlu362hprlingknget9r4a33j",
-      "location": "טירת צבי",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-28T16:30:00+03:00",
-      "team_id": "T_085",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "פז תשובה/שירה לוי",
-      "date": "2026-09-28",
-      "end": "2026-09-28T19:30:00+03:00",
-      "flags": null,
-      "id": "73mdk8p7aai018066s7270del5",
-      "location": "חמדיה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-28T18:00:00+03:00",
-      "team_id": "T_118",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-09-28",
-      "end": "2026-09-28T20:30:00+03:00",
-      "flags": null,
-      "id": "103jigt31m0fmb3i66uajf3bqs",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-28T18:30:00+03:00",
-      "team_id": "T_032",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "game",
-      "coach_text": null,
-      "date": "2026-09-28",
-      "end": "2026-09-28T22:00:00+03:00",
-      "flags": null,
-      "id": "0jnrb0g84ims4d13o5o8k6vsct",
-      "location": "היכל הספורט העירוני עפולה",
-      "notes": [
-        "משחק אימון",
-        "שמתחיל 20:00",
-        "יריב: נוער ארצית"
-      ],
-      "sport": "basketball",
-      "start": "2026-09-28T19:30:00+03:00",
-      "team_id": "T_119",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-09-28",
-      "end": "2026-09-28T22:30:00+03:00",
-      "flags": null,
-      "id": "5ni5jd6000mr1j3nl46hsbaqh3",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-28T20:30:00+03:00",
-      "team_id": "T_043",
-      "week_key": "2026-09-27",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
       "coach_text": "עדי גלמן",
       "date": "2026-09-29",
       "end": "2026-09-29T13:00:00+03:00",
@@ -3730,7 +3615,22 @@
       "team_id": "T_010",
       "week_key": "2026-10-11",
       "weekday": 0
+    },
+    {
+      "activity_type": "other_sport",
+      "coach_text": null,
+      "date": "2026-10-11",
+      "end": "2026-10-11T20:00:00+03:00",
+      "flags": null,
+      "id": "5dt2gmmhhldtloc2qjig6c60b4",
+      "location": "בית השיטה",
+      "notes": null,
+      "sport": "volleyball",
+      "start": "2026-10-11T18:30:00+03:00",
+      "team_id": null,
+      "week_key": "2026-10-11",
+      "weekday": 0
     }
   ],
-  "generated_at": "2026-10-05T12:07:43Z"
+  "generated_at": "2026-10-05T21:01:30Z"
 }

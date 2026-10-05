@@ -27,7 +27,7 @@
       "עמית נרדע"
     ],
     "display_name": "ילדים לאומית",
-    "sample_note": "משחק אימון",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_005",
     "tier": "לאומית"
@@ -727,17 +727,6 @@
   {
     "category": "recreational",
     "coaches": [
-      "פז תשובה"
-    ],
-    "display_name": "חוגי בנות שקד",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_085",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
       "בן רצין"
     ],
     "display_name": "חוגי בית אלפא/חפציבה א/ב בנים",
@@ -1000,27 +989,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_117",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "פז תשובה",
-      "שירה לוי"
-    ],
-    "display_name": "טרום קט סל בנות מרכז/טרום קט סל בנות מזרח",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_118",
-    "tier": null
-  },
-  {
-    "category": null,
-    "coaches": [],
-    "display_name": "עפולה חן",
-    "sample_note": "משחק אימון",
-    "sport": "basketball",
-    "team_id": "T_119",
     "tier": null
   },
   {

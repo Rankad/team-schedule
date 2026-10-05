@@ -94,7 +94,7 @@
       "עדי גלמן"
     ],
     "display_name": "קט סל ב בנות",
-    "sample_note": "בניר דוד",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_011",
     "tier": null
@@ -307,7 +307,7 @@
       "סהר טיבי"
     ],
     "display_name": "נערים ט לאומית",
-    "sample_note": "משחק אימון",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_038",
     "tier": "לאומית"
@@ -978,15 +978,6 @@
     "sport": "basketball",
     "team_id": "T_114",
     "tier": null
-  },
-  {
-    "category": "girls_youth",
-    "coaches": [],
-    "display_name": "נערות ב לאומית עפולה",
-    "sample_note": "משחק אימון",
-    "sport": "basketball",
-    "team_id": "T_115",
-    "tier": "לאומית"
   },
   {
     "category": "recreational",

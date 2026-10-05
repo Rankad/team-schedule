@@ -1,19 +1,57 @@
 {
   "changes": [
     {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-10-06T22:00:00+03:00",
-        "start": "2026-10-06T20:30:00+03:00"
-      },
+      "kind": "removed",
+      "new": null,
       "old": {
-        "end": "2026-10-06T21:30:00+03:00",
-        "start": "2026-10-06T20:00:00+03:00"
+        "end": "2026-09-27T21:00:00+03:00",
+        "location": "פנימיית הכפר הירוק, רמת השרון",
+        "start": "2026-09-27T18:00:00+03:00",
+        "team_id": "T_038"
       },
-      "session_id": "2138uicjsov8v9rbcq04jfn48k",
-      "team_id": "T_040",
-      "week_key": "2026-10-04"
+      "session_id": "1t13h1gts5d3r0uo746icuqg6h",
+      "team_id": "T_038",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-27T17:30:00+03:00",
+        "location": "ניר דוד",
+        "start": "2026-09-27T16:00:00+03:00",
+        "team_id": "T_011"
+      },
+      "session_id": "3fl4bb2d4cpol8pp5u2v911iba",
+      "team_id": "T_011",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-27T22:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-27T20:30:00+03:00",
+        "team_id": "T_059"
+      },
+      "session_id": "497isdf5el8rmlhhpn4qqn8rlh",
+      "team_id": "T_059",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-27T21:30:00+03:00",
+        "location": "היכל הספורט העירוני עפולה",
+        "start": "2026-09-27T18:30:00+03:00",
+        "team_id": "T_115"
+      },
+      "session_id": "6u3353o1all2md32sc0d5go613",
+      "team_id": "T_115",
+      "week_key": "2026-09-27"
     }
   ],
-  "generated_at": "2026-10-04T17:21:27Z"
+  "generated_at": "2026-10-05T12:07:43Z"
 }

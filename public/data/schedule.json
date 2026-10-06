@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T11:52:12Z",
+  "generated_at": "2026-10-06T18:50:22Z",
   "sessions": [
     {
       "activity_type": "training",
@@ -2593,6 +2593,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "ברק וינריב",
+      "date": "2026-10-07",
+      "end": "2026-10-07T20:00:00+03:00",
+      "flags": null,
+      "id": "4upboc9hpv0mbf3hnuf74fdtod",
+      "location": "אחווה נעורה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-07T18:00:00+03:00",
+      "team_id": "T_009",
+      "week_key": "2026-10-04",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "רועי שביט",
       "date": "2026-10-07",
       "end": "2026-10-07T19:30:00+03:00",
@@ -2610,7 +2625,7 @@
       "activity_type": "training",
       "coach_text": "עדי גלמן",
       "date": "2026-10-07",
-      "end": "2026-10-07T19:30:00+03:00",
+      "end": "2026-10-07T20:00:00+03:00",
       "flags": null,
       "id": "46rp8a86qsqva8eo2d1tl84q06",
       "location": "אחווה נעורה",
@@ -2650,21 +2665,6 @@
       "sport": "basketball",
       "start": "2026-10-07T18:00:00+03:00",
       "team_id": "T_087",
-      "week_key": "2026-10-04",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-10-07",
-      "end": "2026-10-07T20:30:00+03:00",
-      "flags": null,
-      "id": "4upboc9hpv0mbf3hnuf74fdtod",
-      "location": "אומן",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-07T18:30:00+03:00",
-      "team_id": "T_009",
       "week_key": "2026-10-04",
       "weekday": 3
     },
@@ -2753,7 +2753,7 @@
       "location": "אחווה נעורה",
       "notes": null,
       "sport": "basketball",
-      "start": "2026-10-07T19:30:00+03:00",
+      "start": "2026-10-07T20:00:00+03:00",
       "team_id": "T_117",
       "week_key": "2026-10-04",
       "weekday": 3

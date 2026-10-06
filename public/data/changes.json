@@ -1,4 +1,59 @@
 {
-  "changes": [],
-  "generated_at": "2026-10-06T11:52:12Z"
+  "changes": [
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-10-07T20:00:00+03:00",
+        "start": "2026-10-07T18:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-10-07T19:30:00+03:00",
+        "start": "2026-10-07T18:00:00+03:00"
+      },
+      "session_id": "46rp8a86qsqva8eo2d1tl84q06",
+      "team_id": "T_032",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "location_changed",
+      "new": {
+        "location": "אחווה נעורה"
+      },
+      "old": {
+        "location": "אומן"
+      },
+      "session_id": "4upboc9hpv0mbf3hnuf74fdtod",
+      "team_id": "T_009",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-10-07T20:00:00+03:00",
+        "start": "2026-10-07T18:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-10-07T20:30:00+03:00",
+        "start": "2026-10-07T18:30:00+03:00"
+      },
+      "session_id": "4upboc9hpv0mbf3hnuf74fdtod",
+      "team_id": "T_009",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-10-07T21:30:00+03:00",
+        "start": "2026-10-07T20:00:00+03:00"
+      },
+      "old": {
+        "end": "2026-10-07T21:30:00+03:00",
+        "start": "2026-10-07T19:30:00+03:00"
+      },
+      "session_id": "50q1tvn40o6apvepmjlf5ap81b",
+      "team_id": "T_117",
+      "week_key": "2026-10-04"
+    }
+  ],
+  "generated_at": "2026-10-06T18:50:22Z"
 }

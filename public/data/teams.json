@@ -157,11 +157,10 @@
   {
     "category": "mini_b",
     "coaches": [
-      "יוגב פרטי",
-      "יוגב פרטי + קט סל ב חרוד"
+      "יוגב פרטי"
     ],
     "display_name": "קט סל ב מרכז",
-    "sample_note": "אימון משותף",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_019",
     "tier": null

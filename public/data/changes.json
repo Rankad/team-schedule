@@ -1,59 +1,109 @@
 {
   "changes": [
     {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-10-07T20:00:00+03:00",
-        "start": "2026-10-07T18:00:00+03:00"
-      },
+      "kind": "removed",
+      "new": null,
       "old": {
-        "end": "2026-10-07T19:30:00+03:00",
-        "start": "2026-10-07T18:00:00+03:00"
+        "end": "2026-09-29T19:30:00+03:00",
+        "location": "גבע",
+        "start": "2026-09-29T18:00:00+03:00",
+        "team_id": "T_062"
       },
-      "session_id": "46rp8a86qsqva8eo2d1tl84q06",
+      "session_id": "0dl1fugrnv30l50ucjgnjqv5jo",
+      "team_id": "T_062",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-29T20:00:00+03:00",
+        "location": "ניר דוד",
+        "start": "2026-09-29T18:30:00+03:00",
+        "team_id": "T_050"
+      },
+      "session_id": "0o6flgmh8spk4vqapbf5urk259",
+      "team_id": "T_050",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-29T18:30:00+03:00",
+        "location": "ניר דוד",
+        "start": "2026-09-29T17:00:00+03:00",
+        "team_id": "T_019"
+      },
+      "session_id": "244vntu2c0r6njst2dfm9dc0ns",
+      "team_id": "T_019",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-29T22:30:00+03:00",
+        "location": "היכל העירוני עפולה",
+        "start": "2026-09-29T20:30:00+03:00",
+        "team_id": "T_043"
+      },
+      "session_id": "2mrn42gfmn8jk6590n4gmaj50d",
+      "team_id": "T_043",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-29T21:00:00+03:00",
+        "location": "גבע",
+        "start": "2026-09-29T19:30:00+03:00",
+        "team_id": "T_034"
+      },
+      "session_id": "4l1of2pss0nkme1j4vqi72ofgs",
+      "team_id": "T_034",
+      "week_key": "2026-09-27"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-09-29T13:00:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-29T11:00:00+03:00",
+        "team_id": "T_032"
+      },
+      "session_id": "4tu3ku1ua598ndifarlqteaq5q",
       "team_id": "T_032",
-      "week_key": "2026-10-04"
+      "week_key": "2026-09-27"
     },
     {
-      "kind": "location_changed",
-      "new": {
-        "location": "אחווה נעורה"
-      },
+      "kind": "removed",
+      "new": null,
       "old": {
-        "location": "אומן"
+        "end": "2026-09-29T18:00:00+03:00",
+        "location": "גבע",
+        "start": "2026-09-29T16:30:00+03:00",
+        "team_id": "T_057"
       },
-      "session_id": "4upboc9hpv0mbf3hnuf74fdtod",
-      "team_id": "T_009",
-      "week_key": "2026-10-04"
+      "session_id": "58t0bu8niqvl6jg5nivpf9jdji",
+      "team_id": "T_057",
+      "week_key": "2026-09-27"
     },
     {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-10-07T20:00:00+03:00",
-        "start": "2026-10-07T18:00:00+03:00"
-      },
+      "kind": "removed",
+      "new": null,
       "old": {
-        "end": "2026-10-07T20:30:00+03:00",
-        "start": "2026-10-07T18:30:00+03:00"
+        "end": "2026-09-29T16:30:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-09-29T14:30:00+03:00",
+        "team_id": "T_043"
       },
-      "session_id": "4upboc9hpv0mbf3hnuf74fdtod",
-      "team_id": "T_009",
-      "week_key": "2026-10-04"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-10-07T21:30:00+03:00",
-        "start": "2026-10-07T20:00:00+03:00"
-      },
-      "old": {
-        "end": "2026-10-07T21:30:00+03:00",
-        "start": "2026-10-07T19:30:00+03:00"
-      },
-      "session_id": "50q1tvn40o6apvepmjlf5ap81b",
-      "team_id": "T_117",
-      "week_key": "2026-10-04"
+      "session_id": "5t8eqsrte18ljda2fhbd2664cf",
+      "team_id": "T_043",
+      "week_key": "2026-09-27"
     }
   ],
-  "generated_at": "2026-10-06T18:50:22Z"
+  "generated_at": "2026-10-07T11:36:57Z"
 }

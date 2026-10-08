@@ -3,85 +3,6 @@
     {
       "activity_type": "training",
       "coach_text": "עדי גלמן",
-      "date": "2026-09-30",
-      "end": "2026-09-30T11:00:00+03:00",
-      "flags": null,
-      "id": "7lpjn0lkm6svihdlf6spfu96a5",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-30T09:00:00+03:00",
-      "team_id": "T_032",
-      "week_key": "2026-09-27",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יובל בר לב",
-      "date": "2026-09-30",
-      "end": "2026-09-30T12:00:00+03:00",
-      "flags": null,
-      "id": "4p9dghfflko78ithmapmq5vk0e",
-      "location": "דדו",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-30T10:30:00+03:00",
-      "team_id": "T_049",
-      "week_key": "2026-09-27",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-09-30",
-      "end": "2026-09-30T13:00:00+03:00",
-      "flags": null,
-      "id": "6lt1lgfvgttrge5r032o92vtir",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-09-30T11:00:00+03:00",
-      "team_id": "T_009",
-      "week_key": "2026-09-27",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "איתן פרג",
-      "date": "2026-09-30",
-      "end": "2026-09-30T16:10:00+03:00",
-      "flags": null,
-      "id": "4t692g2pdotb7ddsbnnli4p1u6",
-      "location": "חמדיה",
-      "notes": [
-        "כיתות ג-ד"
-      ],
-      "sport": "basketball",
-      "start": "2026-09-30T14:40:00+03:00",
-      "team_id": "T_078",
-      "week_key": "2026-09-27",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-09-30",
-      "end": "2026-09-30T16:30:00+03:00",
-      "flags": null,
-      "id": "388jd52577siqrjvk3q734p48b",
-      "location": "עין חרוד",
-      "notes": [
-        "חצי אולם"
-      ],
-      "sport": "basketball",
-      "start": "2026-09-30T15:00:00+03:00",
-      "team_id": "T_057",
-      "week_key": "2026-09-27",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עדי גלמן",
       "date": "2026-10-01",
       "end": "2026-10-01T11:00:00+03:00",
       "flags": null,
@@ -3510,5 +3431,5 @@
       "weekday": 0
     }
   ],
-  "generated_at": "2026-10-07T19:15:30Z"
+  "generated_at": "2026-10-08T11:51:39Z"
 }

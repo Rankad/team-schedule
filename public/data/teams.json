@@ -463,7 +463,7 @@
       "ברק וינריב"
     ],
     "display_name": "קט סל ב גן נר",
-    "sample_note": "חצי אולם",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_057",
     "tier": null
@@ -642,17 +642,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_076",
-    "tier": null
-  },
-  {
-    "category": "pre_mini",
-    "coaches": [
-      "איתן פרג"
-    ],
-    "display_name": "טרום קט סל דקלים",
-    "sample_note": "כיתות ג-ד",
-    "sport": "basketball",
-    "team_id": "T_078",
     "tier": null
   },
   {

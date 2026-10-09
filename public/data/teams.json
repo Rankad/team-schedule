@@ -441,7 +441,7 @@
       "עמית נרדע"
     ],
     "display_name": "קט סל א רימון",
-    "sample_note": "במקום 17:30",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_055",
     "tier": null
@@ -455,17 +455,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_056",
-    "tier": null
-  },
-  {
-    "category": "mini_b",
-    "coaches": [
-      "ברק וינריב"
-    ],
-    "display_name": "קט סל ב גן נר",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_057",
     "tier": null
   },
   {
@@ -510,17 +499,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_061",
-    "tier": null
-  },
-  {
-    "category": "mini_a",
-    "coaches": [
-      "ברק וינריב"
-    ],
-    "display_name": "קט סל א גן נר",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_062",
     "tier": null
   },
   {
@@ -977,15 +955,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_117",
-    "tier": null
-  },
-  {
-    "category": null,
-    "coaches": [],
-    "display_name": "בנות הרצליה",
-    "sample_note": "משחק אימון",
-    "sport": "basketball",
-    "team_id": "T_120",
     "tier": null
   },
   {

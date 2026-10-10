@@ -771,6 +771,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "ניר גוב/יובל בר לב",
+      "date": "2026-10-11",
+      "end": "2026-10-11T18:00:00+03:00",
+      "flags": null,
+      "id": "7f2rfadt9u61hiiji90ufb7vc3",
+      "location": "אולם בגין עפולה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-11T16:00:00+03:00",
+      "team_id": "T_039",
+      "week_key": "2026-10-11",
+      "weekday": 0
+    },
+    {
+      "activity_type": "training",
       "coach_text": "בן רצין",
       "date": "2026-10-11",
       "end": "2026-10-11T17:00:00+03:00",
@@ -1179,21 +1194,6 @@
       "sport": "basketball",
       "start": "2026-10-11T19:30:00+03:00",
       "team_id": "T_030",
-      "week_key": "2026-10-11",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ניר גוב/יובל בר לב",
-      "date": "2026-10-11",
-      "end": "2026-10-11T21:30:00+03:00",
-      "flags": null,
-      "id": "7f2rfadt9u61hiiji90ufb7vc3",
-      "location": "אולם בגין עפולה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-11T19:30:00+03:00",
-      "team_id": "T_039",
       "week_key": "2026-10-11",
       "weekday": 0
     },
@@ -3464,7 +3464,7 @@
       "end": "2026-10-17T20:30:00+03:00",
       "flags": null,
       "id": "4rqnbc8nqiv35sac1idrec5rbg",
-      "location": "עין חרוד",
+      "location": "אחווה נעורה",
       "notes": null,
       "sport": "basketball",
       "start": "2026-10-17T18:30:00+03:00",
@@ -3548,5 +3548,5 @@
       "weekday": 3
     }
   ],
-  "generated_at": "2026-10-10T11:01:36Z"
+  "generated_at": "2026-10-10T17:42:29Z"
 }

@@ -80,7 +80,8 @@
   {
     "category": "mini_a",
     "coaches": [
-      "יובל בר לב"
+      "יובל בר לב",
+      "יובל בר לב )"
     ],
     "display_name": "קט סל א דדו",
     "sample_note": "במקום יום א",
@@ -119,6 +120,17 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_014",
+    "tier": null
+  },
+  {
+    "category": "girls_kids",
+    "coaches": [
+      "עדי פירסטנברג"
+    ],
+    "display_name": "ילדות א צעירות",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_015",
     "tier": null
   },
   {
@@ -205,7 +217,7 @@
       "אור רותם"
     ],
     "display_name": "ילדים א מזרח",
-    "sample_note": null,
+    "sample_note": "במקום יום ב",
     "sport": "basketball",
     "team_id": "T_024",
     "tier": null
@@ -284,10 +296,21 @@
       "עמית נרדע"
     ],
     "display_name": "נוער ארצית",
-    "sample_note": null,
+    "sample_note": "חצי אולם",
     "sport": "basketball",
     "team_id": "T_035",
     "tier": "ארצית"
+  },
+  {
+    "category": "girls_kids",
+    "coaches": [
+      "נעה שמעוני"
+    ],
+    "display_name": "ילדות א בוגרות",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_036",
+    "tier": null
   },
   {
     "category": "juniors",
@@ -352,7 +375,7 @@
       "משחק חוץ בגליל"
     ],
     "display_name": "נשים לאומית",
-    "sample_note": null,
+    "sample_note": "מתחיל ב 18:00",
     "sport": "basketball",
     "team_id": "T_043",
     "tier": "לאומית"
@@ -419,7 +442,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "קט סל א מרכז",
-    "sample_note": null,
+    "sample_note": "במקום יום חמישי כי ניר דוד תפוס",
     "sport": "basketball",
     "team_id": "T_051",
     "tier": null
@@ -441,7 +464,7 @@
       "עמית נרדע"
     ],
     "display_name": "קט סל א רימון",
-    "sample_note": null,
+    "sample_note": "במקום חמישי",
     "sport": "basketball",
     "team_id": "T_055",
     "tier": null
@@ -621,6 +644,17 @@
     "sport": "basketball",
     "team_id": "T_076",
     "tier": null
+  },
+  {
+    "category": "youth",
+    "coaches": [
+      "איתן בן עטיה"
+    ],
+    "display_name": "נערים מחוזית",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_077",
+    "tier": "מחוזית"
   },
   {
     "category": "pre_mini",
@@ -825,6 +859,18 @@
     "tier": null
   },
   {
+    "category": "girls_youth",
+    "coaches": [
+      "ברק וינריב",
+      "עדי גלמן"
+    ],
+    "display_name": "נערות א על/נערות ב על",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_099",
+    "tier": "על"
+  },
+  {
     "category": "recreational",
     "coaches": [
       "איתן פרג"
@@ -935,17 +981,6 @@
     "tier": null
   },
   {
-    "category": "recreational",
-    "coaches": [
-      "יובל בר לב"
-    ],
-    "display_name": "חוגי א/ב בנים דדו",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_116",
-    "tier": null
-  },
-  {
     "category": "girls_kids",
     "coaches": [
       "נעה שמעוני",
@@ -965,5 +1000,38 @@
     "sport": "basketball",
     "team_id": "T_121",
     "tier": "לאומית"
+  },
+  {
+    "category": null,
+    "coaches": [
+      "חוליו שוכמן"
+    ],
+    "display_name": "ניקיון אולם עין חרוד לפני משחק",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_122",
+    "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [
+      "חוליו שוכמן"
+    ],
+    "display_name": "ניקיון אולם לפני כל המשחק",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_123",
+    "tier": null
+  },
+  {
+    "category": "juniors",
+    "coaches": [
+      "גילי בן זאב"
+    ],
+    "display_name": "נוער גאון הירדן",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_124",
+    "tier": null
   }
 ]

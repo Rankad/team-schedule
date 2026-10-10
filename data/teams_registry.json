@@ -966,5 +966,29 @@
     "tier": "לאומית",
     "sport": "basketball",
     "first_seen": "2026-10-09"
+  },
+  "T_122": {
+    "normalized_name": "ניקיון אולם עין חרוד לפני משחק",
+    "display_name": "ניקיון אולם עין חרוד לפני משחק",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-11"
+  },
+  "T_123": {
+    "normalized_name": "ניקיון אולם לפני כל המשחק",
+    "display_name": "ניקיון אולם לפני כל המשחק",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-12"
+  },
+  "T_124": {
+    "normalized_name": "נוער גאון הירדן",
+    "display_name": "נוער גאון הירדן",
+    "category": "juniors",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-13"
   }
 }

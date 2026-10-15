@@ -1,4 +1,70 @@
 {
-  "changes": [],
-  "generated_at": "2026-10-14T17:51:21Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-07T17:30:00+03:00",
+        "location": "מעלה גלבוע",
+        "start": "2026-10-07T16:00:00+03:00",
+        "team_id": "T_007"
+      },
+      "session_id": "28j8rbomd98ekktjjen0108sla",
+      "team_id": "T_007",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-07T18:00:00+03:00",
+        "location": "ביכורה",
+        "start": "2026-10-07T16:00:00+03:00",
+        "team_id": "T_029"
+      },
+      "session_id": "31138402dhv1ippq9obkjb5u3d",
+      "team_id": "T_029",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-07T20:00:00+03:00",
+        "location": "אחווה נעורה",
+        "start": "2026-10-07T18:00:00+03:00",
+        "team_id": "T_032"
+      },
+      "session_id": "46rp8a86qsqva8eo2d1tl84q06",
+      "team_id": "T_032",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-07T20:00:00+03:00",
+        "location": "אחווה נעורה",
+        "start": "2026-10-07T18:00:00+03:00",
+        "team_id": "T_009"
+      },
+      "session_id": "4upboc9hpv0mbf3hnuf74fdtod",
+      "team_id": "T_009",
+      "week_key": "2026-10-04"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-07T22:00:00+03:00",
+        "location": "ניר דוד",
+        "start": "2026-10-07T20:30:00+03:00",
+        "team_id": "T_040"
+      },
+      "session_id": "6n0unt1ue4rk55dtehavbpgj1e",
+      "team_id": "T_040",
+      "week_key": "2026-10-04"
+    }
+  ],
+  "generated_at": "2026-10-15T09:41:12Z"
 }

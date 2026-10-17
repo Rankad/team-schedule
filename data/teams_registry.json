@@ -990,5 +990,61 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-10-13"
+  },
+  "T_125": {
+    "normalized_name": "נערות ב על ילדות א בוגרות מי שרשאיות",
+    "display_name": "נערות ב על/ילדות א בוגרות מי שרשאיות",
+    "category": "girls_kids",
+    "tier": "על",
+    "sport": "basketball",
+    "first_seen": "2026-10-18"
+  },
+  "T_126": {
+    "normalized_name": "ה ו מעלה גלבוע",
+    "display_name": "ה-ו מעלה גלבוע",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-19"
+  },
+  "T_127": {
+    "normalized_name": "נערים א גאון הירדן שקד",
+    "display_name": "נערים א גאון הירדן/שקד",
+    "category": "youth",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-19"
+  },
+  "T_128": {
+    "normalized_name": "נערות ב על+ילדות רשאיות+נערות א על מי שלא בנשים",
+    "display_name": "נערות ב על+ילדות רשאיות+נערות א על מי שלא בנשים",
+    "category": "girls_kids",
+    "tier": "על",
+    "sport": "basketball",
+    "first_seen": "2026-10-20"
+  },
+  "T_129": {
+    "normalized_name": "ניקיון אולם לפני משחק",
+    "display_name": "ניקיון אולם לפני משחק",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-20"
+  },
+  "T_130": {
+    "normalized_name": "נערים ט שקד נערים ט מזרח",
+    "display_name": "נערים ט שקד /נערים ט מזרח",
+    "category": "youth_9",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-10-20"
+  },
+  "T_131": {
+    "normalized_name": "נערות ב על + נערות א על מי שלא עמק חרוד",
+    "display_name": "נערות ב על + נערות א על מי שלא עמק חרוד",
+    "category": "girls_youth",
+    "tier": "על",
+    "sport": "basketball",
+    "first_seen": "2026-10-21"
   }
 }

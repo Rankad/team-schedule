@@ -692,6 +692,18 @@
   {
     "category": "recreational",
     "coaches": [
+      "רותם הטב",
+      "שקד היימן"
+    ],
+    "display_name": "חוגי בנות שקד",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_085",
+    "tier": null
+  },
+  {
+    "category": "recreational",
+    "coaches": [
       "בן רצין"
     ],
     "display_name": "חוגי בית אלפא/חפציבה א/ב בנים",

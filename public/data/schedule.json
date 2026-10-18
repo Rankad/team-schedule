@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T09:23:45Z",
+  "generated_at": "2026-10-18T16:24:48Z",
   "sessions": [
     {
       "activity_type": "training",
@@ -2330,21 +2330,6 @@
       "location": "בית אלפא",
       "notes": null,
       "sport": "volleyball",
-      "start": "2026-10-21T16:30:00+03:00",
-      "team_id": null,
-      "week_key": "2026-10-18",
-      "weekday": 3
-    },
-    {
-      "activity_type": "other_sport",
-      "coach_text": null,
-      "date": "2026-10-21",
-      "end": "2026-10-21T18:00:00+03:00",
-      "flags": null,
-      "id": "7t6oj94monl41rapusn9gsd30e",
-      "location": "דדו",
-      "notes": null,
-      "sport": "judo",
       "start": "2026-10-21T16:30:00+03:00",
       "team_id": null,
       "week_key": "2026-10-18",

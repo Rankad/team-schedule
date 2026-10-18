@@ -2,21 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "סהר טיבי",
-      "date": "2026-10-10",
-      "end": "2026-10-10T22:30:00+03:00",
-      "flags": null,
-      "id": "6u6u55c6f909o3b76cho0udk0t",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-10T20:30:00+03:00",
-      "team_id": "T_038",
-      "week_key": "2026-10-04",
-      "weekday": 6
-    },
-    {
-      "activity_type": "training",
       "coach_text": "ברק וינריב",
       "date": "2026-10-11",
       "end": "2026-10-11T20:00:00+03:00",
@@ -3336,5 +3321,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-10-17T19:06:30Z"
+  "generated_at": "2026-10-18T09:23:45Z"
 }

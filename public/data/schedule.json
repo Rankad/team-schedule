@@ -1,21 +1,6 @@
 {
-  "generated_at": "2026-10-18T19:19:10Z",
+  "generated_at": "2026-10-19T10:35:57Z",
   "sessions": [
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-10-11",
-      "end": "2026-10-11T20:00:00+03:00",
-      "flags": null,
-      "id": "2l75m9igbofu3s0l9rgmur230b",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-11T18:00:00+03:00",
-      "team_id": "T_009",
-      "week_key": "2026-10-11",
-      "weekday": 0
-    },
     {
       "activity_type": "training",
       "coach_text": "טל גילת",

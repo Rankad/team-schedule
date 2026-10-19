@@ -145,6 +145,23 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "עדי גלמן",
+      "date": "2026-10-14",
+      "end": "2026-10-14T19:00:00+03:00",
+      "flags": null,
+      "id": "46rp8a86qsqva8eo2d1tl84q06",
+      "location": "אחווה נעורה",
+      "notes": [
+        "מי שלא בטיול השנתי"
+      ],
+      "sport": "basketball",
+      "start": "2026-10-14T18:00:00+03:00",
+      "team_id": "T_131",
+      "week_key": "2026-10-11",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "גיזרמו שוכמן",
       "date": "2026-10-14",
       "end": "2026-10-14T21:00:00+03:00",
@@ -1837,16 +1854,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
+      "coach_text": "טל גילת",
       "date": "2026-10-20",
-      "end": "2026-10-20T18:30:00+03:00",
+      "end": "2026-10-20T18:00:00+03:00",
       "flags": null,
-      "id": "3gmrvuivp4j77rsncooqv6qitt",
+      "id": "3v4t8dcn8515ipi353v8i6qc4g",
       "location": "עין חרוד",
       "notes": null,
       "sport": "basketball",
       "start": "2026-10-20T16:30:00+03:00",
-      "team_id": "T_031",
+      "team_id": "T_018",
       "week_key": "2026-10-18",
       "weekday": 2
     },
@@ -1931,6 +1948,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "טל יזרעאלי",
+      "date": "2026-10-20",
+      "end": "2026-10-20T19:30:00+03:00",
+      "flags": null,
+      "id": "5o5s8m6o1p1smpmm1r04ertp01",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-20T17:30:00+03:00",
+      "team_id": "T_029",
+      "week_key": "2026-10-18",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
       "coach_text": "עדי גלמן",
       "date": "2026-10-20",
       "end": "2026-10-20T19:30:00+03:00",
@@ -1941,6 +1973,21 @@
       "sport": "basketball",
       "start": "2026-10-20T17:30:00+03:00",
       "team_id": "T_128",
+      "week_key": "2026-10-18",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "יואב שנקמן/ניר גוב/טל גילת",
+      "date": "2026-10-20",
+      "end": "2026-10-20T20:00:00+03:00",
+      "flags": null,
+      "id": "3gmrvuivp4j77rsncooqv6qitt",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-20T18:00:00+03:00",
+      "team_id": "T_031",
       "week_key": "2026-10-18",
       "weekday": 2
     },
@@ -2008,21 +2055,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "חוליו שוכמן",
-      "date": "2026-10-20",
-      "end": "2026-10-20T19:30:00+03:00",
-      "flags": null,
-      "id": "7mchrokd4p7b18ju7a2nqriqa9",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-20T18:30:00+03:00",
-      "team_id": "T_129",
-      "week_key": "2026-10-18",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
       "coach_text": "איתן בן עטיה",
       "date": "2026-10-20",
       "end": "2026-10-20T20:30:00+03:00",
@@ -2033,36 +2065,6 @@
       "sport": "basketball",
       "start": "2026-10-20T19:00:00+03:00",
       "team_id": "T_127",
-      "week_key": "2026-10-18",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-10-20",
-      "end": "2026-10-20T21:30:00+03:00",
-      "flags": null,
-      "id": "5o5s8m6o1p1smpmm1r04ertp01",
-      "location": "דדו",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-20T19:30:00+03:00",
-      "team_id": "T_029",
-      "week_key": "2026-10-18",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ניר גוב/יובל בר לב",
-      "date": "2026-10-20",
-      "end": "2026-10-20T21:30:00+03:00",
-      "flags": null,
-      "id": "4gbbq5tpnm66aq4h8rnbnrgf29",
-      "location": "אחווה נעורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-20T19:30:00+03:00",
-      "team_id": "T_039",
       "week_key": "2026-10-18",
       "weekday": 2
     },
@@ -2081,6 +2083,21 @@
       "sport": "basketball",
       "start": "2026-10-20T19:30:00+03:00",
       "team_id": "T_130",
+      "week_key": "2026-10-18",
+      "weekday": 2
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "ניר גוב/יובל בר לב",
+      "date": "2026-10-20",
+      "end": "2026-10-20T22:00:00+03:00",
+      "flags": null,
+      "id": "4gbbq5tpnm66aq4h8rnbnrgf29",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-20T20:00:00+03:00",
+      "team_id": "T_039",
       "week_key": "2026-10-18",
       "weekday": 2
     },
@@ -2126,6 +2143,23 @@
       "sport": "basketball",
       "start": "2026-10-21T07:00:00+03:00",
       "team_id": "T_111",
+      "week_key": "2026-10-18",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-10-21",
+      "end": "2026-10-21T14:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "1acn8bdgj45se9i15te0ao5isi",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-21T10:00:00+03:00",
+      "team_id": "T_042",
       "week_key": "2026-10-18",
       "weekday": 3
     },
@@ -2398,6 +2432,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "טל יזרעאלי",
+      "date": "2026-10-21",
+      "end": "2026-10-21T19:00:00+03:00",
+      "flags": null,
+      "id": "31138402dhv1ippq9obkjb5u3d",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-21T17:00:00+03:00",
+      "team_id": "T_029",
+      "week_key": "2026-10-18",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "טל גילת",
       "date": "2026-10-21",
       "end": "2026-10-21T18:30:00+03:00",
@@ -2565,21 +2614,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-10-21",
-      "end": "2026-10-21T20:00:00+03:00",
-      "flags": null,
-      "id": "31138402dhv1ippq9obkjb5u3d",
-      "location": "דדו",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-21T18:00:00+03:00",
-      "team_id": "T_029",
-      "week_key": "2026-10-18",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
       "coach_text": "פז תשובה",
       "date": "2026-10-21",
       "end": "2026-10-21T19:30:00+03:00",
@@ -2612,18 +2646,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "עדי גלמן",
+      "coach_text": "יונתן אורן",
       "date": "2026-10-21",
-      "end": "2026-10-21T20:00:00+03:00",
+      "end": "2026-10-21T19:00:00+03:00",
       "flags": null,
-      "id": "46rp8a86qsqva8eo2d1tl84q06",
+      "id": "4anurl0c93t1rcjoci46glinn9",
       "location": "אחווה נעורה",
-      "notes": [
-        "מי שלא בטיול השנתי"
-      ],
+      "notes": null,
       "sport": "basketball",
       "start": "2026-10-21T18:00:00+03:00",
-      "team_id": "T_131",
+      "team_id": "T_109",
       "week_key": "2026-10-18",
       "weekday": 3
     },
@@ -2691,14 +2723,29 @@
       "activity_type": "training",
       "coach_text": "נעה שמעוני",
       "date": "2026-10-21",
-      "end": "2026-10-21T21:30:00+03:00",
+      "end": "2026-10-21T21:00:00+03:00",
       "flags": null,
       "id": "4usv7l1iecn0hprra8jtucvas4",
       "location": "אחווה נעורה",
       "notes": null,
       "sport": "basketball",
-      "start": "2026-10-21T20:00:00+03:00",
+      "start": "2026-10-21T19:00:00+03:00",
       "team_id": "T_036",
+      "week_key": "2026-10-18",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "ברק וינריב",
+      "date": "2026-10-21",
+      "end": "2026-10-21T20:30:00+03:00",
+      "flags": null,
+      "id": "11k96tjad8jkhtlhdj2nu54oka",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-21T19:00:00+03:00",
+      "team_id": "T_062",
       "week_key": "2026-10-18",
       "weekday": 3
     },
@@ -2766,6 +2813,23 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-10-22",
+      "end": "2026-10-22T14:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "3jj0k4ade2oupg3736u8c7snn9",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-22T10:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-10-18",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
       "coach_text": "יובל בר לב",
       "date": "2026-10-22",
       "end": "2026-10-22T14:30:00+03:00",
@@ -2828,16 +2892,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "תמיר פינטל",
+      "coach_text": "יונתן אורן",
       "date": "2026-10-22",
       "end": "2026-10-22T16:30:00+03:00",
       "flags": null,
-      "id": "76v43425av6inphhri2rg6d6c1",
+      "id": "6drkmjo1agr8bbig5cg3oep900",
       "location": "עין חרוד",
       "notes": null,
       "sport": "basketball",
       "start": "2026-10-22T15:00:00+03:00",
-      "team_id": "T_025",
+      "team_id": "T_109",
       "week_key": "2026-10-18",
       "weekday": 4
     },
@@ -2868,24 +2932,6 @@
       "sport": "basketball",
       "start": "2026-10-22T15:30:00+03:00",
       "team_id": "T_019",
-      "week_key": "2026-10-18",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-10-22",
-      "end": "2026-10-22T17:30:00+03:00",
-      "flags": null,
-      "id": "0idfa8jpmvc7rfnu1qm70vgbic",
-      "location": "אחווה נעורה",
-      "notes": [
-        "מי שלא בטיול שנתי",
-        "+נערות א על שלא בנשים לאומית"
-      ],
-      "sport": "basketball",
-      "start": "2026-10-22T15:30:00+03:00",
-      "team_id": "T_032",
       "week_key": "2026-10-18",
       "weekday": 4
     },
@@ -2984,6 +3030,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "ברק וינריב",
+      "date": "2026-10-22",
+      "end": "2026-10-22T18:00:00+03:00",
+      "flags": null,
+      "id": "08kakslh0khgf2jpjkp4kjcc3j",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-22T16:30:00+03:00",
+      "team_id": "T_057",
+      "week_key": "2026-10-18",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
       "coach_text": "עופר כספי",
       "date": "2026-10-22",
       "end": "2026-10-22T18:00:00+03:00",
@@ -3026,6 +3087,21 @@
       "sport": "basketball",
       "start": "2026-10-22T17:15:00+03:00",
       "team_id": "T_054",
+      "week_key": "2026-10-18",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "תמיר פינטל",
+      "date": "2026-10-22",
+      "end": "2026-10-22T19:00:00+03:00",
+      "flags": null,
+      "id": "76v43425av6inphhri2rg6d6c1",
+      "location": "גבע",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-22T17:30:00+03:00",
+      "team_id": "T_025",
       "week_key": "2026-10-18",
       "weekday": 4
     },
@@ -3113,7 +3189,7 @@
       "end": "2026-10-22T20:30:00+03:00",
       "flags": null,
       "id": "749rilbvp9qop112u6qbsr1ama",
-      "location": "גבע",
+      "location": "גן נר",
       "notes": null,
       "sport": "basketball",
       "start": "2026-10-22T19:00:00+03:00",
@@ -3202,6 +3278,40 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-10-23",
+      "end": "2026-10-23T14:00:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "0g7c0tfnh2h2sokgnb3i7ck3g6",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-23T11:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-10-18",
+      "weekday": 5
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "שרון אברהמי/גולן יבלונבסקי",
+      "date": "2026-10-24",
+      "end": "2026-10-24T20:30:00+03:00",
+      "flags": [
+        "team_name_has_club_token"
+      ],
+      "id": "6hapb27cru6hahfl59tqiij6ki",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-10-24T17:00:00+03:00",
+      "team_id": "T_042",
+      "week_key": "2026-10-18",
+      "weekday": 6
+    },
+    {
+      "activity_type": "training",
       "coach_text": "ברק וינריב",
       "date": "2026-10-24",
       "end": "2026-10-24T20:30:00+03:00",
@@ -3267,7 +3377,7 @@
       "end": "2026-10-24T22:30:00+03:00",
       "flags": null,
       "id": "4tpgpfk281pbgf11hna50urtk9",
-      "location": "אחווה נעורה",
+      "location": "גן נר",
       "notes": null,
       "sport": "basketball",
       "start": "2026-10-24T20:30:00+03:00",
@@ -3291,5 +3401,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-10-19T10:35:57Z"
+  "generated_at": "2026-10-19T19:09:36Z"
 }

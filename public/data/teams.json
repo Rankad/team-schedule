@@ -262,7 +262,7 @@
       "עדי גלמן"
     ],
     "display_name": "נערות ב על",
-    "sample_note": "מי שלא בטיול שנתי",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_032",
     "tier": "על"
@@ -354,6 +354,18 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_041",
+    "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [
+      "גולן יבלונבסקי",
+      "שרון אברהמי"
+    ],
+    "display_name": "הפועל העמק",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_042",
     "tier": null
   },
   {
@@ -468,6 +480,17 @@
     "tier": null
   },
   {
+    "category": "mini_b",
+    "coaches": [
+      "ברק וינריב"
+    ],
+    "display_name": "קט סל ב גן נר",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_057",
+    "tier": null
+  },
+  {
     "category": "recreational",
     "coaches": [
       "עדי פירסטנברג"
@@ -509,6 +532,17 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_061",
+    "tier": null
+  },
+  {
+    "category": "mini_a",
+    "coaches": [
+      "ברק וינריב"
+    ],
+    "display_name": "קט סל א גן נר",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_062",
     "tier": null
   },
   {
@@ -916,6 +950,7 @@
   {
     "category": null,
     "coaches": [
+      "יונתן אורן",
       "צוות מקצועי מחלקת הבנות"
     ],
     "display_name": "מצוינות בנות",
@@ -1034,17 +1069,6 @@
     "sport": "basketball",
     "team_id": "T_128",
     "tier": "על"
-  },
-  {
-    "category": null,
-    "coaches": [
-      "חוליו שוכמן"
-    ],
-    "display_name": "ניקיון אולם לפני משחק",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_129",
-    "tier": null
   },
   {
     "category": "youth_9",

@@ -284,7 +284,7 @@
       "עמית נרדע"
     ],
     "display_name": "נוער ארצית",
-    "sample_note": "חצי אולם",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_035",
     "tier": "ארצית"
@@ -374,7 +374,7 @@
       "יונתן אורן"
     ],
     "display_name": "נשים לאומית",
-    "sample_note": "מתחיל ב 18:00",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_043",
     "tier": "לאומית"

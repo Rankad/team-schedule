@@ -870,18 +870,6 @@
     "tier": null
   },
   {
-    "category": "girls_youth",
-    "coaches": [
-      "ברק וינריב",
-      "עדי גלמן"
-    ],
-    "display_name": "נערות א על/נערות ב על",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_099",
-    "tier": "על"
-  },
-  {
     "category": "recreational",
     "coaches": [
       "איתן פרג"
@@ -1081,16 +1069,5 @@
     "sport": "basketball",
     "team_id": "T_130",
     "tier": null
-  },
-  {
-    "category": "girls_youth",
-    "coaches": [
-      "עדי גלמן"
-    ],
-    "display_name": "נערות ב על + נערות א על מי שלא עמק חרוד",
-    "sample_note": "מי שלא בטיול השנתי",
-    "sport": "basketball",
-    "team_id": "T_131",
-    "tier": "על"
   }
 ]

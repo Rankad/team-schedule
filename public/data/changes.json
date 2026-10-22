@@ -1,4 +1,83 @@
 {
-  "changes": [],
-  "generated_at": "2026-10-21T17:57:00Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-14T21:00:00+03:00",
+        "location": "ביכורה",
+        "start": "2026-10-14T19:30:00+03:00",
+        "team_id": "T_037"
+      },
+      "session_id": "37rh8h5eg492du9d07bv3t5hg0",
+      "team_id": "T_037",
+      "week_key": "2026-10-11"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-14T22:30:00+03:00",
+        "location": "עין חרוד",
+        "start": "2026-10-14T20:30:00+03:00",
+        "team_id": "T_099"
+      },
+      "session_id": "3j1dilovdm0d54b2fb8uov96tb",
+      "team_id": "T_099",
+      "week_key": "2026-10-11"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-14T19:00:00+03:00",
+        "location": "אחווה נעורה",
+        "start": "2026-10-14T18:00:00+03:00",
+        "team_id": "T_131"
+      },
+      "session_id": "46rp8a86qsqva8eo2d1tl84q06",
+      "team_id": "T_131",
+      "week_key": "2026-10-11"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-14T21:00:00+03:00",
+        "location": "דדו",
+        "start": "2026-10-14T19:30:00+03:00",
+        "team_id": "T_061"
+      },
+      "session_id": "550rg7ppfc04vtnj5rkt1pk8lc",
+      "team_id": "T_061",
+      "week_key": "2026-10-11"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-14T23:00:00+03:00",
+        "location": "ביכורה",
+        "start": "2026-10-14T21:00:00+03:00",
+        "team_id": "T_041"
+      },
+      "session_id": "5jn69ao2g6n18j4oktv4ao6uc8",
+      "team_id": "T_041",
+      "week_key": "2026-10-11"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-14T10:30:00+03:00",
+        "location": "אחווה נעורה",
+        "start": "2026-10-14T08:30:00+03:00",
+        "team_id": "T_043"
+      },
+      "session_id": "77nkemm303b6bsa45pno4apr8r",
+      "team_id": "T_043",
+      "week_key": "2026-10-11"
+    }
+  ],
+  "generated_at": "2026-10-22T09:54:10Z"
 }

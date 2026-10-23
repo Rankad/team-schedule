@@ -1,53 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "unknown",
-      "coach_text": null,
-      "date": "2026-10-15",
-      "end": "2026-10-15T18:30:00+03:00",
-      "flags": [
-        "unrecognized_title"
-      ],
-      "id": "03aavdm879m1hjunpful8olaqt",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "unknown",
-      "start": "2026-10-15T16:00:00+03:00",
-      "team_id": null,
-      "week_key": "2026-10-11",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "פלא תמיר",
-      "date": "2026-10-15",
-      "end": "2026-10-15T20:30:00+03:00",
-      "flags": null,
-      "id": "3klgfk3kna4d83l58mrtfdtidp",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-15T19:00:00+03:00",
-      "team_id": "T_061",
-      "week_key": "2026-10-11",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "נתי כהן",
-      "date": "2026-10-15",
-      "end": "2026-10-15T20:30:00+03:00",
-      "flags": null,
-      "id": "571h2sti23c6e7g96mlbsh4o0m",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-15T19:00:00+03:00",
-      "team_id": "T_064",
-      "week_key": "2026-10-11",
-      "weekday": 4
-    },
-    {
       "activity_type": "blocked_hall",
       "coach_text": null,
       "date": "2026-10-16",
@@ -3198,5 +3151,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-10-22T17:53:29Z"
+  "generated_at": "2026-10-23T09:48:02Z"
 }

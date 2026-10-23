@@ -1,31 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-10-15T20:30:00+03:00",
-        "location": "עין חרוד",
-        "start": "2026-10-15T19:00:00+03:00",
-        "team_id": "T_061"
-      },
-      "session_id": "3klgfk3kna4d83l58mrtfdtidp",
-      "team_id": "T_061",
-      "week_key": "2026-10-11"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-10-15T20:30:00+03:00",
-        "location": "ביכורה",
-        "start": "2026-10-15T19:00:00+03:00",
-        "team_id": "T_064"
-      },
-      "session_id": "571h2sti23c6e7g96mlbsh4o0m",
-      "team_id": "T_064",
-      "week_key": "2026-10-11"
-    }
-  ],
-  "generated_at": "2026-10-23T09:48:02Z"
+  "changes": [],
+  "generated_at": "2026-10-23T17:47:12Z"
 }

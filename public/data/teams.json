@@ -83,7 +83,7 @@
       "עדי גלמן"
     ],
     "display_name": "קט סל ב בנות",
-    "sample_note": "במקום 16:00",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_011",
     "tier": null
@@ -441,7 +441,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "קט סל א מרכז",
-    "sample_note": "במקום יום שני",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_051",
     "tier": null
@@ -507,7 +507,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "נוער לאומית",
-    "sample_note": null,
+    "sample_note": "פיזור לאולם גן נר",
     "sport": "basketball",
     "team_id": "T_059",
     "tier": "לאומית"
@@ -554,6 +554,28 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_063",
+    "tier": null
+  },
+  {
+    "category": "youth_9",
+    "coaches": [
+      "נתי כהן"
+    ],
+    "display_name": "נערים ט מזרח",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_064",
+    "tier": null
+  },
+  {
+    "category": "youth_9",
+    "coaches": [
+      "אילן היימן"
+    ],
+    "display_name": "נערים ט שקד",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_065",
     "tier": null
   },
   {
@@ -859,6 +881,18 @@
     "tier": null
   },
   {
+    "category": "girls_youth",
+    "coaches": [
+      "ברק וינריב",
+      "עדי גלמן"
+    ],
+    "display_name": "נערות א על/נערות ב על",
+    "sample_note": "ללא שנתון י עמק חרוד",
+    "sport": "basketball",
+    "team_id": "T_099",
+    "tier": "על"
+  },
+  {
     "category": "recreational",
     "coaches": [
       "איתן פרג"
@@ -1037,15 +1071,15 @@
     "tier": null
   },
   {
-    "category": "girls_kids",
+    "category": null,
     "coaches": [
-      "עדי גלמן"
+      "חוליו שוכמן"
     ],
-    "display_name": "נערות ב על+ילדות רשאיות+נערות א על מי שלא בנשים",
+    "display_name": "ניקיון אולם לפני משחק",
     "sample_note": null,
     "sport": "basketball",
-    "team_id": "T_128",
-    "tier": "על"
+    "team_id": "T_129",
+    "tier": null
   },
   {
     "category": "youth_9",
@@ -1058,5 +1092,16 @@
     "sport": "basketball",
     "team_id": "T_130",
     "tier": null
+  },
+  {
+    "category": "girls_kids",
+    "coaches": [
+      "עדי גלמן"
+    ],
+    "display_name": "נערות ב על+ילדות רשאיות",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_132",
+    "tier": "על"
   }
 ]

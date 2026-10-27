@@ -1,4 +1,18 @@
 {
-  "changes": [],
-  "generated_at": "2026-10-26T19:04:57Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-19T20:30:00+03:00",
+        "location": "גבע",
+        "start": "2026-10-19T19:00:00+03:00",
+        "team_id": "T_061"
+      },
+      "session_id": "67gfis42bdquvgc9apqnaa4rft",
+      "team_id": "T_061",
+      "week_key": "2026-10-18"
+    }
+  ],
+  "generated_at": "2026-10-27T10:16:39Z"
 }

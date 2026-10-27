@@ -2,21 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "פלא תמיר",
-      "date": "2026-10-19",
-      "end": "2026-10-19T20:30:00+03:00",
-      "flags": null,
-      "id": "67gfis42bdquvgc9apqnaa4rft",
-      "location": "גבע",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-19T19:00:00+03:00",
-      "team_id": "T_061",
-      "week_key": "2026-10-18",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
       "coach_text": "ברק וינריב",
       "date": "2026-10-20",
       "end": "2026-10-20T16:00:00+03:00",
@@ -3167,5 +3152,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-10-26T19:04:57Z"
+  "generated_at": "2026-10-27T10:16:39Z"
 }

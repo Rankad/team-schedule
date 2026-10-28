@@ -1071,18 +1071,6 @@
     "tier": null
   },
   {
-    "category": "youth_9",
-    "coaches": [
-      "אילן היימן",
-      "נתי כהן"
-    ],
-    "display_name": "נערים ט שקד /נערים ט מזרח",
-    "sample_note": "+לנג,קליין,לוי",
-    "sport": "basketball",
-    "team_id": "T_130",
-    "tier": null
-  },
-  {
     "category": "girls_kids",
     "coaches": [
       "עדי גלמן"

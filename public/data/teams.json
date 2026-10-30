@@ -961,7 +961,6 @@
   {
     "category": null,
     "coaches": [
-      "יונתן אורן",
       "צוות מקצועי מחלקת הבנות"
     ],
     "display_name": "מצוינות בנות",
@@ -1080,5 +1079,16 @@
     "sport": "basketball",
     "team_id": "T_132",
     "tier": "על"
+  },
+  {
+    "category": "women",
+    "coaches": [
+      "ביכורה"
+    ],
+    "display_name": "כדור רשת נשים",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_133",
+    "tier": null
   }
 ]

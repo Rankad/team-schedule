@@ -1,9 +1,9 @@
 {
-  "event_count": 198,
-  "generated_at": "2026-10-29T18:50:53Z",
+  "event_count": 194,
+  "generated_at": "2026-10-30T11:14:22Z",
   "source": "gcal-api",
   "window": {
-    "from": "2026-10-22",
-    "to": "2026-11-26"
+    "from": "2026-10-23",
+    "to": "2026-11-27"
   }
 }

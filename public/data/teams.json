@@ -485,7 +485,7 @@
       "ברק וינריב"
     ],
     "display_name": "קט סל ב גן נר",
-    "sample_note": null,
+    "sample_note": "חצי אולם",
     "sport": "basketball",
     "team_id": "T_057",
     "tier": null
@@ -529,7 +529,7 @@
       "פלא תמיר"
     ],
     "display_name": "נערים ט מערב",
-    "sample_note": null,
+    "sample_note": "טל יזרעאלי מחליף",
     "sport": "basketball",
     "team_id": "T_061",
     "tier": null
@@ -887,7 +887,7 @@
       "עדי גלמן"
     ],
     "display_name": "נערות א על/נערות ב על",
-    "sample_note": "ללא שנתון י עמק חרוד",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_099",
     "tier": "על"
@@ -1035,6 +1035,17 @@
     "sport": "basketball",
     "team_id": "T_124",
     "tier": null
+  },
+  {
+    "category": "girls_kids",
+    "coaches": [
+      "עדי גלמן"
+    ],
+    "display_name": "נערות ב על/ילדות א בוגרות מי שרשאיות",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_125",
+    "tier": "על"
   },
   {
     "category": null,

@@ -1062,5 +1062,21 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-11-07"
+  },
+  "T_134": {
+    "normalized_name": "מצוינות קט סל ב",
+    "display_name": "מצוינות קט סל ב",
+    "category": "mini_b",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-06"
+  },
+  "T_135": {
+    "normalized_name": "מצוינות קט סל א",
+    "display_name": "מצוינות קט סל א",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-06"
   }
 }

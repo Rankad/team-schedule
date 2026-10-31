@@ -227,7 +227,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "ילדים א צעירים",
-    "sample_note": null,
+    "sample_note": "חצי שעה ראשונה חדר כושר",
     "sport": "basketball",
     "team_id": "T_029",
     "tier": null
@@ -485,7 +485,7 @@
       "ברק וינריב"
     ],
     "display_name": "קט סל ב גן נר",
-    "sample_note": "חצי אולם",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_057",
     "tier": null
@@ -598,17 +598,6 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_069",
-    "tier": null
-  },
-  {
-    "category": "recreational",
-    "coaches": [
-      "יובל בר לב"
-    ],
-    "display_name": "חוגי גן חובה דדו",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_070",
     "tier": null
   },
   {
@@ -1100,6 +1089,28 @@
     "sample_note": null,
     "sport": "basketball",
     "team_id": "T_133",
+    "tier": null
+  },
+  {
+    "category": "mini_b",
+    "coaches": [
+      "צוות מערך המצוינות"
+    ],
+    "display_name": "מצוינות קט סל ב",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_134",
+    "tier": null
+  },
+  {
+    "category": "mini_a",
+    "coaches": [
+      "צוות מערך המצוינות"
+    ],
+    "display_name": "מצוינות קט סל א",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_135",
     "tier": null
   }
 ]

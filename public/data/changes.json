@@ -1,178 +1,43 @@
 {
   "changes": [
     {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-01T17:00:00+02:00",
-        "location": "דדו",
-        "start": "2026-11-01T16:15:00+02:00",
-        "team_id": "T_070"
-      },
-      "session_id": "03fgqg7vq61vmk9c8mvufih39t",
-      "team_id": "T_070",
-      "week_key": "2026-11-01"
-    },
-    {
       "kind": "location_changed",
       "new": {
-        "location": "אחווה נעורה"
+        "location": "ביכורה"
       },
       "old": {
-        "location": "גבע"
+        "location": "ניר דוד"
       },
-      "session_id": "0l5lndf3dsbrcnmrvu7lh3tevp",
-      "team_id": "T_076",
+      "session_id": "1bp4mbthmamhdefop1rhtl7jt0",
+      "team_id": "T_124",
       "week_key": "2026-11-01"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-11-06T12:00:00+02:00",
-        "start": "2026-11-06T10:30:00+02:00"
-      },
-      "old": {
-        "end": "2026-10-29T22:00:00+02:00",
-        "start": "2026-10-29T20:30:00+02:00"
-      },
-      "session_id": "0l5lndf3dsbrcnmrvu7lh3tevp",
-      "team_id": "T_076",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-11-06T11:30:00+02:00",
-        "location": "עין חרוד",
-        "start": "2026-11-06T10:00:00+02:00",
-        "team_id": "T_134"
-      },
-      "old": null,
-      "session_id": "0ttu6l8jq260otpredg6t2k6an",
-      "team_id": "T_134",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-11-06T13:00:00+02:00",
-        "location": "עין חרוד",
-        "start": "2026-11-06T11:30:00+02:00",
-        "team_id": "T_135"
-      },
-      "old": null,
-      "session_id": "3bgd8l5108bki5pmdfst8a2tp0",
-      "team_id": "T_135",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-05T20:30:00+02:00",
-        "start": "2026-11-05T19:00:00+02:00"
-      },
-      "old": {
-        "end": "2026-10-29T20:30:00+02:00",
-        "start": "2026-10-29T19:00:00+02:00"
-      },
-      "session_id": "3klgfk3kna4d83l58mrtfdtidp",
-      "team_id": "T_061",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-04T15:00:00+02:00",
-        "start": "2026-11-04T14:00:00+02:00"
-      },
-      "old": {
-        "end": "2026-11-04T19:30:00+02:00",
+        "end": "2026-11-04T20:30:00+02:00",
         "start": "2026-11-04T18:30:00+02:00"
-      },
-      "session_id": "40fv98cujprftv4o99uje8kvn6",
-      "team_id": "T_129",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "עין חרוד"
-      },
-      "old": {
-        "location": "דדו"
-      },
-      "session_id": "4a2v7tkdsgcchtduvntiv9tgu7",
-      "team_id": "T_029",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-04T20:00:00+02:00",
-        "start": "2026-11-04T18:00:00+02:00"
       },
       "old": {
         "end": "2026-11-04T18:30:00+02:00",
         "start": "2026-11-04T16:30:00+02:00"
       },
-      "session_id": "4a2v7tkdsgcchtduvntiv9tgu7",
-      "team_id": "T_029",
+      "session_id": "1rfu4mcp2l010p03vc486j8v5p",
+      "team_id": "T_031",
       "week_key": "2026-11-01"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-11-04T20:00:00+02:00",
-        "start": "2026-11-04T18:00:00+02:00"
+        "end": "2026-11-03T22:00:00+02:00",
+        "start": "2026-11-03T20:30:00+02:00"
       },
       "old": {
-        "end": "2026-11-04T22:00:00+02:00",
-        "start": "2026-11-04T20:00:00+02:00"
+        "end": "2026-11-03T19:00:00+02:00",
+        "start": "2026-11-03T17:30:00+02:00"
       },
-      "session_id": "4rqnbc8nqiv35sac1idrec5rbg",
-      "team_id": "T_039",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-07T21:30:00+02:00",
-        "start": "2026-11-07T19:30:00+02:00"
-      },
-      "old": {
-        "end": "2026-11-07T21:45:00+02:00",
-        "start": "2026-11-07T19:45:00+02:00"
-      },
-      "session_id": "4tpgpfk281pbgf11hna50urtk9",
-      "team_id": "T_038",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-04T22:00:00+02:00",
-        "start": "2026-11-04T20:00:00+02:00"
-      },
-      "old": {
-        "end": "2026-11-04T20:00:00+02:00",
-        "start": "2026-11-04T18:00:00+02:00"
-      },
-      "session_id": "4usv7l1iecn0hprra8jtucvas4",
-      "team_id": "T_036",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-01T17:30:00+02:00",
-        "start": "2026-11-01T16:00:00+02:00"
-      },
-      "old": {
-        "end": "2026-11-01T18:30:00+02:00",
-        "start": "2026-11-01T17:00:00+02:00"
-      },
-      "session_id": "5b1pio609ss2k0rjp9v5k048pn",
-      "team_id": "T_010",
+      "session_id": "2138uicjsov8v9rbcq04jfn48k",
+      "team_id": "T_040",
       "week_key": "2026-11-01"
     },
     {
@@ -181,92 +46,79 @@
         "location": "ניר דוד"
       },
       "old": {
-        "location": "מסילות"
+        "location": "ביכורה"
       },
-      "session_id": "5dkac1vs8civoar43c4ufoo8ol",
-      "team_id": "T_019",
+      "session_id": "3cf7hb648sfar6dlb38l11sv8h",
+      "team_id": "T_065",
       "week_key": "2026-11-01"
     },
     {
       "kind": "time_changed",
       "new": {
-        "end": "2026-11-04T18:30:00+02:00",
-        "start": "2026-11-04T17:00:00+02:00"
+        "end": "2026-11-03T19:00:00+02:00",
+        "start": "2026-11-03T17:30:00+02:00"
       },
       "old": {
-        "end": "2026-11-02T19:00:00+02:00",
-        "start": "2026-11-02T17:30:00+02:00"
+        "end": "2026-11-03T21:00:00+02:00",
+        "start": "2026-11-03T19:30:00+02:00"
       },
-      "session_id": "5dkac1vs8civoar43c4ufoo8ol",
-      "team_id": "T_019",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-04T17:00:00+02:00",
-        "start": "2026-11-04T15:30:00+02:00"
-      },
-      "old": {
-        "end": "2026-11-04T17:30:00+02:00",
-        "start": "2026-11-04T16:00:00+02:00"
-      },
-      "session_id": "5nu7hn6o45snta40cakfhilgb5",
-      "team_id": "T_011",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "time_changed",
-      "new": {
-        "end": "2026-11-04T18:00:00+02:00",
-        "start": "2026-11-04T16:30:00+02:00"
-      },
-      "old": {
-        "end": "2026-11-04T20:00:00+02:00",
-        "start": "2026-11-04T18:30:00+02:00"
-      },
-      "session_id": "5r9164ehj809jtedcfdui45jr1",
-      "team_id": "T_010",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-11-06T10:30:00+02:00",
-        "location": "אחווה נעורה",
-        "start": "2026-11-06T09:00:00+02:00",
-        "team_id": "T_061"
-      },
-      "old": null,
-      "session_id": "67gfis42bdquvgc9apqnaa4rft",
-      "team_id": "T_061",
-      "week_key": "2026-11-01"
-    },
-    {
-      "kind": "location_changed",
-      "new": {
-        "location": "נווה איתן"
-      },
-      "old": {
-        "location": "מסילות"
-      },
-      "session_id": "6pk96ot6jvf3dme5qscjpv5q4f",
-      "team_id": "T_055",
+      "session_id": "3cf7hb648sfar6dlb38l11sv8h",
+      "team_id": "T_065",
       "week_key": "2026-11-01"
     },
     {
       "kind": "removed",
       "new": null,
       "old": {
-        "end": "2026-11-01T21:30:00+02:00",
-        "location": "מסילות",
-        "start": "2026-11-01T20:00:00+02:00",
-        "team_id": "T_127"
+        "end": "2026-11-04T20:30:00+02:00",
+        "location": "גן נר",
+        "start": "2026-11-04T18:30:00+02:00",
+        "team_id": "T_099"
       },
-      "session_id": "7abaqecoq0ffipggpkgvr7e012",
-      "team_id": "T_127",
+      "session_id": "4kcvt5o9kn9g3m6tgcqfvtqcqu",
+      "team_id": "T_099",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "location_changed",
+      "new": {
+        "location": "גן נר"
+      },
+      "old": {
+        "location": "אחווה נעורה"
+      },
+      "session_id": "4rqnbc8nqiv35sac1idrec5rbg",
+      "team_id": "T_039",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-11-04T18:30:00+02:00",
+        "start": "2026-11-04T16:30:00+02:00"
+      },
+      "old": {
+        "end": "2026-11-04T20:00:00+02:00",
+        "start": "2026-11-04T18:00:00+02:00"
+      },
+      "session_id": "4rqnbc8nqiv35sac1idrec5rbg",
+      "team_id": "T_039",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "time_changed",
+      "new": {
+        "end": "2026-11-04T21:00:00+02:00",
+        "start": "2026-11-04T19:00:00+02:00"
+      },
+      "old": {
+        "end": "2026-11-04T22:00:00+02:00",
+        "start": "2026-11-04T20:00:00+02:00"
+      },
+      "session_id": "4usv7l1iecn0hprra8jtucvas4",
+      "team_id": "T_036",
       "week_key": "2026-11-01"
     }
   ],
-  "generated_at": "2026-10-31T17:33:26Z"
+  "generated_at": "2026-11-01T11:44:11Z"
 }

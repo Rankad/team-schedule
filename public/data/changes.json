@@ -4,15 +4,15 @@
       "kind": "removed",
       "new": null,
       "old": {
-        "end": "2026-10-25T18:00:00+02:00",
-        "location": "עין חרוד",
-        "start": "2026-10-25T16:30:00+02:00",
-        "team_id": "T_059"
+        "end": "2026-10-26T22:00:00+02:00",
+        "location": "ניר דוד",
+        "start": "2026-10-26T20:30:00+02:00",
+        "team_id": "T_035"
       },
-      "session_id": "497isdf5el8rmlhhpn4qqn8rlh",
-      "team_id": "T_059",
+      "session_id": "6pdtbam3sg3dnqjl40asm6qda7",
+      "team_id": "T_035",
       "week_key": "2026-10-25"
     }
   ],
-  "generated_at": "2026-11-02T13:15:33Z"
+  "generated_at": "2026-11-02T23:49:08Z"
 }

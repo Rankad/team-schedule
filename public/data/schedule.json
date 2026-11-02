@@ -1,21 +1,6 @@
 {
-  "generated_at": "2026-11-02T13:15:33Z",
+  "generated_at": "2026-11-02T23:49:08Z",
   "sessions": [
-    {
-      "activity_type": "training",
-      "coach_text": "עמית נרדע",
-      "date": "2026-10-26",
-      "end": "2026-10-26T22:00:00+02:00",
-      "flags": null,
-      "id": "6pdtbam3sg3dnqjl40asm6qda7",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-26T20:30:00+02:00",
-      "team_id": "T_035",
-      "week_key": "2026-10-25",
-      "weekday": 1
-    },
     {
       "activity_type": "training",
       "coach_text": "יונתן אורן",

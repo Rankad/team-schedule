@@ -2,23 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-10-25",
-      "end": "2026-10-25T18:00:00+02:00",
-      "flags": null,
-      "id": "497isdf5el8rmlhhpn4qqn8rlh",
-      "location": "עין חרוד",
-      "notes": [
-        "פיזור לאולם גן נר"
-      ],
-      "sport": "basketball",
-      "start": "2026-10-25T16:30:00+02:00",
-      "team_id": "T_059",
-      "week_key": "2026-10-25",
-      "weekday": 0
-    },
-    {
-      "activity_type": "training",
       "coach_text": "עמית נרדע",
       "date": "2026-10-26",
       "end": "2026-10-26T22:00:00+02:00",
@@ -3466,5 +3449,5 @@
       "weekday": 4
     }
   ],
-  "generated_at": "2026-11-01T18:18:51Z"
+  "generated_at": "2026-11-02T13:15:33Z"
 }

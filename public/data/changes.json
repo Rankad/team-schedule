@@ -1,18 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-10-26T22:00:00+02:00",
-        "location": "ניר דוד",
-        "start": "2026-10-26T20:30:00+02:00",
-        "team_id": "T_035"
-      },
-      "session_id": "6pdtbam3sg3dnqjl40asm6qda7",
-      "team_id": "T_035",
-      "week_key": "2026-10-25"
-    }
-  ],
-  "generated_at": "2026-11-02T23:49:08Z"
+  "changes": [],
+  "generated_at": "2026-11-03T12:40:48Z"
 }

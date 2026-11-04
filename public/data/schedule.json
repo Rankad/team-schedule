@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T12:50:19Z",
+  "generated_at": "2026-11-04T20:20:14Z",
   "sessions": [
     {
       "activity_type": "training",
@@ -3356,6 +3356,21 @@
       "team_id": "T_133",
       "week_key": "2026-11-01",
       "weekday": 6
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "דגן יבזורי",
+      "date": "2026-11-11",
+      "end": "2026-11-11T22:30:00+02:00",
+      "flags": null,
+      "id": "6jretf3k0ubc1v2p7fkgo64b2r",
+      "location": "דדו",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-11-11T20:30:00+02:00",
+      "team_id": "T_136",
+      "week_key": "2026-11-08",
+      "weekday": 3
     },
     {
       "activity_type": "blocked_hall",

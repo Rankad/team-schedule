@@ -1078,5 +1078,13 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-11-06"
+  },
+  "T_136": {
+    "normalized_name": "עמותת מסירה מנצחת",
+    "display_name": "עמותת מסירה מנצחת",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-11"
   }
 }

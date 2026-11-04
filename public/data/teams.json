@@ -1089,5 +1089,16 @@
     "sport": "basketball",
     "team_id": "T_135",
     "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [
+      "דגן יבזורי"
+    ],
+    "display_name": "עמותת מסירה מנצחת",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_136",
+    "tier": null
   }
 ]

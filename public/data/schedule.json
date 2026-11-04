@@ -1,68 +1,6 @@
 {
-  "generated_at": "2026-11-03T19:59:52Z",
+  "generated_at": "2026-11-04T12:50:19Z",
   "sessions": [
-    {
-      "activity_type": "training",
-      "coach_text": "יונתן אורן",
-      "date": "2026-10-27",
-      "end": "2026-10-27T11:00:00+02:00",
-      "flags": null,
-      "id": "19ti7ngce3roqa6ipop13id8bc",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-27T09:00:00+02:00",
-      "team_id": "T_043",
-      "week_key": "2026-10-25",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-10-27",
-      "end": "2026-10-27T11:00:00+02:00",
-      "flags": null,
-      "id": "6gkc3brh2o8gtksp1tmvg37oqk",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-27T09:00:00+02:00",
-      "team_id": "T_132",
-      "week_key": "2026-10-25",
-      "weekday": 2
-    },
-    {
-      "activity_type": "blocked_hall",
-      "coach_text": null,
-      "date": "2026-10-27",
-      "end": "2026-10-27T19:30:00+02:00",
-      "flags": null,
-      "id": "5pfntvtc87c2g7mlp11ljn4q8d",
-      "location": "בית אלפא",
-      "notes": null,
-      "sport": "n/a",
-      "start": "2026-10-27T15:30:00+02:00",
-      "team_id": null,
-      "week_key": "2026-10-25",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עמית נרדע",
-      "date": "2026-10-27",
-      "end": "2026-10-27T18:00:00+02:00",
-      "flags": null,
-      "id": "1ebghl6fb3qhtndt46f30313bk",
-      "location": "ניר דוד",
-      "notes": [
-        "בניר דוד"
-      ],
-      "sport": "basketball",
-      "start": "2026-10-27T16:30:00+02:00",
-      "team_id": "T_055",
-      "week_key": "2026-10-25",
-      "weekday": 2
-    },
     {
       "activity_type": "training",
       "coach_text": "נתי כהן",

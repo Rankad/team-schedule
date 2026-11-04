@@ -463,7 +463,7 @@
       "עמית נרדע"
     ],
     "display_name": "קט סל א רימון",
-    "sample_note": "בניר דוד",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_055",
     "tier": null
@@ -1056,17 +1056,6 @@
     "sport": "basketball",
     "team_id": "T_129",
     "tier": null
-  },
-  {
-    "category": "girls_kids",
-    "coaches": [
-      "עדי גלמן"
-    ],
-    "display_name": "נערות ב על+ילדות רשאיות",
-    "sample_note": null,
-    "sport": "basketball",
-    "team_id": "T_132",
-    "tier": "על"
   },
   {
     "category": "women",

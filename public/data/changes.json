@@ -1,18 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-10-28T18:30:00+02:00",
-        "location": "ביכורה",
-        "start": "2026-10-28T17:00:00+02:00",
-        "team_id": "T_056"
-      },
-      "session_id": "36lrupg55u46i69gklo07aee85",
-      "team_id": "T_056",
-      "week_key": "2026-10-25"
-    }
-  ],
-  "generated_at": "2026-11-05T12:58:45Z"
+  "changes": [],
+  "generated_at": "2026-11-05T20:35:38Z"
 }

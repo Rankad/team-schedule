@@ -1,21 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "training",
-      "coach_text": "נתי כהן",
-      "date": "2026-10-28",
-      "end": "2026-10-28T18:30:00+02:00",
-      "flags": null,
-      "id": "36lrupg55u46i69gklo07aee85",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-28T17:00:00+02:00",
-      "team_id": "T_056",
-      "week_key": "2026-10-25",
-      "weekday": 3
-    },
-    {
       "activity_type": "blocked_hall",
       "coach_text": null,
       "date": "2026-10-29",
@@ -3387,5 +3372,5 @@
       "weekday": 4
     }
   ],
-  "generated_at": "2026-11-04T20:20:14Z"
+  "generated_at": "2026-11-05T12:58:45Z"
 }

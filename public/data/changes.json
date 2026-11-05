@@ -1,18 +1,18 @@
 {
   "changes": [
     {
-      "kind": "added",
-      "new": {
-        "end": "2026-11-11T22:30:00+02:00",
-        "location": "דדו",
-        "start": "2026-11-11T20:30:00+02:00",
-        "team_id": "T_136"
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-28T18:30:00+02:00",
+        "location": "ביכורה",
+        "start": "2026-10-28T17:00:00+02:00",
+        "team_id": "T_056"
       },
-      "old": null,
-      "session_id": "6jretf3k0ubc1v2p7fkgo64b2r",
-      "team_id": "T_136",
-      "week_key": "2026-11-08"
+      "session_id": "36lrupg55u46i69gklo07aee85",
+      "team_id": "T_056",
+      "week_key": "2026-10-25"
     }
   ],
-  "generated_at": "2026-11-04T20:20:14Z"
+  "generated_at": "2026-11-05T12:58:45Z"
 }

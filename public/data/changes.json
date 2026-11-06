@@ -1,4 +1,44 @@
 {
-  "changes": [],
-  "generated_at": "2026-11-05T20:35:38Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-29T20:30:00+02:00",
+        "location": "ביכורה",
+        "start": "2026-10-29T19:00:00+02:00",
+        "team_id": "T_064"
+      },
+      "session_id": "571h2sti23c6e7g96mlbsh4o0m",
+      "team_id": "T_064",
+      "week_key": "2026-10-25"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-29T16:30:00+02:00",
+        "location": "עין חרוד",
+        "start": "2026-10-29T15:00:00+02:00",
+        "team_id": "T_032"
+      },
+      "session_id": "5j5mhb9n502vahca4v8bj5kbe3",
+      "team_id": "T_032",
+      "week_key": "2026-10-25"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-10-29T18:00:00+02:00",
+        "location": "דדו",
+        "start": "2026-10-29T16:30:00+02:00",
+        "team_id": "T_010"
+      },
+      "session_id": "667v3avjdlp0ltrk0cct4adv0v",
+      "team_id": "T_010",
+      "week_key": "2026-10-25"
+    }
+  ],
+  "generated_at": "2026-11-06T12:46:48Z"
 }

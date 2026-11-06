@@ -1,66 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "blocked_hall",
-      "coach_text": null,
-      "date": "2026-10-29",
-      "end": "2026-10-29T11:30:00+02:00",
-      "flags": null,
-      "id": "46j1gbh7jelcdgl2hc3kd11sae",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "n/a",
-      "start": "2026-10-29T09:00:00+02:00",
-      "team_id": null,
-      "week_key": "2026-10-25",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עדי גלמן",
-      "date": "2026-10-29",
-      "end": "2026-10-29T16:30:00+02:00",
-      "flags": null,
-      "id": "5j5mhb9n502vahca4v8bj5kbe3",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-29T15:00:00+02:00",
-      "team_id": "T_032",
-      "week_key": "2026-10-25",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יובל בר לב",
-      "date": "2026-10-29",
-      "end": "2026-10-29T18:00:00+02:00",
-      "flags": null,
-      "id": "667v3avjdlp0ltrk0cct4adv0v",
-      "location": "דדו",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-29T16:30:00+02:00",
-      "team_id": "T_010",
-      "week_key": "2026-10-25",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "נתי כהן",
-      "date": "2026-10-29",
-      "end": "2026-10-29T20:30:00+02:00",
-      "flags": null,
-      "id": "571h2sti23c6e7g96mlbsh4o0m",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-10-29T19:00:00+02:00",
-      "team_id": "T_064",
-      "week_key": "2026-10-25",
-      "weekday": 4
-    },
-    {
       "activity_type": "training",
       "coach_text": "שרון אברהמי/גולן יבלונבסקי",
       "date": "2026-10-30",
@@ -3372,5 +3312,5 @@
       "weekday": 4
     }
   ],
-  "generated_at": "2026-11-05T20:35:38Z"
+  "generated_at": "2026-11-06T12:46:48Z"
 }

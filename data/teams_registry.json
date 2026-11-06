@@ -1086,5 +1086,29 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-11-11"
+  },
+  "T_137": {
+    "normalized_name": "חוגי צרכים מיוחדים כללי",
+    "display_name": "חוגי צרכים מיוחדים כללי",
+    "category": "recreational",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-11"
+  },
+  "T_138": {
+    "normalized_name": "נערות ב על + נערות א",
+    "display_name": "נערות ב על + נערות א",
+    "category": "girls_youth",
+    "tier": "על",
+    "sport": "basketball",
+    "first_seen": "2026-11-11"
+  },
+  "T_139": {
+    "normalized_name": "נוער לאומית נוער על",
+    "display_name": "נוער לאומית/נוער על",
+    "category": "juniors",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-11-12"
   }
 }

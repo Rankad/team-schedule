@@ -227,7 +227,7 @@
       "טל יזרעאלי"
     ],
     "display_name": "ילדים א צעירים",
-    "sample_note": "חצי שעה ראשונה חדר כושר",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_029",
     "tier": null
@@ -529,7 +529,7 @@
       "פלא תמיר"
     ],
     "display_name": "נערים ט מערב",
-    "sample_note": "טל יזרעאלי מחליף",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_061",
     "tier": null
@@ -573,7 +573,7 @@
       "אילן היימן"
     ],
     "display_name": "נערים ט שקד",
-    "sample_note": null,
+    "sample_note": "משותף עם איתן בן עטיה",
     "sport": "basketball",
     "team_id": "T_065",
     "tier": null
@@ -1041,7 +1041,7 @@
       "איתן בן עטיה"
     ],
     "display_name": "נערים א גאון הירדן/שקד",
-    "sample_note": null,
+    "sample_note": "משותף עם נערים ט שקד",
     "sport": "basketball",
     "team_id": "T_127",
     "tier": null
@@ -1100,5 +1100,38 @@
     "sport": "basketball",
     "team_id": "T_136",
     "tier": null
+  },
+  {
+    "category": "recreational",
+    "coaches": [
+      "אילון סלוס"
+    ],
+    "display_name": "חוגי צרכים מיוחדים כללי",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_137",
+    "tier": null
+  },
+  {
+    "category": "girls_youth",
+    "coaches": [
+      "עדי גלמן"
+    ],
+    "display_name": "נערות ב על + נערות א",
+    "sample_note": "מי שלא עמק חרוד",
+    "sport": "basketball",
+    "team_id": "T_138",
+    "tier": "על"
+  },
+  {
+    "category": "juniors",
+    "coaches": [
+      "טל יזרעאלי"
+    ],
+    "display_name": "נוער לאומית/נוער על",
+    "sample_note": "שלא בעמק חרוד",
+    "sport": "basketball",
+    "team_id": "T_139",
+    "tier": "לאומית"
   }
 ]

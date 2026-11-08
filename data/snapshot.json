@@ -1,23 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "unknown",
-      "coach_text": null,
-      "date": "2026-10-31",
-      "end": "2026-10-31T22:30:00+02:00",
-      "flags": [
-        "unrecognized_title"
-      ],
-      "id": "4f61hmq34lm9vs8qqo1jvuv3ve",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "unknown",
-      "start": "2026-10-31T20:30:00+02:00",
-      "team_id": null,
-      "week_key": "2026-10-25",
-      "weekday": 6
-    },
-    {
       "activity_type": "training",
       "coach_text": "טל גילת",
       "date": "2026-11-01",
@@ -3571,7 +3554,7 @@
       "activity_type": "unknown",
       "coach_text": null,
       "date": "2026-11-14",
-      "end": "2026-11-14T22:30:00+02:00",
+      "end": "2026-11-14T22:00:00+02:00",
       "flags": [
         "unrecognized_title"
       ],
@@ -3579,7 +3562,7 @@
       "location": "ביכורה",
       "notes": null,
       "sport": "unknown",
-      "start": "2026-11-14T20:30:00+02:00",
+      "start": "2026-11-14T20:00:00+02:00",
       "team_id": null,
       "week_key": "2026-11-08",
       "weekday": 6
@@ -3615,5 +3598,5 @@
       "weekday": 6
     }
   ],
-  "generated_at": "2026-11-07T17:58:07Z"
+  "generated_at": "2026-11-08T11:47:04Z"
 }

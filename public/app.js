@@ -390,12 +390,6 @@ function renderSession(s, multi) {
       '⚠️ שעת סיום לא ודאית')); // שעת סיום לא ודאית
   }
 
-  // Player-mode ride chip. Contained: a rides failure never breaks the card.
-  if (window.Rides && window.Rides.isPlayerWithToken()) {
-    try { window.Rides.decorateSession(card, s); }
-    catch (e) { console.error('ride chip error (schedule unaffected):', e); }
-  }
-
   return card;
 }
 

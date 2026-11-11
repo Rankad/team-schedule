@@ -412,14 +412,13 @@
     }
   }
 
-  // ================= ride chip / sheet / summary / #screen-rides =================
+  // ================= summary / #screen-rides =================
 
   // In-memory cache of the player's requests for one week. Never persisted;
   // GET /api/me is the source of truth. `failed` (not `loaded`) drives the
   // "service unavailable" UI so the schedule half is never affected.
   var _week = { key: null, bySession: {}, config: { locations: {}, retDefault: 15 }, loaded: false, failed: false, _p: null };
   var _reRenderQueued = false;
-  var _sheetChip = null;
 
   var DIR_WORD = { round: 'הלוך וחזור', out: 'הלוך', back: 'חזור' };
   function dirWord(d) { return DIR_WORD[d] || d; }
@@ -439,10 +438,6 @@
     var ss = (window.DATA && window.DATA.sessions) || [];
     for (var i = 0; i < ss.length; i++) { if (ss[i].id === id) return ss[i]; }
     return null;
-  }
-  function hhmmStr(iso) {
-    var m = /T(\d{2}):(\d{2})/.exec(iso || '');
-    return m ? m[1] + ':' + m[2] : '';
   }
   function departFor(session) {
     var lc = _week.config && _week.config.locations ? _week.config.locations[session.location] : undefined;
@@ -490,138 +485,11 @@
     loadMyRides(wk).then(function () { _reRenderQueued = false; reRenderAll(); });
   }
 
-  function insertStrip(card, strip) {
-    var anchor = card.querySelector('.session-note') || card.querySelector('.session-warn');
-    if (anchor && card.insertBefore) card.insertBefore(strip, anchor);
-    else card.appendChild(strip);
-  }
-
-  function decorateSession(card, session) {
-    if (!card || !session) return;
-    var wk = weekKey(session.date);
-    ensureLoaded(wk);
-
-    var strip = ce('div', 'ride-strip');
-
-    if (_week.key === wk && _week.failed) {
-      strip.appendChild(ce('span', 'ride-unavailable', 'שירות ההסעות אינו זמין כרגע'));
-      strip.appendChild(retryButton(function () { loadMyRides(wk, true).then(reRenderAll); }));
-      insertStrip(card, strip);
-      return;
-    }
-
-    var row = (_week.key === wk) ? _week.bySession[session.id] : null;
-    var chip = ce('button', 'ride-chip');
-    chip.setAttribute('type', 'button');
-    chip.setAttribute('aria-haspopup', 'dialog');
-
-    if (row) {
-      chip.classList.add('is-set');
-      var dw = dirWord(row.direction);
-      chip.textContent = '🚐 ' + dw + ' ✓';
-      var cap = rideCaption(departFor(session));
-      chip.setAttribute('aria-label', 'הסעה: ' + dw + ', ' + cap + '; לעריכה');
-      strip.appendChild(chip);
-      strip.appendChild(ce('span', 'ride-caption', cap));
-    } else {
-      chip.textContent = '🚐 הוספת הסעה';
-      chip.setAttribute('aria-label', 'אין הסעה לאימון זה; להוספה');
-      strip.appendChild(chip);
-    }
-    chip.addEventListener('click', function () { openTripSheet(session, chip); });
-    insertStrip(card, strip);
-  }
-
   function retryButton(fn) {
     var b = ce('button', 'ride-retry', 'נסו שוב');
     b.setAttribute('type', 'button');
     b.addEventListener('click', fn);
     return b;
-  }
-
-  function wireSheet(dlg) {
-    if (!dlg || dlg._ridesWired) return;
-    dlg._ridesWired = true;
-    dlg.addEventListener('close', function () { if (_sheetChip && _sheetChip.focus) _sheetChip.focus(); });
-    dlg.addEventListener('cancel', function () { closeDialog(dlg); });
-    var close = dlg.querySelector('[data-sheet="close"]');
-    if (close) close.addEventListener('click', function () { closeDialog(dlg); });
-  }
-
-  function openTripSheet(session, chipEl) {
-    var dlg = document.getElementById('rides-sheet');
-    if (!dlg) return;
-    wireSheet(dlg);
-    _sheetChip = chipEl || null;
-
-    var t = (window.DATA && window.DATA.teamsById && window.DATA.teamsById[session.team_id]) || null;
-    var teamName = t ? t.display_name : session.team_id;
-    var wd = (window.HE_WEEKDAY && window.HE_WEEKDAY[session.weekday]) || '';
-    var heading = document.getElementById('rides-sheet-heading');
-    if (heading) heading.textContent = teamName + ' · יום ' + wd + (session.location ? ' · ' + session.location : '');
-
-    var row = _week.bySession[session.id] || null;
-
-    var opts = document.getElementById('rides-sheet-options');
-    if (opts) {
-      opts.innerHTML = '';
-      [['round', 'הלוך וחזור'], ['out', 'הלוך'], ['back', 'חזור']].forEach(function (pair) {
-        var b = ce('button', 'ride-opt', pair[1]);
-        b.setAttribute('type', 'button');
-        b.setAttribute('data-dir', pair[0]);
-        if ((row && row.direction === pair[0]) || (!row && pair[0] === 'round')) {
-          b.classList.add('is-preselected');
-          b.setAttribute('aria-current', 'true');
-        }
-        b.addEventListener('click', function () {
-          closeDialog(dlg);
-          putRequest(session, pair[0]);
-        });
-        opts.appendChild(b);
-      });
-    }
-
-    var cancelSlot = document.getElementById('rides-sheet-cancel');
-    if (cancelSlot) {
-      cancelSlot.innerHTML = '';
-      if (row) {
-        var cb = ce('button', 'ride-cancel', 'ביטול הסעה');
-        cb.setAttribute('type', 'button');
-        cb.addEventListener('click', function () { closeDialog(dlg); deleteRequest(session); });
-        cancelSlot.appendChild(cb);
-      }
-    }
-
-    if (dlg.showModal) { try { dlg.showModal(); } catch (e) { if (dlg.show) dlg.show(); } }
-  }
-
-  function putRequest(session, direction) {
-    var p = getPlayer();
-    if (!p) return Promise.resolve();
-    var wk = weekKey(session.date);
-    var prev = _week.bySession[session.id];
-    _week.bySession[session.id] = {
-      sessionId: session.id, teamId: session.team_id, fullName: p.fullName,
-      direction: direction, ts: Date.now(), v: 1
-    };
-    reRenderAll();
-
-    var body = {
-      token: p.token, fullName: p.fullName, teamId: session.team_id,
-      sessionId: session.id, direction: direction, week: wk
-    };
-    return fetch(apiBase() + '/api/request', {
-      method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body)
-    }).then(function (r) {
-      if (r && r.ok) return;
-      revertRow(session.id, prev);
-      toast((r && r.status >= 400 && r.status < 500)
-        ? 'לא ניתן לבחור הסעה לאימון זה'
-        : 'שמירת ההסעה נכשלה, נסו שוב');
-    })['catch'](function () {
-      revertRow(session.id, prev);
-      toast('שמירת ההסעה נכשלה, נסו שוב');
-    });
   }
 
   function deleteRequest(session) {
@@ -719,21 +587,7 @@
     var rows = objVals(_week.key === wk ? _week.bySession : {});
 
     if (!rows.length) {
-      body.appendChild(ce('p', 'rides-empty-head', 'בחרו אימון כדי להוסיף הסעה'));
-      var list = ce('div', 'rides-empty-list');
-      var sessions = (typeof window.weekSessionsFor === 'function') ? window.weekSessionsFor(wk) : [];
-      sessions.forEach(function (s) {
-        var rowEl = ce('div', 'rides-empty-row');
-        var t = window.DATA && window.DATA.teamsById[s.team_id];
-        rowEl.appendChild(ce('span', 'rides-empty-label',
-          hhmmStr(s.start) + ' · ' + (t ? t.display_name : s.team_id) + (s.location ? ' · ' + s.location : '')));
-        var add = ce('button', 'ride-add', '🚐 הוספת הסעה');
-        add.setAttribute('type', 'button');
-        add.addEventListener('click', function () { openTripSheet(s, add); });
-        rowEl.appendChild(add);
-        list.appendChild(rowEl);
-      });
-      body.appendChild(list);
+      body.appendChild(ce('p', 'rides-note', 'טרם נרשמת להסעות השבוע'));
       return;
     }
 
@@ -757,13 +611,6 @@
           teamName + (s && s.location ? ' · ' + s.location : '') + ' · ' + dirWord(row.direction)));
         rEl.appendChild(ce('span', 'rides-row-cap', rideCaption(s ? departFor(s) : { outbound: null, ret: null })));
 
-        var edit = ce('button', 'ride-edit', 'עריכה');
-        edit.setAttribute('type', 'button');
-        edit.setAttribute('aria-label', 'עריכת הסעה: ' + teamName +
-          (s ? ', יום ' + ((window.HE_WEEKDAY && window.HE_WEEKDAY[s.weekday]) || '') : ''));
-        if (s) edit.addEventListener('click', function () { openTripSheet(s, edit); });
-        else edit.disabled = true;
-
         var del = ce('button', 'ride-del', 'ביטול');
         del.setAttribute('type', 'button');
         del.setAttribute('aria-label', 'ביטול הסעה: ' + teamName);
@@ -772,7 +619,6 @@
           else { delete _week.bySession[row.sessionId]; reRenderAll(); }
         });
 
-        rEl.appendChild(edit);
         rEl.appendChild(del);
         grp.appendChild(rEl);
       });
@@ -801,10 +647,9 @@
     getRole: getRole, getPlayer: getPlayer, isPlayerWithToken: isPlayerWithToken,
     renderRoleToggle: renderRoleToggle, enterPlayerMode: enterPlayerMode,
     deleteMyRidesData: deleteMyRidesData, renderPrivacy: renderPrivacy,
-    // chip / sheet / summary / screen / ping
-    decorateSession: decorateSession, renderSummaryCard: renderSummaryCard,
-    renderRides: renderRides, openTripSheet: openTripSheet,
-    putRequest: putRequest, deleteRequest: deleteRequest, ping: ping,
+    // summary / screen / ping
+    renderSummaryCard: renderSummaryCard,
+    renderRides: renderRides, deleteRequest: deleteRequest, ping: ping,
     _week: _week
   };
 })();

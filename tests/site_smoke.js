@@ -87,10 +87,6 @@ class El {
   dispatch(t) { (this._listeners[t] || []).forEach(fn => fn.call(this, { target: this })); }
   click() { this.dispatch('click'); }
   focus() {}
-  // <dialog> shims — enough for the rides consent flow
-  showModal() { this._open = true; this.setAttribute('open', ''); }
-  show() { this._open = true; this.setAttribute('open', ''); }
-  close(v) { this._open = false; delete this.attrs.open; if (v !== undefined) this.returnValue = String(v); this.dispatch('close'); }
   _walk(fn) { fn(this); this.children.forEach(c => c._walk(fn)); }
   querySelectorAll(sel) { const out = []; this._walk(n => { if (n !== this && m(n, sel)) out.push(n); }); return out; }
   querySelector(sel) { return this.querySelectorAll(sel)[0] || null; }
@@ -120,14 +116,11 @@ app.appendChild(prev); app.appendChild(next);
 const mw = mk('section', 'screen-myweek'); const at = mk('section', 'screen-addteam'); at.hidden = true;
 app.appendChild(mw); app.appendChild(at);
 const onb = mk('div', 'onboarding'); onb.hidden = true;
-onb.appendChild(mk('div', 'role-toggle-slot'));
 onb.appendChild(mk('button', null, 'btn btn-primary', { 'data-goto': 'addteam' }));
 mw.appendChild(onb);
 mw.appendChild(mk('div', 'follows-row'));
 const shareFollows = mk('button', 'share-follows'); shareFollows.hidden = true;
 mw.appendChild(shareFollows);
-mw.appendChild(mk('div', 'rides-summary-slot'));
-mw.appendChild(mk('div', 'role-entry-slot'));
 const banner = mk('div', 'changes-banner'); banner.hidden = true;
 const btoggle = mk('button', null, 'changes-toggle'); btoggle.setAttribute('aria-expanded', 'false');
 btoggle.appendChild(mk('span', null, 'changes-summary'));
@@ -146,23 +139,6 @@ at.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
 at.appendChild(mk('input', 'search'));
 at.appendChild(mk('p', 'search-hint'));
 at.appendChild(mk('div', 'results'));
-
-// Rides screens + consent dialog (Task 9)
-const scrRides = mk('section', 'screen-rides'); scrRides.hidden = true;
-scrRides.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
-scrRides.appendChild(mk('div', 'rides-body'));
-app.appendChild(scrRides);
-const scrPrivacy = mk('section', 'screen-privacy'); scrPrivacy.hidden = true;
-scrPrivacy.appendChild(mk('button', null, 'btn btn-back', { 'data-goto': 'myweek' }));
-scrPrivacy.appendChild(mk('div', 'privacy-body', 'prose'));
-app.appendChild(scrPrivacy);
-const privacyLink = mk('button', null, 'linklike', { 'data-goto': 'privacy' });
-app.appendChild(privacyLink);
-const consent = mk('dialog', 'rides-consent');
-consent.appendChild(mk('div', 'rides-consent-body'));
-consent.appendChild(mk('button', null, 'btn btn-primary', { 'data-consent': 'ok', type: 'button' }));
-consent.appendChild(mk('button', null, 'btn', { 'data-consent': 'cancel', type: 'button' }));
-root.appendChild(consent);
 
 let domLoaded = null;
 global.document = {
@@ -198,37 +174,18 @@ const FAKE_CHANGES = {
       new: { start: '2000-01-01T19:30:00+03:00', end: '2000-01-01T21:30:00+03:00' } },
   ],
 };
-let TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
-let ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
-let REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
-// Exact pathname matching (not substring) so a stray doubled prefix like
-// /api/api/token can never silently match /api/token here — that bug shipped
-// to production once already because indexOf('/api/token') also matches
-// '/api/api/token'. See docs/lessons-learned.md.
+// The rides front end was removed (DL-042): the site must never call /api/*.
+// The stub rejects any /api/ request and records it so the test can assert none
+// happened. Exact pathname parsing, not substring matching.
 function pathOf(url) {
-  try { return new URL(url, 'http://x.invalid').pathname; } catch (e) { return url; }
+  try { return new URL(url, 'http://x.invalid').pathname; } catch (e) { return String(url); }
 }
-const FETCH_LOG = [];
+const API_CALLS = [];
 global.fetch = (url, opts) => {
   const p = pathOf(url);
-  FETCH_LOG.push({ method: (opts && opts.method) || 'GET', path: p, url: String(url) });
-  if (p === '/api/token') {
-    return Promise.resolve({
-      ok: TOKEN_RESPONSE.ok, status: TOKEN_RESPONSE.status,
-      json: () => Promise.resolve(TOKEN_RESPONSE.body),
-    });
-  }
-  if (p === '/api/me') {
-    return Promise.resolve({ ok: ME_RESPONSE.ok, status: ME_RESPONSE.status, json: () => Promise.resolve(ME_RESPONSE.body) });
-  }
-  if (p === '/api/request') {
-    return Promise.resolve({ ok: REQ_RESPONSE.ok, status: REQ_RESPONSE.status, json: () => Promise.resolve(REQ_RESPONSE.body) });
-  }
-  if (p === '/api/ping') {
-    return Promise.resolve({ ok: true, status: 204, json: () => Promise.resolve({}) });
-  }
-  if (p.indexOf('/api/') === 0) {
-    return Promise.reject(new Error('site_smoke.js fetch stub: unhandled API path ' + p));
+  if (p.indexOf('/api/') !== -1) {
+    API_CALLS.push(p);
+    return Promise.reject(new Error('site_smoke.js fetch stub: the site must not call ' + p));
   }
   const f = url.replace(/^data\//, 'public/data/');
   return Promise.resolve({
@@ -280,28 +237,36 @@ function gotoLastWeek() {
   for (let k = 0; k < lastWeekIdx; k++) next.click();  // -> lastWeek
 }
 
-// branding <head>: share/theme meta tags on both entry documents
+// branding <head>: share/theme meta tags on the entry document
 console.log('branding <head> meta');
 {
   const idxHtml = fs.readFileSync(path.join(ROOT, 'public/index.html'), 'utf8');
-  const mgrHtml = fs.readFileSync(path.join(ROOT, 'public/manager.html'), 'utf8');
-  [['index.html', idxHtml], ['manager.html', mgrHtml]].forEach(([name, html]) => {
-    assert(/name="theme-color"[^>]*content="#D0212C"/.test(html), name + ' sets theme-color #D0212C');
-    assert(html.indexOf('property="og:title"') !== -1, name + ' has an og:title tag');
-    assert(html.indexOf('property="og:description"') !== -1, name + ' has an og:description tag');
-    assert(html.indexOf('name="twitter:card"') !== -1, name + ' has a twitter:card tag');
-  });
+  assert(/name="theme-color"[^>]*content="#D0212C"/.test(idxHtml), 'index.html sets theme-color #D0212C');
+  assert(idxHtml.indexOf('property="og:title"') !== -1, 'index.html has an og:title tag');
+  assert(idxHtml.indexOf('property="og:description"') !== -1, 'index.html has an og:description tag');
+  assert(idxHtml.indexOf('name="twitter:card"') !== -1, 'index.html has a twitter:card tag');
   assert(idxHtml.indexOf('content="הלו״ז שלי — גלבוע מעיינות"') !== -1,
     'index.html og:title uses the parent-app copy');
-  assert(mgrHtml.indexOf('content="ניהול הסעות — גלבוע מעיינות"') !== -1,
-    'manager.html og:title uses the manager copy, not the parent-app copy');
-  // the trip-type sheet was removed; the consent dialog shares its .sheet classes and stays
-  assert(idxHtml.indexOf('id="rides-sheet"') === -1, 'index.html has no #rides-sheet dialog (trip sheet removed)');
-  assert(idxHtml.indexOf('id="rides-consent"') !== -1, 'index.html still has the #rides-consent dialog');
+
+  // rides front end removal (DL-042) — lock it
+  console.log('rides front end removed — files + markup');
+  ['public/rides.js', 'public/manager.html', 'public/manager.js', 'public/manager.css', 'tests/manager_smoke.js']
+    .forEach(f => assert(!fs.existsSync(path.join(ROOT, f)), f + ' does not exist'));
+  ['rides.js', 'role-toggle-slot', 'role-entry-slot', 'rides-summary-slot', 'rides-consent', 'screen-rides', 'screen-privacy']
+    .forEach(t => assert(idxHtml.indexOf(t) === -1, 'index.html contains no "' + t + '"'));
+  assert(idxHtml.indexOf('id="onboarding"') !== -1, 'index.html still has the #onboarding card');
+  assert(idxHtml.indexOf('בחירת קבוצה') !== -1, 'index.html still says בחירת קבוצה');
 }
 
+// Legacy rides keys a previously-registered player's device may still hold, plus
+// one real followed team that must survive the startup cleanup.
+store['gilboa.role'] = 'player';
+store['gilboa.player'] = JSON.stringify({ token: 'x', fullName: 'y' });
+store['gilboa.ping_ts'] = '1';
+store['gilboa.manager'] = 'm';
+store['gilboa.followed'] = JSON.stringify([T1]);
+
 require(path.join(ROOT, 'public', 'app.js'));
-require(path.join(ROOT, 'public', 'rides.js'));
 
 (async () => {
   await domLoaded();
@@ -309,8 +274,21 @@ require(path.join(ROOT, 'public', 'rides.js'));
 
   console.log('load');
   assert(app.hidden === false && fatal.hidden === true, 'app shown, no fatal error');
-  assert(byId['onboarding'].hidden === false, 'onboarding visible when no team followed');
+  assert(typeof window.Rides === 'undefined', 'no window.Rides after loading the app');
+  ['gilboa.role', 'gilboa.player', 'gilboa.ping_ts', 'gilboa.manager']
+    .forEach(k => assert(!(k in store), 'legacy key ' + k + ' cleared at startup'));
+  assert(store['gilboa.followed'] === JSON.stringify([T1]), 'gilboa.followed untouched by the cleanup');
+  assert(byId['onboarding'].hidden === true, 'onboarding hidden while a team is followed');
   assert(/[א-ת]/.test(byId['week-range'].textContent), 'week range shows Hebrew text');
+
+  console.log('onboarding');
+  {
+    let og = 0, ob;
+    while ((ob = byId['follows-row'].querySelectorAll('.chip-remove')).length && og++ < 12) ob[0].click();
+    assert(byId['onboarding'].hidden === false, 'onboarding visible when no team followed');
+    const pick = onb.querySelector('[data-goto]');
+    assert(!!pick && pick.getAttribute('data-goto') === 'addteam', 'onboarding has the "＋ בחירת קבוצה" button');
+  }
 
   console.log('add team (team search: partial words + extra spaces)');
   onb.querySelector('[data-goto]').click();
@@ -604,338 +582,13 @@ require(path.join(ROOT, 'public', 'rides.js'));
     } // end GK guard
   }
 
-  console.log('rides — pure helpers');
-  {
-    const R = window.Rides;
-    assert(!!R, 'window.Rides namespace exists');
-    assert(R.shortName('דניאל כהן') === 'דניאל כ׳', 'shortName: first name + last initial + geresh');
-    assert(R.shortName('מדונה') === 'מדונה', 'shortName: single word unchanged');
-    assert(R.shortName('  אורי   בר   לב ') === 'אורי ב׳', 'shortName: trims + collapses, initial of 2nd word');
-
-    assert(R.weekKey('2026-09-09') === '2026-09-06', 'weekKey: Wednesday -> prior Sunday');
-    assert(R.weekKey('2026-09-06') === '2026-09-06', 'weekKey: Sunday -> itself');
-
-    const cap = R.rideCaption({ outbound: '16:20', ret: '18:45' }).replace(/[⁦⁩]/g, '');
-    assert(cap === 'יוצא מעין חרוד 16:20 · חזרה 18:45', 'rideCaption: both times');
-    assert(R.rideCaption({ outbound: null, ret: null }) === 'טרם נקבעה שעה', 'rideCaption: nothing set');
-    assert(R.rideCaption({ outbound: '16:20', ret: null }).replace(/[⁦⁩]/g, '') === 'יוצא מעין חרוד 16:20 · חזרה —',
-      'rideCaption: missing side shown as —');
-
-    const dt = R.computeDepartTimes(
-      { start: '2026-09-08T17:00:00+03:00', end: '2026-09-08T18:30:00+03:00', location: 'X' },
-      { outbound: 40, ret: 15 }, 15);
-    assert(dt.outbound === '16:20' && dt.ret === '18:45', 'computeDepartTimes matches the server helper');
-
-    assert(R.apiBase() === 'http://localhost:8000', 'apiBase is same-origin, no /api suffix (call sites append it), no hard-coded prod host');
-  }
-
-  console.log('rides — role + consent + name');
-  {
-    const gid = (id) => global.document.getElementById(id);
-    delete store['gilboa.role']; delete store['gilboa.player'];
-
-    // A parent who has already followed a team (onboarding hidden) still gets a
-    // compact link into player mode — not the full toggle.
-    window.applyTeamsParam('?teams=' + T1);
-    window.render();
-    assert(byId['onboarding'].hidden === true, 'onboarding hidden once a team is followed');
-    assert(!gid('role-toggle-slot').textContent, 'full toggle not shown when a team is followed');
-    assert(gid('role-entry-slot').textContent.indexOf('מעבר למצב שחקן') !== -1,
-      'parent with a followed team sees the compact "switch to player" link');
-
-    // The full toggle shows on the onboarding (no-teams-followed) screen.
-    let rg = 0, rb;
-    while ((rb = byId['follows-row'].querySelectorAll('.chip-remove')).length && rg++ < 12) rb[0].click();
-    window.render();
-
-    assert(byId['onboarding'].hidden === false, 'onboarding visible with no team followed');
-    assert(!gid('role-entry-slot').textContent, 'compact link not shown on the onboarding screen (toggle instead)');
-    const toggle = gid('role-toggle-slot');
-    const tBtns = toggle.querySelectorAll('button');
-    assert(tBtns.length === 2, 'role toggle renders two buttons');
-    assert(tBtns[0].textContent === 'הורה' && tBtns[1].textContent === 'שחקן', 'buttons are הורה / שחקן');
-    assert(tBtns[0].classList.contains('is-selected') && tBtns[0].getAttribute('aria-pressed') === 'true',
-      'הורה selected by default');
-    assert(!tBtns[1].classList.contains('is-selected') && tBtns[1].getAttribute('aria-pressed') === 'false',
-      'שחקן not selected by default');
-    assert(toggle.textContent.indexOf('רק צפייה בלוח') !== -1, 'helper line explains the two roles');
-
-    tBtns[1].click(); // tap שחקן
-    const consentDlg = gid('rides-consent');
-    assert(!!consentDlg, 'consent dialog present');
-    assert(gid('rides-consent-body').textContent.indexOf('נמחק אוטומטית בסוף כל שבוע') !== -1,
-      'consent shows the retention line');
-    assert(gid('rides-consent-body').textContent.indexOf('מעבר חזרה למצב הורה') === -1,
-      'consent body no longer mentions switching back to parent');
-    assert(gid('rides-consent-body').textContent.indexOf('מסך מדיניות הפרטיות') !== -1,
-      'consent body points at the privacy screen for immediate deletion');
-    consentDlg.querySelector('[data-consent="ok"]').click();
-
-    const nameInput = gid('rides-name-input');
-    assert(!!nameInput, 'name step rendered after consent');
-
-    // While filling in the name (consent accepted, not yet saved) the toggle
-    // must show שחקן as the active choice, and pressing הורה must abandon the
-    // name step — not silently do nothing.
-    {
-      const eb = gid('role-toggle-slot').querySelectorAll('button');
-      assert(eb[1].classList.contains('is-selected') && eb[1].getAttribute('aria-pressed') === 'true',
-        'שחקן shows selected while entering player mode');
-      assert(!eb[0].classList.contains('is-selected'), 'הורה not selected while entering player mode');
-    }
-    // press הורה to back out
-    gid('role-toggle-slot').querySelectorAll('button')[0].click();
-    assert(!gid('rides-name-input'), 'pressing הורה abandons the name step');
-    assert(byId['onboarding'].hidden === false, 'back on the onboarding screen after backing out');
-    assert((store['gilboa.role'] || 'parent') === 'parent', 'role stays parent after backing out via הורה');
-    {
-      const rb = gid('role-toggle-slot').querySelectorAll('button');
-      assert(rb[0].classList.contains('is-selected'), 'הורה selected again after backing out');
-    }
-
-    // re-enter to continue the happy path
-    gid('role-toggle-slot').querySelectorAll('button')[1].click();
-    gid('rides-consent').querySelector('[data-consent="ok"]').click();
-    const nameInput2 = gid('rides-name-input');
-    assert(!!nameInput2, 'name step rendered again after re-entering');
-    assert(nameInput2.getAttribute('placeholder') === 'שם פרטי ושם משפחה', 'name field has the guidance placeholder');
-    assert(gid('rides-name-error').hidden === true, 'no error shown before the player does anything');
-    gid('rides-name-save').click();
-    assert(gid('rides-name-error').hidden === false &&
-      gid('rides-name-error').textContent.indexOf('יש להזין שם מלא') !== -1,
-      'empty-field error shows only after a save attempt');
-    nameInput2.value = 'דניאל כהן'; nameInput2.dispatch('input');
-    assert(gid('rides-name-error').hidden === true, 'error clears once a name is typed');
-    assert(gid('rides-name-preview').textContent.indexOf('דניאל כ׳') !== -1, 'live "יוצג כ" preview');
-
-    TOKEN_RESPONSE = { ok: true, status: 200, body: { token: 'tok-smoke-123' } };
-    gid('rides-name-save').click();
-    await new Promise(r => setTimeout(r, 10));
-    assert(JSON.parse(store['gilboa.player']).token === 'tok-smoke-123', 'token stored on success');
-    assert(JSON.parse(store['gilboa.player']).fullName === 'דניאל כהן', 'full name stored on success');
-    assert(store['gilboa.role'] === 'player', 'role set to player');
-    window.render();
-    // Player mode is one-way: an established player who has unfollowed every
-    // team lands on the onboarding screen but sees NO role toggle at all.
-    window.Rides.renderRoleToggle();
-    assert(!gid('role-toggle-slot').querySelector('.role-toggle'),
-      'established player on the unfollow-everything screen: renderRoleToggle renders no .role-toggle');
-    assert(!gid('role-entry-slot').textContent, 'no compact "switch to player" link while in player mode');
-
-    // failure path
-    delete store['gilboa.role']; delete store['gilboa.player'];
-    window.Rides.enterPlayerMode();
-    gid('rides-consent').querySelector('[data-consent="ok"]').click();
-    gid('rides-name-input').value = 'מאיה לוי'; gid('rides-name-input').dispatch('input');
-    TOKEN_RESPONSE = { ok: false, status: 500, body: {} };
-    gid('rides-name-save').click();
-    await new Promise(r => setTimeout(r, 10));
-    assert(!store['gilboa.player'], 'no player stored on failure');
-    assert(gid('rides-name-error').textContent.indexOf('לא הצלחנו לשמור') !== -1, 'inline failure message');
-    assert(gid('rides-name-input').value === 'מאיה לוי', 'typed name kept after failure');
-
-    // one-word warning
-    gid('rides-name-input').value = 'מדונה'; gid('rides-name-input').dispatch('input');
-    gid('rides-name-save').click();
-    assert(gid('rides-name-save').textContent.indexOf('שמור בכל זאת') !== -1,
-      'one word => save button becomes "שמור בכל זאת"');
-    assert(!store['gilboa.player'], 'one word, first press: nothing saved yet');
-
-    // back out
-    gid('rides-name-back').click();
-    assert(!store['gilboa.role'] || store['gilboa.role'] !== 'player', '→ חזרה leaves parent mode clean');
-    assert(!store['gilboa.player'], '→ חזרה writes no player credential');
-
-    // privacy screen reachable + carries the full notice
-    window.goto('privacy');
-    assert(gid('screen-privacy').hidden === false, 'privacy screen shows');
-    assert(gid('privacy-body').textContent.indexOf('[contact]') !== -1, 'privacy screen has the contact placeholder');
-    window.goto('myweek');
-    assert(gid('screen-privacy').hidden === true && gid('screen-myweek').hidden === false, 'back to My Week');
-
-    delete store['gilboa.role']; delete store['gilboa.player'];
-    window.render();
-  }
-
-  console.log('rides — player view (no chip/sheet) + screen');
-  {
-    const gid = (id) => global.document.getElementById(id);
-    store['gilboa.role'] = 'player';
-    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.Rides._week.bySession = {};
-    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
-    window.applyTeamsParam('?teams=' + T1);
-
-    // go to lastWeek (T1's week — see gotoLastWeek above)
-    gotoLastWeek();
-    window.render();
-    await new Promise(r => setTimeout(r, 15));
-
-    // The summary card is the whole of the summary slot — no "מעבר למצב הורה"
-    // button, no .rides-exit-parent.
-    const sumSlot = gid('rides-summary-slot');
-    assert(!!sumSlot.querySelector('.rides-summary-card'), 'player-with-token summary slot has the summary card');
-    assert(sumSlot.textContent.indexOf('מעבר למצב הורה') === -1 && !sumSlot.querySelector('.rides-exit-parent'),
-      'summary slot has no "switch back to parent" control');
-    assert(sumSlot.textContent.indexOf('טרם נרשמת להסעות השבוע') !== -1, 'summary card with 0 requests says "טרם נרשמת להסעות השבוע"');
-
-    // Chip + sheet were removed: a player with a token AND a loaded request for a
-    // visible session still gets plain session cards (no chip, no strip).
-    const visSession = (window.DATA.sessions || []).find(x => x.team_id === T1 && x.week_key === lastWeek);
-    assert(!!visSession, 'fixture: T1 has a session in the visible week');
-    ME_RESPONSE = { ok: true, status: 200, body: {
-      requests: [{ sessionId: visSession.id, teamId: T1, direction: 'round', fullName: 'דניאל כהן', ts: 1, v: 1 }],
-      rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.Rides._week.bySession = {};
-    window.render();
-    await new Promise(r => setTimeout(r, 20));
-    assert(!!window.Rides._week.bySession[visSession.id], 'fixture: the request for the visible session is loaded');
-    assert(byId['week-content'].querySelectorAll('.session').length > 0, 'visible week renders session cards');
-    assert(!byId['week-content'].querySelector('.ride-chip') && !byId['week-content'].querySelector('.ride-strip'),
-      'player with a token + a loaded request: session cards have no .ride-chip and no .ride-strip');
-    assert(byId['week-content'].textContent.indexOf('הוספת הסעה') === -1,
-      'no "הוספת הסעה" text anywhere on the schedule cards');
-
-    // window.Rides no longer exports the chip/sheet entry points
-    assert(typeof window.Rides.decorateSession === 'undefined', 'window.Rides has no decorateSession');
-    assert(typeof window.Rides.openTripSheet === 'undefined', 'window.Rides has no openTripSheet');
-    assert(typeof window.Rides.putRequest === 'undefined', 'window.Rides has no putRequest');
-    assert(typeof window.Rides.deleteRequest === 'function', 'window.Rides still exports deleteRequest');
-
-    // rides screen with a loaded request: cancel only — no add / edit
-    window.goto('rides');
-    assert(byId['screen-rides'].hidden === false, 'rides screen opens');
-    window.Rides.renderRides();
-    await new Promise(r => setTimeout(r, 15));
-    assert(byId['rides-body'].querySelectorAll('.rides-row').length === 1, 'rides screen lists the one loaded request');
-    assert(!!byId['rides-body'].querySelector('.ride-del'), 'rides screen row has a ביטול (ride-del) button');
-    assert(!byId['rides-body'].querySelector('.ride-add') && !byId['rides-body'].querySelector('.ride-edit'),
-      'rides screen has no ride-add / ride-edit buttons');
-    assert(byId['rides-body'].textContent.indexOf('עריכה') === -1, 'rides screen has no עריכה control');
-
-    // cancel: DELETE /api/request issued, row disappears, empty state shown
-    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
-    FETCH_LOG.length = 0;
-    byId['rides-body'].querySelector('.ride-del').click();
-    await new Promise(r => setTimeout(r, 15));
-    const reqDel = FETCH_LOG.find(c => c.method === 'DELETE' && c.path === '/api/request');
-    assert(!!reqDel, 'ביטול issues DELETE /api/request');
-    assert(!byId['rides-body'].querySelector('.rides-row'), 'cancelled request is gone from the rides screen');
-
-    // 0 requests: plain empty line, no add buttons, no practice list
-    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
-    window.Rides.renderRides();
-    await new Promise(r => setTimeout(r, 15));
-    assert(byId['rides-body'].textContent.indexOf('טרם נרשמת להסעות השבוע') !== -1, 'empty rides screen says "טרם נרשמת להסעות השבוע"');
-    assert(byId['rides-body'].textContent.indexOf('בחרו אימון') === -1, 'empty rides screen no longer invites choosing a practice');
-    assert(!byId['rides-body'].querySelector('.ride-add') && !byId['rides-body'].querySelector('.ride-del'),
-      'empty rides screen has no ride-add / ride-del buttons');
-
-    // GET /api/me failure on the rides screen => distinct load-error state
-    ME_RESPONSE = { ok: false, status: 500, body: {} };
-    window.Rides.renderRides();
-    await new Promise(r => setTimeout(r, 15));
-    assert(byId['rides-body'].textContent.indexOf('לא ניתן לטעון את ההסעות שלך') !== -1, 'me load failure => distinct error + retry');
-
-    // api down: force a refetch that fails; the schedule half must still render
-    ME_RESPONSE = { ok: false, status: 500, body: {} };
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.goto('myweek'); window.render();
-    await new Promise(r => setTimeout(r, 20));
-    assert(byId['week-content'].querySelectorAll('.day-group').length > 0, 'schedule list still renders when the rides API is down');
-    assert(byId['summary'].textContent.length > 0, 'weekly summary still renders when the rides API is down');
-    assert(gid('rides-summary-slot').textContent.indexOf('שירות ההסעות אינו זמין') !== -1,
-      'summary card shows the unavailable message when the API is down');
-    assert(!byId['week-content'].querySelector('.ride-strip'), 'no per-card ride strip when the API is down');
-
-    // privacy screen: a player is offered "מחיקת נתוני ההסעות שלי"; clicking it
-    // (confirm stubbed true, fetch stubbed) clears the token + the _week cache.
-    // Case A: _week loaded for the visible week with one request => the confirm
-    // copy names the deletion ("תמחק ... אי אפשר לשחזר").
-    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
-    window.goto('privacy');
-    const delBtn = byId['privacy-body'].querySelector('.privacy-delete');
-    assert(!!delBtn && delBtn.textContent === 'מחיקת נתוני ההסעות שלי',
-      'privacy screen as a player appends the delete-my-rides-data button');
-    let confirmMsg;
-    window.confirm = (m) => { confirmMsg = m; return true; };
-    window.Rides._week.key = window.viewSunday;
-    window.Rides._week.loaded = true;
-    window.Rides._week.bySession = { X: { sessionId: 'X', direction: 'round', v: 1 } };
-    FETCH_LOG.length = 0;
-    delBtn.click();
-    await new Promise(r => setTimeout(r, 10));
-    delete window.confirm;
-    assert(confirmMsg && confirmMsg.indexOf('תמחק') !== -1 && confirmMsg.indexOf('לשחזר') !== -1,
-      'delete confirm with one known request names the deletion');
-    const delCall = FETCH_LOG.find(c => c.method === 'DELETE' && c.path === '/api/me');
-    assert(!!delCall && /token=/.test(delCall.url) && /week=/.test(delCall.url),
-      'clicking delete issues DELETE /api/me?token=&week=');
-    assert(!store['gilboa.player'] && !store['gilboa.role'],
-      'clicking delete clears gilboa.player + gilboa.role');
-    assert(window.Rides._week.key === null && Object.keys(window.Rides._week.bySession).length === 0,
-      'clicking delete resets the _week cache');
-    window.goto('privacy');
-    assert(!byId['privacy-body'].querySelector('.privacy-delete'),
-      'a pure parent gets no delete control on the privacy screen');
-
-    // Case B: _week loaded for the visible week with zero requests => softer
-    // "exit player mode, nothing to delete" copy.
-    store['gilboa.role'] = 'player';
-    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.Rides._week.bySession = {};
-    window.goto('privacy');
-    const delBtn0 = byId['privacy-body'].querySelector('.privacy-delete');
-    let confirmMsg0;
-    window.confirm = (m) => { confirmMsg0 = m; return true; };
-    window.Rides._week.key = window.viewSunday;
-    window.Rides._week.loaded = true;
-    window.Rides._week.bySession = {};
-    delBtn0.click();
-    await new Promise(r => setTimeout(r, 10));
-    delete window.confirm;
-    assert(confirmMsg0 && confirmMsg0.indexOf('לצאת ממצב שחקן') !== -1 && confirmMsg0.indexOf('לא נרשמו') !== -1,
-      'delete confirm with zero known requests uses the softer exit-player-mode copy');
-
-    // Case C: _week NOT loaded for the visible week => the count is unknown, so
-    // the confirm copy uses the generic "exit player mode and delete" string
-    // (no request count, no "cannot be undone" wording).
-    store['gilboa.role'] = 'player';
-    store['gilboa.player'] = JSON.stringify({ token: 'tok-smoke-123', fullName: 'דניאל כהן' });
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.Rides._week.bySession = {};
-    window.goto('privacy');
-    const delBtnC = byId['privacy-body'].querySelector('.privacy-delete');
-    let confirmMsgC;
-    window.confirm = (m) => { confirmMsgC = m; return true; };
-    delBtnC.click();
-    await new Promise(r => setTimeout(r, 10));
-    delete window.confirm;
-    assert(confirmMsgC && confirmMsgC.indexOf('לצאת ממצב שחקן ולמחוק') !== -1
-      && confirmMsgC.indexOf('לא נרשמו') === -1 && confirmMsgC.indexOf('אי אפשר לשחזר') === -1,
-      'delete confirm with an unknown request count uses the generic exit-and-delete copy');
-    window.goto('myweek');
-
-    // restore
-    delete store['gilboa.role']; delete store['gilboa.player'];
-    ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
-    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
-    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
-    window.Rides._week.bySession = {};
-    window.applyTeamsParam('?teams=' + T1);
-    window.goto('myweek');
-  }
-
   console.log('week nav bounds');
   guard = 0; while (!next.disabled && guard++ < 12) next.click();
   assert(byId['week-content'].textContent.indexOf('אין נתונים לשבוע זה') !== -1, 'one past the last week shows "no data"');
   guard = 0; while (!prev.disabled && guard++ < 20) prev.click();
   assert(byId['week-content'].textContent.indexOf('אין נתונים לשבוע זה') !== -1, 'one before the first week shows "no data"');
+
+  assert(API_CALLS.length === 0, 'no /api/ request made during load, render and week navigation (' + API_CALLS.length + ')');
 
   console.log('unfollow');
   assert(byId['follows-row'].querySelectorAll('.chip-remove').length >= 1, 'followed chips have remove controls');

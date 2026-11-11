@@ -152,7 +152,8 @@ function loadGames() {
           opponent: String(g.opponent || '').slice(0, 40) });
       }
     });
-    if (out.length !== arr.length) { games = out; saveGames(); }
+    games = out;
+    if (out.length !== arr.length) saveGames();
   } catch (e) { /* unavailable or corrupt: start empty */ }
   return out;
 }
@@ -1424,6 +1425,7 @@ window.validateGame = validateGame;
 window.gameToSession = gameToSession;
 window.weekSessionsFor = weekSessionsFor;
 window.sessKey = sessKey;
+window.loadGames = loadGames;
 // State + re-render hooks used by tests/site_smoke.js.
 window.render = render;
 window.DATA = DATA;

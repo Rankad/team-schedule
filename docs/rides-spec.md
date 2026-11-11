@@ -517,7 +517,9 @@ older than 90 days. `config/*` untouched. On success write
 Added to `build.yml` job `build-data` as a final step (after the push), e.g.
 `curl -fsS -X POST -H "X-Purge-Key: $PURGE_KEY" "$RIDES_API/api/purge"` with
 `PURGE_KEY` and `RIDES_API` as GitHub secrets. Failure is logged but does **not**
-fail the data build.
+fail the data build. *(Superseded by DL-043, 2026-11-11: the step now fails the
+run on missing secrets, non-2xx, or a body without `"ok":true`; it is still the
+last step, so the data is already committed.)*
 
 ### 6.6 Cost — free tier headroom
 

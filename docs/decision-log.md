@@ -657,8 +657,8 @@
   Asia/Jerusalem Nov–late March, and **08:00 / 16:00 / 20:00** during Israeli
   summer time. `workflow_dispatch` unchanged.
 - **Impact:** $0 — public-repo Actions minutes are unlimited. The extra run also
-  fires the `POST /api/purge` rides cleanup a third time (idempotent, non-fatal
-  on failure). A run still only commits + deploys when the calendar data changed.
+  fires the `POST /api/purge` rides cleanup a third time (idempotent; non-fatal
+  on failure at the time — superseded by DL-043, now fails the run). A run still only commits + deploys when the calendar data changed.
 - **Status:** Accepted. Amends the cron line in DL-026; everything else in DL-026
   (keepalive, winter anchor, public repo) stands.
 - **Risk:** Low. Same workflow, one extra cron tick.
@@ -1162,6 +1162,7 @@
   - Tests: site smoke 113 checks (`main` itself runs 176; the intermediate
     DL-041 branch state was 185; most rides assertions deleted, ≈23 new lock
     assertions added), Functions 47, pytest 159; manager smoke deleted.
+  - **Resolved by DL-043 (2026-11-11): the purge step now fails loudly.**
   - **Known risk — purge failure is now invisible (hardening decision PENDING,
     not decided).** The `build.yml` purge step has `continue-on-error: true` and
     a `|| echo` fallback, so a failed purge goes green, and the manager
@@ -1187,3 +1188,49 @@
 - **Status:** Accepted; implemented on `chore/remove-rides-frontend`; PR pending.
 - **Risk:** Low–Medium. Large deletion, but fully reversible via git and the
   backend is intact, so reviving the feature needs only the front end restored.
+
+## DL-043 — Rides purge step fails loudly (closes DL-042's "purge failure is invisible" risk)
+
+- **Date:** 2026-11-11
+- **Context:** DL-042 removed the manager dashboard, so its `lastPurge` health
+  footer — the only visible signal that the purge ran — is gone. The "Purge past
+  rides weeks" step at the end of the `build-data` job in
+  `.github/workflows/build.yml` was non-fatal: `continue-on-error: true`,
+  `curl … && echo "purge ok" || echo "purge failed (non-fatal)"` (always exit 0),
+  and missing secrets only logged "skipping". Yet the purge is the only thing
+  that drains stored minors' names from `RIDES_KV`, and the precondition for any
+  backend removal. A failed purge therefore went green and unnoticed.
+- **Decision (stakeholder: "go with your recommendation"):** make the step fail
+  loudly.
+  - No `continue-on-error`.
+  - Missing `PURGE_KEY` or `RIDES_API` → `::error::` line + exit 1.
+  - `curl -fsS --max-time 30 --retry 2 --retry-delay 5 -X POST …` — a non-2xx or
+    network error exits 1. `--retry` also retries HTTP 5xx, so up to 3 attempts
+    (≈10 s of waiting) before failing.
+  - The response body must contain `"ok":true` (endpoint returns
+    `{"ok":true,"weeksDeleted":[dates],"keysDeleted":N,"opensDeleted":N}`),
+    otherwise exit 1. Success prints `purge ok: <body>`. The body holds only
+    dates and counts, no names, and the key is never echoed.
+  - The step stays the LAST step of `build-data`, so the schedule data is already
+    committed and pushed before it runs: a red run never loses data.
+- **Consequences:**
+  - A red scheduled run makes GitHub send a failed-workflow notification (to the user who last edited the schedule, subject to their notification settings) — the new health signal.
+  - **Operational caveat: if the GitHub secrets `PURGE_KEY` and `RIDES_API` are
+    not actually set, the next scheduled run goes red.** Fix: set them in repo
+    Settings → Secrets and variables → Actions, or — if the stakeholder decides
+    to remove the dormant backend — remove the step along with it.
+  - Triage: open the failed run's "Purge past rides weeks" step; the `::error::`
+    line says missing secrets vs request failed vs unexpected response body.
+  - Verified locally against a mock server: 200 + `"ok":true` → exit 0; 500 →
+    exit 1; 200 without `ok` → exit 1; secrets unset → exit 1. Not yet observed
+    on a real Actions run.
+  - **Closes** the "purge failure is invisible" risk recorded in DL-042,
+    `known-constraints.md` and `docs/RIDES.md`. The other DL-042 risk (backend
+    not write-quiescent) is unchanged.
+- **Still OPEN (not decided here):** whether to remove the dormant backend
+  altogether (DL-042). If it is removed, this purge step must be deleted with it,
+  otherwise CI goes red.
+- **Status:** Accepted; implemented on `chore/purge-fail-loudly` (commit
+  `2423e54`); PR pending.
+- **Risk:** Low. CI-only change, last step, reversible via git; the only
+  side effect is a red run if secrets are missing, which is the point.

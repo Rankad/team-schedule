@@ -293,10 +293,22 @@ server, no database, $0/month. See `docs/architecture.md` and
   `functions-tests` CI job. Tests: site smoke 113 (`main` runs 176; 185 was the
   intermediate DL-041 branch state; ≈23 new lock assertions), Functions 47,
   pytest 159. **Open risks:** purge failure is now invisible (hardening decision
-  pending) and the backend is not write-quiescent — see `docs/RIDES.md`. **Rides pilot and rollout
+  pending — resolved by DL-043) and the backend is not write-quiescent — see `docs/RIDES.md`. **Rides pilot and rollout
   (Phase 6 gates: consent text, legal opinion, single-team pilot, Slice B) are
   dropped.** Branch `chore/remove-rides-frontend`, PR pending. **Open:** remove
   the dormant backend too? (KV must be emptied first.)
+
+- **2026-11-11 — Rides purge step now fails loudly (DL-043).** Stakeholder: "go
+  with your recommendation". The last step of `build-data` ("Purge past rides
+  weeks") lost `continue-on-error` and the `|| echo` fallback: missing
+  `PURGE_KEY`/`RIDES_API` → `::error::` + exit 1; `curl -fsS --max-time 30
+  --retry 2 --retry-delay 5`; body must contain `"ok":true`. Still the last step,
+  so data is committed first; a red run triggers a GitHub failed-workflow notification. Closes the
+  "purge failure is invisible" risk from DL-042. Tested locally with a mock
+  server (200+ok → 0, 500 → 1, 200 without ok → 1, secrets unset → 1).
+  **Caveat:** if the GitHub secrets are not set, the next scheduled run goes red.
+  Branch `chore/purge-fail-loudly`, commit `2423e54`, PR pending. **Still
+  open:** remove the dormant backend? (then delete this step too.)
 
 ## Immediate next step
 > **Superseded (DL-042, 2026-11-11): the rides pilot and rollout are DROPPED.**

@@ -1104,7 +1104,7 @@
   **RESOLVED 2026-11-11 by DL-042** — the stakeholder said "you can remove all
   of this"; the whole rides front end was removed (backend left dormant).
 - **Status:** Accepted; implemented on `chore/remove-ride-chip-and-sheet`;
-  PR pending.
+  shipped together with DL-042 in PR #5 (merged 2026-11-11).
 - **Risk:** Low. UI removal only — no data, API, KV or parser change; fully
   reversible via git. Residual: a player-mode UI that advertises a capability
   it no longer has (tracked in the OPEN item above — resolved by DL-042).
@@ -1192,7 +1192,7 @@
   purge, so before removing the backend either let the purge run until KV is
   empty or wipe KV manually — and re-check KV is empty right before deleting
   anything (the endpoints are still public). Checklist in `docs/RIDES.md`.
-- **Status:** Accepted; implemented on `chore/remove-rides-frontend`; PR pending.
+- **Status:** Accepted; implemented on `chore/remove-rides-frontend`; merged as PR #5 (2026-11-11).
 - **Risk:** Low–Medium. Large deletion, but fully reversible via git and the
   backend is intact, so reviving the feature needs only the front end restored.
 
@@ -1238,7 +1238,7 @@
   altogether (DL-042). If it is removed, this purge step must be deleted with it,
   otherwise CI goes red.
 - **Status:** Accepted; implemented on `chore/purge-fail-loudly` (commit
-  `2423e54`); PR pending.
+  `2423e54`); merged as PR #6 (2026-11-11); manual run #182 passed.
 - **Risk:** Low. CI-only change, last step, reversible via git; the only
   side effect is a red run if secrets are missing, which is the point.
 
@@ -1348,5 +1348,5 @@
     (DL-014). App title and that team now share a name — no code impact.
   - Older docs/specs still say גלבוע מעיינות as history; annotated, not rewritten.
   - Tests unchanged: site smoke 113, Functions 47, pytest 159.
-- **Status:** Accepted; implemented on `chore/rename-to-hapoal-haemek`; PR pending.
+- **Status:** Accepted; implemented on `chore/rename-to-hapoal-haemek`; merged as PR #8 (2026-11-11).
 - **Risk:** Low. Display strings only; no data, parser or storage change.

@@ -18,6 +18,7 @@ server, no database, $0/month. See `docs/architecture.md` and
 - Own Google Cloud API key created; added as secret `GOOGLE_CALENDAR_API_KEY`.
 - Done when: `pytest` runs; the workflow runs manually and prints the fetched
   event count.
+- **Status: DONE 2026-09-02** (see progress log).
 
 ## Phase 1 — Parser + normalization (TDD)
 - Goal: a calendar event / Excel row → clean normalized session.
@@ -29,6 +30,8 @@ server, no database, $0/month. See `docs/architecture.md` and
   typed and excluded from teams.
 - **Gate:** review parser output against the real calendar with the stakeholder
   (naming / edge-case sign-off) before Phase 2.
+- **Status: DONE 2026-09-02; gate reviewed (DL-012, DL-013, DL-014).** Later
+  parser fix: DL-038 (games are not teams).
 
 ## Phase 2 — Build outputs + change detection
 - Goal: produce `public/data/*.json` and a correct change list.
@@ -38,6 +41,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   `tests/fixtures/expected_sessions.json`.
 - Done when: a run writes valid JSON; re-run with same input ⇒ no diff, no
   commit; a modified fixture ⇒ correct added/removed/time/location changes.
+- **Status: DONE 2026-09-02 (DL-015, DL-016, DL-017).**
 
 ## Phase 3 — Static site (v0.1 complete)
 - Goal: a parent finds a team and sees their week on a phone.
@@ -49,7 +53,13 @@ server, no database, $0/month. See `docs/architecture.md` and
   360px; QA checklist passes.
 - Enable the cron schedule; deploy to the chosen host (OQ-5).
   ✅ Done 2026-09-02 — GitHub Pages via Actions, twice-daily cron
-  `0 5,17 * * *` UTC (DL-026).
+  `0 5,17 * * *` UTC (DL-026). *(Historical. Host moved to Cloudflare Pages
+  2026-09-04, DL-028. Cron widened 2026-09-05 to **three times daily**,
+  `0 5,13,17 * * *` UTC = ~07:00 / 15:00 / 19:00 Jerusalem in winter, DL-033;
+  verified in `.github/workflows/build.yml`. Current state: live at
+  gilboa-schedule.pages.dev, data rebuilt 3x/day.)*
+- **Status: DONE (DL-026, DL-028, DL-033).** Parser fix since launch: games
+  are no longer minted as followable teams (DL-038).
 - **Milestone: live, self-updating MVP.** Share with a few parents; tell the
   club (OQ-6).
 
@@ -57,8 +67,23 @@ server, no database, $0/month. See `docs/architecture.md` and
 - Goal: resilience if the calendar goes away.
 - Tasks: `import_excel.py` → same normalized output; regression test that both
   sources match the golden fixture.
+- **Status: NOT BUILT, NOT SCHEDULED (verified 2026-11-11).**
+  `scripts/import_excel.py` does not exist (`scripts/` holds only
+  `calendar_source`, `clean`, `classify`, `diff`, `build_outputs`,
+  `fetch_and_build`, `parse_title`, `resolve`). Only the sample
+  `tests/fixtures/sample_week.xlsx` exists. No DL decided it; it is simply
+  unstarted and not urgent. Starting it needs a go-ahead.
 
 ## Phase 5 — Distribution channels (v0.3) — SEPARATE APPROVAL
+- **Status 2026-11-11: PARTLY DONE (client-side only); the rest NOT BUILT.**
+  - **Built (client-side, shipped with Phase 3, DL-022..DL-025):** shareable
+    followed-teams link, copy text, share / `wa.me`, one-off `.ics` download,
+    PNG image export.
+  - **NOT built:** a server-side ICS calendar **feed** (auto-refreshing
+    subscription URL), email, and any WhatsApp API / paid WhatsApp mechanism.
+    No code exists for any of them (no feed/email/WhatsApp code in `functions/`
+    or `scripts/`). Each needs its own approval gate before work starts.
+  - Club courtesy note (OQ-6) is closed, so it no longer blocks promotion.
 - Tasks: ~~`wa.me` "share to WhatsApp" button (free, no API); optionally an ICS
   feed per team~~ — **pulled into Phase 3** at stakeholder request (2026-09-02):
   the client-side share/copy/ICS/image exports and the shareable followed-teams
@@ -67,7 +92,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   Decide any paid WhatsApp mechanism only here. Wide promotion still waits on the
   club courtesy note (OQ-6).
 
-## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`)
+## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`) — FRONT END BUILT THEN REMOVED; BACKEND DORMANT
 - Goal: player ride requests on each practice + a password-gated coordinator
   dashboard, on a new Cloudflare Pages Functions + KV backend, with the schedule
   half untouched.
@@ -77,6 +102,13 @@ server, no database, $0/month. See `docs/architecture.md` and
   rollout (Slice B).
 - **Status 2026-11-11 (DL-042): front end removed; pilot, rollout and Slice B
   dropped; backend dormant.** The goal above is no longer pursued.
+- Timeline: built and merged 2026-09-04 (PR #2); chip + sheet removed
+  (DL-041) and the whole front end removed (DL-042) 2026-11-11. Backend
+  (Functions, `RIDES_KV`, secrets, `functions-tests` job) still in the repo.
+  The purge step (last step of `build-data`, 3x/day) now **fails loudly**
+  (DL-043; red run if `PURGE_KEY`/`RIDES_API` secrets are missing).
+- **Open decision:** remove the dormant backend too (empty KV first, then
+  delete the purge step with it) — see `docs/RIDES.md`. Not decided.
 
 ## Progress log
 - **2026-09-02 — Phase 0 done** (except the stakeholder tasks in
@@ -278,7 +310,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   page, purge, consent, name step, summary card all unchanged. Retires the
   DL-037 S1 shared-phone limitation. Site smoke 176 (`main`) → 185 on the
   DL-041 branch (intermediate state; DL-042 ends at 113). Branch
-  `chore/remove-ride-chip-and-sheet`, PR pending. **Open:** what to do with the
+  `chore/remove-ride-chip-and-sheet`, shipped in PR #5. **Open:** what to do with the
   now-functionless player-mode UI — pending stakeholder decision.
 
 - **2026-11-11 — Rides: entire front end removed; backend left dormant
@@ -296,7 +328,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   pytest 159. **Open risks:** purge failure is now invisible (hardening decision
   pending — resolved by DL-043) and the backend is not write-quiescent — see `docs/RIDES.md`. **Rides pilot and rollout
   (Phase 6 gates: consent text, legal opinion, single-team pilot, Slice B) are
-  dropped.** Branch `chore/remove-rides-frontend`, PR pending. **Open:** remove
+  dropped.** Branch `chore/remove-rides-frontend`, merged as PR #5. **Open:** remove
   the dormant backend too? (KV must be emptied first.)
 
 - **2026-11-11 — Rides purge step now fails loudly (DL-043).** Stakeholder: "go
@@ -308,7 +340,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   "purge failure is invisible" risk from DL-042. Tested locally with a mock
   server (200+ok → 0, 500 → 1, 200 without ok → 1, secrets unset → 1).
   **Caveat:** if the GitHub secrets are not set, the next scheduled run goes red.
-  Branch `chore/purge-fail-loudly`, commit `2423e54`, PR pending. **Still
+  Branch `chore/purge-fail-loudly`, commit `2423e54`, merged as PR #6 (run #182 passed). **Still
   open:** remove the dormant backend? (then delete this step too.)
 
 - **2026-11-11 — Hide a training + add a game (DL-044).** Stakeholder-approved.
@@ -321,7 +353,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   256, Functions 47, pytest 159. QA: ship, 3 small fixes (320px toast, double
   submit, time-zone fallback). Real-browser pass caught a NodeList bug the mock
   missed (LL-029). Branch `feat/hide-training-add-game` (`7cf2fb6`, `3c8f81e`,
-  `6c9ed01`, `5b2a27e`), PR pending. Limits: `known-constraints.md`.
+  `6c9ed01`, `5b2a27e`), merged as PR #7. Limits: `known-constraints.md`.
 
 - **2026-11-11 — App name on screen changed to הפועל העמק (DL-045).**
   Stakeholder: change the name at the top of the page from גלבוע מעיינות to
@@ -329,7 +361,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   and export titles, download file names; smoke assertions updated. Technical
   identifiers (`gilboa.*` localStorage keys, ICS PRODID/UID, pages.dev URL)
   deliberately kept. Tests unchanged: site smoke 113, Functions 47, pytest 159.
-  Branch `chore/rename-to-hapoal-haemek` (`fe2b7f9`, `b0cfeb4`), PR pending.
+  Branch `chore/rename-to-hapoal-haemek` (`fe2b7f9`, `b0cfeb4`), merged as PR #8.
 
 ## Immediate next step
 > **Superseded (DL-042, 2026-11-11): the rides pilot and rollout are DROPPED.**

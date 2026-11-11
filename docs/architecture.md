@@ -120,13 +120,21 @@ resilience and for parser regression tests.
 | Scheduler | GitHub Actions cron | Free, no infra |
 | Datastore | Git repo (committed JSON) | Free, versioned, no DB server |
 | Frontend | Vanilla HTML/CSS/JS, RTL | Small UI, no build step |
-| Host | Cloudflare Pages (git integration, no build command) | Free CDN, free TLS, no ads; same project will host the rides Functions later |
+| Host | Cloudflare Pages (git integration, no build command) | Free CDN, free TLS, no ads; same project also hosts the (dormant, DL-042) rides Functions |
 | Domain | `gilboa-schedule.pages.dev` (custom domain deferred — rides spec OQ-4) | Not required |
 
 SQLite is **not needed** for this model. If a future phase needs server-side
 state (accounts for push notifications), revisit then.
 
-### Rides API (Cloudflare Pages Functions + KV) — added Phase 6
+### Rides API (Cloudflare Pages Functions + KV) — added Phase 6; **DORMANT since DL-042 (2026-11-11)**
+> **Dormant:** the rides front end (`rides.js`, `manager.html/js/css`, all player
+> UI) was removed; the static site makes **zero** `/api/*` calls. The Functions +
+> KV below are still deployed but nothing calls them except the weekly
+> `POST /api/purge` from the GitHub Action. Whether to remove them is an OPEN
+> stakeholder decision (DL-042; checklist in `docs/RIDES.md`). The diagram's
+> client box and the "Auth: player token in localStorage" / "Isolation boundary"
+> bullets describe the removed client and are historical.
+
 The schedule half of this architecture (calendar → JSON → static site) is
 completely unaffected by the rides feature; this is a bolted-on backend in
 the **same** Cloudflare Pages project. Spec: `docs/rides-spec.md`. Runbook:
@@ -134,8 +142,8 @@ the **same** Cloudflare Pages project. Spec: `docs/rides-spec.md`. Runbook:
 
 ```
 public/  (unchanged: RTL site, fetches public/data/*.json client-side)
-  + rides.js, manager.html, manager.js, manager.css   (new, isolated)
-        │  fetch('/api/...')
+  + rides.js, manager.html, manager.js, manager.css   (REMOVED, DL-042)
+        │  fetch('/api/...')   (no longer happens)
         ▼
 functions/api/**            Cloudflare Pages Functions (one per route)
   token.js, request.js, me.js, ping.js, purge.js
@@ -167,7 +175,7 @@ Cloudflare KV namespace  RIDES_KV
 - **Isolation boundary (enforced in code review):** every rides call is
   wrapped so a failure shows a contained "unavailable" state in the rides UI
   — it never touches `renderMyWeek`'s schedule rendering path. See
-  `docs/qa-checklist.md` "Rides — Slice A".
+  `docs/qa-checklist.md` "Rides front end removed (DL-042)".
 - **Env secrets** (Cloudflare Pages env vars, Production + Preview):
   `MANAGER_PASSPHRASE`, `SITE_ORIGIN` (CORS + the origin Functions fetch
   `data/*.json` from), `PURGE_KEY`. See `docs/RIDES.md`.
@@ -195,10 +203,8 @@ team schedule/
     index.html
     app.js
     styles.css
-    rides.js                # player rides UI (Phase 6)
-    manager.html, manager.js, manager.css   # coordinator dashboard (Phase 6)
     data/                   # generated JSON (committed by the job)
-  functions/                 # Cloudflare Pages Functions — rides API (Phase 6)
+  functions/                 # Cloudflare Pages Functions — rides API (Phase 6; dormant since DL-042)
     api/
       token.js, request.js, me.js, ping.js, purge.js
       manager/
@@ -214,8 +220,8 @@ team schedule/
       calendar_week.json    # captured API response, for offline tests
       sample_week.xlsx      # for the fallback importer + parser tests
       expected_sessions.json
-    site_smoke.js           # site + rides player UI (Node-only fake DOM)
-    manager_smoke.js        # manager dashboard UI
+    site_smoke.js           # site (Node-only fake DOM); also locks the rides front-end removal, DL-042
+    # manager_smoke.js      — removed (DL-042)
   docs/
 ```
 

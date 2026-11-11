@@ -75,6 +75,8 @@ server, no database, $0/month. See `docs/architecture.md` and
 - Gates: consent wording + contact and the generated manager passphrase before
   the single-team pilot; the legal opinion + Cloudflare Access before club-wide
   rollout (Slice B).
+- **Status 2026-11-11 (DL-042): front end removed; pilot, rollout and Slice B
+  dropped; backend dormant.** The goal above is no longer pursued.
 
 ## Progress log
 - **2026-09-02 — Phase 0 done** (except the stakeholder tasks in
@@ -277,20 +279,31 @@ server, no database, $0/month. See `docs/architecture.md` and
   `chore/remove-ride-chip-and-sheet`, PR pending. **Open:** what to do with the
   now-functionless player-mode UI — pending stakeholder decision.
 
-## Immediate next step
-> **Superseded in part (DL-041, 2026-11-11):** the single-team pilot below
-> assumed players submit ride requests from the chip; that UI is gone. Resolve
-> the DL-041 OPEN item (future of player mode) before planning any pilot.
+- **2026-11-11 — Rides: entire front end removed; backend left dormant
+  (DL-042).** Stakeholder: "you can remove all of this" — resolves DL-041's open
+  item. Removed `rides.js`, the manager page (`manager.html`/`.js`/`.css` +
+  `tests/manager_smoke.js` + its CI step), the הורה/שחקן toggle + compact link,
+  consent + name step, summary card, `#screen-rides`, privacy screen + footer
+  link, ~200 lines of rides CSS, the opens ping. Added
+  `clearLegacyRidesKeys()` (wipes `gilboa.role/player/ping_ts/manager` on load).
+  Site is a pure schedule viewer: zero rides UI, zero `/api/*` calls, no personal
+  data collected. **Kept dormant:** Functions, `RIDES_KV`, 3 CF + 2 GH secrets,
+  the weekly purge step, 47 Functions tests + `functions-tests` CI job. Tests:
+  site smoke 185 → 113, Functions 47, pytest 159. **Rides pilot and rollout
+  (Phase 6 gates: consent text, legal opinion, single-team pilot, Slice B) are
+  dropped.** Branch `chore/remove-rides-frontend`, PR pending. **Open:** remove
+  the dormant backend too? (KV must be emptied first.)
 
-Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
-Cloudflare's git integration. Remaining before the single-team pilot (see
-"Integration & rollout" in `docs/superpowers/plans/2026-09-04-rides-slice-a.md`
-and `docs/RIDES.md`):
-- Fill the §8.1 consent `[contact]`/`[מדיניות פרטיות]` text from the
-  stakeholder (currently placeholder text).
-- A QA pass (`docs/qa-checklist.md` "Rides — Slice A" + "Rides — privacy &
-  security") and a security/privacy review.
-- Then the single-team pilot itself.
+## Immediate next step
+> **Superseded (DL-042, 2026-11-11): the rides pilot and rollout are DROPPED.**
+> The rides front end was removed; the single-team pilot, the §8.1 consent
+> `[contact]`/`[מדיניות פרטיות]` text, the rides QA/privacy pass and the
+> club-wide rollout (Slice B) no longer apply. The text that was here is gone;
+> history lives in the Progress log and `docs/rides-spec.md`.
+
+Open stakeholder decision: whether to also remove the dormant rides backend
+(Functions, `RIDES_KV`, secrets, purge step, `functions-tests` job) — see DL-042
+and the checklist in `docs/RIDES.md`. Empty KV first (purge until empty, or wipe).
 
 Phase 4 (Excel fallback importer) remains the next *schedule-side* build
 phase and is not urgent.

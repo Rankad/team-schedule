@@ -8,7 +8,11 @@ apple-touch-icon / manifest / `og:image`). Proceeding now: **§3 palette recolou
 `og:description`, `og:locale`, `twitter:card` — no `og:image` yet). The deferred
 items wait on §7 Q1 (a high-res / SVG logo from the club).
 **Superseded in part (2026-11-11, DL-041):** the `.ride-strip` S4 item no longer
-applies — the element was removed with the ride chip.
+applies — the element was removed with the ride chip. **Also (2026-11-11,
+DL-042):** the rides-specific items (`.ride-del` / `.rides-load-error` /
+`.rides-name-error` classes, rides summary-card amber, `manager.html` share
+tags) went with the rides front end; the palette, `--warn`, nav arrows and OG
+tags on `index.html` stand.
 **Relates to:** `docs/ui-ux-spec.md` (visual language), `docs/known-constraints.md`
 (courtesy: club approved the app, OQ-6; club also approved use of their logo +
 colours on 2026-09-06 — see §7 Q3). Independent of the rides

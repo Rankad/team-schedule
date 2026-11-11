@@ -7,18 +7,27 @@ static schedule site. Spec: `docs/rides-spec.md`. Build plan:
 `docs/superpowers/plans/2026-09-04-rides-slice-a.md`. Architecture:
 `docs/architecture.md` → "Rides API" component.
 
-> **Operational note (DL-041, 2026-11-11):** the player-side ride chip and
-> trip-type sheet were removed, so **no UI creates ride requests any more**.
-> Expect the manager dashboard to show no new requests; the rows already in KV
-> (if any) age out via the normal weekly purge. Everything below (KV, secrets,
-> `PUT /api/request`, purge, manager page) is still deployed and unchanged —
-> `PUT /api/request` works if called directly, it is just not called by any UI.
-> A pilot that relies on players submitting requests cannot run until the
-> stakeholder decides the future of player mode (DL-041, OPEN).
+> **STATUS 2026-11-11 (DL-042): FRONT END AND MANAGER PAGE REMOVED — backend
+> dormant.** The whole rides front end is gone (player mode, name step, summary
+> card, privacy screen, `manager.html`). The site makes zero `/api/*` calls and
+> collects no personal data. What is still true and deployed: the Pages
+> Functions, the `RIDES_KV` namespace, the 3 Cloudflare secrets + 2 GitHub
+> secrets, and the **"Purge past rides weeks" step in `build.yml`, which still
+> runs 3×/day** and keeps deleting old ride rows. `MANAGER_PASSPHRASE` is now
+> unused (nothing serves a manager UI; the `/api/manager/*` endpoints still
+> respond if called directly). Leftover ride rows in KV age out within ~7 days.
+> Earlier, DL-041 removed the per-card chip + trip sheet. The rollout/pilot
+> plans referenced below are dropped.
+>
+> **Whether to remove the backend too is an OPEN stakeholder decision** — see
+> "If/when the stakeholder decides to remove the backend" at the bottom. Do not
+> start that without approval.
 
 ## Live URLs
 - Site + API base: `https://gilboa-schedule.pages.dev`
-- Manager dashboard: `https://gilboa-schedule.pages.dev/manager.html`
+- ~~Manager dashboard: `https://gilboa-schedule.pages.dev/manager.html`~~ —
+  **removed (DL-042);** that URL no longer serves a manager page (it 404s or
+  falls through to whatever Pages serves for an unknown path).
 - API routes live under `/api/*` (`functions/api/**`), deployed automatically
   with the site — no separate API deploy step.
 
@@ -71,6 +80,9 @@ non-fatally (missing secrets just skip the purge with a log line, they never
 fail the schedule build).
 
 ## Rotating the manager passphrase
+> **Moot while dormant (DL-042):** there is no manager UI, so the passphrase is
+> unused. Kept for the case the manager page is ever restored.
+
 Change the `MANAGER_PASSPHRASE` Cloudflare env var (Production **and**
 Preview) and redeploy (or it takes effect on the next Function invocation for
 Pages env var changes — verify in the dashboard). Every previously issued
@@ -124,13 +136,31 @@ Cloudflare account.
 `curl -X POST -H "X-Purge-Key: <key>" https://gilboa-schedule.pages.dev/api/purge`)
 deletes every `week/<wk>/*` key where `<wk>` is strictly before the current
 week's Sunday, and writes `config/global.lastPurge = <today>` (`functions/_lib/purge.js`,
-`runPurge`). `config/*` itself is never deleted. The manager dashboard's health
-footer reads `config/global.lastPurge` — if it is stale (not today, after the
-Action has run), that is the signal something in the purge chain broke; check
-the Action log for the `curl` line first.
+`runPurge`). `config/*` itself is never deleted. The (removed) manager
+dashboard's health footer used to surface `config/global.lastPurge`; now check
+the Action log for the `curl` line (or `npx wrangler kv key get "config/global"`)
+to confirm the purge ran.
 
-## Rollout checklist
-See `docs/superpowers/plans/2026-09-04-rides-slice-a.md` → "Integration &
-rollout (after all tasks)" for the one-time setup steps (KV namespace, env
-vars, rate-limit rule, GitHub secrets, `[contact]`/`[מדיניות פרטיות]` text) and
-the single-team pilot plan.
+## Rollout checklist — DROPPED (DL-042)
+The pilot/rollout plan in `docs/superpowers/plans/2026-09-04-rides-slice-a.md`
+("Integration & rollout") will not happen; the front end is removed. Kept only
+as the record of the original one-time setup steps (KV namespace, env vars,
+rate-limit rule, GitHub secrets).
+
+## If/when the stakeholder decides to remove the backend (NOT decided)
+Checklist only — **do not execute without explicit stakeholder approval**
+(approval-gates: destructive / hard to reverse). Order matters:
+1. **Empty KV first.** Ride rows only age out via the purge. Either leave the
+   purge step running until KV is empty (no writes occur now, so ≥ 1 week after
+   deploy of DL-042 is enough; verify with `npx wrangler kv key list
+   --namespace-id <id>`), or wipe KV manually. Rows hold minors' names — do not
+   strand them by removing the purge step first.
+2. Remove the "Purge past rides weeks" step from `.github/workflows/build.yml`.
+3. Remove the `functions-tests` CI job (or trim it to site smoke only — the site
+   smoke test also runs there) and the Functions tests (47) with `functions/`.
+4. Delete the Cloudflare Pages Functions (`functions/api/**`, `functions/_lib/**`).
+5. Unbind and delete the `RIDES_KV` namespace (Production + Preview bindings).
+6. Delete the 3 Cloudflare env secrets (`MANAGER_PASSPHRASE`, `SITE_ORIGIN`,
+   `PURGE_KEY`) and the 2 GitHub secrets (`PURGE_KEY`, `RIDES_API`).
+7. Update `docs/architecture.md`, `docs/known-constraints.md`, this runbook
+   (delete it or mark it historical) and log a new DL entry.

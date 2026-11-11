@@ -664,6 +664,8 @@
 - **Risk:** Low. Same workflow, one extra cron tick.
 
 ## DL-034 — Rides role entry: a הורה/שחקן toggle, not a text link
+- **Superseded by DL-042 (2026-11-11):** the toggle, link and player mode were
+  removed with the rest of the rides front end. Body below kept as history.
 - **Date:** 2026-09-05 (stakeholder feedback from first use)
 - **Context:** rides-spec §4.1 shipped the parent→player switch as a single
   low-key text link (`רישום להסעות — מעבר למצב שחקן`) under the follows row,
@@ -712,6 +714,8 @@
   `cancelPlayerEntry()` as the card's `→ חזרה`. See LL-025.
 
 ## DL-035 — Rides: player mode is one-way; deletion is a privacy action, not a role switch
+- **Superseded by DL-042 (2026-11-11):** player mode, the privacy screen and the
+  `מחיקת נתוני ההסעות שלי` button were removed. Body below kept as history.
 - **Date:** 2026-09-06 (stakeholder feedback)
 - **Context:** rides-spec §4.5 shipped a `מעבר למצב הורה` button on the rides
   summary card that prompted once and then `DELETE /api/me` — wiping the week's
@@ -789,6 +793,9 @@
   de-ambered to neutral (S4); week-nav arrows neutralised to `var(--text)` (S6).
 
 ## DL-037 — Rides + branding: UX-review adjustments
+- **Rides parts superseded by DL-042 (2026-11-11)** (confirm copy, `.ride-*` /
+  `.privacy-delete` colours, S1). Branding parts (`--warn`, neutral nav arrows)
+  stand.
 - **Date:** 2026-09-06
 - **Context:** A UX-review round (ui-ux-designer) over the two 2026-09-06 changes
   already on `feature/rides-one-way-player-mode` — DL-035 (one-way player mode)
@@ -1087,8 +1094,76 @@
   lines, `#screen-rides` no-token note `עברו למצב שחקן כדי לנהל הסעות.`). Until
   decided, all of it stays live as-is. To be raised via the PM agent with
   options; no option is recommended or implied by this entry.
+  **RESOLVED 2026-11-11 by DL-042** — the stakeholder said "you can remove all
+  of this"; the whole rides front end was removed (backend left dormant).
 - **Status:** Accepted; implemented on `chore/remove-ride-chip-and-sheet`;
   PR pending.
 - **Risk:** Low. UI removal only — no data, API, KV or parser change; fully
   reversible via git. Residual: a player-mode UI that advertises a capability
-  it no longer has (tracked in the OPEN item above).
+  it no longer has (tracked in the OPEN item above — resolved by DL-042).
+
+## DL-042 — Rides: remove the entire front end (player mode + manager page); backend left dormant
+- **Date:** 2026-11-11 (branch `chore/remove-rides-frontend`, commits `6da3f97`
+  front-end removal + `64377a2` tests; builds on DL-041's `636f722` / `2cec63d` /
+  `3264e6e`)
+- **Context:** DL-041 removed the per-card chip + trip sheet and left an OPEN
+  question — what to do with the player-mode UI that no longer had a function.
+  The stakeholder answered the same day, pointing at that leftover UI: *"you can
+  remove all of this."* Scope read as: the הורה/שחקן toggle, the name step, the
+  "My Rides" summary card, the coordinator's manager page, and any text still
+  saying players can sign up for rides.
+- **Decision:** remove the whole rides **front end**. The site is again a pure
+  team-schedule viewer: zero rides UI, zero `/api/*` calls.
+  - **Removed:** `public/rides.js`; `public/manager.html` + `manager.js` +
+    `manager.css`; `tests/manager_smoke.js` and the "Manager smoke test" step in
+    `.github/workflows/build.yml`; the הורה/שחקן segmented toggle and the compact
+    `רישום להסעות — מעבר למצב שחקן` link; the consent dialog and name step; the
+    rides summary card; `#screen-rides` (My Rides); `#screen-privacy`, the footer
+    `מדיניות פרטיות` link and the `מחיקת נתוני ההסעות שלי` button (that screen
+    existed only to describe/delete ride data); ~200 lines of rides CSS;
+    rides-only `window.*` exports; the opens `ping`; the "Manager app" section of
+    `public/README.md`.
+  - **Added:** `clearLegacyRidesKeys()` in `public/app.js` — a one-time startup
+    cleanup that removes `gilboa.role`, `gilboa.player`, `gilboa.ping_ts`,
+    `gilboa.manager` from localStorage so a previously-registered player's name +
+    token do not linger on their device. `gilboa.followed` is untouched. The site
+    smoke test locks the removal: files absent, `index.html` has no rides ids, no
+    `window.Rides`, legacy keys cleared, and the app makes ZERO `/api/` requests.
+  - **Kept (dormant backend — deliberately NOT removed):** Cloudflare Pages
+    Functions (`/api/token`, `/api/me`, `/api/request`, `/api/ping`,
+    `/api/purge`, `/api/manager/*`), the `RIDES_KV` namespace, the 3 Cloudflare
+    env secrets (`MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`) + 2 GitHub
+    secrets (`PURGE_KEY`, `RIDES_API`), the "Purge past rides weeks" step in
+    `build.yml` (still runs; keeps deleting old ride rows weekly), the 47
+    Functions tests and the `functions-tests` CI job (Functions unit tests + site
+    smoke). Nothing calls the backend any more.
+- **Consequences:**
+  - No UI creates or shows ride data. The coordinator has no dashboard (the old
+    manager URL no longer serves a page; `MANAGER_PASSPHRASE` is unused).
+  - **Privacy posture:** the app collects no personal data. The privacy screen /
+    consent text is gone because it only described ride data. Ride rows still in
+    KV from earlier use expire via the weekly purge (everything older than the
+    current week's Sunday) — at most ~7 days. The `[contact]` /
+    `[מדיניות פרטיות]` placeholder (OQ-2) and the "legal opinion on PPL /
+    Amendment 13 for stored minors' names" are **moot while the front end is
+    gone**; they would matter again if the feature were ever revived.
+  - localStorage: legacy rides keys are cleaned on first load after deploy.
+  - CI: the manager-smoke step is dropped; `functions-tests` job unchanged.
+  - Tests: site smoke 113 checks (185 in the DL-041 state; most rides assertions
+    deleted, ~32 lock assertions added), Functions 47, pytest 159; manager smoke
+    deleted.
+  - **Supersedes:** DL-034 (role toggle), DL-035 (one-way player mode, privacy
+    delete), the rides parts of DL-037 (S1 shared-phone item, `.ride-*` colours,
+    `.privacy-delete`), and resolves DL-041's OPEN item. Left as history.
+  - **Unaffected:** branding — DL-036/037 visual parts (accent `#D0212C`,
+    `--warn`, neutral nav arrows, OG tags) stand; the club's approval of colours
+    + logo stands.
+- **OPEN — pending stakeholder decision (NOT decided here):** whether to also
+  remove the now-dormant backend — Functions + their tests, the `RIDES_KV`
+  namespace, the Cloudflare + GitHub secrets, the purge step in `build.yml`, the
+  `functions-tests` CI job. **Caveat:** ride rows in KV only age out through the
+  purge, so before removing the backend either let the purge run until KV is
+  empty or wipe KV manually. Checklist in `docs/RIDES.md`.
+- **Status:** Accepted; implemented on `chore/remove-rides-frontend`; PR pending.
+- **Risk:** Low–Medium. Large deletion, but fully reversible via git and the
+  backend is intact, so reviving the feature needs only the front end restored.

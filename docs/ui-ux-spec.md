@@ -15,9 +15,9 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
 
 ### 1. Home — "השבוע שלי" (My Week)
 - Header: club name + week range ("7–13 בספטמבר") + prev/next week arrows.
-- If no team followed yet → onboarding card: a `הורה` / `שחקן` segmented
-  control at the top (הורה selected by default; see Rides below), a role-neutral
-  heading "בחירת קבוצה", then a button to screen 2.
+- If no team followed yet → onboarding card: heading "בחירת קבוצה", a short
+  paragraph, then a `＋ בחירת קבוצה` button to screen 2. (The `הורה` / `שחקן`
+  segmented control that DL-034 added above the heading was removed, DL-042.)
 - Followed-teams chips row (each: 🏀 team name · coach · ✕ to unfollow) + "＋
   הוסף קבוצה".
 - **Shareable link** (DL-022): directly under the chips, a text action
@@ -86,17 +86,12 @@ UI.
   states and heavier accent text (`--accent-dark`). Replaced the earlier
   contrast-chosen teal. Surface white, background `#f4f5f7`.
 - State is never carried by hue alone (the palette has no green; brand red is
-  the brand colour, not a status). Error / warning **text**
-  (`.rides-load-error`, `.rides-name-error`, `.session-warn`) uses a dedicated
-  `--warn` token — burnt-orange `#b54708` — never the brand red (DL-037).
-- Destructive action **buttons** (`.ride-del`, `.ride-cancel`,
-  `.privacy-delete`) deliberately keep the reddish `--accent-dark`: a reddish
-  delete control is conventional and reads as destructive without a separate
-  status colour, and it is always backed by a label + confirm dialog.
+  the brand colour, not a status). Warning **text** (`.session-warn`) uses a
+  dedicated `--warn` token — burnt-orange `#b54708` — never the brand red
+  (DL-037). (The rides-specific error classes, destructive buttons, `.ride-strip`
+  and summary-card amber from DL-037 were removed with the rides UI, DL-041/042.)
 - Amber (`--banner-bg`) is reserved for banner-style attention elements — the
-  changes banner and the deliberately banner-styled rides summary card (DL-037).
-  (The neutral `.ride-strip` that DL-037 also covered no longer exists — removed
-  with the ride chip, DL-041.)
+  changes banner.
 - Week-nav arrows use neutral `var(--text)` for the glyph (not the brand
   accent); the disabled arrow is `#8b9096` (DL-037).
 - **Team dot palette** (`app.js` `PALETTE`) is independent of the brand accent —
@@ -104,8 +99,8 @@ UI.
 - Header: club wordmark. A logo lockup + favicon/manifest/share-image are
   specced (`2026-09-06-club-branding-theme-design.md`) but deferred pending a
   high-res logo from the club.
-- Share tags: `theme-color` + text OG/Twitter tags on `index.html` /
-  `manager.html` so a pasted link shows a title + description.
+- Share tags: `theme-color` + text OG/Twitter tags on `index.html` (the
+  manager page they were also on was removed, DL-042) so a pasted link shows a title + description.
 
 ## Interaction details
 - Week navigation never loads a week with no data silently — show "אין נתונים
@@ -123,88 +118,19 @@ UI.
 - Tap targets ≥ 44px.
 - Works with system font scaling.
 
-## Rides (Phase 6) — player mode + manager page
-Full spec: `docs/rides-spec.md`. Summary only; that document is authoritative.
-
-### Player mode (inside the existing app, `index.html`/`app.js`/`rides.js`)
-- **Entry:** a `הורה` / `שחקן` segmented control at the top of the onboarding
-  card (no-teams-followed screen); `הורה` selected by default, each half shows
-  its pressed state. Helper line: `הורים — רק צפייה בלוח. שחקנים — גם רישום
-  להסעות.` Once a team is followed the card is hidden, and parents instead get a
-  compact `רישום להסעות — מעבר למצב שחקן` link below the share button so they can
-  still switch. Tapping `שחקן` (either presentation) shows a consent dialog,
-  then an inline "שם מלא" step — placeholder `שם פרטי ושם משפחה` in the field, a
-  live `יוצג כ: <shortName>` preview, and the empty-field error only after a save
-  attempt. Backing out leaves the toggle on `הורה`.
-- **One-way (DL-035; recovery reframed by DL-037):** player mode is a superset of
-  parent mode, so there is no switch back — no button anywhere. To leave player
-  mode, use `מחיקת נתוני ההסעות שלי` on the privacy screen (below): it is a
-  working, clean exit (clears the token + role, re-renders as a parent), framed
-  as deletion rather than a mode change. Clearing site data is only a last
-  resort.
-- **Persistent player-mode signal:** a rides summary card at the top of My
-  Week (`ההסעות שלי לשבוע זה: 2 · 1 ללא שעה`, or `טרם נרשמת להסעות השבוע`).
-  Tap → `#screen-rides`. It carries no exit control.
-- **Privacy screen (`#screen-privacy`):** the consent text in full plus, **for a
-  player with a token only**, a `מחיקת נתוני ההסעות שלי` button. The confirm copy
-  scales to the visible week's ride-request count (DL-037): a firm "this deletes
-  your requests, can't be undone" when ≥1 request exists, a lighter "leave player
-  mode? nothing to delete" at 0, and a middle wording when the rides data has not
-  loaded yet. Confirm → deletes the week's requests + clears the local player
-  token/role → returns to a clean parent view. Styled like `.ride-cancel`
-  (destructive by label + confirm, not by hue).
-- **Ride chip and trip-type bottom sheet — REMOVED 2026-11-11 (DL-041).** The
-  per-card `🚐 הוספת הסעה` / `🚐 <direction> ✓` chip (with its neutral
-  `.ride-strip` + departure caption) and the `הלוך וחזור` / `הלוך` / `חזור` /
-  `ביטול הסעה` `<dialog>` sheet no longer exist; players cannot create or edit a
-  ride request from the UI. Session cards look the same in parent and player
-  mode.
-- **`#screen-rides`:** the week's existing requests grouped by day, each row
-  with a caption and a single `ביטול` button (cancel-only; the `עריכה` and
-  per-practice add buttons were removed with the sheet, DL-041). Empty state is
-  the plain line `טרם נרשמת להסעות השבוע` (the old actionable practice list is
-  gone). A load failure is a distinct state from "loaded, empty".
-- **Pending stakeholder decision (DL-041, OPEN):** the rest of player mode
-  (toggle / link, consent, name step, summary card, copy promising ride
-  registration) is unchanged but no longer has a function; not yet decided.
-- **Isolation:** if the rides API is unreachable, the ride UI shows a
-  contained "unavailable, retry" state; the schedule list, weekly summary,
-  exports, and changes banner are completely unaffected.
-
-### Manager page — `public/manager.html` (separate page, not a view in the parent app)
-No link from `index.html`; the coordinator bookmarks the URL directly
-(`docs/RIDES.md`). Password-gated (`POST /api/manager/login`), 6 h session.
-Two tabs:
-- **`לוח בקרה` (dashboard):** a day stepper (not 7 chips — overflows mobile);
-  a day header with total riders/rides; one collapsed row per practice with
-  ≥1 request, expanding to the departure times and the named rider list per
-  direction (full names shown **only here**, never to another player);
-  practices with zero requests collapsed behind a toggle; an
-  **orphaned-requests** group for any request whose session no longer
-  matches the published schedule (never silently dropped); a
-  "copy today's plan as text" action for pasting into a drivers' WhatsApp
-  group; a health footer showing the last purge date (a stale date is the
-  fail-loud signal something broke).
-- **`הגדרות` (settings):** one row per practice location from the published
-  schedule with `הלוך` (minutes before start) / `חזור` (minutes after end,
-  blank = global default) number inputs, a "+ add a manual location" field,
-  per-row delete, and one global `ברירת מחדל לחזרה` default.
-- A third **usage stats** view (own tab or bottom of the dashboard) shows
-  approximate counts: registered players (week / all-time), this week's
-  requests by direction, distinct planned rides, active locations, app opens
-  (today / 7-day).
-
-### Accessibility & interaction notes specific to rides
-- ~~Ride chips / bottom-sheet focus + `aria-live` behaviour~~ — removed with the
-  chip and sheet (DL-041). The `#screen-rides` `ביטול` buttons keep an
-  `aria-label` naming the practice.
-- Every clock time inside a rides caption is wrapped the same way session
-  times already are (`ltrIsolate`), so digits read correctly under RTL bidi.
+## Rides (Phase 6) — REMOVED 2026-11-11 (DL-042)
+The whole rides front end — the `הורה` / `שחקן` toggle and compact player link,
+consent dialog, name step, rides summary card, `#screen-rides`, privacy screen
+(+ footer link), and the coordinator's `manager.html` page — was removed. The
+app is a pure team-schedule viewer with no rides UI and no `/api/*` calls; no
+personal data is collected. Earlier, DL-041 had removed the per-card ride chip
+and trip-type sheet. Design history: `docs/rides-spec.md` (§4/§5, marked
+REMOVED) and DL-034/035/037/041 in `docs/decision-log.md`. The backend is left
+dormant (see `docs/RIDES.md`).
 
 ## Out of scope for MVP UI
 - Family / per-child grouping (data model allows it; UI is flat team-follow for
   now — see PRD).
 - Push/WhatsApp opt-in UI.
 - Any schedule editing.
-- Rides Slice B (end-of-week station pickups, per-team coordinators,
-  Cloudflare Access login) — separate spec after the Slice A pilot.
+- Rides (any slice) — front end removed (DL-042); not planned.

@@ -6,7 +6,18 @@ Distilled from the design record
 branch `feature/rides-coordination-spec`) — that document holds the rationale and
 the rejected alternatives; **this** document is what gets built.
 
-**Status:** ready to build once the prerequisites in §2 are cleared.
+> **STATUS BANNER — 2026-11-11 (DL-042): FRONT END REMOVED.** The player mode
+> (toggle, consent, name step, summary card, `#screen-rides`, privacy screen) and
+> the coordinator's manager page were removed; the site makes zero `/api/*`
+> calls. This document is now the reference for the **dormant backend** (§6
+> Functions + KV, §8.4 security notes) and a **historical record** of the removed
+> front end. Sections marked REMOVED below (§3 player/manager identity, §4, §5,
+> §7, §11.2/§11.3, the front-end steps of §12) describe code that no longer
+> exists; the rationale is kept on purpose in case the feature is revived. The
+> backend decision (remove or keep) is still OPEN — see DL-042 and
+> `docs/RIDES.md`.
+
+**Status (historical):** was ready to build once the prerequisites in §2 are cleared.
 **Update 2026-11-11 (DL-041):** the player's ride-request controls — the
 per-card ride chip (§4.6) and the trip-type bottom sheet (§4.7) — were
 **removed**; players can no longer create or edit a request from the UI. The
@@ -59,6 +70,9 @@ rides API down (§10.4, §12).
   token design, edge rate-limiting, and Vitest `pool-workers` to
   `builder-tech-lead`'s brief before implementation.
 
+> **2026-11-11 (DL-042):** the pilot and rollout gates below are dropped — the
+> front end was removed. Kept as history; they would apply again if revived.
+
 ### Before the single-team pilot ships (not before coding)
 - **Consent wording + contact** (§11.1, OQ-2): the §11.1 notice is a draft with
   `[מדיניות פרטיות]` / `[contact]` placeholders. The stakeholder fills the real
@@ -76,6 +90,11 @@ rides API down (§10.4, §12).
 ---
 
 ## 3. Identity & storage
+
+> **REMOVED (front end) 2026-11-11 — DL-042.** The client no longer stores or
+> uses any of the keys below; `clearLegacyRidesKeys()` in `app.js` deletes them
+> from devices on load. §3.2/§3.3 describe the token *model* still implemented by
+> the dormant backend (§6); nothing mints or sends these tokens from the site now.
 
 ### 3.1 `localStorage` keys (all reads wrapped in try/catch, like `loadFollowed`)
 
@@ -114,9 +133,13 @@ Existing keys (`gilboa.followed`, `gilboa.seen_generated_at`,
 > add/edit buttons on `#screen-rides` (§4.9). No UI now creates or edits a
 > request; `PUT /api/request` remains in the backend, tested but uncalled.
 > **The rest of player mode (§4.1–§4.5: toggle/link, consent, name step, summary
-> card, `#screen-rides`) is still live but has lost its main function — what to
-> do with it is a pending stakeholder decision, not yet made** (DL-041, OPEN).
-> Sections below describe the original design; §4.6/§4.7 are kept as history.
+> card, `#screen-rides`) was left live pending a stakeholder decision** (DL-041,
+> OPEN).
+>
+> **REMOVED 2026-11-11 — DL-042.** The stakeholder decided: all of §4 (player
+> experience) is removed from the site — toggle/link, consent, name step, summary
+> card, `#screen-rides`, privacy screen, `rides.js`. Nothing below in §4 exists in
+> code any more; it is kept as design history only.
 
 ### 4.1 Role entry — `index.html` + `app.js`
 
@@ -297,6 +320,11 @@ weeks — wrong condition for a week-level feature).
 
 ## 5. Manager experience — `public/manager.html` + `manager.js` + `manager.css`
 
+> **REMOVED 2026-11-11 — DL-042.** `manager.html` / `manager.js` / `manager.css`
+> and their smoke test are deleted; there is no coordinator dashboard. The
+> `/api/manager/*` endpoints still exist in the dormant backend (§6) but nothing
+> serves a UI for them. Kept as design history (and as the spec to revive from).
+
 A **separate page**, not a view inside the parents' app. Shares `styles.css`.
 Keeps manager code off every parent's phone, keeps a `מנהל` button out of the
 shared header, keeps `goto()` simple. **No `מנהל` button in `index.html`.** URL
@@ -384,6 +412,11 @@ multiple managers / Cloudflare Access later with no data change.
 ---
 
 ## 6. Backend — Cloudflare Pages Functions + KV
+
+> **DORMANT since 2026-11-11 (DL-042).** This section is unchanged and still
+> accurate for what is deployed, but no client calls any endpoint. Only the
+> weekly `POST /api/purge` (GitHub Action) still hits it. Whether to remove the
+> backend is an OPEN stakeholder decision — see `docs/RIDES.md`.
 
 ### 6.1 Shape
 Site + API in **one Cloudflare Pages project**, one git-connected deploy, one
@@ -495,6 +528,11 @@ Workers free: 100k req/day. KV free: 100k reads, **1k writes**, 1k deletes/day,
 
 ## 7. Static-site changes
 
+> **REMOVED 2026-11-11 — DL-042.** All of the changes in this table have been
+> reverted: `rides.js`, `manager.*` deleted; the rides hooks, ids, screens and
+> CSS removed from `app.js` / `index.html` / `styles.css`. `app.js` gained only
+> `clearLegacyRidesKeys()` (one-time localStorage cleanup). Historical table:
+
 | file | change |
 |---|---|
 | `public/rides.js` | **new** — all player-side rides logic, loaded after `app.js`. Vanilla, no build. Pure helpers on `window`: `shortName`, `weekKey`, `rideCaption`, `computeDepartTimes` |
@@ -512,7 +550,13 @@ hard-coded const to edit before deploy (the DL-015 footgun). Documented in
 
 ## 8. Privacy, consent, retention, security
 
-### 8.1 Consent notice (Hebrew, shown at §4.2) — **draft**, finalise with OQ-2
+> **Update 2026-11-11 (DL-042):** the front end is removed, so the site collects
+> no personal data. §8.1 (consent notice + privacy screen) and §8.5 (legal) are
+> **moot while dormant** — they would need doing for real if the feature were
+> revived. §8.2–§8.4 still describe the dormant backend; remaining KV rows age
+> out via the weekly purge (≤ ~7 days).
+
+### 8.1 Consent notice (Hebrew, shown at §4.2) — **draft**, finalise with OQ-2 — **REMOVED (DL-042); never finalised**
 
 > **רישום להסעות — מה נשמר**
 > כדי לתאם לך הסעה, נשמור את השם המלא שהזנת ואת בקשות ההסעה שלך (לאילו אימונים,
@@ -627,6 +671,12 @@ Both are later slices, **no migration**.
 
 ### 11.2 Site — `tests/site_smoke.js` style (Node-only fake DOM + `localStorage`)
 
+> **REMOVED 2026-11-11 — DL-042.** The rides assertions below were deleted from
+> `site_smoke.js` (185 → 113 checks). In their place ~32 lock assertions verify
+> the removal: rides files absent, `index.html` has no rides ids, no
+> `window.Rides`, legacy `gilboa.*` rides keys cleared while `gilboa.followed` is
+> kept, and the app makes zero `/api/` requests. Kept below as history.
+
 *(Items 1, 2, 4, 5, 6 below describe the original suite; chip/sheet/add/edit
 parts struck through were removed 2026-11-11, DL-041. The suite now asserts the
 chip, `.ride-strip`, `#rides-sheet`, `ride-add` and `ride-edit` are absent;
@@ -657,6 +707,9 @@ smoke count 176 → 185.)*
 
 ### 11.3 Manager — `manager.html` harness
 
+> **REMOVED 2026-11-11 — DL-042.** `tests/manager_smoke.js` and its CI step are
+> deleted along with the manager page.
+
 9. Password dialog → (stub 200) dashboard; (stub 401) error, no dashboard.
 10. Day stepper moves the day; practice rows collapsed → expand shows names;
     all-empty day → `אין בקשות`; orphaned group renders; `העתקת תוכנית היום`
@@ -671,6 +724,13 @@ stays dependency-free.
 ---
 
 ## 12. Build sequence (Slice A)
+
+> **Status 2026-11-11 (DL-042):** backend steps (2–5, 9, 10 minus the manager
+> smoke) remain in place and dormant. Front-end steps **6 (`rides.js` helpers), 7
+> (player UI), 8 (manager UI)** and the pilot steps **12 (fill §8.1
+> placeholders), 14 (single-team pilot)** were built and then **removed / dropped**
+> — the rides pilot and rollout will not happen. Step 13's privacy review is moot
+> while dormant.
 
 Mirrors `docs/mvp-spec.md` §11. Detailed task breakdown in
 `docs/superpowers/plans/2026-09-04-rides-slice-a.md`.

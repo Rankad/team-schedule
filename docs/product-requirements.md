@@ -94,8 +94,9 @@ on Cloudflare Functions + KV. The front end was removed in two steps (DL-041
 chip/sheet, DL-042 everything else); the pilot, club-wide rollout and "Slice B"
 were dropped. The site makes **no** `/api/*` calls and collects no personal data.
 The backend (Functions, daily purge step) was **removed too (DL-046,
-2026-11-11)**. **Open:** the stakeholder's manual cleanup of the Cloudflare KV
-and secrets and the GitHub rides secrets (checklist in `docs/RIDES.md`).
+2026-11-11; PR #9)**. The stakeholder's manual cleanup of the Cloudflare KV
+and secrets and the GitHub rides secrets is **done (2026-11-11)** (archive in
+`docs/RIDES.md`); no personal data is stored anywhere.
 
 ## Functional requirements
 Original v0.1 list, with status.
@@ -161,8 +162,8 @@ New requirements:
   use approved 2026-09-06.
 
 ## Open questions
-- **Rides backend:** resolved by DL-046 (removed). Only the stakeholder's manual
-  dashboard/secrets cleanup is left (`docs/RIDES.md`).
+- **Rides backend:** closed by DL-046 (removed; manual dashboard/secrets cleanup
+  done 2026-11-11, `docs/RIDES.md`).
 - **Logo / favicon / web manifest / `og:image`** — parked, waiting for a
   high-resolution or SVG logo from the club (DL-036; `known-constraints.md`).
 - **Excel fallback importer (Phase 4)** — not scheduled; build only if the

@@ -116,10 +116,10 @@ removal locks:
 - [ ] The `functions-tests` job (legacy name kept on purpose) runs only the
       site smoke test (`node tests/site_smoke.js`) — no Functions test step.
 - [ ] Zero `/api/` requests from the site (also locked by the smoke test).
-- [ ] Stakeholder manual cleanup done (`docs/RIDES.md` section 1): KV
+- [x] Stakeholder manual cleanup done 2026-11-11 (`docs/RIDES.md` section 1): KV
       namespace + Cloudflare secrets deleted, GitHub `PURGE_KEY` / `RIDES_API`
       deleted, `GOOGLE_CALENDAR_API_KEY` still present and the next data run
-      green.
+      green (run #193 SUCCESS).
 - [ ] pytest 159 green; site smoke 256 green.
 
 ## Branding (DL-036)

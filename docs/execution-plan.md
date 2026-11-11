@@ -108,8 +108,8 @@ server, no database, $0/month. See `docs/architecture.md` and
   The purge step (last step of `build-data`, 3x/day) now **fails loudly**
   (DL-043; red run if `PURGE_KEY`/`RIDES_API` secrets are missing).
 - **Update 2026-11-11 (DL-046): backend removed too** (`functions/`, purge step,
-  Functions tests). Phase CLOSED. Only the stakeholder's manual Cloudflare/GitHub
-  cleanup remains — `docs/RIDES.md` section 1. (The two bullets above describing
+  Functions tests). Phase CLOSED. The stakeholder's manual Cloudflare/GitHub
+  cleanup was completed 2026-11-11 (PR #9; `docs/RIDES.md` section 1). (The two bullets above describing
   the backend as still in the repo are history.)
 
 ## Progress log
@@ -352,12 +352,15 @@ server, no database, $0/month. See `docs/architecture.md` and
   unit-test step and the 47 Functions tests. CI job `functions-tests` keeps its
   name (required-check safety) and runs only the site smoke test; `"functions/**"`
   path filters left in `build.yml` (harmless). `clearLegacyRidesKeys()` stays.
-  Tests: site smoke 256, pytest 159. **Stakeholder still to do, in order:** merge
-  the PR; Cloudflare dashboard (remove KV binding `RIDES_KV`, delete the 3
-  secrets, delete the KV namespace — permanently erases ride rows, intended);
-  GitHub (delete `PURGE_KEY`, `RIDES_API`; keep `GOOGLE_CALENDAR_API_KEY`).
-  Checklist: `docs/RIDES.md`. Branch `chore/remove-rides-backend` (`cdb3356`,
-  `a63d6ca`); PR pending. After cleanup no personal data is stored anywhere.
+  Tests: site smoke 256, pytest 159. Branch `chore/remove-rides-backend`
+  (`cdb3356`, `a63d6ca`), **merged as PR #9 (`948b8a9`)**. **Manual cleanup
+  done 2026-11-11** by the stakeholder: Cloudflare (KV binding `RIDES_KV`
+  removed, 3 secrets deleted, KV namespace deleted — ride rows permanently
+  erased, intended) and GitHub (`PURGE_KEY`, `RIDES_API` deleted;
+  `GOOGLE_CALENDAR_API_KEY` kept). Verified: prod site/data HTTP 200,
+  `POST /api/token` returns 405, manual run #193 (on `a464512`) SUCCESS.
+  (Dashboard steps as reported by the stakeholder.) Checklist/archive:
+  `docs/RIDES.md`. No personal data is stored anywhere.
 
 - **2026-11-11 — Hide a training + add a game (DL-044).** Stakeholder-approved.
   Each training row gets an ✕ (remembered per team + weekday + ordinal, applies
@@ -386,9 +389,7 @@ server, no database, $0/month. See `docs/architecture.md` and
 > club-wide rollout (Slice B) no longer apply. The text that was here is gone;
 > history lives in the Progress log and `docs/rides-spec.md`.
 
-Rides backend removal decided and done in the repo (DL-046). Stakeholder
-actions remaining, in order: merge the PR, then do the Cloudflare and GitHub
-secrets cleanup in `docs/RIDES.md` section 1 (keep `GOOGLE_CALENDAR_API_KEY`).
-
-Phase 4 (Excel fallback importer) remains the next *schedule-side* build
-phase and is not urgent.
+Nothing is open on the rides backend: removal merged (PR #9) and the manual
+cleanup done and verified 2026-11-11 (DL-046). The only remaining items are the
+parked logo/favicon/manifest/`og:image` work (waiting on the club's logo file)
+and Phase 4 (Excel fallback importer), which is not built and not urgent.

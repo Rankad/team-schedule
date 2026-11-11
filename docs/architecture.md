@@ -193,7 +193,7 @@ team schedule/
    Cloudflare does not skip on). Live at `https://gilboa-schedule.pages.dev`.
 3. `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions secret** (the build runs on
    GitHub, not Cloudflare). Cloudflare holds no secrets for the static site. (The
-   old rides-backend secrets are removed by hand per DL-046 / `docs/RIDES.md`.)
+   old rides-backend secrets were removed by hand on 2026-11-11 (DL-046; see `docs/RIDES.md` archive).)
 4. GitHub Pages is retired. The old `rankad.github.io/team-schedule/` URL serves
    a client-side redirect (`legacy/`, published once via the manual
    `legacy-redirect.yml` workflow). See DL-028.

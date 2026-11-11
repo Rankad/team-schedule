@@ -1402,6 +1402,18 @@
   - Tests now: site smoke 256, pytest 159. The 47 Functions tests are gone.
   - Until step 2 is done, the KV data and secrets still exist on Cloudflare,
     unreachable by any code.
-- **Status:** Accepted; PR pending (manual cleanup pending).
+- **Status:** Accepted. Merged as PR #9 (merge commit `948b8a9`, 2026-11-11).
+  Manual cleanup **done 2026-11-11** by the stakeholder: Cloudflare Pages project
+  `gilboa-schedule` — KV binding `RIDES_KV` removed, secrets `MANAGER_PASSPHRASE`/
+  `SITE_ORIGIN`/`PURGE_KEY` deleted, `RIDES_KV` namespace deleted (all stored ride
+  rows, incl. players' names, permanently erased); GitHub — secrets `PURGE_KEY`
+  and `RIDES_API` deleted (`GOOGLE_CALENDAR_API_KEY` kept). Verified afterwards:
+  production site and data load (HTTP 200); `POST /api/token` on prod returns 405
+  (static host, no API); manual run of Build schedule data (run #193, on
+  `a464512`, after the merge) completed SUCCESS (`build-data` has no purge step;
+  `functions-tests` ran the site smoke only). Caveat: the dashboard steps are as
+  reported by the stakeholder; the PM did not see the Cloudflare/GitHub
+  dashboards. Result: no personal data is stored anywhere; the dormant-backend
+  open decision is closed.
 - **Risk:** Low–Medium. Code removal is reversible via git; the KV namespace
   deletion is not reversible (data is gone for good, by intent).

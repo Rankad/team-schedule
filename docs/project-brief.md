@@ -71,11 +71,12 @@ Cloudflare Pages; the club was told and approved). The on-screen name is
   (DL-041/042); the pilot and club-wide rollout were dropped. The site now makes
   no API calls and collects no personal data. The backend (Functions, purge
   step) was removed too on 2026-11-11 (DL-046).
-- **Still open:** (1) the stakeholder's manual cleanup of the old Cloudflare KV,
-  Cloudflare secrets and GitHub rides secrets, after the PR merges
-  (`docs/RIDES.md`); (2) logo / favicon / web manifest / `og:image`
-  work, parked until the club supplies a high-resolution logo (DL-036); (3)
-  Excel fallback importer, not scheduled; (4) custom domain, deferred.
+  The stakeholder's manual cleanup of the old Cloudflare KV, Cloudflare secrets
+  and GitHub rides secrets was completed 2026-11-11 (PR #9; `docs/RIDES.md`
+  archive); no personal data is stored anywhere.
+- **Still open:** (1) logo / favicon / web manifest / `og:image`
+  work, parked until the club supplies a high-resolution logo (DL-036); (2)
+  Excel fallback importer, not scheduled; (3) custom domain, deferred.
 
 Detail: `docs/product-requirements.md`, `docs/architecture.md`,
 `docs/ui-ux-spec.md`, `docs/mvp-spec.md`, `docs/decision-log.md`.

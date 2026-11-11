@@ -63,8 +63,8 @@ new name.
   URL is the canonical link for now.
 - **Secrets:** `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions** secret only.
   The static site needs no Cloudflare secrets. (The old rides backend secrets
-  are being cleaned up by hand — see "Rides backend removed (DL-046)" below. Do
-  not delete `GOOGLE_CALENDAR_API_KEY` with them.)
+  were deleted by hand 2026-11-11 — see "Rides backend removed (DL-046)" below.
+  `GOOGLE_CALENDAR_API_KEY` is the only secret left; do not delete it.)
 - The Python build + commit still runs on GitHub Actions
   (`.github/workflows/build.yml`, job `build-data`), three times daily
   (`0 5,13,17 * * *` UTC ≈ 07:00/15:00/19:00 Jerusalem winter, DL-033). GitHub
@@ -120,12 +120,13 @@ switch systems, fall back to the Excel importer.
 The rides front end (DL-042) and backend (DL-046: `functions/`, the purge step,
 the Functions tests) are both gone from the repo. The site makes zero `/api/*`
 calls. History: git (PRs #2, #5, #6), `docs/rides-spec.md`, DL-029 to DL-043.
-- **Remaining until the stakeholder does it by hand:** the Cloudflare KV
-  namespace `RIDES_KV` (with its bindings and the secrets `MANAGER_PASSPHRASE`,
-  `SITE_ORIGIN`, `PURGE_KEY`) and the GitHub secrets `PURGE_KEY`, `RIDES_API`
-  still exist, unused. Ordered checklist: `docs/RIDES.md` section 1. **Merge the
-  PR before deleting the GitHub secrets**, or the daily data run goes red.
-- **After that cleanup no personal data is stored anywhere.** The privacy/legal
+- **Manual cleanup complete (2026-11-11; PR #9, `948b8a9`).** The stakeholder
+  removed the Cloudflare KV binding `RIDES_KV`, deleted the secrets
+  `MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY` and the `RIDES_KV` namespace,
+  and deleted the GitHub secrets `PURGE_KEY`, `RIDES_API`. Verified: prod HTTP
+  200, `POST /api/token` returns 405, data build run #193 SUCCESS. Archive:
+  `docs/RIDES.md` section 1.
+- **No personal data is stored anywhere.** The privacy/legal
   items (OQ-2 contact placeholder, PPL / Amendment 13 opinion) are permanently
   moot unless the feature is rebuilt.
 - **The only secret left is `GOOGLE_CALENDAR_API_KEY`** (GitHub Actions). Do not

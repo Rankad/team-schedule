@@ -39,10 +39,11 @@ exports, and (DL-044) remove-a-training + add-a-game, per device. The rides
 (הסעות) front end and its Cloudflare backend were built then removed
 (DL-041/042/046); `functions/` is gone and no personal data is stored. Specs:
 `docs/mvp-spec.md` (build spec), `docs/architecture.md`,
-`docs/decision-log.md` (DL-001…046), `docs/execution-plan.md`. Open: the
-stakeholder's manual Cloudflare KV/secrets + GitHub secrets cleanup after the PR
-merges (`docs/RIDES.md`; keep `GOOGLE_CALENDAR_API_KEY`); parked logo/favicon/manifest/
-og:image work; Excel fallback importer (Phase 4) not built.
+`docs/decision-log.md` (DL-001…046), `docs/execution-plan.md`. The manual
+Cloudflare KV/secrets + GitHub secrets cleanup is done (DL-046, 2026-11-11;
+`docs/RIDES.md` archive; `GOOGLE_CALENDAR_API_KEY` is the only secret left).
+Remaining open items: parked logo/favicon/manifest/og:image work; Excel
+fallback importer (Phase 4) not built.
 
 ## Important constraints
 - Source = the club's public Google Calendar (API v3 with OUR own free key, or

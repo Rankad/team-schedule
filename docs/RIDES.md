@@ -3,19 +3,21 @@
 > **STATUS 2026-11-11: the rides feature is gone.** Front end removed by DL-042,
 > **backend removed by DL-046** (`functions/` deleted, purge step removed from
 > `build.yml`). The site makes zero `/api/*` calls and stores no personal data in
-> the repo. This file is now (1) the stakeholder's manual cleanup checklist and
-> (2) a short historical record. **Do not follow any operational step in the
-> "Historical" section — the things it describes no longer exist in the repo.**
+> the repo. **The manual cleanup checklist below is COMPLETE (all three steps
+> DONE 2026-11-11; no personal data is stored anywhere).** This file is kept as
+> an archive: (1) the completed cleanup checklist and (2) a short historical
+> record. **Do not follow any operational step in the "Historical" section — the
+> things it describes no longer exist in the repo.**
 
-## 1. Stakeholder manual cleanup (the repo change does not do this)
+## 1. Stakeholder manual cleanup — DONE 2026-11-11 (archive)
 
-Do these **in order**. Menu labels in the dashboards may differ slightly from the
-wording below.
+Completed by the stakeholder on 2026-11-11 and verified by run #193 (green).
+Kept for the record; nothing here is pending. Original order and wording:
 
-1. **Merge the PR first.** If the GitHub secrets are deleted before the merge,
-   the daily data run goes red, because the old purge step (still on `main`)
-   expects them.
-2. **Cloudflare dashboard** → Workers & Pages → project `gilboa-schedule`:
+1. **DONE (2026-11-11) — Merge the PR first** (PR #9, `948b8a9`). If the GitHub
+   secrets are deleted before the merge, the daily data run goes red, because
+   the old purge step (still on `main`) expects them.
+2. **DONE (2026-11-11) — Cloudflare dashboard** → Workers & Pages → project `gilboa-schedule`:
    - Remove the KV binding `RIDES_KV` — **Production AND Preview** — under
      Settings → Bindings / Functions.
    - Delete the variables/secrets `MANAGER_PASSPHRASE`, `SITE_ORIGIN`,
@@ -23,12 +25,12 @@ wording below.
    - Then Storage & Databases → KV → delete the namespace `RIDES_KV`.
      **This permanently erases every stored ride row (players' names). That is
      intended.**
-3. **GitHub** → repo Settings → Secrets and variables → Actions: delete
-   `PURGE_KEY` and `RIDES_API`. **Keep `GOOGLE_CALENDAR_API_KEY`** — the data
-   build needs it.
+3. **DONE (2026-11-11) — GitHub** → repo Settings → Secrets and variables →
+   Actions: delete `PURGE_KEY` and `RIDES_API`. **Keep
+   `GOOGLE_CALENDAR_API_KEY`** — the data build needs it.
 
-Mark this done in `docs/decision-log.md` (DL-046 status) once finished. After
-step 2, no personal data is stored anywhere.
+Recorded in `docs/decision-log.md` (DL-046 status: Accepted, cleanup done).
+Checklist complete; no personal data is stored anywhere.
 
 ## 2. What the repo looks like now
 - No `functions/`, no `/api/*` routes. After Cloudflare redeploys, `/api/*` falls

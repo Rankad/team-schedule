@@ -106,44 +106,21 @@ dashboard) were deleted with the code. Replaced by removal locks:
       `404.html` / `_redirects` / `_headers` / `wrangler.toml`), not a 404.
 - [ ] `node tests/site_smoke.js` green (113 checks at DL-042).
 
-## Rides backend (dormant, DL-042)
-Nothing calls it any more; kept intact pending a stakeholder decision.
-- [ ] Functions tests green (47) — incl. `PUT /api/request` (validation, upsert,
-      20-row cap) even though no UI calls it. Do not delete them as "dead code"
-      unless the backend is being removed on purpose.
-- [ ] The "Purge past rides weeks" step in `build.yml` is the last step of
-      `build-data` and fails the run on missing `PURGE_KEY`/`RIDES_API` secrets,
-      a non-2xx/network error, or a response without `"ok":true` (DL-043); no
-      `continue-on-error`. A red scheduled run means investigate (open the step,
-      read the `::error::` line), not ignore.
-- [ ] Ride rows still in KV from earlier use are gone within a week (purge
-      deletes everything older than the current week's Sunday).
-- [ ] `functions-tests` CI job (Functions unit tests + site smoke) green; no
-      "Manager smoke test" step remains.
-- [ ] Purge (`POST /api/purge`) deletes only strictly-past weeks' keys; the
-      current and future weeks are untouched; `config/*` is never deleted.
-
-## Rides backend — security (dormant)
-- [ ] Tokens (player + manager): high-entropy (CSPRNG), opaque, never in a URL
-      or logs. (Backend-only now; nothing stores one client-side.)
-- [ ] `PUT /api/request` write validation is structural only (shape, field
-      types, `direction` enum, id regex) — confirm it rejects a malformed
-      body and accepts a well-formed one, with no schedule lookup on the
-      write path.
-- [ ] Request body is capped at 1 KB; a token is capped at 20 rows per week
-      (21st write rejected).
-- [ ] Every `/api/manager/*` route returns `401` on a missing, malformed, or
-      expired Bearer token.
-- [ ] `POST /api/purge` returns `401` without a correct `X-Purge-Key` header.
-- [ ] CORS `access-control-allow-origin` equals `SITE_ORIGIN` on every rides
-      response; preflight (`OPTIONS`) is handled.
-- [ ] No names, tokens, or passphrases appear in Cloudflare Function logs.
-- [ ] **The KV last-write-wins race is designed out (per-row keys, DL-029),
-      not testable under Miniflare** — confirm this is documented (not
-      silently assumed) rather than re-litigated as a missing test.
-- [ ] ~~§8.1 consent notice `[contact]` / `[מדיניות פרטיות]` placeholders filled~~
-      — **moot (DL-042):** the consent text and privacy screen are gone; nothing
-      is collected. Would need doing if the feature were revived.
+## Rides backend removed (DL-046, 2026-11-11)
+The old "Rides backend (dormant)" and "Rides backend — security (dormant)"
+items, and the 47 Functions tests, were deleted with `functions/`. Replaced by
+removal locks:
+- [ ] `functions/` does not exist in the repo.
+- [ ] `.github/workflows/build.yml` has no "Purge past rides weeks" step (no
+      `PURGE_KEY` / `RIDES_API` references).
+- [ ] The `functions-tests` job (legacy name kept on purpose) runs only the
+      site smoke test (`node tests/site_smoke.js`) — no Functions test step.
+- [ ] Zero `/api/` requests from the site (also locked by the smoke test).
+- [ ] Stakeholder manual cleanup done (`docs/RIDES.md` section 1): KV
+      namespace + Cloudflare secrets deleted, GitHub `PURGE_KEY` / `RIDES_API`
+      deleted, `GOOGLE_CALENDAR_API_KEY` still present and the next data run
+      green.
+- [ ] pytest 159 green; site smoke 256 green.
 
 ## Branding (DL-036)
 - [ ] Every `--accent` / `--accent-dark` foreground/background pair checked

@@ -93,9 +93,9 @@ Player ride requests and a coordinator dashboard were built (Phase 6, DL-029..03
 on Cloudflare Functions + KV. The front end was removed in two steps (DL-041
 chip/sheet, DL-042 everything else); the pilot, club-wide rollout and "Slice B"
 were dropped. The site makes **no** `/api/*` calls and collects no personal data.
-The backend (Functions, KV, secrets, daily purge step) is **dormant, not
-removed**. **Open:** whether to remove it too (DL-042/043; KV must be emptied
-first; checklist in `docs/RIDES.md`).
+The backend (Functions, daily purge step) was **removed too (DL-046,
+2026-11-11)**. **Open:** the stakeholder's manual cleanup of the Cloudflare KV
+and secrets and the GitHub rides secrets (checklist in `docs/RIDES.md`).
 
 ## Functional requirements
 Original v0.1 list, with status.
@@ -143,8 +143,8 @@ New requirements:
 - Games no longer create fake teams (DL-038).
 - Added 2026-11-11: remove-a-training and add-a-game, exports match the screen
   (DL-044); app name הפועל העמק (DL-045).
-- Rides built (DL-029..037), then front end removed (DL-041/042); backend dormant;
-  purge step fails loudly (DL-043).
+- Rides built (DL-029..037), then front end removed (DL-041/042) and backend removed
+  (DL-046).
 - Former v0.3 "distribution channels": client-side share/copy/`.ics`/PNG shipped
   early; a server-side `.ics` feed, email and WhatsApp-API messages are still
   **not built** and still need their own approval (Phase 5).
@@ -161,8 +161,8 @@ New requirements:
   use approved 2026-09-06.
 
 ## Open questions
-- **Remove the dormant rides backend?** Open stakeholder decision (DL-042/043).
-  If yes, the purge step in `build.yml` goes with it.
+- **Rides backend:** resolved by DL-046 (removed). Only the stakeholder's manual
+  dashboard/secrets cleanup is left (`docs/RIDES.md`).
 - **Logo / favicon / web manifest / `og:image`** — parked, waiting for a
   high-resolution or SVG logo from the club (DL-036; `known-constraints.md`).
 - **Excel fallback importer (Phase 4)** — not scheduled; build only if the

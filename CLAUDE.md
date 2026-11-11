@@ -36,10 +36,12 @@ pushes to `main`, which auto-deploys. Front end: vanilla RTL Hebrew site in
 `public/` (no build step); on-screen name is **הפועל העמק** (DL-045). Features
 include team/coach search, weekly view, changes banner, share/copy/`.ics`/PNG
 exports, and (DL-044) remove-a-training + add-a-game, per device. The rides
-(הסעות) front end was built then removed (DL-041/042); its Cloudflare backend is
-dormant. Specs: `docs/mvp-spec.md` (build spec), `docs/architecture.md`,
-`docs/decision-log.md` (DL-001…045), `docs/execution-plan.md`. Open: whether to
-remove the dormant rides backend (`docs/RIDES.md`); parked logo/favicon/manifest/
+(הסעות) front end and its Cloudflare backend were built then removed
+(DL-041/042/046); `functions/` is gone and no personal data is stored. Specs:
+`docs/mvp-spec.md` (build spec), `docs/architecture.md`,
+`docs/decision-log.md` (DL-001…046), `docs/execution-plan.md`. Open: the
+stakeholder's manual Cloudflare KV/secrets + GitHub secrets cleanup after the PR
+merges (`docs/RIDES.md`; keep `GOOGLE_CALENDAR_API_KEY`); parked logo/favicon/manifest/
 og:image work; Excel fallback importer (Phase 4) not built.
 
 ## Important constraints

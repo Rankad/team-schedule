@@ -69,10 +69,11 @@ Cloudflare Pages; the club was told and approved). The on-screen name is
 - **Rides (הסעות):** a player ride-request feature plus coordinator dashboard
   was built and briefly live, then removed from the front end on 2026-11-11
   (DL-041/042); the pilot and club-wide rollout were dropped. The site now makes
-  no API calls and collects no personal data. The backend is dormant, and its
-  daily purge step now fails loudly if broken (DL-043).
-- **Still open:** (1) whether to remove the dormant rides backend (KV must be
-  emptied first; `docs/RIDES.md`); (2) logo / favicon / web manifest / `og:image`
+  no API calls and collects no personal data. The backend (Functions, purge
+  step) was removed too on 2026-11-11 (DL-046).
+- **Still open:** (1) the stakeholder's manual cleanup of the old Cloudflare KV,
+  Cloudflare secrets and GitHub rides secrets, after the PR merges
+  (`docs/RIDES.md`); (2) logo / favicon / web manifest / `og:image`
   work, parked until the club supplies a high-resolution logo (DL-036); (3)
   Excel fallback importer, not scheduled; (4) custom domain, deferred.
 

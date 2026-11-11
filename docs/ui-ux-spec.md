@@ -169,8 +169,8 @@ consent dialog, name step, rides summary card, `#screen-rides`, privacy screen
 app is a pure team-schedule viewer with no rides UI and no `/api/*` calls; no
 personal data is collected. Earlier, DL-041 had removed the per-card ride chip
 and trip-type sheet. Design history: `docs/rides-spec.md` (§4/§5, marked
-REMOVED) and DL-034/035/037/041 in `docs/decision-log.md`. The backend is left
-dormant (see `docs/RIDES.md`).
+REMOVED) and DL-034/035/037/041 in `docs/decision-log.md`. The backend was
+removed later (DL-046; see `docs/RIDES.md`).
 
 ## Out of scope for MVP UI
 - Family / per-child grouping (data model allows it; UI is flat team-follow for

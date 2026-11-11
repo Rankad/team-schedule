@@ -129,67 +129,22 @@ resilience and for parser regression tests.
 | Scheduler | GitHub Actions cron | Free, no infra |
 | Datastore | Git repo (committed JSON) | Free, versioned, no DB server |
 | Frontend | Vanilla HTML/CSS/JS, RTL | Small UI, no build step |
-| Host | Cloudflare Pages (git integration, no build command) | Free CDN, free TLS, no ads; same project also hosts the (dormant, DL-042) rides Functions |
+| Host | Cloudflare Pages (git integration, no build command) | Free CDN, free TLS, no ads; static files only (the rides Functions were removed, DL-046) |
 | Domain | `gilboa-schedule.pages.dev` (custom domain deferred — rides spec OQ-4) | Not required |
 
 SQLite is **not needed** for this model. If a future phase needs server-side
 state (accounts for push notifications), revisit then.
 
-### Rides API (Cloudflare Pages Functions + KV) — added Phase 6; **DORMANT since DL-042 (2026-11-11)**
-> **Dormant:** the rides front end (`rides.js`, `manager.html/js/css`, all player
-> UI) was removed; the static site makes **zero** `/api/*` calls. The Functions +
-> KV below are still deployed but nothing calls them except `POST /api/purge`
-> from the GitHub Action (last step of the `build-data` job, 3×/day). Whether to remove them is an OPEN
-> stakeholder decision (DL-042; checklist in `docs/RIDES.md`). The diagram's
-> client box and the "Auth: player token in localStorage" / "Isolation boundary"
-> bullets describe the removed client and are historical.
-
-The schedule half of this architecture (calendar → JSON → static site) is
-completely unaffected by the rides feature; this is a bolted-on backend in
-the **same** Cloudflare Pages project. Spec: `docs/rides-spec.md`. Runbook:
-`docs/RIDES.md`.
-
-```
-public/  (unchanged: RTL site, fetches public/data/*.json client-side)
-  + rides.js, manager.html, manager.js, manager.css   (REMOVED, DL-042)
-        │  fetch('/api/...')   (no longer happens)
-        ▼
-functions/api/**            Cloudflare Pages Functions (one per route)
-  token.js, request.js, me.js, ping.js, purge.js
-  manager/login.js, manager/config.js, manager/dashboard.js
-        │
-functions/_lib/**           pure/shared helpers (unit-tested, no framework)
-  token.js (mint/verify), rows.js (KV row CRUD), validate.js (structural),
-  depart.js (computeDepartTimes), dashboard.js (buildDashboard — joins KV
-  rows with schedule.json/teams.json), auth.js, http.js (CORS), purge.js,
-  stats.js (opens/players-all), week.js (weekKeyOf/isWeekKey)
-        │  env.RIDES_KV
-        ▼
-Cloudflare KV namespace  RIDES_KV
-  week/<wk>/req/<token>/<sessionId>   (one ride request, per-row key)
-  week/<wk>/rideStatus                (reserved, later slice)
-  config/locations, config/global     (persist — no personal data)
-  stats/players-all, stats/opens/<day>/<rand>
-```
-
-- **Auth:** player = opaque token (`localStorage` only, never a URL) minted by
-  `POST /api/token`. Manager = `Authorization: Bearer` token, HMAC'd from the
-  `MANAGER_PASSPHRASE` Cloudflare secret, 6 h TTL, checked by every
-  `/api/manager/*` route.
-- **No second scheduler:** the purge (`POST /api/purge`, `X-Purge-Key`
-  auth) is called from the *existing* thrice-daily GitHub Action
-  (`.github/workflows/build.yml`, job `build-data`), right after the normal
-  schedule rebuild. Idempotent, so running it three times a day is harmless.
-  Pages Functions have no native cron.
-- **Isolation boundary (enforced in code review):** every rides call is
-  wrapped so a failure shows a contained "unavailable" state in the rides UI
-  — it never touches `renderMyWeek`'s schedule rendering path. See
-  `docs/qa-checklist.md` "Rides front end removed (DL-042)".
-- **Env secrets** (Cloudflare Pages env vars, Production + Preview):
-  `MANAGER_PASSPHRASE`, `SITE_ORIGIN` (CORS + the origin Functions fetch
-  `data/*.json` from), `PURGE_KEY`. See `docs/RIDES.md`.
-- Decisions: DL-029 (per-row KV keys, structural validation, opaque tokens),
-  DL-030 (generated passphrase, edge rate-limit, Cloudflare Access deferred).
+### Rides API (Cloudflare Pages Functions + KV) — REMOVED (DL-046, 2026-11-11)
+The rides feature was added in Phase 6 as a bolted-on backend (Pages Functions
+under `/api/*` + one KV namespace `RIDES_KV`) in the same Cloudflare Pages
+project. The front end was removed by DL-042 and the backend (`functions/`, the
+"Purge past rides weeks" CI step, the Functions tests) by DL-046. Nothing in the
+repo deploys or calls it; the architecture is the static site + build job only.
+The Cloudflare KV namespace, its bindings and secrets are deleted by hand —
+checklist in `docs/RIDES.md`. History: `docs/rides-spec.md`, DL-029 to DL-043,
+git (PRs #2, #5, #6). The CI job `functions-tests` keeps its legacy name (so
+required-status checks still match) and runs only the site smoke test.
 
 ## Directory layout
 ```
@@ -213,16 +168,9 @@ team schedule/
     app.js
     styles.css
     data/                   # generated JSON (committed by the job)
-  functions/                 # Cloudflare Pages Functions — rides API (Phase 6; dormant since DL-042)
-    api/
-      token.js, request.js, me.js, ping.js, purge.js
-      manager/
-        login.js, config.js, dashboard.js
-    _lib/                   # pure/shared helpers, unit-tested (Vitest)
-      token.js, rows.js, validate.js, depart.js, dashboard.js, auth.js,
-      http.js, purge.js, stats.js, week.js
+  # functions/ — removed (DL-046); the rides API lived here
   .github/workflows/
-    build.yml               # data build: cron + workflow_dispatch (deploy is Cloudflare's git integration); also calls POST /api/purge
+    build.yml               # data build: cron + workflow_dispatch (deploy is Cloudflare's git integration). Job `functions-tests` = legacy name, runs the site smoke only
     legacy-redirect.yml    # one-off: publish the old-URL redirect
   tests/
     fixtures/
@@ -244,8 +192,8 @@ team schedule/
    that uploads `public/` (the auto-commit is tagged `[skip actions]`, which
    Cloudflare does not skip on). Live at `https://gilboa-schedule.pages.dev`.
 3. `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions secret** (the build runs on
-   GitHub, not Cloudflare). Cloudflare holds no secrets for the static site; its
-   only secrets belong to the dormant rides backend (DL-042).
+   GitHub, not Cloudflare). Cloudflare holds no secrets for the static site. (The
+   old rides-backend secrets are removed by hand per DL-046 / `docs/RIDES.md`.)
 4. GitHub Pages is retired. The old `rankad.github.io/team-schedule/` URL serves
    a client-side redirect (`legacy/`, published once via the manual
    `legacy-redirect.yml` workflow). See DL-028.

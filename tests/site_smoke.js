@@ -163,12 +163,6 @@ consent.appendChild(mk('div', 'rides-consent-body'));
 consent.appendChild(mk('button', null, 'btn btn-primary', { 'data-consent': 'ok', type: 'button' }));
 consent.appendChild(mk('button', null, 'btn', { 'data-consent': 'cancel', type: 'button' }));
 root.appendChild(consent);
-const sheet = mk('dialog', 'rides-sheet');
-sheet.appendChild(mk('h2', 'rides-sheet-heading', 'sheet-heading'));
-sheet.appendChild(mk('div', 'rides-sheet-options', 'sheet-options'));
-sheet.appendChild(mk('div', 'rides-sheet-cancel', 'sheet-cancel'));
-sheet.appendChild(mk('button', null, 'btn', { 'data-sheet': 'close', type: 'button' }));
-root.appendChild(sheet);
 
 let domLoaded = null;
 global.document = {
@@ -301,6 +295,9 @@ console.log('branding <head> meta');
     'index.html og:title uses the parent-app copy');
   assert(mgrHtml.indexOf('content="ניהול הסעות — גלבוע מעיינות"') !== -1,
     'manager.html og:title uses the manager copy, not the parent-app copy');
+  // the trip-type sheet was removed; the consent dialog shares its .sheet classes and stays
+  assert(idxHtml.indexOf('id="rides-sheet"') === -1, 'index.html has no #rides-sheet dialog (trip sheet removed)');
+  assert(idxHtml.indexOf('id="rides-consent"') !== -1, 'index.html still has the #rides-consent dialog');
 }
 
 require(path.join(ROOT, 'public', 'app.js'));
@@ -662,7 +659,6 @@ require(path.join(ROOT, 'public', 'rides.js'));
     assert(!tBtns[1].classList.contains('is-selected') && tBtns[1].getAttribute('aria-pressed') === 'false',
       'שחקן not selected by default');
     assert(toggle.textContent.indexOf('רק צפייה בלוח') !== -1, 'helper line explains the two roles');
-    assert(!byId['week-content'].querySelector('.ride-chip'), 'parent sees no ride chips');
 
     tBtns[1].click(); // tap שחקן
     const consentDlg = gid('rides-consent');
@@ -761,7 +757,7 @@ require(path.join(ROOT, 'public', 'rides.js'));
     window.render();
   }
 
-  console.log('rides — chip + sheet + screen');
+  console.log('rides — player view (no chip/sheet) + screen');
   {
     const gid = (id) => global.document.getElementById(id);
     store['gilboa.role'] = 'player';
@@ -776,54 +772,66 @@ require(path.join(ROOT, 'public', 'rides.js'));
     window.render();
     await new Promise(r => setTimeout(r, 15));
 
-    const chip = byId['week-content'].querySelector('.ride-chip');
-    assert(!!chip, 'player with a token sees a ride chip on each session');
-    assert(chip.textContent.indexOf('הוספת הסעה') !== -1, 'no request => "הוספת הסעה"');
-
-    // The rides summary card is the whole of the summary slot now — no
-    // "מעבר למצב הורה" button, no .rides-exit-parent.
+    // The summary card is the whole of the summary slot — no "מעבר למצב הורה"
+    // button, no .rides-exit-parent.
     const sumSlot = gid('rides-summary-slot');
     assert(!!sumSlot.querySelector('.rides-summary-card'), 'player-with-token summary slot has the summary card');
     assert(sumSlot.textContent.indexOf('מעבר למצב הורה') === -1 && !sumSlot.querySelector('.rides-exit-parent'),
       'summary slot has no "switch back to parent" control');
+    assert(sumSlot.textContent.indexOf('טרם נרשמת להסעות השבוע') !== -1, 'summary card with 0 requests says "טרם נרשמת להסעות השבוע"');
 
-    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
-    chip.click();
-    const sheet = byId['rides-sheet'];
-    assert(!!sheet.querySelector('[data-dir="round"]'), 'sheet has a round-trip option');
-    assert(sheet.querySelector('[data-dir="round"]').classList.contains('is-preselected'), 'round trip is preselected');
-    sheet.querySelector('[data-dir="round"]').click();
-    await new Promise(r => setTimeout(r, 15));
-    const chip2 = byId['week-content'].querySelector('.ride-chip');
-    assert(chip2.textContent.indexOf('✓') !== -1, 'after choosing, chip shows a check');
-    assert(chip2.textContent.indexOf('הלוך וחזור') !== -1, 'chip names the direction in words');
-    assert(/[⁦][\d:]+[⁩]/.test(chip2.parentNode.textContent) || chip2.parentNode.textContent.indexOf('טרם נקבעה שעה') !== -1,
-      'caption times are ltr-isolated (or "no time set")');
+    // Chip + sheet were removed: a player with a token AND a loaded request for a
+    // visible session still gets plain session cards (no chip, no strip).
+    const visSession = (window.DATA.sessions || []).find(x => x.team_id === T1 && x.week_key === lastWeek);
+    assert(!!visSession, 'fixture: T1 has a session in the visible week');
+    ME_RESPONSE = { ok: true, status: 200, body: {
+      requests: [{ sessionId: visSession.id, teamId: T1, direction: 'round', fullName: 'דניאל כהן', ts: 1, v: 1 }],
+      rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
+    window.Rides._week.key = null; window.Rides._week.loaded = false; window.Rides._week.failed = false;
+    window.Rides._week.bySession = {};
+    window.render();
+    await new Promise(r => setTimeout(r, 20));
+    assert(!!window.Rides._week.bySession[visSession.id], 'fixture: the request for the visible session is loaded');
+    assert(byId['week-content'].querySelectorAll('.session').length > 0, 'visible week renders session cards');
+    assert(!byId['week-content'].querySelector('.ride-chip') && !byId['week-content'].querySelector('.ride-strip'),
+      'player with a token + a loaded request: session cards have no .ride-chip and no .ride-strip');
+    assert(byId['week-content'].textContent.indexOf('הוספת הסעה') === -1,
+      'no "הוספת הסעה" text anywhere on the schedule cards');
 
-    // failure revert
-    REQ_RESPONSE = { ok: false, status: 500, body: {} };
-    const chip3 = byId['week-content'].querySelector('.ride-chip'); chip3.click();
-    byId['rides-sheet'].querySelector('[data-dir="out"]').click();
-    await new Promise(r => setTimeout(r, 15));
-    assert(byId['toast'].textContent.indexOf('שמירת ההסעה נכשלה') !== -1, '5xx => retryable toast');
-    assert(byId['week-content'].querySelector('.ride-chip').textContent.indexOf('הלוך וחזור') !== -1,
-      'chip reverts to the previous direction after a failed save');
+    // window.Rides no longer exports the chip/sheet entry points
+    assert(typeof window.Rides.decorateSession === 'undefined', 'window.Rides has no decorateSession');
+    assert(typeof window.Rides.openTripSheet === 'undefined', 'window.Rides has no openTripSheet');
+    assert(typeof window.Rides.putRequest === 'undefined', 'window.Rides has no putRequest');
+    assert(typeof window.Rides.deleteRequest === 'function', 'window.Rides still exports deleteRequest');
 
-    // 400 => non-retry toast
-    REQ_RESPONSE = { ok: false, status: 400, body: {} };
-    byId['week-content'].querySelector('.ride-chip').click();
-    byId['rides-sheet'].querySelector('[data-dir="back"]').click();
-    await new Promise(r => setTimeout(r, 15));
-    assert(byId['toast'].textContent.indexOf('לא ניתן לבחור הסעה לאימון זה') !== -1, '400 => non-retryable toast');
-
-    // rides screen: actionable empty state
+    // rides screen with a loaded request: cancel only — no add / edit
     window.goto('rides');
     assert(byId['screen-rides'].hidden === false, 'rides screen opens');
+    window.Rides.renderRides();
+    await new Promise(r => setTimeout(r, 15));
+    assert(byId['rides-body'].querySelectorAll('.rides-row').length === 1, 'rides screen lists the one loaded request');
+    assert(!!byId['rides-body'].querySelector('.ride-del'), 'rides screen row has a ביטול (ride-del) button');
+    assert(!byId['rides-body'].querySelector('.ride-add') && !byId['rides-body'].querySelector('.ride-edit'),
+      'rides screen has no ride-add / ride-edit buttons');
+    assert(byId['rides-body'].textContent.indexOf('עריכה') === -1, 'rides screen has no עריכה control');
+
+    // cancel: DELETE /api/request issued, row disappears, empty state shown
+    REQ_RESPONSE = { ok: true, status: 200, body: { ok: true } };
+    FETCH_LOG.length = 0;
+    byId['rides-body'].querySelector('.ride-del').click();
+    await new Promise(r => setTimeout(r, 15));
+    const reqDel = FETCH_LOG.find(c => c.method === 'DELETE' && c.path === '/api/request');
+    assert(!!reqDel, 'ביטול issues DELETE /api/request');
+    assert(!byId['rides-body'].querySelector('.rides-row'), 'cancelled request is gone from the rides screen');
+
+    // 0 requests: plain empty line, no add buttons, no practice list
     ME_RESPONSE = { ok: true, status: 200, body: { requests: [], rideStatus: {}, config: { locations: {}, retDefault: 15 } } };
     window.Rides.renderRides();
     await new Promise(r => setTimeout(r, 15));
-    assert(byId['rides-body'].textContent.indexOf('בחרו אימון כדי להוסיף הסעה') !== -1, 'actionable empty state');
-    assert(!!byId['rides-body'].querySelector('.ride-add'), 'empty state offers add buttons');
+    assert(byId['rides-body'].textContent.indexOf('טרם נרשמת להסעות השבוע') !== -1, 'empty rides screen says "טרם נרשמת להסעות השבוע"');
+    assert(byId['rides-body'].textContent.indexOf('בחרו אימון') === -1, 'empty rides screen no longer invites choosing a practice');
+    assert(!byId['rides-body'].querySelector('.ride-add') && !byId['rides-body'].querySelector('.ride-del'),
+      'empty rides screen has no ride-add / ride-del buttons');
 
     // GET /api/me failure on the rides screen => distinct load-error state
     ME_RESPONSE = { ok: false, status: 500, body: {} };
@@ -838,7 +846,9 @@ require(path.join(ROOT, 'public', 'rides.js'));
     await new Promise(r => setTimeout(r, 20));
     assert(byId['week-content'].querySelectorAll('.day-group').length > 0, 'schedule list still renders when the rides API is down');
     assert(byId['summary'].textContent.length > 0, 'weekly summary still renders when the rides API is down');
-    assert(byId['week-content'].textContent.indexOf('שירות ההסעות אינו זמין') !== -1, 'ride strip shows the unavailable message when the API is down');
+    assert(gid('rides-summary-slot').textContent.indexOf('שירות ההסעות אינו זמין') !== -1,
+      'summary card shows the unavailable message when the API is down');
+    assert(!byId['week-content'].querySelector('.ride-strip'), 'no per-card ride strip when the API is down');
 
     // privacy screen: a player is offered "מחיקת נתוני ההסעות שלי"; clicking it
     // (confirm stubbed true, fetch stubbed) clears the token + the _week cache.

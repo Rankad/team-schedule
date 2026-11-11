@@ -267,7 +267,7 @@ console.log('branding <head> meta');
   assert(idxHtml.indexOf('property="og:title"') !== -1, 'index.html has an og:title tag');
   assert(idxHtml.indexOf('property="og:description"') !== -1, 'index.html has an og:description tag');
   assert(idxHtml.indexOf('name="twitter:card"') !== -1, 'index.html has a twitter:card tag');
-  assert(idxHtml.indexOf('content="הלו״ז שלי — גלבוע מעיינות"') !== -1,
+  assert(idxHtml.indexOf('content="הלו״ז שלי — הפועל העמק"') !== -1,
     'index.html og:title uses the parent-app copy');
 
   // rides front end removal (DL-042) — lock it
@@ -412,7 +412,7 @@ require(path.join(ROOT, 'public', 'app.js'));
   console.log('buildWeekText');
   // strip the U+2066/U+2069 LTR-isolate wrappers around numeric runs for matching
   const wt = window.buildWeekText(lastWeek).replace(/[\u2066\u2069]/g, '');
-  assert(wt.indexOf('הלו״ז שלי — גלבוע מעיינות') === 0, 'week text starts with the club title');
+  assert(wt.indexOf('הלו״ז שלי — הפועל העמק') === 0, 'week text starts with the club title');
   assert(/\nשבוע \d+\/\d+–\d+\/\d+/.test(wt), 'week text has a "שבוע d/m–d/m" range line');
   assert(wt.indexOf(t1name) !== -1, 'week text lists the followed team');
   assert(/\n {2}\d\d:\d\d[–\d: ]*·/.test(wt), 'sessions are indented under day headings');

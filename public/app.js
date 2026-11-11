@@ -1283,7 +1283,7 @@ function buildICS(sunday) {
   return out.join('\r\n') + '\r\n';
 }
 function downloadICS() {
-  var name = 'gilboa-שבוע-' + viewSunday + '.ics';
+  var name = 'הפועל-העמק-שבוע-' + viewSunday + '.ics';
   try {
     downloadBlob(new Blob([buildICS(viewSunday)], { type: 'text/calendar;charset=utf-8' }), name);
     showToast('קובץ היומן ירד');
@@ -1415,7 +1415,7 @@ function dot(ctx, x, y, r) {
   ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
 }
 function saveWeekImage() {
-  var name = 'gilboa-שבוע-' + viewSunday + '.png';
+  var name = 'הפועל-העמק-שבוע-' + viewSunday + '.png';
   var title = 'הלו״ז שלי — הפועל העמק';
   var canvas;
   try { canvas = drawWeekImage(viewSunday); } catch (e) { console.error(e); }

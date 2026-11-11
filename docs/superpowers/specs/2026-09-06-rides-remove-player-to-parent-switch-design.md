@@ -6,6 +6,8 @@
 **Amends:** `docs/rides-spec.md` §4.1, §4.5, §4.9, §8.1, §11.2; `docs/ui-ux-spec.md`
 Rides section; supersedes the "switch back to parent" behaviour from the rides
 Slice A design (`2026-09-03-rides-coordination-design.md` §4.5).
+**Superseded in part (2026-11-11, DL-041):** references to the ride chip /
+bottom sheet here describe UI that has since been removed.
 
 ---
 

@@ -7,6 +7,15 @@ static schedule site. Spec: `docs/rides-spec.md`. Build plan:
 `docs/superpowers/plans/2026-09-04-rides-slice-a.md`. Architecture:
 `docs/architecture.md` → "Rides API" component.
 
+> **Operational note (DL-041, 2026-11-11):** the player-side ride chip and
+> trip-type sheet were removed, so **no UI creates ride requests any more**.
+> Expect the manager dashboard to show no new requests; the rows already in KV
+> (if any) age out via the normal weekly purge. Everything below (KV, secrets,
+> `PUT /api/request`, purge, manager page) is still deployed and unchanged —
+> `PUT /api/request` works if called directly, it is just not called by any UI.
+> A pilot that relies on players submitting requests cannot run until the
+> stakeholder decides the future of player mode (DL-041, OPEN).
+
 ## Live URLs
 - Site + API base: `https://gilboa-schedule.pages.dev`
 - Manager dashboard: `https://gilboa-schedule.pages.dev/manager.html`

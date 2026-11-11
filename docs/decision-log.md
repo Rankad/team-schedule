@@ -847,6 +847,9 @@
   each with an "Amended after UX review" section.
 - **Risk:** Low. Presentation + wording. The S1 shared-phone limitation is the
   one open item and is deliberately deferred, not unresolved by accident.
+- **Later (2026-11-11, DL-041):** the ride chip + bottom sheet were removed, so
+  decision 4 (`.ride-strip`) concerns an element that no longer exists and the
+  S1 limitation (decision 6) is **retired**.
 
 ## DL-038 — Games are not teams: matchup split, external-club guard, and side-swap
 - **Date:** 2026-09-06 (branch `fix/games-are-not-teams`)
@@ -1035,3 +1038,57 @@
   dormant, tracked for the gap-assumption follow-up above — currently false
   in production data, would surface as silent-wrong-week or a crash if a
   fully sessionless week is ever committed.
+
+## DL-041 — Rides: remove the per-card ride chip and trip-type sheet (players can no longer create/edit a request from the UI)
+- **Date:** 2026-11-11 (branch `chore/remove-ride-chip-and-sheet`, commits
+  `636f722` + `2cec63d`)
+- **Context:** Stakeholder request: *"delete the ride choose option"*. Four
+  scopes were offered: (1) remove the per-card chip + trip-type sheet only;
+  (2) keep the chip but direction-only; (3) a parent-vs-player choice; (4)
+  remove the whole rides feature. The stakeholder picked **(1)**.
+- **Decision:** Delete the player's ride-choose controls:
+  - the per-practice-card chip (`🚐 הוספת הסעה` / `🚐 <direction> ✓` + the
+    departure-caption strip, `.ride-chip` / `.ride-strip`);
+  - the trip-type bottom sheet (`<dialog id="rides-sheet">`: `הלוך וחזור` /
+    `הלוך` / `חזור` / `ביטול הסעה`);
+  - the code behind them: `decorateSession`, `openTripSheet`, `putRequest`, and
+    the chip/strip/sheet CSS;
+  - on `#screen-rides`, the `ride-add` (`🚐 הוספת הסעה` per practice) and
+    `ride-edit` (`עריכה`) buttons. They opened the sheet, so with the sheet gone
+    they would be dead buttons. The old actionable empty state
+    (`בחרו אימון כדי להוסיף הסעה` + a practice list) went with them.
+- **Kept (unchanged):** player mode (toggle / compact link, consent dialog, name
+  step → `POST /api/token`); the rides summary card; `#screen-rides` as a
+  read-and-cancel list (requests grouped by day, caption + `ביטול` →
+  `DELETE /api/request`; empty state is now the single plain line
+  `טרם נרשמת להסעות השבוע`); privacy-screen `מחיקת נתוני ההסעות שלי`; the manager
+  page; the whole Functions backend — `PUT /api/request` still exists and is
+  still covered by the Functions tests, it is just no longer called by any UI.
+- **Consequences:**
+  - **No UI creates ride requests any more.** The coordinator's manager
+    dashboard will show no new requests (only any pre-existing rows until the
+    weekly purge clears them).
+  - **Retires the DL-037 S1 shared-phone stray-tap limitation** — there is no
+    chip left to fumble. `known-constraints.md` updated.
+  - Partly amends/supersedes DL-034, DL-035 and DL-037 wherever they describe
+    the chip / sheet / `.ride-strip` (DL-037 decision 4, the `.ride-strip`
+    de-ambering, now concerns an element that no longer exists; the `--warn`,
+    nav-arrow and privacy-delete decisions stand). Those entries are left as
+    history.
+  - Specs updated in place: `rides-spec.md` §4.4/§4.6/§4.7/§4.9/§7/§11.2/§12,
+    `ui-ux-spec.md`, `qa-checklist.md`. Smoke tests: site 176 → 185 (chip/sheet
+    assertions dropped, their removal locked by new assertions).
+- **OPEN — pending stakeholder decision (NOT decided here):** what to do with
+  the player-mode UI that now has no function. Candidates in scope of that
+  question: the role toggle + `רישום להסעות — מעבר למצב שחקן` link, the consent
+  dialog, the name step (still mints a token via `POST /api/token`), the
+  summary card, `#screen-rides`, the manager page, and copy that still promises
+  ride registration (toggle help text `שחקנים — גם רישום להסעות`, the consent
+  lines, `#screen-rides` no-token note `עברו למצב שחקן כדי לנהל הסעות.`). Until
+  decided, all of it stays live as-is. To be raised via the PM agent with
+  options; no option is recommended or implied by this entry.
+- **Status:** Accepted; implemented on `chore/remove-ride-chip-and-sheet`;
+  PR pending.
+- **Risk:** Low. UI removal only — no data, API, KV or parser change; fully
+  reversible via git. Residual: a player-mode UI that advertises a capability
+  it no longer has (tracked in the OPEN item above).

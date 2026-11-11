@@ -2,6 +2,10 @@
 
 **Date:** 2026-09-03 (revised 2026-09-04 after researcher + UX + architecture review)
 **Status:** Approved (brainstorm) — pending stakeholder review of this revision
+**Superseded in part (2026-11-11, DL-041):** §5.1 ride chip and §5.2 trip-type
+bottom sheet (and the add/edit parts of the §5.4 `#screen-rides`, plus the matching
+test list) were
+removed from the built app; see `docs/decision-log.md` DL-041.
 **Approach:** Two approved slices (see §11). This document covers both; each item
 is marked **[A]** (first slice) or **[B]** (second slice).
 

@@ -93,10 +93,10 @@ UI.
   `.privacy-delete`) deliberately keep the reddish `--accent-dark`: a reddish
   delete control is conventional and reads as destructive without a separate
   status colour, and it is always backed by a label + confirm dialog.
-- `.ride-strip` (the per-session ride block) is **neutral** (`--bg` / `--border`).
-  Amber (`--banner-bg`) is reserved for banner-style attention elements — the
-  changes banner and the deliberately banner-styled rides summary card — not the
-  strip (DL-037).
+- Amber (`--banner-bg`) is reserved for banner-style attention elements — the
+  changes banner and the deliberately banner-styled rides summary card (DL-037).
+  (The neutral `.ride-strip` that DL-037 also covered no longer exists — removed
+  with the ride chip, DL-041.)
 - Week-nav arrows use neutral `var(--text)` for the glyph (not the brand
   accent); the disabled arrow is `#8b9096` (DL-037).
 - **Team dot palette** (`app.js` `PALETTE`) is independent of the brand accent —
@@ -153,19 +153,20 @@ Full spec: `docs/rides-spec.md`. Summary only; that document is authoritative.
   loaded yet. Confirm → deletes the week's requests + clears the local player
   token/role → returns to a clean parent view. Styled like `.ride-cancel`
   (destructive by label + confirm, not by hue).
-- **Ride chip:** a full-width neutral strip (`--bg`/`--border`, not amber —
-  DL-037) on each session card, between the time/location line and the notes
-  line — outlined `🚐 הוספת הסעה` (no
-  request) or filled/accent `🚐 <direction> ✓` with a departure-time caption
-  (or `טרם נקבעה שעה`). State is never carried by color alone (no red/green
-  in this palette).
-- **Trip-type bottom sheet:** tapping the chip opens a `<dialog>` bottom
-  sheet — `הלוך וחזור` (preselected) / `הלוך` / `חזור`, plus `ביטול הסעה`
-  when a request exists. Optimistic save with toast-on-failure.
-- **`#screen-rides`:** the week's requests grouped by day, with an actionable
-  empty state (every practice for the week, each with an add-ride button) —
-  never a dead screen. A load failure is a distinct state from "loaded,
-  empty".
+- **Ride chip and trip-type bottom sheet — REMOVED 2026-11-11 (DL-041).** The
+  per-card `🚐 הוספת הסעה` / `🚐 <direction> ✓` chip (with its neutral
+  `.ride-strip` + departure caption) and the `הלוך וחזור` / `הלוך` / `חזור` /
+  `ביטול הסעה` `<dialog>` sheet no longer exist; players cannot create or edit a
+  ride request from the UI. Session cards look the same in parent and player
+  mode.
+- **`#screen-rides`:** the week's existing requests grouped by day, each row
+  with a caption and a single `ביטול` button (cancel-only; the `עריכה` and
+  per-practice add buttons were removed with the sheet, DL-041). Empty state is
+  the plain line `טרם נרשמת להסעות השבוע` (the old actionable practice list is
+  gone). A load failure is a distinct state from "loaded, empty".
+- **Pending stakeholder decision (DL-041, OPEN):** the rest of player mode
+  (toggle / link, consent, name step, summary card, copy promising ride
+  registration) is unchanged but no longer has a function; not yet decided.
 - **Isolation:** if the rides API is unreachable, the ride UI shows a
   contained "unavailable, retry" state; the schedule list, weekly summary,
   exports, and changes banner are completely unaffected.
@@ -194,12 +195,9 @@ Two tabs:
   (today / 7-day).
 
 ### Accessibility & interaction notes specific to rides
-- Ride chips are real `<button>`s, ≥44×44, `aria-haspopup="dialog"`, with an
-  accessible name describing the current state (e.g.
-  `הסעה: הלוך וחזור, יוצא 16:20; לעריכה`).
-- The bottom sheet traps focus, respects `Esc`/backdrop/`prefers-reduced-motion`,
-  and restores focus to the triggering chip on close; a selection fires an
-  `aria-live` announcement of the new state.
+- ~~Ride chips / bottom-sheet focus + `aria-live` behaviour~~ — removed with the
+  chip and sheet (DL-041). The `#screen-rides` `ביטול` buttons keep an
+  `aria-label` naming the practice.
 - Every clock time inside a rides caption is wrapped the same way session
   times already are (`ltrIsolate`), so digits read correctly under RTL bidi.
 

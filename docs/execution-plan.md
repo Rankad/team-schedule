@@ -267,7 +267,21 @@ server, no database, $0/month. See `docs/architecture.md` and
   content, and `הורה` runs the same `cancelPlayerEntry()` as `→ חזרה`. Smoke
   155; browser-verified both back paths.
 
+- **2026-11-11 — Rides: per-card ride chip + trip-type bottom sheet removed
+  (DL-041).** Stakeholder asked to "delete the ride choose option"; chose
+  chip + sheet from four scopes. Also removed the `ride-add`/`ride-edit`
+  buttons on `#screen-rides` (they opened the sheet); `#screen-rides` is now
+  cancel-only with a plain empty state. Backend (`PUT /api/request`), manager
+  page, purge, consent, name step, summary card all unchanged. Retires the
+  DL-037 S1 shared-phone limitation. Site smoke 176 → 185. Branch
+  `chore/remove-ride-chip-and-sheet`, PR pending. **Open:** what to do with the
+  now-functionless player-mode UI — pending stakeholder decision.
+
 ## Immediate next step
+> **Superseded in part (DL-041, 2026-11-11):** the single-team pilot below
+> assumed players submit ride requests from the chip; that UI is gone. Resolve
+> the DL-041 OPEN item (future of player mode) before planning any pilot.
+
 Phase 6 (Rides Slice A) is merged to `main` and live-deploying via
 Cloudflare's git integration. Remaining before the single-team pilot (see
 "Integration & rollout" in `docs/superpowers/plans/2026-09-04-rides-slice-a.md`

@@ -7,6 +7,8 @@ apple-touch-icon / manifest / `og:image`). Proceeding now: **§3 palette recolou
 + the `theme-color` meta + the text-only OG/Twitter tags (`og:type`, `og:title`,
 `og:description`, `og:locale`, `twitter:card` — no `og:image` yet). The deferred
 items wait on §7 Q1 (a high-res / SVG logo from the club).
+**Superseded in part (2026-11-11, DL-041):** the `.ride-strip` S4 item no longer
+applies — the element was removed with the ride chip.
 **Relates to:** `docs/ui-ux-spec.md` (visual language), `docs/known-constraints.md`
 (courtesy: club approved the app, OQ-6; club also approved use of their logo +
 colours on 2026-09-06 — see §7 Q3). Independent of the rides

@@ -7,6 +7,11 @@ branch `feature/rides-coordination-spec`) — that document holds the rationale 
 the rejected alternatives; **this** document is what gets built.
 
 **Status:** ready to build once the prerequisites in §2 are cleared.
+**Update 2026-11-11 (DL-041):** the player's ride-request controls — the
+per-card ride chip (§4.6) and the trip-type bottom sheet (§4.7) — were
+**removed**; players can no longer create or edit a request from the UI. The
+backend (incl. `PUT /api/request`) and the manager page are unchanged. See §4
+banner.
 **Scope:** Slice A only. Slice B (end-of-week station rides) is out of scope here
 and gets its own spec after the Slice A pilot — see §13. Items the data model
 must leave room for are called out, nothing more.
@@ -23,7 +28,8 @@ Slice A adds two things to the existing app:
 
 1. **For players** (not parents): a "player mode" where, from their team's normal
    weekly view, they tap a chip on each practice to say *"I need a ride — there /
-   back / both."* Requests reset every week.
+   back / both."* Requests reset every week. *(Chip removed 2026-11-11, DL-041 —
+   as built today, players can only view and cancel existing requests.)*
 2. **For the coordinator**: a separate, password-gated page
    (`/manager.html`) that aggregates those requests by day and practice —
    headcount per direction, the named list of players, and the vehicle's
@@ -102,6 +108,15 @@ Existing keys (`gilboa.followed`, `gilboa.seen_generated_at`,
 ---
 
 ## 4. Player experience
+
+> **Update 2026-11-11 (DL-041):** the ride-request controls were removed — the
+> per-card ride chip (§4.6) and the trip-type bottom sheet (§4.7), plus the
+> add/edit buttons on `#screen-rides` (§4.9). No UI now creates or edits a
+> request; `PUT /api/request` remains in the backend, tested but uncalled.
+> **The rest of player mode (§4.1–§4.5: toggle/link, consent, name step, summary
+> card, `#screen-rides`) is still live but has lost its main function — what to
+> do with it is a pending stakeholder decision, not yet made** (DL-041, OPEN).
+> Sections below describe the original design; §4.6/§4.7 are kept as history.
 
 ### 4.1 Role entry — `index.html` + `app.js`
 
@@ -192,7 +207,8 @@ case at stakeholder request (2026-09-05) → DL-035 removed the reverse
 ### 4.4 "No name → no rides"
 
 In player mode with no `gilboa.player.token`:
-- **Ride chips are not rendered at all** on session cards.
+- ~~Ride chips are not rendered at all on session cards.~~ *(Moot since
+  2026-11-11, DL-041 — no chips exist for anyone.)*
 - A persistent inline card in the summary-card slot:
   `כדי להירשם להסעות, הזינו שם מלא` + the name field + `שמור`, inline. Same
   save / failure behaviour as §4.2 step 3.
@@ -221,68 +237,33 @@ weekly purge removes any server rows. Only the visible week is deleted
 server-side (the `DELETE /api/me` contract is `?week=`-scoped); other weeks are
 left to the purge — same known-limitation class as before.
 
-### 4.6 Ride chip on each session card — `Rides.decorateSession(card, session)`
+### 4.6 Ride chip on each session card — **REMOVED 2026-11-11 (DL-041)**
 
-Rendered in player mode **with a token**, as a full-width block inserted between
-`.session-line` and `.session-note` — a **neutral** strip
-(`var(--bg)` / `var(--border)`; de-ambered per DL-037 — amber is reserved for the
-changes banner and the rides summary card). Scan order:
-time → who/where → **ride action** → notes.
+History: `Rides.decorateSession(card, session)` rendered, in player mode with a
+token, a full-width neutral strip (`.ride-strip`) between `.session-line` and
+`.session-note` holding one chip — outlined `🚐 הוספת הסעה` (no request) or
+filled `🚐 <direction> ✓` with a departure caption (`יוצא מעין חרוד 16:20 · חזרה
+18:45` / `טרם נקבעה שעה`). Real button, ≥44×44, `aria-haspopup="dialog"`, no
+`aria-pressed`, clock times wrapped with `ltrIsolate()`. Gone from code, CSS and
+tests; the caption helper `rideCaption()` still feeds `#screen-rides` rows (§4.9).
 
-One chip in the existing `.wact` / `.chip` house style. **No red, no green** (the
-palette has neither; state is carried by fill + label + check + icon, never hue):
+### 4.7 Trip-type bottom sheet — **REMOVED 2026-11-11 (DL-041)**
 
-| state | chip label | caption line below |
-|---|---|---|
-| no request | outlined `🚐 הוספת הסעה` | — |
-| has request | filled/accent `🚐 <direction> ✓` | `יוצא מעין חרוד 16:20 · חזרה 18:45` |
-| has request, time not set | filled/accent `🚐 <direction> ✓` | `טרם נקבעה שעה` |
-
-`<direction>` in words: `הלוך וחזור` / `הלוך` / `חזור`.
-
-- Real `<button type="button">`, ≥44×44, `aria-haspopup="dialog"`.
-  Accessible name includes team + day + current state, e.g.
-  `הסעה: הלוך וחזור, יוצא 16:20; לעריכה` or `אין הסעה לאימון זה; להוספה`.
-- `aria-pressed` is **not** used (opens a chooser, not a toggle).
-- Every clock time in the caption is wrapped with the existing `ltrIsolate()`
-  helper (like `.session-time`) or digits + `·` reorder under RTL bidi.
-  Covered by a smoke test.
-
-### 4.7 Trip-type bottom sheet — `<dialog>`
-
-Tapping the chip opens a **bottom-sheet `<dialog>`** (not a card-anchored popover
-— anchor math breaks on small viewports / edge cards / keyboard / RTL). Native
-`<dialog>` gives the focus trap, `Esc`, `::backdrop`, `returnValue` for free.
-
-- **Context heading** (replaces the spatial anchor):
-  `נערות א · יום ג׳ · אולם קציר`.
-- Option rows, stacked, each ≥44px:
-
-  | option | meaning |
-  |---|---|
-  | `הלוך וחזור` | round trip — **preselected default** |
-  | `הלוך` | אולם עין חרוד → practice location |
-  | `חזור` | practice location → אולם עין חרוד |
-
-- `ביטול הסעה` — rendered **only when a request exists**, below a divider,
-  muted-red text (`--accent-dark`; DL-037 keeps destructive **buttons** on the
-  reddish tone while error/warning **text** moved to the `--warn` token), never
-  flush against `חזור`.
-- Open → focus the heading or the preselected row. Any close → restore focus to
-  the chip. After a selection, update the chip's accessible name and fire an
-  `aria-live` announcement of the new state + times.
-- Transition respects `prefers-reduced-motion`.
-- Selecting a direction → `PUT /api/request`, **optimistic**: chip updates
-  immediately; spinner sets `aria-busy` and preserves the accessible name; on
-  failure revert + toast — `שמירת ההסעה נכשלה, נסו שוב` for 5xx/network,
-  `לא ניתן לבחור הסעה לאימון זה` for a 400 (not retryable, no retry loop).
-- `ביטול הסעה` → `DELETE /api/request` → chip back to `🚐 הוספת הסעה`.
+History: tapping the chip opened a bottom-sheet `<dialog id="rides-sheet">` with
+a context heading and rows `הלוך וחזור` (preselected) / `הלוך` / `חזור`, plus
+`ביטול הסעה` when a request existed. Selecting a direction fired an optimistic
+`PUT /api/request` (revert + toast on failure: `שמירת ההסעה נכשלה, נסו שוב` for
+5xx/network, `לא ניתן לבחור הסעה לאימון זה` for 400). Removed along with
+`openTripSheet` and `putRequest`. `PUT /api/request` itself is **still in the
+backend** and still tested (§11.1 item 2), but no UI calls it. The
+rationale for the original bottom-sheet-over-popover choice remains in the 2026-09-03
+design record §5.2.
 
 ### 4.8 Weekly reset — `weekKey(sessionDate)` in `rides.js`, pure, unit-tested
 
 Requests are keyed by **week key = that week's Sunday as `YYYY-MM-DD`** — the
 exact value `sundayOf()` already computes and `schedule.json` uses as `week_key`.
-`weekKey()` delegates to that convention. A new week starts with every chip unset
+`weekKey()` delegates to that convention. A new week starts with no requests
 because no rows exist for its key — **no client-side "clear" logic**. No
 carry-over.
 
@@ -300,13 +281,15 @@ weeks — wrong condition for a week-level feature).
   not shown.
 - **`#screen-rides`** (same pattern as `#screen-addteam`, `goto('rides')`):
   - For the **visible week**, every ride the player requested, grouped by day:
-    practice name · location · direction · departure time(s) · `עריכה` (reopens
-    the sheet, §4.7) · `ביטול`. Per-row controls carry an `aria-label` with
-    practice + day.
-  - **Empty state is actionable** (every player sees it at the start of every
-    week — no carry-over): list the visible week's practices for the followed
-    team(s), each with a `🚐 הוספת הסעה` button, under
-    `בחרו אימון כדי להוסיף הסעה`. Not a dead screen.
+    practice name · location · direction · departure time(s) · `ביטול`
+    (`.ride-del` → `DELETE /api/request`). **Cancel-only** since 2026-11-11
+    (DL-041): the per-row `עריכה` (reopened the sheet) and the per-practice
+    `🚐 הוספת הסעה` buttons were removed with the sheet. The cancel control
+    carries an `aria-label` with the practice.
+  - **Empty state is a plain line:** `טרם נרשמת להסעות השבוע`. *(Previously an
+    actionable list of the week's practices with add buttons under
+    `בחרו אימון כדי להוסיף הסעה` — removed, DL-041.)* With no way to add a
+    request from the UI, this is now the normal state for any new player.
   - **`GET /api/me` load failure** for a player who had rides → `לא ניתן לטעון
     את ההסעות שלך` + a `נסו שוב` action. Distinct from "loaded, empty".
 
@@ -390,7 +373,8 @@ departOutbound = sessionStart − הלוך(location)
 departReturn   = sessionEnd   + (חזור(location) or global default)
 ```
 Any offset unset for that location ⇒ that direction shows `טרם נקבעה שעה`, in
-**both** the player chip caption and the dashboard. Same helper feeds both.
+**both** the player caption (now on `#screen-rides` rows; the chip caption was
+removed, DL-041) and the dashboard. Same helper feeds both.
 
 ### 5.6 Scoping
 **One club-wide manager.** The dashboard shows every team. No per-team
@@ -514,10 +498,10 @@ Workers free: 100k req/day. KV free: 100k reads, **1k writes**, 1k deletes/day,
 | file | change |
 |---|---|
 | `public/rides.js` | **new** — all player-side rides logic, loaded after `app.js`. Vanilla, no build. Pure helpers on `window`: `shortName`, `weekKey`, `rideCaption`, `computeDepartTimes` |
-| `public/app.js` | minimal hooks: call `Rides.renderRoleToggle()`; in player mode render the rides summary card / inline name card; in `renderSession`, when player mode + token, call `Rides.decorateSession(card, session)`; add a `goto('rides')` target. **No manager code** |
+| `public/app.js` | minimal hooks: call `Rides.renderRoleToggle()`; in player mode render the rides summary card / inline name card; ~~in `renderSession`, when player mode + token, call `Rides.decorateSession(card, session)`~~ *(removed, DL-041)*; add a `goto('rides')` target. **No manager code** |
 | `public/index.html` | `#role-toggle-slot` inside `#onboarding` + role-neutral heading; summary / name card slot; `#screen-rides`; the `מדיניות פרטיות` footer link + `#screen-privacy`. **No `מנהל` button** |
 | `public/manager.html` + `manager.js` + `manager.css` | the manager app (§5). Shares `styles.css` |
-| `public/styles.css` | ride chip block + states, bottom sheet, `.role-toggle` segmented control, rides summary card, `#screen-rides`, `#screen-privacy`, consent/name dialogs. RTL-first, existing palette, quiet-button pattern, bottom-sheet transition under `prefers-reduced-motion` |
+| `public/styles.css` | ~~ride chip block + states, bottom sheet~~ *(removed, DL-041)*, `.role-toggle` segmented control, rides summary card, `#screen-rides`, `#screen-privacy`, consent/name dialogs. RTL-first, existing palette, quiet-button pattern, bottom-sheet transition under `prefers-reduced-motion` |
 
 **API base URL** — derived at runtime from `location.hostname`
 (`localhost` / `127.0.0.1` → a local dev URL, else same-origin `/api`). No
@@ -584,6 +568,7 @@ is the §8.1 consent sufficient for an identified minor's name + schedule.
   on the write path — decide client-passes vs Function-joins then.
 - **Manager marks a ride on/cancelled (OQ-1):** `week/<wk>/rideStatus` is already
   reserved (§6.2). `GET /api/me` already returns `rideStatus`; the player chip
+  *(removed, DL-041 — a `#screen-rides` row would carry it instead)*
   would gain a third visual state (e.g. `✓ מאושר` / `✗ בוטל`).
 
 Both are later slices, **no migration**.
@@ -642,27 +627,32 @@ Both are later slices, **no migration**.
 
 ### 11.2 Site — `tests/site_smoke.js` style (Node-only fake DOM + `localStorage`)
 
-1. Parent default → no role card content beyond the link, no ride chips.
+*(Items 1, 2, 4, 5, 6 below describe the original suite; chip/sheet/add/edit
+parts struck through were removed 2026-11-11, DL-041. The suite now asserts the
+chip, `.ride-strip`, `#rides-sheet`, `ride-add` and `ride-edit` are absent;
+smoke count 176 → 185.)*
+
+1. Parent default → no role card content beyond the link, ~~no ride chips~~.
 2. Switch to player → consent dialog → name step with live `יוצג כ` preview →
-   (stub `POST /api/token`) → re-render, chips appear. `POST /api/token` failure
-   → inline error, name kept, still on the player step. `→ חזרה` reverts.
+   (stub `POST /api/token`) → re-render, ~~chips appear~~. `POST /api/token`
+   failure → inline error, name kept, still on the player step. `→ חזרה` reverts.
 3. `shortName` / `weekKey` / `rideCaption` / `computeDepartTimes` unit cases,
    incl. `ltrIsolate` wrapping every clock time in the caption.
-4. No token → chips **not rendered**; inline name card shown; saving reveals
-   chips.
-5. Ride chip: `הוספת הסעה` → sheet (round-trip preselected) → chip becomes
+4. ~~No token → chips **not rendered**; inline name card shown; saving reveals
+   chips.~~ No token → inline name card shown. (Chip clauses removed.)
+5. ~~Ride chip: `הוספת הסעה` → sheet (round-trip preselected) → chip becomes
    `הלוך וחזור ✓` + caption; `ביטול הסעה` → back to `הוספת הסעה`; 5xx reverts +
-   toast; 400 → non-retry toast.
-6. `#screen-rides` — grouped by day; `עריכה` reopens the sheet; `ביטול` removes
-   the row; **empty state lists practices with add-buttons**; `GET /api/me`
-   failure → `לא ניתן לטעון` + retry (distinct from empty).
+   toast; 400 → non-retry toast.~~ **Removed (DL-041).**
+6. `#screen-rides` — grouped by day; `ביטול` removes the row (cancel-only, no
+   `עריכה`/add buttons); empty state is the plain `טרם נרשמת להסעות השבוע`;
+   `GET /api/me` failure → `לא ניתן לטעון` + retry (distinct from empty).
 7. No `מעבר למצב הורה` anywhere; an established player who unfollowed every team
    sees no `.role-toggle`. Privacy screen: `מחיקת נתוני ההסעות שלי` shown only
    for a player with a token → confirm (stub; copy varies by the visible week's
    request count — 0 vs ≥1 vs unknown, DL-037) → `DELETE /api/me` +
    `clearPlayer()` → clean parent view; pure parent sees no button. Consent body
    says `מסך מדיניות הפרטיות`, not `מעבר חזרה למצב הורה`.
-8. API down → chips / summary show unavailable + `נסו שוב`; the weekly list,
+8. API down → ~~chips /~~ summary show unavailable + `נסו שוב`; the weekly list,
    summary, exports, changes banner all still render.
 
 ### 11.3 Manager — `manager.html` harness
@@ -700,9 +690,10 @@ Mirrors `docs/mvp-spec.md` §11. Detailed task breakdown in
 6. **`rides.js` pure helpers** (TDD in `site_smoke.js`) — `shortName`,
    `weekKey`, `rideCaption`, `computeDepartTimes`, API-base resolver.
 7. **Player UI** — role toggle; consent + name flow (preview /
-   `שמור בכל זאת` / back-out / failure); ride chip + bottom sheet; rides summary
-   card + `#screen-rides` (actionable empty state); `#screen-privacy`; throttled
-   ping. Wire into `app.js`. Extend `site_smoke.js`.
+   `שמור בכל זאת` / back-out / failure); ~~ride chip + bottom sheet~~ *(removed,
+   DL-041)*; rides summary card + `#screen-rides` (~~actionable empty state~~
+   plain empty state + cancel-only rows since DL-041); `#screen-privacy`;
+   throttled ping. Wire into `app.js`. Extend `site_smoke.js`.
 8. **Manager UI** — `manager.html` + `manager.js` + `manager.css`: login,
    dashboard (collapsed rows, day stepper, orphan group, copy-day-as-text, health
    footer), settings (`זמני יציאה`), stats tab. Manager harness test.

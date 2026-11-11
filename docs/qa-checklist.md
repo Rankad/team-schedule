@@ -84,24 +84,29 @@ Run before calling any phase "done". Record failures in
 - [ ] Toggle row is ≥ 44px tall and has a visible focus outline.
 
 ## Rides — Slice A
-- [ ] A parent (no player token) sees no ride chips anywhere; the schedule
+- [ ] A parent (no player token) sees no ride UI on session cards; the schedule
       view is byte-for-byte the same as before Phase 6.
 - [ ] Role switch to player → consent dialog → name step with a live
-      `יוצג כ` preview → `POST /api/token` → chips appear. One-word name
+      `יוצג כ` preview → `POST /api/token` → player mode on (summary card
+      appears; no chips — removed, DL-041). One-word name
       handled; `→ חזרה` reverts to the previous step; `POST /api/token`
       failure shows an inline error and keeps the name entered.
 - [ ] `shortName` never shows a full surname to a non-manager (initial + `׳`
       only, e.g. "דניאל כ׳").
-- [ ] Ride chip states (unset / set-round / set-out / set-back) render
-      correctly; every clock time in the caption is wrapped for `ltr`
+- [ ] **Chip / sheet removed (DL-041, 2026-11-11):** a player with a token sees
+      **no** `.ride-chip` / `.ride-strip` on any practice card (cards identical
+      to parent mode), and `public/index.html` contains **no** `#rides-sheet`.
+- [ ] Every clock time in a `#screen-rides` row caption is wrapped for `ltr`
       isolation (Hebrew RTL context, LTR time).
 - [ ] Weekly reset: a new week's `week_key` has no request rows for any
       token — nothing to "clear" client-side, it's just absent server-side.
-- [ ] Bottom sheet write is optimistic (chip updates immediately); a 5xx
-      response reverts the chip and shows a retry toast; a 400 shows a
-      non-retry toast (client error, not transient).
-- [ ] `#screen-rides` empty state lists that week's practices with an
-      "add ride" button each — not a dead screen.
+- [ ] `#screen-rides` shows only a `ביטול` button per existing request (no
+      `עריכה`, no `🚐 הוספת הסעה`); cancel → `DELETE /api/request`. When the
+      player has no requests it shows only the plain line
+      `טרם נרשמת להסעות השבוע` (no practice list, no add buttons).
+- [ ] `PUT /api/request` is **still covered by the Functions tests** (validation,
+      upsert, 20-row cap) even though no UI calls it — do not delete those tests
+      as "dead code" (DL-041).
 - [ ] There is **no** player→parent switch anywhere (no `מעבר למצב הורה`); a
       player who unfollows every team lands on the onboarding team-picker with
       no role toggle. No flow deletes ride selections as a side effect (DL-035).
@@ -119,10 +124,9 @@ Run before calling any phase "done". Record failures in
       at "switching back to parent". Docs (spec / known-constraints) lead with
       the privacy-screen delete as the clean exit from player mode, not
       clear-site-data (DL-037).
-- [ ] On a shared device left in player mode, a stray tap on a ride chip can add
-      or cancel a request under the child's name — confirm this is captured as a
-      **documented known limitation** (DL-037 / `known-constraints.md`), not
-      filed as a bug.
+- [ ] ~~Shared-device stray-tap on a ride chip is a documented limitation~~ —
+      **retired (DL-041):** no chip exists. `known-constraints.md` marks the
+      DL-037 S1 limitation as retired.
 - [ ] With the rides API entirely unreachable (DevTools request-block on
       `/api/*`), the schedule list, weekly summary, all four export actions,
       and the changes banner still work exactly as without Phase 6; the
@@ -133,7 +137,7 @@ Run before calling any phase "done". Record failures in
       `העתקת תוכנית היום` copies a correct day summary.
 - [ ] `זמני יציאה` settings round-trip through `PUT /api/manager/config` —
       per-location values persist and feed `computeDepartTimes` on both the
-      player chip caption and the dashboard.
+      player `#screen-rides` caption and the dashboard.
 - [ ] The health footer on the manager dashboard shows `config/global.lastPurge`.
 - [ ] Purge (`POST /api/purge`) deletes only strictly-past weeks' keys; the
       current and future weeks are untouched; `config/*` is never deleted.
@@ -175,9 +179,9 @@ Run before calling any phase "done". Record failures in
       `.session-warn`) uses `--warn` `#b54708`, not the brand red (DL-037).
       Destructive **buttons** (`.ride-del`, `.ride-cancel`, `.privacy-delete`)
       keep `--accent-dark`.
-- [ ] `.ride-strip` is neutral (`--bg`/`--border`); amber (`--banner-bg`) appears
-      only on the changes banner and the rides summary card, never the ride
-      strip (DL-037).
+- [ ] Amber (`--banner-bg`) appears only on the changes banner and the rides
+      summary card (DL-037). (`.ride-strip` check dropped — element removed,
+      DL-041.)
 - [ ] Week-nav arrows: glyph is `var(--text)`, disabled arrow `#8b9096` — no
       brand red on the nav chrome (DL-037).
 

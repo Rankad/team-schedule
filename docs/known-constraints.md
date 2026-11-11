@@ -160,7 +160,9 @@ switch systems, fall back to the Excel importer.
   than a mode switch. Clearing site data is only a last resort (e.g. a device
   stuck with no rides data loaded). The confirm wording scales to how many
   requests exist for the week (DL-037).
-- **Shared family phone in player mode — stray-tap ride fumble (DL-037, S1;
+- **RETIRED by DL-041 (2026-11-11): the ride chip was removed, so there is no
+  chip left to fumble.** *Original entry, kept as history:* **Shared family
+  phone in player mode — stray-tap ride fumble (DL-037, S1;
   documented, not fixed — revisit after the pilot).** A phone left in player
   mode has live ride chips on every session card. Ride writes are save-on-tap
   with `הלוך וחזור` preselected (rides-spec §4.7), so anyone holding the phone
@@ -169,6 +171,15 @@ switch systems, fall back to the Excel importer.
   feature exists to produce is corrupted. The stakeholder chose to document
   rather than fix for now; revisit after the single-team pilot (candidate fix:
   require an explicit save for NEW requests in the bottom sheet).
+- **Rides: no UI currently creates ride requests (DL-041, 2026-11-11).** The
+  player chip + trip-type sheet were removed. `PUT /api/request`, the manager
+  dashboard and the weekly purge are dormant-but-intact (still tested; the
+  dashboard simply shows no new requests). The remaining player-mode UI —
+  toggle / link, consent, name step (still mints a token via `POST /api/token`),
+  summary card, `#screen-rides`, and copy that still promises ride registration
+  — is live but has no function; what to do with it is a **pending stakeholder
+  decision** (DL-041, OPEN). Do not delete the backend or its tests until that
+  is decided.
 
 ## Testing — tests coupled to live production data (DL-039/040 / LL-027/028)
 - `tests/site_smoke.js` has (at least) three cases whose fixture is picked

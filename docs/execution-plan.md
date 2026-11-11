@@ -303,7 +303,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   weeks") lost `continue-on-error` and the `|| echo` fallback: missing
   `PURGE_KEY`/`RIDES_API` → `::error::` + exit 1; `curl -fsS --max-time 30
   --retry 2 --retry-delay 5`; body must contain `"ok":true`. Still the last step,
-  so data is committed first; a red run emails the repo owner. Closes the
+  so data is committed first; a red run triggers a GitHub failed-workflow notification. Closes the
   "purge failure is invisible" risk from DL-042. Tested locally with a mock
   server (200+ok → 0, 500 → 1, 200 without ok → 1, secrets unset → 1).
   **Caveat:** if the GitHub secrets are not set, the next scheduled run goes red.

@@ -69,7 +69,7 @@ jobs:
       - name: Push (no-op if fetch_and_build made no commit)
         run: git push
 
-      # Fails LOUDLY on purpose (a red run emails the repo owner). This purge is the
+      # Fails LOUDLY on purpose (a red run triggers a GitHub failed-workflow notification). This purge is the
       # only thing that drains stored ride-request names (minors) from RIDES_KV, and
       # the dashboard's lastPurge footer no longer exists, so a silent skip/failure
       # would go unnoticed. It is the LAST step, so schedule data is already

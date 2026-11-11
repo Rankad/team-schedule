@@ -1214,7 +1214,7 @@
   - The step stays the LAST step of `build-data`, so the schedule data is already
     committed and pushed before it runs: a red run never loses data.
 - **Consequences:**
-  - A red scheduled run emails the repo owner — the new health signal.
+  - A red scheduled run makes GitHub send a failed-workflow notification (to the user who last edited the schedule, subject to their notification settings) — the new health signal.
   - **Operational caveat: if the GitHub secrets `PURGE_KEY` and `RIDES_API` are
     not actually set, the next scheduled run goes red.** Fix: set them in repo
     Settings → Secrets and variables → Actions, or — if the stakeholder decides

@@ -211,7 +211,7 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
   red run never loses data — fails the run on: missing `PURGE_KEY`/`RIDES_API`,
   a non-2xx or network error (`curl -fsS --max-time 30 --retry 2 --retry-delay
   5`; `--retry` also retries HTTP 5xx, so up to 3 attempts ≈ 10 s), or a response
-  body without `"ok":true`. A red scheduled run emails the repo owner. **If the
+  body without `"ok":true`. A red scheduled run triggers a GitHub failed-workflow notification (to the user who last edited the schedule, per their notification settings). **If the
   GitHub secrets are not set, the next scheduled run goes red.** Triage: open the
   failed run's "Purge past rides weeks" step; the `::error::` line says missing
   secrets vs request failed vs unexpected body. If the backend is removed, delete

@@ -824,15 +824,19 @@ function restoreTeams(ids) {
   var target = again || fallback;
   if (target && target.focus) target.focus();
 }
+// Real arrays (a browser NodeList has no indexOf).
+function hideButtons() {
+  return Array.prototype.slice.call(document.querySelectorAll('.session-hide'));
+}
 function hideTraining(s, btn) {
   var key = sessKey(s);
   if (!key) return;
-  var idx = document.querySelectorAll('.session-hide').indexOf(btn);
+  var idx = hideButtons().indexOf(btn);
   var teamId = s.team_id;
   addHidden(teamId, key);
   render();
   // Keep keyboard / screen-reader focus on a sensible neighbour.
-  var btns = document.querySelectorAll('.session-hide');
+  var btns = hideButtons();
   var next = btns.length ? btns[Math.max(0, Math.min(idx, btns.length - 1))] : document.getElementById('week-content');
   if (next && next.focus) next.focus();
 
@@ -908,9 +912,9 @@ function deleteGame(id) {
   if (i === -1) return;
   var removed = games.splice(i, 1)[0];
   saveGames();
-  var btns = document.querySelectorAll('.session-hide');
+  var btns = hideButtons();
   render();
-  var after = document.querySelectorAll('.session-hide');
+  var after = hideButtons();
   var idx = Math.max(0, Math.min(btns.length ? btns.length - 1 : 0, after.length - 1));
   var f = after.length ? after[idx] : document.getElementById('add-game');
   if (f && f.focus) f.focus();
@@ -1527,6 +1531,9 @@ function wireGameDialog() {
   }
   timeIn.addEventListener('input', updateNote);
   timeIn.addEventListener('change', updateNote);
+  // Editing a field clears its own error (re-checked on the next submit).
+  dateIn.addEventListener('input', function () { showErr(dateIn, errDate, ''); });
+  timeIn.addEventListener('input', function () { showErr(timeIn, errTime, ''); });
 
   function showErr(input, box, msg) {
     box.hidden = !msg;

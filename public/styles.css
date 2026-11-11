@@ -310,6 +310,8 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
   pointer-events: auto;
 }
 .toast-action {
+  flex: none;
+  white-space: nowrap;
   min-height: var(--tap);
   padding: 0 0.4rem;
   background: none;

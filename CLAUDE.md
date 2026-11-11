@@ -19,8 +19,8 @@ The club's diary is a **public Google Calendar**
 Action** runs a Python parser over the calendar, writes static JSON to
 `public/data/`, and commits it. A **static site** (RTL Hebrew, no build step,
 no server, no login) shows each parent their followed teams. **No database** —
-the Git repo is the datastore. Hosted free on GitHub Pages / Cloudflare Pages.
-$0/month, no LLM tokens. Excel importer kept only as a manual fallback.
+the Git repo is the datastore. Hosted free on Cloudflare Pages (moved from
+GitHub Pages, DL-028). $0/month, no LLM tokens. Excel importer kept only as a manual fallback.
 
 ## Success criteria
 See `docs/project-brief.md`. Core: a parent who knows only roughly the team or
@@ -30,10 +30,17 @@ drop or corrupt sessions; schedule changes between weeks are surfaced; zero
 recurring API cost in the engine.
 
 ## Current state
-Discovery complete. Data source verified live (Google Calendar API returns 215
-events for the sample week — identical to the Excel). Full PM doc set + build
-spec in `docs/` (`mvp-spec.md` is the build spec). Architecture approved. No
-code yet. Not a git repo yet. Next: Phase 0 + 1 of `docs/execution-plan.md`.
+**Built and live** at `gilboa-schedule.pages.dev` (Cloudflare Pages, since
+2026-09-04). GitHub Actions builds the data 3×/day from the club's calendar and
+pushes to `main`, which auto-deploys. Front end: vanilla RTL Hebrew site in
+`public/` (no build step); on-screen name is **הפועל העמק** (DL-045). Features
+include team/coach search, weekly view, changes banner, share/copy/`.ics`/PNG
+exports, and (DL-044) remove-a-training + add-a-game, per device. The rides
+(הסעות) front end was built then removed (DL-041/042); its Cloudflare backend is
+dormant. Specs: `docs/mvp-spec.md` (build spec), `docs/architecture.md`,
+`docs/decision-log.md` (DL-001…045), `docs/execution-plan.md`. Open: whether to
+remove the dormant rides backend (`docs/RIDES.md`); parked logo/favicon/manifest/
+og:image work; Excel fallback importer (Phase 4) not built.
 
 ## Important constraints
 - Source = the club's public Google Calendar (API v3 with OUR own free key, or

@@ -4,8 +4,9 @@
 The club's weekly diary is a **public Google Calendar**. A free scheduled job
 reads it, normalizes the messy event titles into clean per-session records, and
 writes static JSON files. A static website (no server, no login) shows each
-parent only the teams they follow. WhatsApp / email / calendar export are later
-renderers over the same data.
+parent only the teams they follow. Copy / share / `.ics` / PNG exports are built
+into the site (DL-023..025); a server-side calendar feed, email and WhatsApp-API
+messages are not built (Phase 5).
 
 ```
 Google Calendar  (mpkua0beq2409vncahis6t8tuo@group.calendar.google.com, public)
@@ -46,8 +47,9 @@ Cost: $0/month. The Git repository is the datastore and the version history.
 - **Keyless fallback:** the public iCal feed
   `https://calendar.google.com/calendar/ical/<id>/public/basic.ics` (returns
   full history; filter after parsing).
-- **Manual fallback:** the Excel export (`scripts/import_excel.py`) produces the
-  same normalized records if the calendar ever goes private.
+- **Manual fallback (planned, NOT built):** the Excel export
+  (`scripts/import_excel.py` — file does not exist yet; Phase 4) would produce
+  the same normalized records if the calendar ever goes private.
 - **Do not** reuse the API key exposed in the club's front-end. Store our key as
   a GitHub Actions secret `GOOGLE_CALENDAR_API_KEY`.
 
@@ -101,13 +103,20 @@ ICS later) consumes only this.
 - `index.html`, `app.js`, `styles.css` — RTL Hebrew, mobile-first, **no build
   step**.
 - On load: fetch `teams.json` + `schedule.json` (+ `changes.json`).
-- `localStorage`: followed `team_id`s, last-seen `generated_at`.
-- All search / filtering / multi-team merge happens client-side.
-- Screens per `docs/ui-ux-spec.md`: My Week, Add Team (team/coach search).
-  (No import screen in this architecture — updates are automatic.)
+- `localStorage` (all keys `gilboa.*`, kept after the DL-045 rename): followed
+  `team_id`s, last-seen `generated_at`, earlier-days toggle, and (DL-044) hidden
+  trainings `gilboa.hidden`, hint flag `gilboa.hide_tip_seen`, personal games
+  `gilboa.games`. On startup `clearLegacyRidesKeys()` wipes the old rides keys
+  (DL-042).
+- All search / filtering / multi-team merge / hide-a-training / add-a-game /
+  exports happen client-side. The site makes **zero** `/api/*` calls (DL-042).
+- Screens per `docs/ui-ux-spec.md`: My Week, Add Team (one search box for team
+  or coach, DL-021), plus the add-a-game sheet (DL-044). Header shows the app
+  name **הפועל העמק** (DL-045). (No import screen — updates are automatic; no
+  rides, manager or privacy screens since DL-042.)
 
-### Manual Excel importer (`scripts/import_excel.py`) — fallback only
-Reads the club `.xlsx`, runs the same clean/parse/classify/resolve code, and
+### Manual Excel importer (`scripts/import_excel.py`) — fallback only (planned, not built)
+Would read the club `.xlsx`, runs the same clean/parse/classify/resolve code, and
 writes the same normalized records. Not part of the weekly flow; kept for
 resilience and for parser regression tests.
 
@@ -194,7 +203,7 @@ team schedule/
     resolve.py              # stable team_id via teams_registry.json
     build_outputs.py        # normalized sessions → public/data/*.json
     diff.py                 # snapshot vs new → changes
-    import_excel.py         # manual fallback importer
+    import_excel.py         # manual fallback importer (planned, not built — Phase 4)
   data/
     teams_registry.json     # persistent team_id ↔ normalized_name (committed)
     snapshot.json           # last run's normalized events (committed, for diff)
@@ -235,7 +244,8 @@ team schedule/
    that uploads `public/` (the auto-commit is tagged `[skip actions]`, which
    Cloudflare does not skip on). Live at `https://gilboa-schedule.pages.dev`.
 3. `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions secret** (the build runs on
-   GitHub, not Cloudflare). Cloudflare holds no secrets for the static site.
+   GitHub, not Cloudflare). Cloudflare holds no secrets for the static site; its
+   only secrets belong to the dormant rides backend (DL-042).
 4. GitHub Pages is retired. The old `rankad.github.io/team-schedule/` URL serves
    a client-side redirect (`legacy/`, published once via the manual
    `legacy-redirect.yml` workflow). See DL-028.

@@ -58,8 +58,9 @@ UI. Never invent proper nouns — take them from the stakeholder or the source.
   `gilboa-schedule`. Custom domain deferred (rides spec OQ-4) — the `*.pages.dev`
   URL is the canonical link for now.
 - **Secrets:** `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions** secret only.
-  The static site needs no Cloudflare secrets. (The rides feature will add
-  Cloudflare environment secrets later — not part of hosting.)
+  The static site needs no Cloudflare secrets. (The dormant rides backend has
+  its own Cloudflare environment secrets — see "Rides backend (dormant)" below;
+  not part of hosting.)
 - The Python build + commit still runs on GitHub Actions
   (`.github/workflows/build.yml`, job `build-data`), three times daily
   (`0 5,13,17 * * *` UTC ≈ 07:00/15:00/19:00 Jerusalem winter, DL-033). GitHub
@@ -111,13 +112,32 @@ switch systems, fall back to the Excel importer.
   sample week; `T_NNN` numbering is only locked once Phase 2 runs against live
   data. Safe to delete and regenerate until then.
 
-## Rides (Phase 6) — backend, secrets, privacy
-- **KV namespace `RIDES_KV`** must be created and bound to the
-  `gilboa-schedule` Cloudflare Pages project (Production **and** Preview) —
-  a one-time dashboard/`wrangler` step, not committed anywhere. Not yet done
-  as of Task 12 (see `docs/execution-plan.md` "Immediate next step").
+## Rides backend (dormant since DL-042, 2026-11-11)
+The rides **front end is removed** (player mode, manager page, privacy screen);
+the site makes zero `/api/*` calls and collects no personal data. The backend
+below is still deployed and **must not be deleted casually** — whether to remove
+it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
+- **No privacy screen / consent text any more** — they only described ride data,
+  and nothing is collected. Legacy player data on devices is wiped by
+  `clearLegacyRidesKeys()` on load.
+- **Purge still runs** (`build.yml` "Purge past rides weeks"). It is the last
+  step of the `build-data` job, which runs 3×/day (cron `0 5,13,17 * * *`,
+  DL-033) or on manual dispatch. `POST /api/purge` deletes every `week/<wk>/*` KV
+  key whose week-Sunday is before the current week's Sunday
+  (`functions/_lib/purge.js`), so a ride row lives at most about a week. It is the
+  only thing that ages out ride rows left in KV.
+- **KV-wipe caveat before any backend removal:** deleting the Functions, the
+  `RIDES_KV` namespace or the purge step does not clear existing rows by itself.
+  Either let the purge run until KV is empty (≥ 1 week after the last write —
+  and no UI writes now) or wipe KV manually, **before** removing the purge
+  step / secrets. Removing the purge step first would strand rows that contain
+  minors' names.
+- **KV namespace `RIDES_KV`** is bound to the `gilboa-schedule` Cloudflare Pages
+  project (Production **and** Preview) — dashboard/`wrangler` step, not
+  committed anywhere.
 - **Three Cloudflare env secrets** (Production + Preview):
-  `MANAGER_PASSPHRASE` (generated, gates `/api/manager/*`), `SITE_ORIGIN`
+  `MANAGER_PASSPHRASE` (generated, gates `/api/manager/*` — **unused now, no
+  manager page**), `SITE_ORIGIN`
   (CORS allow-origin + the origin Functions fetch `data/schedule.json` /
   `data/teams.json` from), `PURGE_KEY` (required `X-Purge-Key` header on
   `POST /api/purge`). None are committed or shipped to the client. See
@@ -126,15 +146,15 @@ switch systems, fall back to the Excel importer.
   `RIDES_API` (= `https://gilboa-schedule.pages.dev`) — read by
   `.github/workflows/build.yml` to call the purge endpoint after each
   scheduled rebuild (three times daily). Missing either just skips the purge
-  (non-fatal to the schedule build).
-- **Minors' PII / legal review pending:** ride requests store a named minor's
-  full name + which practices they attend + travel direction (rides-spec
-  §8.2, §8.5). The stakeholder still needs to obtain a legal opinion
-  (PPL / Amendment 13 registration, whether the §8.1 consent notice is
-  sufficient). **This blocks club-wide rollout, not the single-team pilot**
-  (DL-030). The §8.1 consent text has `[contact]` / `[מדיניות פרטיות]`
-  placeholders that must be filled from the stakeholder before the pilot
-  ships.
+  (non-fatal to the schedule build) — see the "purge failure is invisible" open
+  risk below.
+- **Minors' PII / legal review — MOOT while dormant (DL-042).** Ride requests
+  stored a named minor's full name + practices + direction (rides-spec §8.2,
+  §8.5). With the front end gone nothing new is collected, so the legal opinion
+  (PPL / Amendment 13) and the `[contact]` / `[מדיניות פרטיות]` placeholder in
+  the consent text (OQ-2) are no longer needed. **They would have to be done
+  for real if the feature were ever revived** — and any leftover KV rows should
+  be confirmed purged first.
 - **No edge rate limiting for the pilot (DL-032).** Cloudflare Rate Limiting
   Rules are per-zone; this account has no zone (the site runs on the shared
   `*.pages.dev` domain, not a custom domain we control — OQ-4 deferred). The
@@ -149,18 +169,19 @@ switch systems, fall back to the Excel importer.
   from the per-row key design (DL-029: each ride request is its own KV key,
   so there is nothing to race on) — verified by code review and the key
   shape, not by a concurrency test. Documented in `docs/qa-checklist.md`
-  "Rides — privacy & security" so this known gap isn't mistaken for an
+  "Rides backend — security (dormant)" so this known gap isn't mistaken for an
   oversight in a future QA pass.
-- **Player mode is one-way; the privacy-screen delete is the exit (DL-035,
-  recovery wording reframed by DL-037).** Player mode is a superset of parent
-  mode, so there is deliberately no "switch back to parent" toggle. To leave
-  player mode, a player uses the privacy-screen `מחיקת נתוני ההסעות שלי` action:
-  it deletes the visible week's ride data, clears the local token + role, and
-  re-renders as a parent — a clean, supported exit, worded as deletion rather
-  than a mode switch. Clearing site data is only a last resort (e.g. a device
-  stuck with no rides data loaded). The confirm wording scales to how many
-  requests exist for the week (DL-037).
-- **Shared family phone in player mode — stray-tap ride fumble (DL-037, S1;
+- **RETIRED by DL-042 (2026-11-11) — moot: player mode no longer exists.**
+  *Original entry, kept as history:* **Player mode is one-way; the
+  privacy-screen delete is the exit (DL-035, recovery wording reframed by
+  DL-037).** There was deliberately no "switch back to parent" toggle and no
+  in-app exit from player mode other than the privacy-screen
+  `מחיקת נתוני ההסעות שלי` action (clear-site-data as last resort). Both the
+  mode and the screen are removed; stale player keys are cleared by
+  `clearLegacyRidesKeys()`.
+- **RETIRED by DL-041 (2026-11-11): the ride chip was removed, so there is no
+  chip left to fumble.** *Original entry, kept as history:* **Shared family
+  phone in player mode — stray-tap ride fumble (DL-037, S1;
   documented, not fixed — revisit after the pilot).** A phone left in player
   mode has live ride chips on every session card. Ride writes are save-on-tap
   with `הלוך וחזור` preselected (rides-spec §4.7), so anyone holding the phone
@@ -169,6 +190,30 @@ switch systems, fall back to the Excel importer.
   feature exists to produce is corrupted. The stakeholder chose to document
   rather than fix for now; revisit after the single-team pilot (candidate fix:
   require an explicit save for NEW requests in the bottom sheet).
+- **Rides: no UI creates, shows or calls anything (DL-041 → DL-042,
+  2026-11-11).** DL-041 removed the chip + trip-type sheet and left the rest of
+  player mode as an OPEN question; DL-042 resolved it by removing the whole front
+  end. `PUT /api/request`, the other Functions, the manager endpoints and the
+  purge step are dormant-but-intact (47 Functions tests still run in CI). Do
+  not delete the backend or its tests until the stakeholder decides (OPEN).
+- **The dormant backend is NOT write-quiescent (QA finding, 2026-11-11).**
+  `/api/token`, `/api/request`, `/api/ping` and `/api/manager/*` remain publicly
+  reachable, so a stale open tab running old client code could still write a ride
+  row. Before any backend removal, **re-check KV is empty with `wrangler kv key
+  list` right before deleting anything**, not only at decision time
+  (`docs/RIDES.md`).
+- **Purge failure is invisible now — OPEN RISK, hardening decision PENDING
+  (QA finding, 2026-11-11).** The "Purge past rides weeks" step in
+  `.github/workflows/build.yml` has `continue-on-error: true`, its `curl … &&
+  echo "purge ok" || echo "purge failed (non-fatal)"` exits 0 even on failure,
+  and missing secrets just log "skipping". The manager dashboard's `lastPurge`
+  footer was the only visible health signal and it is gone, while the purge is
+  the only thing that drains stored minors' names from KV (and the precondition
+  for any backend removal). **Proposed hardening — awaiting a stakeholder
+  decision, not decided:** drop `continue-on-error` and the `|| echo` fallback so
+  a non-2xx fails the run (a red scheduled run emails the repo owner); replace
+  the secrets-missing skip with a failure or `::warning::`; optionally assert
+  `"ok":true`. **Until then, the Action log must be eyeballed for `purge ok`.**
 
 ## Testing — tests coupled to live production data (DL-039/040 / LL-027/028)
 - `tests/site_smoke.js` has (at least) three cases whose fixture is picked

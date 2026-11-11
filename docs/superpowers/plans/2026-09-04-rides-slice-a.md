@@ -1,5 +1,10 @@
 # Rides — Slice A Implementation Plan
 
+> **Superseded in part (2026-11-11, DL-041/DL-042):** the front-end tasks (player
+> UI, `rides.js`, manager page, their tests) and the pilot/rollout section were
+> built and then removed/dropped; only the backend tasks remain, dormant. See
+> `docs/decision-log.md` DL-042. Kept as history.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Add player-mode ride requests on each practice and a password-gated coordinator dashboard, backed by a new Cloudflare Pages Functions API + one KV namespace — without touching the schedule half of the app.

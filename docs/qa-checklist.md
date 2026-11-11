@@ -83,65 +83,48 @@ Run before calling any phase "done". Record failures in
       of the page).
 - [ ] Toggle row is ≥ 44px tall and has a visible focus outline.
 
-## Rides — Slice A
-- [ ] A parent (no player token) sees no ride chips anywhere; the schedule
-      view is byte-for-byte the same as before Phase 6.
-- [ ] Role switch to player → consent dialog → name step with a live
-      `יוצג כ` preview → `POST /api/token` → chips appear. One-word name
-      handled; `→ חזרה` reverts to the previous step; `POST /api/token`
-      failure shows an inline error and keeps the name entered.
-- [ ] `shortName` never shows a full surname to a non-manager (initial + `׳`
-      only, e.g. "דניאל כ׳").
-- [ ] Ride chip states (unset / set-round / set-out / set-back) render
-      correctly; every clock time in the caption is wrapped for `ltr`
-      isolation (Hebrew RTL context, LTR time).
-- [ ] Weekly reset: a new week's `week_key` has no request rows for any
-      token — nothing to "clear" client-side, it's just absent server-side.
-- [ ] Bottom sheet write is optimistic (chip updates immediately); a 5xx
-      response reverts the chip and shows a retry toast; a 400 shows a
-      non-retry toast (client error, not transient).
-- [ ] `#screen-rides` empty state lists that week's practices with an
-      "add ride" button each — not a dead screen.
-- [ ] There is **no** player→parent switch anywhere (no `מעבר למצב הורה`); a
-      player who unfollows every team lands on the onboarding team-picker with
-      no role toggle. No flow deletes ride selections as a side effect (DL-035).
-- [ ] `#screen-privacy` shows a `מחיקת נתוני ההסעות שלי` button **only** for a
-      player with a token (not a pure parent). Confirm → deletes
-      `week/<wk>/req/<token>/*` via `DELETE /api/me` (best-effort — local token
-      clears even if the call fails) → returns to a clean parent view.
-- [ ] The `מחיקת נתוני ההסעות שלי` confirm copy varies by the visible week's
-      ride-request count (DL-037): the firm `…אי אפשר לשחזר` wording with ≥1
-      request, the lighter `…לא נרשמו בקשות הסעה למחיקה` at 0, and the
-      `…ולמחוק את בקשות ההסעה שלך לשבוע זה?` wording when rides data has not
-      loaded. `renderPrivacy()` kicks off a best-effort `loadMyRides` so the
-      count is usually known by the time the button is tapped.
-- [ ] Consent + privacy copy: "מחיקה מיידית" points at the privacy screen, not
-      at "switching back to parent". Docs (spec / known-constraints) lead with
-      the privacy-screen delete as the clean exit from player mode, not
-      clear-site-data (DL-037).
-- [ ] On a shared device left in player mode, a stray tap on a ride chip can add
-      or cancel a request under the child's name — confirm this is captured as a
-      **documented known limitation** (DL-037 / `known-constraints.md`), not
-      filed as a bug.
-- [ ] With the rides API entirely unreachable (DevTools request-block on
-      `/api/*`), the schedule list, weekly summary, all four export actions,
-      and the changes banner still work exactly as without Phase 6; the
-      rides UI shows a contained "unavailable" state instead of erroring.
-- [ ] Manager dashboard: day stepper works; rows with zero requests are
-      collapsed by default; an orphaned request (session id no longer in
-      `schedule.json`) appears in its own group, not silently dropped;
-      `העתקת תוכנית היום` copies a correct day summary.
-- [ ] `זמני יציאה` settings round-trip through `PUT /api/manager/config` —
-      per-location values persist and feed `computeDepartTimes` on both the
-      player chip caption and the dashboard.
-- [ ] The health footer on the manager dashboard shows `config/global.lastPurge`.
+## Rides front end removed (DL-042, 2026-11-11)
+The old "Rides — Slice A" front-end items (role toggle, consent, name step,
+summary card, `#screen-rides`, privacy-screen delete, chip/sheet, manager
+dashboard) were deleted with the code. Replaced by removal locks:
+- [ ] `public/index.html` contains **no** rides ids (`#role-toggle-slot`,
+      `#screen-rides`, `#screen-privacy`, `#rides-sheet`, rides summary card,
+      consent/name dialogs) and no `מדיניות פרטיות` footer link.
+- [ ] No `window.Rides`; `public/rides.js` does not exist.
+- [ ] The site makes **zero** `/api/*` requests (DevTools Network, filter `api`,
+      reload + navigate every screen).
+- [ ] On load, legacy keys `gilboa.role`, `gilboa.player`, `gilboa.ping_ts`,
+      `gilboa.manager` are removed from `localStorage`; `gilboa.followed` (and
+      other kept keys) are untouched — seed the old keys by hand, reload,
+      confirm (`clearLegacyRidesKeys()`).
+- [ ] Onboarding card (no team followed) shows heading `בחירת קבוצה`, one
+      paragraph and a `＋ בחירת קבוצה` button — **no** `הורה` / `שחקן` toggle,
+      no ride wording anywhere in the app.
+- [ ] `manager.html` (and `manager.js` / `manager.css`) are gone — the old URL
+      no longer serves a manager page. In production a stale `/manager.html`
+      returns the parent app's `index.html` with HTTP 200 (Pages SPA mode; no
+      `404.html` / `_redirects` / `_headers` / `wrangler.toml`), not a 404.
+- [ ] `node tests/site_smoke.js` green (113 checks at DL-042).
+
+## Rides backend (dormant, DL-042)
+Nothing calls it any more; kept intact pending a stakeholder decision.
+- [ ] Functions tests green (47) — incl. `PUT /api/request` (validation, upsert,
+      20-row cap) even though no UI calls it. Do not delete them as "dead code"
+      unless the backend is being removed on purpose.
+- [ ] The "Purge past rides weeks" step in `build.yml` still runs and succeeds
+      (`POST /api/purge`), so old ride rows keep aging out. The step is
+      non-fatal and exits 0 even on failure (open risk, hardening decision
+      pending), so eyeball the Action log for `purge ok`.
+- [ ] Ride rows still in KV from earlier use are gone within a week (purge
+      deletes everything older than the current week's Sunday).
+- [ ] `functions-tests` CI job (Functions unit tests + site smoke) green; no
+      "Manager smoke test" step remains.
 - [ ] Purge (`POST /api/purge`) deletes only strictly-past weeks' keys; the
       current and future weeks are untouched; `config/*` is never deleted.
 
-## Rides — privacy & security
-- [ ] Player and manager tokens: high-entropy (CSPRNG), stored only in
-      `localStorage`, never appear in a URL, query string, or the DOM as
-      visible text.
+## Rides backend — security (dormant)
+- [ ] Tokens (player + manager): high-entropy (CSPRNG), opaque, never in a URL
+      or logs. (Backend-only now; nothing stores one client-side.)
 - [ ] `PUT /api/request` write validation is structural only (shape, field
       types, `direction` enum, id regex) — confirm it rejects a malformed
       body and accepts a well-formed one, with no schedule lookup on the
@@ -157,8 +140,9 @@ Run before calling any phase "done". Record failures in
 - [ ] **The KV last-write-wins race is designed out (per-row keys, DL-029),
       not testable under Miniflare** — confirm this is documented (not
       silently assumed) rather than re-litigated as a missing test.
-- [ ] The §8.1 consent notice's `[contact]` / `[מדיניות פרטיות]` placeholders
-      are filled with real stakeholder-provided text before the pilot ships.
+- [ ] ~~§8.1 consent notice `[contact]` / `[מדיניות פרטיות]` placeholders filled~~
+      — **moot (DL-042):** the consent text and privacy screen are gone; nothing
+      is collected. Would need doing if the feature were revived.
 
 ## Branding (DL-036)
 - [ ] Every `--accent` / `--accent-dark` foreground/background pair checked
@@ -167,17 +151,13 @@ Run before calling any phase "done". Record failures in
 - [ ] `app.js` `PALETTE` (team dot colours) unchanged — no team dot is the
       brand red.
 - [ ] `theme-color` + `og:type/title/description/locale` + `twitter:card`
-      present and well-formed in both `index.html` and `manager.html`;
-      `manager.html` uses manager-appropriate title/description text.
+      present and well-formed in `index.html` (`manager.html` removed, DL-042).
 - [ ] Pasting the prod link into WhatsApp/Slack shows the title + description
       (no `og:image` card yet — deferred with the logo asset).
-- [ ] Error / warning **text** (`.rides-load-error`, `.rides-name-error`,
-      `.session-warn`) uses `--warn` `#b54708`, not the brand red (DL-037).
-      Destructive **buttons** (`.ride-del`, `.ride-cancel`, `.privacy-delete`)
-      keep `--accent-dark`.
-- [ ] `.ride-strip` is neutral (`--bg`/`--border`); amber (`--banner-bg`) appears
-      only on the changes banner and the rides summary card, never the ride
-      strip (DL-037).
+- [ ] Warning **text** (`.session-warn`) uses `--warn` `#b54708`, not the brand
+      red (DL-037).
+- [ ] Amber (`--banner-bg`) appears only on the changes banner (rides
+      summary-card and `.ride-strip` checks dropped — removed, DL-041/042).
 - [ ] Week-nav arrows: glyph is `var(--text)`, disabled arrow `#8b9096` — no
       brand red on the nav chrome (DL-037).
 

@@ -69,17 +69,30 @@ jobs:
       - name: Push (no-op if fetch_and_build made no commit)
         run: git push
 
+      # Fails LOUDLY on purpose (a red run emails the repo owner). This purge is the
+      # only thing that drains stored ride-request names (minors) from RIDES_KV, and
+      # the dashboard's lastPurge footer no longer exists, so a silent skip/failure
+      # would go unnoticed. It is the LAST step, so schedule data is already
+      # committed and pushed before it runs - a red run never loses data.
       - name: Purge past rides weeks
-        continue-on-error: true
         env:
           PURGE_KEY: ${{ secrets.PURGE_KEY }}
           RIDES_API: ${{ secrets.RIDES_API }}   # e.g. https://gilboa-schedule.pages.dev
         run: |
-          if [ -n "$PURGE_KEY" ] && [ -n "$RIDES_API" ]; then
-            curl -fsS -X POST -H "X-Purge-Key: $PURGE_KEY" "$RIDES_API/api/purge" && echo "purge ok" || echo "purge failed (non-fatal)"
-          else
-            echo "PURGE_KEY / RIDES_API not set — skipping rides purge"
+          if [ -z "$PURGE_KEY" ] || [ -z "$RIDES_API" ]; then
+            echo "::error::PURGE_KEY / RIDES_API not set — rides purge cannot run"
+            exit 1
           fi
+          body=$(curl -fsS --max-time 30 --retry 2 --retry-delay 5 -X POST -H "X-Purge-Key: $PURGE_KEY" "$RIDES_API/api/purge") || {
+            echo "::error::rides purge request failed (non-2xx or network error)"
+            exit 1
+          }
+          # Success shape: {"ok":true,"weeksDeleted":[...],"keysDeleted":N,"opensDeleted":N} (dates/counts only)
+          if ! printf '%s' "$body" | grep -Eq '"ok"[[:space:]]*:[[:space:]]*true'; then
+            echo "::error::rides purge returned an unexpected body: $body"
+            exit 1
+          fi
+          echo "purge ok: $body"
 
   functions-tests:
     # Rides Function unit tests + the static-site smoke test. Runs on every push

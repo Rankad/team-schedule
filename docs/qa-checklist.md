@@ -198,6 +198,14 @@ NodeList bug once (LL-029).
       crash the app.
 - [ ] Still zero `/api/` requests.
 
+## App name (DL-045)
+- [ ] Header `.club-name`, `<title>`, `og:title`, weekly copy-text/share header,
+      PNG export header and follows-share text all say **הפועל העמק**.
+- [ ] Downloaded files are named `הפועל-העמק-שבוע-<date>.ics` / `.png`.
+- [ ] No `גלבוע מעיינות` anywhere in `public/` (excluding `public/data`).
+- [ ] `gilboa.*` localStorage keys, ICS `PRODID`/`UID` and the pages.dev URL are
+      intentionally unchanged (followed teams survive the deploy).
+
 ## Non-functional
 - [ ] A full run over a ~430-event window completes in a few seconds.
 - [ ] Only network call during a run is the calendar fetch.

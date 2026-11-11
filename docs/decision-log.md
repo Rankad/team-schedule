@@ -1318,3 +1318,35 @@
 - **Risk:** Low–Medium. Front end only, no data/parser/backend change, fully
   reversible via git; the residual risk is the by-position hiding surprise
   and per-phone storage.
+
+## DL-045 — App name on screen changed from גלבוע מעיינות to הפועל העמק
+- **Date:** 2026-11-11 (branch `chore/rename-to-hapoal-haemek`, commits `fe2b7f9`,
+  `b0cfeb4`). DL-043 = purge fails loudly; DL-044 reserved for the
+  hide-a-training / add-a-game feature (documented separately).
+- **Context:** stakeholder instruction: change the name shown at the top of the
+  page from **גלבוע מעיינות** to **הפועל העמק**, "in all places". The club
+  colours/logo approval (DL-036, 2026-09-06) was given for the club identity;
+  the on-screen name is now הפועל העמק per the stakeholder's explicit
+  instruction — nothing further is inferred about who approved what.
+- **Decision:** rename every place the app presents the name.
+  - **Changed:** `<title>` and `og:title` (`הלו״ז שלי — הפועל העמק`); header
+    `.club-name`; follows-share title/text (`הקבוצות שלי — הפועל העמק`,
+    `…בלו״ז הפועל העמק`); weekly copy-text header + share title; PNG export
+    title; download names `gilboa-שבוע-<date>.ics/.png` →
+    `הפועל-העמק-שבוע-<date>.ics/.png`. Smoke assertions for og:title and the
+    week-text header updated.
+  - **Deliberately kept (technical identifiers, invisible to users):**
+    localStorage keys `gilboa.*` (renaming would wipe every user's followed
+    teams), ICS `PRODID:-//gilboa-maayanot//…` and `UID …@gilboa-schedule`, the
+    `gilboa-schedule.pages.dev` URL, code comment headers, data-derived
+    team/location names (`מעלה גלבוע`, `הרי הגלבוע`).
+- **Consequences:**
+  - **Identifier caveat:** the `gilboa` spelling now intentionally mismatches the
+    visible name; do not "tidy" the localStorage keys without a migration
+    (`known-constraints.md`, Branding).
+  - **Cosmetic overlap:** `הפועל העמק` is also the name of followable team T_042
+    (DL-014). App title and that team now share a name — no code impact.
+  - Older docs/specs still say גלבוע מעיינות as history; annotated, not rewritten.
+  - Tests unchanged: site smoke 113, Functions 47, pytest 159.
+- **Status:** Accepted; implemented on `chore/rename-to-hapoal-haemek`; PR pending.
+- **Risk:** Low. Display strings only; no data, parser or storage change.

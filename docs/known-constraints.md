@@ -48,6 +48,10 @@ The club is **גלבוע מעיינות** (English: "Gilboa Maayanot"). It is **
 "מכבי" club — do not prefix "מכבי". Confirmed by the stakeholder 2026-09-02 after
 a build guessed "מכבי מעיינות הגלבוע". Use the exact string "גלבוע מעיינות" in
 UI. Never invent proper nouns — take them from the stakeholder or the source.
+**Update 2026-11-11 (DL-045):** the *name shown on screen* is now **הפועל העמק**
+(stakeholder instruction). The rule above still applies to references to the
+real club/organisation; the app's own title/header/share/export strings use the
+new name.
 
 ## Hosting / runtime
 - **Host = Cloudflare Pages** (git integration, no build command, output dir
@@ -314,3 +318,9 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
   on 2026-09-06 (branding spec §7 Q3; extends the OQ-6 app approval). The
   deferred logo-asset work above is unaffected — still deferred on the missing
   SVG / ≥512px source, no longer gated on a courtesy note.
+- **Identifiers keep the `gilboa` spelling on purpose (DL-045)** — invisible to
+  users, do not rename casually: localStorage keys `gilboa.*` (renaming wipes
+  every user's followed teams), ICS `PRODID:-//gilboa-maayanot//…` and
+  `UID …@gilboa-schedule`, the `gilboa-schedule.pages.dev` URL, code comment
+  headers. Data-derived names (`מעלה גלבוע`, `הרי הגלבוע`) are real
+  team/location names, not branding.

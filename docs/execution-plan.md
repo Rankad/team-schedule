@@ -323,6 +323,14 @@ server, no database, $0/month. See `docs/architecture.md` and
   missed (LL-029). Branch `feat/hide-training-add-game` (`7cf2fb6`, `3c8f81e`,
   `6c9ed01`, `5b2a27e`), PR pending. Limits: `known-constraints.md`.
 
+- **2026-11-11 — App name on screen changed to הפועל העמק (DL-045).**
+  Stakeholder: change the name at the top of the page from גלבוע מעיינות to
+  הפועל העמק "in all places". Replaced in `<title>`/`og:title`, header, share
+  and export titles, download file names; smoke assertions updated. Technical
+  identifiers (`gilboa.*` localStorage keys, ICS PRODID/UID, pages.dev URL)
+  deliberately kept. Tests unchanged: site smoke 113, Functions 47, pytest 159.
+  Branch `chore/rename-to-hapoal-haemek` (`fe2b7f9`, `b0cfeb4`), PR pending.
+
 ## Immediate next step
 > **Superseded (DL-042, 2026-11-11): the rides pilot and rollout are DROPPED.**
 > The rides front end was removed; the single-team pilot, the §8.1 consent

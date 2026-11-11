@@ -1,6 +1,9 @@
 # Club branding — logo, colours, share preview
 
 **Date:** 2026-09-06
+**Note (2026-11-11, DL-045):** the on-screen app name (header, `<title>`,
+`og:title`, share/export titles) is now **הפועל העמק**; the `גלבוע מעיינות`
+strings below describe the original 2026-09-06 design.
 **Status:** partially in implementation (2026-09-06). Stakeholder decision:
 **defer everything that needs the logo asset** (§4 header lockup, §5 favicon /
 apple-touch-icon / manifest / `og:image`). Proceeding now: **§3 palette recolour**

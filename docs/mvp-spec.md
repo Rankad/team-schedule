@@ -225,7 +225,9 @@ whose `week_key` is within the served window.
 - **Week nav:** across `schedule.weeks`; outside range ⇒ "אין נתונים לשבוע זה".
 - **Changes banner:** show `changes` for followed teams when
   `meta.generated_at != seen_generated_at`.
-- **Summary:** session count + total hours for the visible week.
+- **Summary:** session count + total hours for the visible week. (DL-044,
+  2026-11-11: counts only what is on screen — hidden trainings excluded, own
+  games included and worded separately, e.g. `2 אימונים · משחק אחד · 5 שעות`.)
 
 ## 10. Test fixtures (required)
 - `tests/fixtures/calendar_week.json` — captured API response for the sample

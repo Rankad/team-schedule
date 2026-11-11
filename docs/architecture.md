@@ -129,8 +129,8 @@ state (accounts for push notifications), revisit then.
 ### Rides API (Cloudflare Pages Functions + KV) — added Phase 6; **DORMANT since DL-042 (2026-11-11)**
 > **Dormant:** the rides front end (`rides.js`, `manager.html/js/css`, all player
 > UI) was removed; the static site makes **zero** `/api/*` calls. The Functions +
-> KV below are still deployed but nothing calls them except the weekly
-> `POST /api/purge` from the GitHub Action. Whether to remove them is an OPEN
+> KV below are still deployed but nothing calls them except `POST /api/purge`
+> from the GitHub Action (last step of the `build-data` job, 3×/day). Whether to remove them is an OPEN
 > stakeholder decision (DL-042; checklist in `docs/RIDES.md`). The diagram's
 > client box and the "Auth: player token in localStorage" / "Isolation boundary"
 > bullets describe the removed client and are historical.

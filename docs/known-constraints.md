@@ -120,13 +120,16 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
 - **No privacy screen / consent text any more** — they only described ride data,
   and nothing is collected. Legacy player data on devices is wiped by
   `clearLegacyRidesKeys()` on load.
-- **Purge still runs** (`build.yml` "Purge past rides weeks", 3×/day). It is the
-  only thing that ages out ride rows left in KV — everything older than the
-  current week's Sunday, so leftover rows vanish within ~7 days.
+- **Purge still runs** (`build.yml` "Purge past rides weeks"). It is the last
+  step of the `build-data` job, which runs 3×/day (cron `0 5,13,17 * * *`,
+  DL-033) or on manual dispatch. `POST /api/purge` deletes every `week/<wk>/*` KV
+  key whose week-Sunday is before the current week's Sunday
+  (`functions/_lib/purge.js`), so a ride row lives at most about a week. It is the
+  only thing that ages out ride rows left in KV.
 - **KV-wipe caveat before any backend removal:** deleting the Functions, the
   `RIDES_KV` namespace or the purge step does not clear existing rows by itself.
   Either let the purge run until KV is empty (≥ 1 week after the last write —
-  and nothing writes now) or wipe KV manually, **before** removing the purge
+  and no UI writes now) or wipe KV manually, **before** removing the purge
   step / secrets. Removing the purge step first would strand rows that contain
   minors' names.
 - **KV namespace `RIDES_KV`** is bound to the `gilboa-schedule` Cloudflare Pages
@@ -143,7 +146,8 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
   `RIDES_API` (= `https://gilboa-schedule.pages.dev`) — read by
   `.github/workflows/build.yml` to call the purge endpoint after each
   scheduled rebuild (three times daily). Missing either just skips the purge
-  (non-fatal to the schedule build).
+  (non-fatal to the schedule build) — see the "purge failure is invisible" open
+  risk below.
 - **Minors' PII / legal review — MOOT while dormant (DL-042).** Ride requests
   stored a named minor's full name + practices + direction (rides-spec §8.2,
   §8.5). With the front end gone nothing new is collected, so the legal opinion
@@ -190,8 +194,26 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
   2026-11-11).** DL-041 removed the chip + trip-type sheet and left the rest of
   player mode as an OPEN question; DL-042 resolved it by removing the whole front
   end. `PUT /api/request`, the other Functions, the manager endpoints and the
-  weekly purge are dormant-but-intact (47 Functions tests still run in CI). Do
+  purge step are dormant-but-intact (47 Functions tests still run in CI). Do
   not delete the backend or its tests until the stakeholder decides (OPEN).
+- **The dormant backend is NOT write-quiescent (QA finding, 2026-11-11).**
+  `/api/token`, `/api/request`, `/api/ping` and `/api/manager/*` remain publicly
+  reachable, so a stale open tab running old client code could still write a ride
+  row. Before any backend removal, **re-check KV is empty with `wrangler kv key
+  list` right before deleting anything**, not only at decision time
+  (`docs/RIDES.md`).
+- **Purge failure is invisible now — OPEN RISK, hardening decision PENDING
+  (QA finding, 2026-11-11).** The "Purge past rides weeks" step in
+  `.github/workflows/build.yml` has `continue-on-error: true`, its `curl … &&
+  echo "purge ok" || echo "purge failed (non-fatal)"` exits 0 even on failure,
+  and missing secrets just log "skipping". The manager dashboard's `lastPurge`
+  footer was the only visible health signal and it is gone, while the purge is
+  the only thing that drains stored minors' names from KV (and the precondition
+  for any backend removal). **Proposed hardening — awaiting a stakeholder
+  decision, not decided:** drop `continue-on-error` and the `|| echo` fallback so
+  a non-2xx fails the run (a red scheduled run emails the repo owner); replace
+  the secrets-missing skip with a failure or `::warning::`; optionally assert
+  `"ok":true`. **Until then, the Action log must be eyeballed for `purge ok`.**
 
 ## Testing — tests coupled to live production data (DL-039/040 / LL-027/028)
 - `tests/site_smoke.js` has (at least) three cases whose fixture is picked

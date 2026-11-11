@@ -275,7 +275,8 @@ server, no database, $0/month. See `docs/architecture.md` and
   buttons on `#screen-rides` (they opened the sheet); `#screen-rides` is now
   cancel-only with a plain empty state. Backend (`PUT /api/request`), manager
   page, purge, consent, name step, summary card all unchanged. Retires the
-  DL-037 S1 shared-phone limitation. Site smoke 176 → 185. Branch
+  DL-037 S1 shared-phone limitation. Site smoke 176 (`main`) → 185 on the
+  DL-041 branch (intermediate state; DL-042 ends at 113). Branch
   `chore/remove-ride-chip-and-sheet`, PR pending. **Open:** what to do with the
   now-functionless player-mode UI — pending stakeholder decision.
 
@@ -288,8 +289,11 @@ server, no database, $0/month. See `docs/architecture.md` and
   `clearLegacyRidesKeys()` (wipes `gilboa.role/player/ping_ts/manager` on load).
   Site is a pure schedule viewer: zero rides UI, zero `/api/*` calls, no personal
   data collected. **Kept dormant:** Functions, `RIDES_KV`, 3 CF + 2 GH secrets,
-  the weekly purge step, 47 Functions tests + `functions-tests` CI job. Tests:
-  site smoke 185 → 113, Functions 47, pytest 159. **Rides pilot and rollout
+  the purge step (last step of `build-data`, 3×/day), 47 Functions tests +
+  `functions-tests` CI job. Tests: site smoke 113 (`main` runs 176; 185 was the
+  intermediate DL-041 branch state; ≈23 new lock assertions), Functions 47,
+  pytest 159. **Open risks:** purge failure is now invisible (hardening decision
+  pending) and the backend is not write-quiescent — see `docs/RIDES.md`. **Rides pilot and rollout
   (Phase 6 gates: consent text, legal opinion, single-team pilot, Slice B) are
   dropped.** Branch `chore/remove-rides-frontend`, PR pending. **Open:** remove
   the dormant backend too? (KV must be emptied first.)

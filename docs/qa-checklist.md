@@ -101,7 +101,9 @@ dashboard) were deleted with the code. Replaced by removal locks:
       paragraph and a `＋ בחירת קבוצה` button — **no** `הורה` / `שחקן` toggle,
       no ride wording anywhere in the app.
 - [ ] `manager.html` (and `manager.js` / `manager.css`) are gone — the old URL
-      no longer serves a manager page.
+      no longer serves a manager page. In production a stale `/manager.html`
+      returns the parent app's `index.html` with HTTP 200 (Pages SPA mode; no
+      `404.html` / `_redirects` / `_headers` / `wrangler.toml`), not a 404.
 - [ ] `node tests/site_smoke.js` green (113 checks at DL-042).
 
 ## Rides backend (dormant, DL-042)
@@ -110,7 +112,9 @@ Nothing calls it any more; kept intact pending a stakeholder decision.
       20-row cap) even though no UI calls it. Do not delete them as "dead code"
       unless the backend is being removed on purpose.
 - [ ] The "Purge past rides weeks" step in `build.yml` still runs and succeeds
-      (`POST /api/purge`), so old ride rows keep aging out.
+      (`POST /api/purge`), so old ride rows keep aging out. The step is
+      non-fatal and exits 0 even on failure (open risk, hardening decision
+      pending), so eyeball the Action log for `purge ok`.
 - [ ] Ride rows still in KV from earlier use are gone within a week (purge
       deletes everything older than the current week's Sunday).
 - [ ] `functions-tests` CI job (Functions unit tests + site smoke) green; no

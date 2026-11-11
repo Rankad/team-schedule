@@ -414,8 +414,9 @@ multiple managers / Cloudflare Access later with no data change.
 ## 6. Backend — Cloudflare Pages Functions + KV
 
 > **DORMANT since 2026-11-11 (DL-042).** This section is unchanged and still
-> accurate for what is deployed, but no client calls any endpoint. Only the
-> weekly `POST /api/purge` (GitHub Action) still hits it. Whether to remove the
+> accurate for what is deployed, but no client calls any endpoint. Only
+> `POST /api/purge` (the last step of the `build-data` GitHub Action job, 3×/day)
+> still hits it. Whether to remove the
 > backend is an OPEN stakeholder decision — see `docs/RIDES.md`.
 
 ### 6.1 Shape
@@ -672,7 +673,8 @@ Both are later slices, **no migration**.
 ### 11.2 Site — `tests/site_smoke.js` style (Node-only fake DOM + `localStorage`)
 
 > **REMOVED 2026-11-11 — DL-042.** The rides assertions below were deleted from
-> `site_smoke.js` (185 → 113 checks). In their place ~32 lock assertions verify
+> `site_smoke.js` (185 → 113 checks from the DL-041 branch state; `main` itself
+> ran 176). In their place ≈23 new lock assertions verify
 > the removal: rides files absent, `index.html` has no rides ids, no
 > `window.Rides`, legacy `gilboa.*` rides keys cleared while `gilboa.followed` is
 > kept, and the app makes zero `/api/` requests. Kept below as history.
@@ -680,7 +682,7 @@ Both are later slices, **no migration**.
 *(Items 1, 2, 4, 5, 6 below describe the original suite; chip/sheet/add/edit
 parts struck through were removed 2026-11-11, DL-041. The suite now asserts the
 chip, `.ride-strip`, `#rides-sheet`, `ride-add` and `ride-edit` are absent;
-smoke count 176 → 185.)*
+smoke count 176 on `main` → 185 on the DL-041 branch.)*
 
 1. Parent default → no role card content beyond the link, ~~no ride chips~~.
 2. Switch to player → consent dialog → name step with live `יוצג כ` preview →

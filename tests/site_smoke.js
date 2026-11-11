@@ -818,6 +818,35 @@ require(path.join(ROOT, 'public', 'app.js'));
     assert(window.gameToSession({ id: 'g_l', date: '2026-11-12', time: '21:59', venue: 'away', opponent: '' }).end === '2026-11-12T23:59:00+02:00',
       'latest allowed start ends before midnight');
 
+    console.log('  jerusalemOffset fallback chain');
+    {
+      const joff = window.jerusalemOffset;
+      const noLong = (ms, st) => { if (st === 'longOffset') throw new RangeError('unsupported'); return realName(ms, st); };
+      const realName = (ms, st) => new Intl.DateTimeFormat('en', { timeZone: 'Asia/Jerusalem', timeZoneName: st })
+        .formatToParts(new Date(ms)).find(p => p.type === 'timeZoneName').value;
+      const noIntl = () => { throw new RangeError('unsupported'); };
+      const shortFmt = (fmt) => (ms, st) => { if (st === 'longOffset') throw new RangeError('x'); return fmt(ms); };
+      const cases = [
+        ['2026-03-27', '01:30', '+02:00'], ['2026-03-27', '03:30', '+03:00'],
+        ['2026-10-25', '00:30', '+03:00'], ['2026-10-25', '03:00', '+02:00'],
+        ['2026-07-15', '19:00', '+03:00'], ['2026-01-15', '19:00', '+02:00']
+      ];
+      for (const [d, t, want] of cases) {
+        assert(joff(d, t) === want, 'primary (longOffset) ' + d + ' ' + t + ' = ' + want);
+        assert(joff(d, t, noLong) === want, 'short branch ' + d + ' ' + t + ' = ' + want);
+        assert(joff(d, t, noIntl) === want, 'DST-rule branch ' + d + ' ' + t + ' = ' + want);
+      }
+      // short formats: "GMT+3", "GMT+2", "UTC+02:00" (derive from the rule so the stub is date-correct)
+      const ruleOff = (ms) => joff(new Date(ms).toISOString().slice(0, 10), '12:00', noIntl);
+      assert(joff('2026-07-15', '19:00', shortFmt(() => 'GMT+3')) === '+03:00', 'short "GMT+3"');
+      assert(joff('2026-01-15', '19:00', shortFmt(() => 'GMT+2')) === '+02:00', 'short "GMT+2"');
+      assert(joff('2026-01-15', '19:00', shortFmt(() => 'UTC+02:00')) === '+02:00', 'short "UTC+02:00"');
+      assert(joff('2026-07-15', '19:00', shortFmt(() => 'GMT+03:00')) === '+03:00', 'short "GMT+03:00"');
+      assert(joff('2026-07-15', '19:00', shortFmt(() => 'IDT')) === '+03:00' && joff('2026-01-15', '19:00', shortFmt(() => 'IST')) === '+02:00',
+        'unparsable short name falls through to the DST rule');
+      assert(ruleOff(Date.UTC(2026, 9, 20)) === '+03:00', 'rule: 20 Oct is still summer time');
+    }
+
     console.log('  game form: validation, defaults');
     store['gilboa.games'] = '[]';
     window.loadGames();   // (hook) normalise
@@ -857,6 +886,8 @@ require(path.join(ROOT, 'public', 'app.js'));
     assert(g1.length === 1 && g1[0].date === '2026-11-12' && g1[0].time === '19:00' && g1[0].venue === 'away' &&
       g1[0].opponent === 'הפועל עפולה' && /^g_/.test(g1[0].id), 'game stored with the agreed shape (away default, trimmed opponent)');
     assert(dlg.open === false, 'sheet closes on save');
+    gform.dispatch('submit');   // double submit (sheet already closed)
+    assert(JSON.parse(store['gilboa.games']).length === 1, 'submitting twice adds exactly one game');
     assert(stripBidi(toast.textContent) === 'המשחק נוסף ליום ה׳ 12/11, 19:00', 'save toast');
     const gcard = wcEl.querySelector('.session-game');
     assert(!!gcard && gcard.textContent.indexOf('🏆 משחק') !== -1 && gcard.textContent.indexOf('19:00–21:00') !== -1, 'game card: trophy tag + time range');

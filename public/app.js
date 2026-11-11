@@ -851,20 +851,41 @@ function hideTraining(s, btn) {
 }
 
 // ---------- Personal games ----------
-function jerusalemOffset(ymd, hm) {
+// "GMT+3", "GMT+03:00", "UTC+02:00", "GMT-1" -> "+03:00" (null if unparsable).
+function parseGmtOffset(str) {
+  var m = /(?:GMT|UTC)\s*([+\-−])\s*(\d{1,2})(?::?(\d{2}))?/.exec(String(str || ''));
+  if (!m) return null;
+  return (m[1] === '-' || m[1] === '−' ? '-' : '+') + pad2(+m[2]) + ':' + (m[3] || '00');
+}
+// Exact Israeli DST rule (last-resort fallback): DST starts 02:00 on the Friday
+// before the last Sunday of March (00:00 UTC) and ends 02:00 on the last Sunday
+// of October (23:00 UTC the evening before).
+function israelDstOffset(ms) {
+  var y = new Date(ms).getUTCFullYear();
+  var marSun = 31 - new Date(Date.UTC(y, 2, 31)).getUTCDay();
+  var octSun = 31 - new Date(Date.UTC(y, 9, 31)).getUTCDay();
+  var start = Date.UTC(y, 2, marSun - 2, 0, 0);
+  var end = Date.UTC(y, 9, octSun - 1, 23, 0);
+  return (ms >= start && ms < end) ? '+03:00' : '+02:00';
+}
+function intlZoneName(ms, style) {
+  var parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Jerusalem', timeZoneName: style })
+    .formatToParts(new Date(ms));
+  for (var i = 0; i < parts.length; i++) if (parts[i].type === 'timeZoneName') return parts[i].value;
+  return null;
+}
+// nameFor(ms, style) is injectable so tests can force each fallback branch.
+function jerusalemOffset(ymd, hm, nameFor) {
+  nameFor = nameFor || intlZoneName;
   function offAt(ms) {
-    try {
-      var parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Jerusalem', timeZoneName: 'longOffset' })
-        .formatToParts(new Date(ms));
-      for (var i = 0; i < parts.length; i++) {
-        if (parts[i].type === 'timeZoneName') {
-          var m = /GMT([+-])(\d{1,2})(?::?(\d{2}))?/.exec(parts[i].value);
-          if (m) return m[1] + pad2(+m[2]) + ':' + (m[3] || '00');
-        }
-      }
-    } catch (e) {}
-    var mon = +ymd.split('-')[1];
-    return (mon >= 4 && mon <= 9) ? '+03:00' : '+02:00';   // rough fallback
+    var styles = ['longOffset', 'short'];
+    for (var i = 0; i < styles.length; i++) {
+      try {
+        var off = parseGmtOffset(nameFor(ms, styles[i]));
+        if (off) return off;
+      } catch (e) {}
+    }
+    return israelDstOffset(ms);
   }
   var noon = offAt(ymdToUTC(ymd) + 12 * 3600000);
   // Check again at the game's own instant (the DST switch happens at night).
@@ -1427,6 +1448,7 @@ window.splitWeekByToday = splitWeekByToday;
 window.summaryText = summaryText;
 window.validateGame = validateGame;
 window.gameToSession = gameToSession;
+window.jerusalemOffset = jerusalemOffset;
 window.weekSessionsFor = weekSessionsFor;
 window.sessKey = sessKey;
 window.loadGames = loadGames;
@@ -1565,8 +1587,10 @@ function wireGameDialog() {
   dlg.addEventListener('click', function (e) { if (e.target === dlg) closeSheet(); });
   on('game-cancel', 'click', closeSheet);
 
+  var saving = false;
   form.addEventListener('submit', function (e) {
     if (e && e.preventDefault) e.preventDefault();
+    if (!dlg.open || saving) return;   // double submit: the sheet is already closed / saving
     var errs = validateGame(dateIn.value, timeIn.value);
     showErr(dateIn, errDate, errs.date);
     showErr(timeIn, errTime, errs.time);
@@ -1579,14 +1603,17 @@ function wireGameDialog() {
       date: dateIn.value, time: timeIn.value, venue: venue,
       opponent: oppIn.value.trim().slice(0, 40)
     };
-    addGameObj(g);
-    closeSheet();
-    if (sundayOf(g.date) !== viewSunday) viewSunday = sundayOf(g.date);
-    render();
-    showToast('המשחק נוסף ל' + heWeekdayDate(g.date) + ', ' + ltrIsolate(g.time));
-    var card = document.querySelector('[data-game-id="' + g.id + '"]');
-    if (card && card.scrollIntoView) card.scrollIntoView({ block: 'nearest' });
-    btn.focus();
+    saving = true;
+    try {
+      addGameObj(g);
+      closeSheet();
+      if (sundayOf(g.date) !== viewSunday) viewSunday = sundayOf(g.date);
+      render();
+      showToast('המשחק נוסף ל' + heWeekdayDate(g.date) + ', ' + ltrIsolate(g.time));
+      var card = document.querySelector('[data-game-id="' + g.id + '"]');
+      if (card && card.scrollIntoView) card.scrollIntoView({ block: 'nearest' });
+      btn.focus();
+    } finally { saving = false; }
   });
 }
 

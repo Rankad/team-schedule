@@ -304,6 +304,8 @@ h1 { font-size: 1.2rem; margin: 0 0 0.5rem; }
   transform: translate(-50%, 0);
 }
 .toast.has-action {
+  width: calc(100% - 2rem);
+  max-width: 28rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;

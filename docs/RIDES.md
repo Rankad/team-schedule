@@ -21,8 +21,10 @@ static schedule site. Spec: `docs/rides-spec.md`. Build plan:
 > Earlier, DL-041 removed the per-card chip + trip sheet. The rollout/pilot
 > plans referenced below are dropped.
 >
-> **Open risks (see "Open risks while dormant" below):** the backend is not
-> write-quiescent, and a purge failure is now invisible.
+> **Open risk (see "Open risks while dormant" below):** the backend is not
+> write-quiescent. The earlier "purge failure is invisible" risk is closed by
+> DL-043: the purge step now fails the run loudly (see "Purge step: failure
+> behaviour and triage").
 >
 > **Whether to remove the backend too is an OPEN stakeholder decision** — see
 > "If/when the stakeholder decides to remove the backend" at the bottom. Do not
@@ -86,9 +88,10 @@ the normal schedule rebuild — does:
 ```bash
 curl -fsS -X POST -H "X-Purge-Key: $PURGE_KEY" "$RIDES_API/api/purge"
 ```
-non-fatally (missing secrets just skip the purge with a log line, they never
-fail the schedule build). **That non-fatal behaviour is now an open risk** —
-see "Open risks while dormant".
+as the last step (DL-043: `curl -fsS --max-time 30 --retry 2 --retry-delay 5`,
+and the response must contain `"ok":true`). It fails the run if either secret is
+missing. **Both secrets must actually be set** — otherwise every scheduled run
+goes red. See "Purge step: failure behaviour and triage".
 
 ## Rotating the manager passphrase
 > **Moot while dormant (DL-042):** there is no manager UI, so the passphrase is
@@ -148,9 +151,9 @@ Cloudflare account.
 deletes every `week/<wk>/*` key where `<wk>` is strictly before the current
 week's Sunday, and writes `config/global.lastPurge = <today>` (`functions/_lib/purge.js`,
 `runPurge`). `config/*` itself is never deleted. The (removed) manager
-dashboard's health footer used to surface `config/global.lastPurge`; now check
-the Action log for the `curl` line (or `npx wrangler kv key get "config/global"`)
-to confirm the purge ran.
+dashboard's health footer used to surface `config/global.lastPurge`; that
+footer is gone. The health signal is now the Action run itself (see below); you
+can also run `npx wrangler kv key get "config/global"` to see `lastPurge`.
 
 **When it runs:** the purge is the last step of the `build-data` job, which runs
 3×/day (cron `0 5,13,17 * * *`, DL-033) or on manual dispatch. Each run deletes
@@ -163,21 +166,35 @@ so a ride row lives at most about a week.
    calls them, but a stale open browser tab running old client code could still
    write ride rows (including a minor's name). "Nothing writes now" is therefore
    true of the shipped site, not guaranteed of the endpoints.
-2. **Purge failure is invisible now (decision PENDING — not decided).** The
-   "Purge past rides weeks" step in `.github/workflows/build.yml` has
-   `continue-on-error: true`; its `curl … && echo "purge ok" || echo "purge
-   failed (non-fatal)"` exits 0 even when the call fails; and missing secrets
-   just log "skipping". The manager dashboard's `lastPurge` footer was the only
-   visible health signal and it is gone — yet the purge is the only thing that
-   drains stored minors' names from KV, and the precondition for any backend
-   removal.
-   - **Proposed hardening, awaiting a stakeholder decision:** drop
-     `continue-on-error` and the `|| echo` fallback so a non-2xx response fails
-     the run (a red scheduled run emails the repo owner); replace the
-     secrets-missing "skipping" with a failure or a `::warning::`; optionally
-     assert `"ok":true` in the response body.
-   - **Until decided:** someone must eyeball the `build-data` Action log for
-     `purge ok`.
+
+(The former risk 2, "purge failure is invisible", is closed by DL-043 — see
+below.)
+
+## Purge step: failure behaviour and triage (DL-043, 2026-11-11)
+The "Purge past rides weeks" step in `.github/workflows/build.yml` is the last
+step of `build-data`, so the schedule data is already committed and pushed before
+it runs: a red run never loses data. It has no `continue-on-error` and fails the
+run when:
+- `PURGE_KEY` or `RIDES_API` is missing — `::error::` + exit 1;
+- the request fails — `curl -fsS --max-time 30 --retry 2 --retry-delay 5` exits
+  non-zero on a non-2xx or a network error (`--retry` also retries HTTP 5xx, so
+  up to 3 attempts ≈ 10 s);
+- the response body does not contain `"ok":true`. The endpoint returns
+  `{"ok":true,"weeksDeleted":[dates],"keysDeleted":N,"opensDeleted":N}` — only
+  dates and counts, no names; the key is never echoed.
+
+On success it prints `purge ok: <body>`. A red scheduled run emails the repo
+owner.
+
+**Operational caveat:** if the GitHub secrets `PURGE_KEY` and `RIDES_API` are not
+actually set, the next scheduled run goes red. Fix: set them (repo Settings →
+Secrets and variables → Actions), or — if the stakeholder decides to remove the
+dormant backend — remove the step along with it.
+
+**Triage:** open the failed run → "Purge past rides weeks" step → read the
+`::error::` line. It says which of: missing secrets, request failed (check the
+Cloudflare deployment / `PURGE_KEY` matches the Cloudflare env var → 401), or
+unexpected response body.
 
 ## Rollout checklist — DROPPED (DL-042)
 The pilot/rollout plan in `docs/superpowers/plans/2026-09-04-rides-slice-a.md`
@@ -196,7 +213,9 @@ Checklist only — **do not execute without explicit stakeholder approval**
    `wrangler kv key list` right before deleting anything, not only at decision
    time** — the endpoints are still public, so a stale open tab running old
    client code could have written a row since (see "Open risks while dormant").
-2. Remove the "Purge past rides weeks" step from `.github/workflows/build.yml`.
+2. Remove the "Purge past rides weeks" step from `.github/workflows/build.yml`
+   (it fails the run loudly since DL-043 — if the backend or the secrets go and
+   this step stays, every scheduled run goes red).
 3. Remove the `functions-tests` CI job (or trim it to site smoke only — the site
    smoke test also runs there) and the Functions tests (47) with `functions/`.
 4. Delete the Cloudflare Pages Functions (`functions/api/**`, `functions/_lib/**`).

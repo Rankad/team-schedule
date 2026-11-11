@@ -111,10 +111,11 @@ Nothing calls it any more; kept intact pending a stakeholder decision.
 - [ ] Functions tests green (47) — incl. `PUT /api/request` (validation, upsert,
       20-row cap) even though no UI calls it. Do not delete them as "dead code"
       unless the backend is being removed on purpose.
-- [ ] The "Purge past rides weeks" step in `build.yml` still runs and succeeds
-      (`POST /api/purge`), so old ride rows keep aging out. The step is
-      non-fatal and exits 0 even on failure (open risk, hardening decision
-      pending), so eyeball the Action log for `purge ok`.
+- [ ] The "Purge past rides weeks" step in `build.yml` is the last step of
+      `build-data` and fails the run on missing `PURGE_KEY`/`RIDES_API` secrets,
+      a non-2xx/network error, or a response without `"ok":true` (DL-043); no
+      `continue-on-error`. A red scheduled run means investigate (open the step,
+      read the `::error::` line), not ignore.
 - [ ] Ride rows still in KV from earlier use are gone within a week (purge
       deletes everything older than the current week's Sunday).
 - [ ] `functions-tests` CI job (Functions unit tests + site smoke) green; no

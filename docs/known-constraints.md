@@ -145,9 +145,10 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
 - **Two GitHub Actions secrets:** `PURGE_KEY` (same value as above) and
   `RIDES_API` (= `https://gilboa-schedule.pages.dev`) — read by
   `.github/workflows/build.yml` to call the purge endpoint after each
-  scheduled rebuild (three times daily). Missing either just skips the purge
-  (non-fatal to the schedule build) — see the "purge failure is invisible" open
-  risk below.
+  scheduled rebuild (three times daily). **Both must actually be set (DL-043):**
+  if either is missing the purge step fails the run (`::error::` + exit 1) and
+  the scheduled run goes red. Fix: set them in repo Settings → Secrets, or
+  remove the purge step together with the dormant backend (OPEN decision).
 - **Minors' PII / legal review — MOOT while dormant (DL-042).** Ride requests
   stored a named minor's full name + practices + direction (rides-spec §8.2,
   §8.5). With the front end gone nothing new is collected, so the legal opinion
@@ -202,18 +203,19 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
   row. Before any backend removal, **re-check KV is empty with `wrangler kv key
   list` right before deleting anything**, not only at decision time
   (`docs/RIDES.md`).
-- **Purge failure is invisible now — OPEN RISK, hardening decision PENDING
-  (QA finding, 2026-11-11).** The "Purge past rides weeks" step in
-  `.github/workflows/build.yml` has `continue-on-error: true`, its `curl … &&
-  echo "purge ok" || echo "purge failed (non-fatal)"` exits 0 even on failure,
-  and missing secrets just log "skipping". The manager dashboard's `lastPurge`
-  footer was the only visible health signal and it is gone, while the purge is
-  the only thing that drains stored minors' names from KV (and the precondition
-  for any backend removal). **Proposed hardening — awaiting a stakeholder
-  decision, not decided:** drop `continue-on-error` and the `|| echo` fallback so
-  a non-2xx fails the run (a red scheduled run emails the repo owner); replace
-  the secrets-missing skip with a failure or `::warning::`; optionally assert
-  `"ok":true`. **Until then, the Action log must be eyeballed for `purge ok`.**
+- **RESOLVED by DL-043 (2026-11-11): purge failure is no longer invisible.**
+  *History:* after DL-042 removed the dashboard's `lastPurge` footer, the purge
+  step (`continue-on-error: true`, `|| echo` fallback, "skipping" on missing
+  secrets) could fail silently. Now the "Purge past rides weeks" step — still the
+  LAST step of `build-data`, so schedule data is committed and pushed first and a
+  red run never loses data — fails the run on: missing `PURGE_KEY`/`RIDES_API`,
+  a non-2xx or network error (`curl -fsS --max-time 30 --retry 2 --retry-delay
+  5`; `--retry` also retries HTTP 5xx, so up to 3 attempts ≈ 10 s), or a response
+  body without `"ok":true`. A red scheduled run emails the repo owner. **If the
+  GitHub secrets are not set, the next scheduled run goes red.** Triage: open the
+  failed run's "Purge past rides weeks" step; the `::error::` line says missing
+  secrets vs request failed vs unexpected body. If the backend is removed, delete
+  this step too or CI goes red.
 
 ## Testing — tests coupled to live production data (DL-039/040 / LL-027/028)
 - `tests/site_smoke.js` has (at least) three cases whose fixture is picked

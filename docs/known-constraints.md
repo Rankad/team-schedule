@@ -62,9 +62,9 @@ new name.
   `gilboa-schedule`. Custom domain deferred (rides spec OQ-4) — the `*.pages.dev`
   URL is the canonical link for now.
 - **Secrets:** `GOOGLE_CALENDAR_API_KEY` is a **GitHub Actions** secret only.
-  The static site needs no Cloudflare secrets. (The dormant rides backend has
-  its own Cloudflare environment secrets — see "Rides backend (dormant)" below;
-  not part of hosting.)
+  The static site needs no Cloudflare secrets. (The old rides backend secrets
+  are being cleaned up by hand — see "Rides backend removed (DL-046)" below. Do
+  not delete `GOOGLE_CALENDAR_API_KEY` with them.)
 - The Python build + commit still runs on GitHub Actions
   (`.github/workflows/build.yml`, job `build-data`), three times daily
   (`0 5,13,17 * * *` UTC ≈ 07:00/15:00/19:00 Jerusalem winter, DL-033). GitHub
@@ -116,110 +116,31 @@ switch systems, fall back to the Excel importer.
   sample week; `T_NNN` numbering is only locked once Phase 2 runs against live
   data. Safe to delete and regenerate until then.
 
-## Rides backend (dormant since DL-042, 2026-11-11)
-The rides **front end is removed** (player mode, manager page, privacy screen);
-the site makes zero `/api/*` calls and collects no personal data. The backend
-below is still deployed and **must not be deleted casually** — whether to remove
-it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
-- **No privacy screen / consent text any more** — they only described ride data,
-  and nothing is collected. Legacy player data on devices is wiped by
-  `clearLegacyRidesKeys()` on load.
-- **Purge still runs** (`build.yml` "Purge past rides weeks"). It is the last
-  step of the `build-data` job, which runs 3×/day (cron `0 5,13,17 * * *`,
-  DL-033) or on manual dispatch. `POST /api/purge` deletes every `week/<wk>/*` KV
-  key whose week-Sunday is before the current week's Sunday
-  (`functions/_lib/purge.js`), so a ride row lives at most about a week. It is the
-  only thing that ages out ride rows left in KV.
-- **KV-wipe caveat before any backend removal:** deleting the Functions, the
-  `RIDES_KV` namespace or the purge step does not clear existing rows by itself.
-  Either let the purge run until KV is empty (≥ 1 week after the last write —
-  and no UI writes now) or wipe KV manually, **before** removing the purge
-  step / secrets. Removing the purge step first would strand rows that contain
-  minors' names.
-- **KV namespace `RIDES_KV`** is bound to the `gilboa-schedule` Cloudflare Pages
-  project (Production **and** Preview) — dashboard/`wrangler` step, not
-  committed anywhere.
-- **Three Cloudflare env secrets** (Production + Preview):
-  `MANAGER_PASSPHRASE` (generated, gates `/api/manager/*` — **unused now, no
-  manager page**), `SITE_ORIGIN`
-  (CORS allow-origin + the origin Functions fetch `data/schedule.json` /
-  `data/teams.json` from), `PURGE_KEY` (required `X-Purge-Key` header on
-  `POST /api/purge`). None are committed or shipped to the client. See
-  `docs/RIDES.md`.
-- **Two GitHub Actions secrets:** `PURGE_KEY` (same value as above) and
-  `RIDES_API` (= `https://gilboa-schedule.pages.dev`) — read by
-  `.github/workflows/build.yml` to call the purge endpoint after each
-  scheduled rebuild (three times daily). **Both must actually be set (DL-043):**
-  if either is missing the purge step fails the run (`::error::` + exit 1) and
-  the scheduled run goes red. Fix: set them in repo Settings → Secrets, or
-  remove the purge step together with the dormant backend (OPEN decision).
-- **Minors' PII / legal review — MOOT while dormant (DL-042).** Ride requests
-  stored a named minor's full name + practices + direction (rides-spec §8.2,
-  §8.5). With the front end gone nothing new is collected, so the legal opinion
-  (PPL / Amendment 13) and the `[contact]` / `[מדיניות פרטיות]` placeholder in
-  the consent text (OQ-2) are no longer needed. **They would have to be done
-  for real if the feature were ever revived** — and any leftover KV rows should
-  be confirmed purged first.
-- **No edge rate limiting for the pilot (DL-032).** Cloudflare Rate Limiting
-  Rules are per-zone; this account has no zone (the site runs on the shared
-  `*.pages.dev` domain, not a custom domain we control — OQ-4 deferred). The
-  account-level WAF alternative is a paid Enterprise add-on. Shipped without
-  it: write endpoints are still gated by opaque tokens / the manager
-  passphrase, and `/api/request` already caps body size + rows-per-token
-  (DL-029). Revisit when a custom domain exists, or before club-wide rollout,
-  whichever comes first.
-- **The KV last-write-wins race is not testable under Miniflare** — it is
-  single-threaded/consistent, so concurrent-write behaviour can't be
-  reproduced in `functions/**/__tests__` (Vitest). Correctness instead comes
-  from the per-row key design (DL-029: each ride request is its own KV key,
-  so there is nothing to race on) — verified by code review and the key
-  shape, not by a concurrency test. Documented in `docs/qa-checklist.md`
-  "Rides backend — security (dormant)" so this known gap isn't mistaken for an
-  oversight in a future QA pass.
-- **RETIRED by DL-042 (2026-11-11) — moot: player mode no longer exists.**
-  *Original entry, kept as history:* **Player mode is one-way; the
-  privacy-screen delete is the exit (DL-035, recovery wording reframed by
-  DL-037).** There was deliberately no "switch back to parent" toggle and no
-  in-app exit from player mode other than the privacy-screen
-  `מחיקת נתוני ההסעות שלי` action (clear-site-data as last resort). Both the
-  mode and the screen are removed; stale player keys are cleared by
-  `clearLegacyRidesKeys()`.
-- **RETIRED by DL-041 (2026-11-11): the ride chip was removed, so there is no
-  chip left to fumble.** *Original entry, kept as history:* **Shared family
-  phone in player mode — stray-tap ride fumble (DL-037, S1;
-  documented, not fixed — revisit after the pilot).** A phone left in player
-  mode has live ride chips on every session card. Ride writes are save-on-tap
-  with `הלוך וחזור` preselected (rides-spec §4.7), so anyone holding the phone
-  can, with one stray tap, add a bogus rider under the child's name — or hit
-  `ביטול הסעה` and drop a real request. Either way the coordinator headcount the
-  feature exists to produce is corrupted. The stakeholder chose to document
-  rather than fix for now; revisit after the single-team pilot (candidate fix:
-  require an explicit save for NEW requests in the bottom sheet).
-- **Rides: no UI creates, shows or calls anything (DL-041 → DL-042,
-  2026-11-11).** DL-041 removed the chip + trip-type sheet and left the rest of
-  player mode as an OPEN question; DL-042 resolved it by removing the whole front
-  end. `PUT /api/request`, the other Functions, the manager endpoints and the
-  purge step are dormant-but-intact (47 Functions tests still run in CI). Do
-  not delete the backend or its tests until the stakeholder decides (OPEN).
-- **The dormant backend is NOT write-quiescent (QA finding, 2026-11-11).**
-  `/api/token`, `/api/request`, `/api/ping` and `/api/manager/*` remain publicly
-  reachable, so a stale open tab running old client code could still write a ride
-  row. Before any backend removal, **re-check KV is empty with `wrangler kv key
-  list` right before deleting anything**, not only at decision time
-  (`docs/RIDES.md`).
-- **RESOLVED by DL-043 (2026-11-11): purge failure is no longer invisible.**
-  *History:* after DL-042 removed the dashboard's `lastPurge` footer, the purge
-  step (`continue-on-error: true`, `|| echo` fallback, "skipping" on missing
-  secrets) could fail silently. Now the "Purge past rides weeks" step — still the
-  LAST step of `build-data`, so schedule data is committed and pushed first and a
-  red run never loses data — fails the run on: missing `PURGE_KEY`/`RIDES_API`,
-  a non-2xx or network error (`curl -fsS --max-time 30 --retry 2 --retry-delay
-  5`; `--retry` also retries HTTP 5xx, so up to 3 attempts ≈ 10 s), or a response
-  body without `"ok":true`. A red scheduled run triggers a GitHub failed-workflow notification (to the user who last edited the schedule, per their notification settings). **If the
-  GitHub secrets are not set, the next scheduled run goes red.** Triage: open the
-  failed run's "Purge past rides weeks" step; the `::error::` line says missing
-  secrets vs request failed vs unexpected body. If the backend is removed, delete
-  this step too or CI goes red.
+## Rides backend removed (DL-046, 2026-11-11)
+The rides front end (DL-042) and backend (DL-046: `functions/`, the purge step,
+the Functions tests) are both gone from the repo. The site makes zero `/api/*`
+calls. History: git (PRs #2, #5, #6), `docs/rides-spec.md`, DL-029 to DL-043.
+- **Remaining until the stakeholder does it by hand:** the Cloudflare KV
+  namespace `RIDES_KV` (with its bindings and the secrets `MANAGER_PASSPHRASE`,
+  `SITE_ORIGIN`, `PURGE_KEY`) and the GitHub secrets `PURGE_KEY`, `RIDES_API`
+  still exist, unused. Ordered checklist: `docs/RIDES.md` section 1. **Merge the
+  PR before deleting the GitHub secrets**, or the daily data run goes red.
+- **After that cleanup no personal data is stored anywhere.** The privacy/legal
+  items (OQ-2 contact placeholder, PPL / Amendment 13 opinion) are permanently
+  moot unless the feature is rebuilt.
+- **The only secret left is `GOOGLE_CALENDAR_API_KEY`** (GitHub Actions). Do not
+  delete it along with the two rides secrets — the data build needs it.
+- `clearLegacyRidesKeys()` in `public/app.js` stays to clean old devices. After
+  Cloudflare redeploys, `/api/*` returns the SPA fallback (HTML 200); a stale
+  open tab just gets HTML.
+- The `functions-tests` CI job keeps its old name on purpose (required-status
+  checks) and runs only the site smoke test. `build.yml` path filters still list
+  `"functions/**"` (harmless).
+- **Resolved, no longer risks:** "backend not write-quiescent" and "purge failure
+  invisible" (DL-042/043) — nothing is left to write to or purge. The Miniflare
+  KV-race note and the retired player-mode entries (DL-035/037, DL-041) went
+  with the feature; see DL-029 to DL-043 for the history.
+- No Cloudflare edge rate-limit rule was ever set up (DL-032); none to remove.
 
 ## Testing — tests coupled to live production data (DL-039/040 / LL-027/028)
 - `tests/site_smoke.js` has (at least) three cases whose fixture is picked

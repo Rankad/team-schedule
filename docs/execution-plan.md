@@ -92,7 +92,7 @@ server, no database, $0/month. See `docs/architecture.md` and
   Decide any paid WhatsApp mechanism only here. Wide promotion still waits on the
   club courtesy note (OQ-6).
 
-## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`) — FRONT END BUILT THEN REMOVED; BACKEND DORMANT
+## Phase 6 — Rides Slice A (approved; separate spec `docs/rides-spec.md`) — CLOSED (front end removed DL-042, backend removed DL-046)
 - Goal: player ride requests on each practice + a password-gated coordinator
   dashboard, on a new Cloudflare Pages Functions + KV backend, with the schedule
   half untouched.
@@ -107,8 +107,10 @@ server, no database, $0/month. See `docs/architecture.md` and
   (Functions, `RIDES_KV`, secrets, `functions-tests` job) still in the repo.
   The purge step (last step of `build-data`, 3x/day) now **fails loudly**
   (DL-043; red run if `PURGE_KEY`/`RIDES_API` secrets are missing).
-- **Open decision:** remove the dormant backend too (empty KV first, then
-  delete the purge step with it) — see `docs/RIDES.md`. Not decided.
+- **Update 2026-11-11 (DL-046): backend removed too** (`functions/`, purge step,
+  Functions tests). Phase CLOSED. Only the stakeholder's manual Cloudflare/GitHub
+  cleanup remains — `docs/RIDES.md` section 1. (The two bullets above describing
+  the backend as still in the repo are history.)
 
 ## Progress log
 - **2026-09-02 — Phase 0 done** (except the stakeholder tasks in
@@ -342,6 +344,20 @@ server, no database, $0/month. See `docs/architecture.md` and
   **Caveat:** if the GitHub secrets are not set, the next scheduled run goes red.
   Branch `chore/purge-fail-loudly`, commit `2423e54`, merged as PR #6 (run #182 passed). **Still
   open:** remove the dormant backend? (then delete this step too.)
+  *Resolved by DL-046 (below): backend and this step removed.*
+
+- **2026-11-11 — Rides backend removed (DL-046).** Stakeholder answered "remove"
+  to "remove the unused ride server-side pieces?". Deleted `functions/` (38
+  tracked files), the "Purge past rides weeks" step in `build.yml`, the Functions
+  unit-test step and the 47 Functions tests. CI job `functions-tests` keeps its
+  name (required-check safety) and runs only the site smoke test; `"functions/**"`
+  path filters left in `build.yml` (harmless). `clearLegacyRidesKeys()` stays.
+  Tests: site smoke 256, pytest 159. **Stakeholder still to do, in order:** merge
+  the PR; Cloudflare dashboard (remove KV binding `RIDES_KV`, delete the 3
+  secrets, delete the KV namespace — permanently erases ride rows, intended);
+  GitHub (delete `PURGE_KEY`, `RIDES_API`; keep `GOOGLE_CALENDAR_API_KEY`).
+  Checklist: `docs/RIDES.md`. Branch `chore/remove-rides-backend` (`cdb3356`,
+  `a63d6ca`); PR pending. After cleanup no personal data is stored anywhere.
 
 - **2026-11-11 — Hide a training + add a game (DL-044).** Stakeholder-approved.
   Each training row gets an ✕ (remembered per team + weekday + ordinal, applies
@@ -370,9 +386,9 @@ server, no database, $0/month. See `docs/architecture.md` and
 > club-wide rollout (Slice B) no longer apply. The text that was here is gone;
 > history lives in the Progress log and `docs/rides-spec.md`.
 
-Open stakeholder decision: whether to also remove the dormant rides backend
-(Functions, `RIDES_KV`, secrets, purge step, `functions-tests` job) — see DL-042
-and the checklist in `docs/RIDES.md`. Empty KV first (purge until empty, or wipe).
+Rides backend removal decided and done in the repo (DL-046). Stakeholder
+actions remaining, in order: merge the PR, then do the Cloudflare and GitHub
+secrets cleanup in `docs/RIDES.md` section 1 (keep `GOOGLE_CALENDAR_API_KEY`).
 
 Phase 4 (Excel fallback importer) remains the next *schedule-side* build
 phase and is not urgent.

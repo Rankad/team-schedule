@@ -6,7 +6,13 @@ Distilled from the design record
 branch `feature/rides-coordination-spec`) — that document holds the rationale and
 the rejected alternatives; **this** document is what gets built.
 
-> **STATUS BANNER — 2026-11-11 (DL-042): FRONT END REMOVED.** The player mode
+> **STATUS 2026-11-11 (DL-046): FRONT END (DL-042) AND BACKEND (DL-046) BOTH
+> REMOVED. THIS DOCUMENT IS HISTORY ONLY.** Nothing below describes code that
+> still exists in the repo (`functions/` is gone too); the text underneath is the
+> older DL-042 banner and is kept unedited. Manual cleanup checklist:
+> `docs/RIDES.md`.
+>
+> **(Older banner) 2026-11-11 (DL-042): FRONT END REMOVED.** The player mode
 > (toggle, consent, name step, summary card, `#screen-rides`, privacy screen) and
 > the coordinator's manager page were removed; the site makes zero `/api/*`
 > calls. This document is now the reference for the **dormant backend** (§6

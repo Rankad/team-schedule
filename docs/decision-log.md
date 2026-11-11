@@ -1185,6 +1185,8 @@
   - **Unaffected:** branding — DL-036/037 visual parts (accent `#D0212C`,
     `--warn`, neutral nav arrows, OG tags) stand; the club's approval of colours
     + logo stands.
+- **Resolved by DL-046 (2026-11-11): the dormant backend was removed.** The
+  OPEN item below is kept as history.
 - **OPEN — pending stakeholder decision (NOT decided here):** whether to also
   remove the now-dormant backend — Functions + their tests, the `RIDES_KV`
   namespace, the Cloudflare + GitHub secrets, the purge step in `build.yml`, the
@@ -1234,7 +1236,9 @@
   - **Closes** the "purge failure is invisible" risk recorded in DL-042,
     `known-constraints.md` and `docs/RIDES.md`. The other DL-042 risk (backend
     not write-quiescent) is unchanged.
-- **Still OPEN (not decided here):** whether to remove the dormant backend
+- **Resolved by DL-046 (2026-11-11): the backend was removed and this purge step
+  was deleted from `build.yml`.** Body above kept as history.
+- **Was OPEN (not decided here):** whether to remove the dormant backend
   altogether (DL-042). If it is removed, this purge step must be deleted with it,
   otherwise CI goes red.
 - **Status:** Accepted; implemented on `chore/purge-fail-loudly` (commit
@@ -1350,3 +1354,54 @@
   - Tests unchanged: site smoke 113, Functions 47, pytest 159.
 - **Status:** Accepted; implemented on `chore/rename-to-hapoal-haemek`; merged as PR #8 (2026-11-11).
 - **Risk:** Low. Display strings only; no data, parser or storage change.
+
+## DL-046 — Rides: remove the dormant backend (Cloudflare Pages Functions, purge step)
+- **Date:** 2026-11-11 (branch `chore/remove-rides-backend`, commits `cdb3356`
+  backend removal + `a63d6ca` CI).
+- **Context:** DL-042 removed the rides front end and left the backend dormant,
+  asking whether to remove it. The stakeholder was asked "remove the unused ride
+  server-side pieces?" and answered "remove". Resolves DL-042's OPEN item and
+  DL-043's "still open" item.
+- **Decision:** delete the whole rides backend.
+  - **Removed:** `functions/` entirely (38 tracked files: `_lib/`, `api/`,
+    `package.json` + lock, `test-fixtures/`, `vitest.config.js`; no
+    `wrangler.toml` ever existed); the "Purge past rides weeks" step in the
+    `build-data` job of `.github/workflows/build.yml` (the DL-043 step); the
+    Functions unit-test step; the 47 Functions tests.
+  - **Kept on purpose:**
+    - The CI job id/name `functions-tests` (legacy name, so any required-status-check
+      setting still matches). It now runs only the static-site smoke test.
+    - `"functions/**"` in the `push` / `pull_request` path filters of `build.yml`
+      (harmless leftover).
+    - `clearLegacyRidesKeys()` in `public/app.js` (cleans old devices).
+    - `GOOGLE_CALENDAR_API_KEY` GitHub secret (the data build needs it).
+  - **Manual steps the stakeholder must still do (the repo change does not do
+    them), in this order:**
+    1. **Merge the PR first.** If the GitHub secrets are deleted before the merge,
+       the daily data run goes red, because the old purge step still expects them.
+    2. **Cloudflare dashboard** → Workers & Pages → project `gilboa-schedule`:
+       remove the KV binding `RIDES_KV` (Production AND Preview) under
+       Settings → Bindings/Functions; delete the variables/secrets
+       `MANAGER_PASSPHRASE`, `SITE_ORIGIN`, `PURGE_KEY`; then Storage & Databases →
+       KV → delete the namespace `RIDES_KV`. **This permanently erases every
+       stored ride row (players' names). That is intended.** Menu labels may
+       differ slightly from the above.
+    3. **GitHub** → repo Settings → Secrets and variables → Actions: delete
+       `PURGE_KEY` and `RIDES_API`. **Keep `GOOGLE_CALENDAR_API_KEY`.**
+- **Consequences:**
+  - Once Cloudflare redeploys without `functions/`, `/api/*` falls through to the
+    SPA fallback (HTML, HTTP 200). A stale open tab calling the old API just gets
+    HTML. The front end makes zero `/api/` calls (smoke-locked).
+  - **Privacy:** after the manual cleanup, no personal data is stored anywhere.
+    The privacy/legal items (OQ-2 contact placeholder, PPL / Amendment 13 opinion)
+    are permanently moot unless the feature is ever rebuilt. Git history has it
+    (PRs #2, #5, #6).
+  - Closes DL-042's remaining risks (backend not write-quiescent; purge failure
+    invisible): nothing is left to write to or purge.
+  - No Cloudflare edge rate-limit rule was ever set up (DL-032), so nothing to remove.
+  - Tests now: site smoke 256, pytest 159. The 47 Functions tests are gone.
+  - Until step 2 is done, the KV data and secrets still exist on Cloudflare,
+    unreachable by any code.
+- **Status:** Accepted; PR pending (manual cleanup pending).
+- **Risk:** Low–Medium. Code removal is reversible via git; the KV namespace
+  deletion is not reversible (data is gone for good, by intent).

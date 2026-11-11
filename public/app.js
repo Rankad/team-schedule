@@ -1153,8 +1153,8 @@ function shareFollowsLink() {
   if (nav && nav.share) {
     try {
       var p = nav.share({
-        title: 'הקבוצות שלי — גלבוע מעיינות',
-        text: 'הקבוצות שאני עוקב אחריהן בלו״ז גלבוע מעיינות',
+        title: 'הקבוצות שלי — הפועל העמק',
+        text: 'הקבוצות שאני עוקב אחריהן בלו״ז הפועל העמק',
         url: url
       });
       if (p && p['catch']) p['catch'](function () {}); // swallow AbortError
@@ -1165,7 +1165,7 @@ function shareFollowsLink() {
 // ---------- 2a. Copy as text ----------
 function buildWeekText(sunday) {
   var L = [];
-  L.push('הלו״ז שלי — גלבוע מעיינות');
+  L.push('הלו״ז שלי — הפועל העמק');
   L.push('שבוע ' + ltrIsolate(weekRangeNumeric(sunday)));
 
   var ses = weekSessionsFor(sunday);
@@ -1204,7 +1204,7 @@ function buildWeekText(sunday) {
 // ---------- 2b. Share ----------
 function shareWeek() {
   var text = buildWeekText(viewSunday);
-  var title = 'הלו״ז שלי — גלבוע מעיינות';
+  var title = 'הלו״ז שלי — הפועל העמק';
   if (nav && nav.share) {
     try {
       var p = nav.share({ title: title, text: text });
@@ -1283,7 +1283,7 @@ function buildICS(sunday) {
   return out.join('\r\n') + '\r\n';
 }
 function downloadICS() {
-  var name = 'gilboa-שבוע-' + viewSunday + '.ics';
+  var name = 'הפועל-העמק-שבוע-' + viewSunday + '.ics';
   try {
     downloadBlob(new Blob([buildICS(viewSunday)], { type: 'text/calendar;charset=utf-8' }), name);
     showToast('קובץ היומן ירד');
@@ -1302,7 +1302,7 @@ function drawWeekImage(sunday) {
 
   // 1. Build a flat list of rows to draw, each with a fixed height.
   var rows = [];
-  rows.push({ k: 'title', t: 'הלו״ז שלי — גלבוע מעיינות', h: 30 });
+  rows.push({ k: 'title', t: 'הלו״ז שלי — הפועל העמק', h: 30 });
   rows.push({ k: 'range', t: 'שבוע ' + weekRangeLabel(sunday), h: 26 }); // spelled-out month, matches the app header
   if (!ses.length) {
     rows.push({ k: 'plain', t: 'אין אימונים בשבוע זה', h: 30 });
@@ -1415,8 +1415,8 @@ function dot(ctx, x, y, r) {
   ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
 }
 function saveWeekImage() {
-  var name = 'gilboa-שבוע-' + viewSunday + '.png';
-  var title = 'הלו״ז שלי — גלבוע מעיינות';
+  var name = 'הפועל-העמק-שבוע-' + viewSunday + '.png';
+  var title = 'הלו״ז שלי — הפועל העמק';
   var canvas;
   try { canvas = drawWeekImage(viewSunday); } catch (e) { console.error(e); }
   if (!canvas || !canvas.toBlob) { showToast('שמירת תמונה לא נתמכת'); return; }

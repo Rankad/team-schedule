@@ -127,7 +127,12 @@ UI.
   accent); the disabled arrow is `#8b9096` (DL-037).
 - **Team dot palette** (`app.js` `PALETTE`) is independent of the brand accent —
   8 fixed accessible hues, assigned by follow order, none of them the brand red.
-- Header: club wordmark. A logo lockup + favicon/manifest/share-image are
+- **App name on screen is now הפועל העמק (DL-045, 2026-11-11)** — header
+  `.club-name`, `<title>`/`og:title` (`הלו״ז שלי — הפועל העמק`), follows-share
+  (`הקבוצות שלי — הפועל העמק`), weekly copy-text/share title, PNG export title,
+  download names `הפועל-העמק-שבוע-<date>.ics/.png`. The colour/logo discussion
+  here refers to the real club's identity and is unchanged.
+- Header: wordmark (name per DL-045). A logo lockup + favicon/manifest/share-image are
   specced (`2026-09-06-club-branding-theme-design.md`) but deferred pending a
   high-res logo from the club.
 - Share tags: `theme-color` + text OG/Twitter tags on `index.html` (the

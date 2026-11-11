@@ -53,7 +53,9 @@
           <ul class="changes-list" hidden></ul>
         </div>
 
-        <div id="week-content"></div>
+        <div id="week-content" tabindex="-1"></div>
+
+        <button type="button" id="add-game" class="add-game" hidden>＋ הוסף משחק</button>
 
         <div id="week-actions" class="week-actions" hidden role="group" aria-label="פעולות על הלוח השבועי">
           <button type="button" id="act-copy" class="wact" aria-label="העתקת הלוח השבועי כטקסט">📋 העתק</button>
@@ -90,6 +92,37 @@
       <button type="button" class="btn btn-primary" onclick="location.reload()">רענון</button>
     </div>
   </div>
+
+  <dialog id="game-dialog" class="sheet" aria-labelledby="game-title">
+    <form id="game-form" novalidate>
+      <h2 id="game-title" class="sheet-title">הוסף משחק</h2>
+
+      <label class="field-label" for="game-date">תאריך</label>
+      <input type="date" id="game-date" class="field" aria-describedby="game-err-date">
+      <div id="game-err-date" class="field-err" hidden></div>
+
+      <label class="field-label" for="game-time">שעת התחלה</label>
+      <input type="time" id="game-time" class="field" required aria-describedby="game-err-time game-note">
+      <div id="game-err-time" class="field-err" hidden></div>
+
+      <span id="game-venue-label" class="field-label">בית / חוץ</span>
+      <div class="seg" role="radiogroup" aria-labelledby="game-venue-label">
+        <button type="button" class="seg-btn" role="radio" aria-checked="false" data-venue="home">בית</button>
+        <button type="button" class="seg-btn" role="radio" aria-checked="true" data-venue="away">חוץ</button>
+      </div>
+
+      <label class="field-label" for="game-opp">שם הקבוצה היריבה</label>
+      <input type="text" id="game-opp" class="field" maxlength="40" dir="auto"
+             autocomplete="off" placeholder="למשל: הפועל עפולה">
+
+      <output id="game-note" class="game-note" for="game-time" aria-live="polite">משך המשחק קבוע: שעתיים</output>
+
+      <div class="sheet-actions">
+        <button type="submit" class="btn btn-primary">הוספה</button>
+        <button type="button" id="game-cancel" class="btn">ביטול</button>
+      </div>
+    </form>
+  </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 

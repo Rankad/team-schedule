@@ -572,6 +572,22 @@
     same live-fixture-coupling defense — a mature test suite needs both,
     because a bad pick can fail before any assertion runs at all.
 
+## LL-029 — The smoke test's fake DOM hid a real-browser bug: `NodeList.indexOf`
+- **Date:** 2026-11-11 (DL-044, hide a training)
+- **Context:** `tests/site_smoke.js` uses a hand-rolled fake DOM whose
+  `querySelectorAll` returns plain arrays. New hide-✕ code called `.indexOf` on
+  a result. Arrays have it, real `NodeList`s do not.
+- **What we learned:** The call passed every unit/smoke check and broke the ✕ in
+  real Chrome. It was caught only by a real-browser run (headless Chrome over
+  CDP). A green mock-DOM suite says nothing about NodeList-vs-Array differences.
+- **Apply:**
+  - Any new DOM code gets a real-browser pass (headless Chrome over CDP) before
+    it is called done.
+  - Avoid array-only methods on NodeLists in app code — wrap with
+    `Array.prototype.slice.call(...)` first.
+  - Consider making the smoke mock return NodeList-like objects (no `indexOf`,
+    `map`, `filter`) so this class of bug fails in CI.
+
 <!-- Template
 ## LL-NNN — <title>
 - **Date:**

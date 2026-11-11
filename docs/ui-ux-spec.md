@@ -39,11 +39,38 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
   ```
   - Multi-team: each row carries a colored dot + team label; sorted day → time.
   - Empty week for a team → "אין אימונים השבוע לקבוצה זו".
+  - **Hide a training (DL-044):** each TRAINING row has an ✕ (ringed circle,
+    inline-end of the hour line, ≥44px target). Tap = removed from the list;
+    remembered per team + weekday + ordinal-within-the-day and applied to every
+    following week even if the hour changes. Club `game` rows and personal
+    games get no ✕. A day header disappears when its only training is hidden;
+    the earlier-days expander counts visible rows only.
+  - **Chip badge / restore:** a team chip with removed days shows a dashed
+    badge `N מוסתרים` (`1 מוסתר` for one). Pressing the chip restores ALL of
+    that team's trainings (all weeks). Unfollowing forgets the arrangement.
+  - **Hidden empty states:** team all hidden → `כל האימונים של <name> מוסתרים
+    השבוע` + `הצג (N)`; whole week hidden → card `כל האימונים של השבוע
+    מוסתרים` + `החזרת כל האימונים (N)`.
+  - **Game row:** dark `🏆 משחק` tag, no team label/dot, trash icon (delete,
+    6s Undo). Title `משחק חוץ/בית נגד <opponent>` (no opponent → `משחק חוץ/בית`).
+- **`＋ הוסף משחק`** (DL-044): button visible whenever ≥1 team is followed, not
+  in onboarding. Opens a bottom-sheet `<dialog>`:
+  - date — default today (or Sunday of the viewed week); min/max = published
+    weeks −7 / +13 days; empty → `בחרו תאריך`
+  - start time — required; empty → `בחרו שעת התחלה`; ≥22:00 → `המשחק נמשך
+    שעתיים ולכן חייב להתחיל לפני 22:00`
+  - **בית/חוץ** toggle, default חוץ
+  - opponent team name — optional, ≤40 chars
+  - note `משך המשחק קבוע: שעתיים` (game = fixed 2 hours); no edit — delete +
+    re-add. Toast on save `המשחק נוסף ל<weekday date>, <time>`.
   - On the current week, days before today are collapsed by default behind a
     "הצג ימים קודמים (N)" toggle at the top of the list; the parent can expand
     them and the choice is remembered. Other weeks always show the full Sun–Sat.
 - **Export action row** (DL-023): shown only when ≥1 team is followed and the
-  visible week has ≥1 session, just below the weekly list. Four unobtrusive
+  visible week has ≥1 session, just below the weekly list. **Since DL-044 the
+  row also hides when the visible list is empty (e.g. all trainings hidden),
+  and every action covers exactly what is on screen: hidden trainings left
+  out, the parent's own games included.** Four unobtrusive
   icon+label buttons (≥44px, real `aria-label`s, `--muted` until pressed), each
   acting on the currently visible week + followed teams:
   - **📋 העתק** — copy a clean Hebrew plain-text version of the week (day
@@ -57,7 +84,11 @@ not knowing the exact team name. Hebrew, right-to-left, mobile-first.
     summary); on mobile also offered through the share sheet.
 - A brief toast (`role="status"`, bottom, auto-hides ~2s) confirms copy / share
   / download actions.
-- Footer: weekly summary — "2 אימונים · 3 שעות".
+- Footer: weekly summary — "2 אימונים · 3 שעות". With games (DL-044):
+  `2 אימונים · משחק אחד · 5 שעות`; counts only what is on screen. A club
+  `game` row counts as "משחק".
+- The `?teams=` share link carries only followed teams — **not** hidden
+  trainings or personal games (those are per phone).
 
 ### 2. Add team — "בחירת קבוצה"
 - **One** search field, no mode toggle (DL-021). It matches team name **and**
@@ -110,8 +141,16 @@ UI.
   order, stable per device.
 - Times: 24-hour, `HH:MM–HH:MM`.
 - Dates: Hebrew weekday letter + `d/m`.
+- **Toast with action (DL-044):** hiding a training shows `האימון הוסתר` with an
+  Undo action (first-ever hide: `האימון הוסתר. להחזרה לחצו על שם הקבוצה למעלה`);
+  deleting a game shows `המשחק נמחק` with Undo (6s). Bottom, must fit 320px.
 
 ## Accessibility
+- (DL-044) ✕ and trash targets ≥44px with descriptive `aria-label`s; the chip
+  carries `aria-label` `הצגת כל האימונים המוסתרים של <name>`. The בית/חוץ
+  toggle in the add-game form is a two-button radio group (`role=radio`,
+  `aria-checked`) with no arrow-key roving — both buttons are Tab stops (known
+  limit).
 - RTL throughout; logical tab order.
 - Text contrast ≥ 4.5:1; do not rely on dot color alone — always show the team
   label too.

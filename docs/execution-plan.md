@@ -172,7 +172,8 @@ server, no database, $0/month. See `docs/architecture.md` and
   week, already-passed days collapse behind a `הצג ימים קודמים (N)` toggle
   (default collapsed, remembered per device — `gilboa.week_collapsed`). Pure
   `splitWeekByToday()` helper + `renderMyWeek` wiring; summary and exports still
-  use the full week. `node tests/site_smoke.js` green. DL-027;
+  use the full week (since DL-044, 2026-11-11: minus hidden trainings, plus
+  the parent's own games). `node tests/site_smoke.js` green. DL-027;
   spec + plan under `docs/superpowers/`.
 - **2026-09-04 — Hosting migrated to Cloudflare Pages (DL-028).** Prerequisite
   for the rides feature (needs Pages Functions + KV). Site now served by
@@ -309,6 +310,18 @@ server, no database, $0/month. See `docs/architecture.md` and
   **Caveat:** if the GitHub secrets are not set, the next scheduled run goes red.
   Branch `chore/purge-fail-loudly`, commit `2423e54`, PR pending. **Still
   open:** remove the dormant backend? (then delete this step too.)
+
+- **2026-11-11 — Hide a training + add a game (DL-044).** Stakeholder-approved.
+  Each training row gets an ✕ (remembered per team + weekday + ordinal, applies
+  to later weeks; restore via the team chip's `N מוסתרים` badge; Undo toast;
+  unfollow forgets). New `＋ הוסף משחק` bottom-sheet (date, start <22:00, בית/חוץ
+  default חוץ, optional opponent ≤40; fixed 2h; device-only, 60-day prune, 6s
+  delete Undo). List, footer, copy/share, `.ics` and PNG all use the one visible
+  list (hidden out, games in). Front end only, zero `/api/`. Tests: site smoke
+  256, Functions 47, pytest 159. QA: ship, 3 small fixes (320px toast, double
+  submit, time-zone fallback). Real-browser pass caught a NodeList bug the mock
+  missed (LL-029). Branch `feat/hide-training-add-game` (`7cf2fb6`, `3c8f81e`,
+  `6c9ed01`, `5b2a27e`), PR pending. Limits: `known-constraints.md`.
 
 ## Immediate next step
 > **Superseded (DL-042, 2026-11-11): the rides pilot and rollout are DROPPED.**

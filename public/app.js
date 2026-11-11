@@ -10,6 +10,10 @@
 var LS_FOLLOWED = 'gilboa.followed';
 var LS_SEEN = 'gilboa.seen_generated_at';
 var LS_WEEK_COLLAPSED = 'gilboa.week_collapsed';
+var LS_HIDDEN = 'gilboa.hidden';          // { teamId: ["<weekday>:<ordinal>", ...] }
+var LS_GAMES = 'gilboa.games';            // personal games added by the player
+var LS_HIDE_TIP = 'gilboa.hide_tip_seen'; // first-hide hint already shown
+var GAME_PRUNE_DAYS = 60;
 
 // Fixed, accessible team-dot palette. Every colour is >= 5:1 contrast on
 // white, so it is also safe to use as text. Assigned by follow order.
@@ -39,6 +43,8 @@ var DATA = { meta: null, teams: [], teamsById: {}, sessions: [], weeks: [], chan
 var followed = loadFollowed();
 var viewSunday = null;        // 'YYYY-MM-DD' Sunday of the visible week
 var weekCollapsed = loadWeekCollapsed();   // current week: hide already-passed days
+var hidden = loadHidden();    // per team: removed training slots (weekday:ordinal)
+var games = loadGames();      // personal games (this device only)
 
 // ---------- Boot ----------
 // One-time cleanup (DL-042): the rides front end was removed, so drop whatever
@@ -113,6 +119,46 @@ function loadWeekCollapsed() {
 }
 function saveWeekCollapsed() {
   try { localStorage.setItem(LS_WEEK_COLLAPSED, weekCollapsed ? '1' : '0'); } catch (e) {}
+}
+
+function loadHidden() {
+  var out = {};
+  try {
+    var o = JSON.parse(localStorage.getItem(LS_HIDDEN) || '{}');
+    if (!o || typeof o !== 'object' || Array.isArray(o)) return out;
+    Object.keys(o).forEach(function (id) {
+      var keys = Array.isArray(o[id]) ? o[id].filter(function (k) {
+        return typeof k === 'string' && /^[0-6]:\d+$/.test(k);
+      }) : [];
+      if (keys.length) out[id] = keys;
+    });
+  } catch (e) { /* unavailable or corrupt: start empty */ }
+  return out;
+}
+function saveHidden() {
+  try { localStorage.setItem(LS_HIDDEN, JSON.stringify(hidden)); } catch (e) {}
+}
+function loadGames() {
+  var out = [];
+  try {
+    var arr = JSON.parse(localStorage.getItem(LS_GAMES) || '[]');
+    if (!Array.isArray(arr)) return out;
+    var cutoff = addDays(todayYmd(), -GAME_PRUNE_DAYS);
+    arr.forEach(function (g) {
+      if (g && typeof g.id === 'string' && /^\d{4}-\d\d-\d\d$/.test(g.date) &&
+          /^\d\d:\d\d$/.test(g.time) && (g.venue === 'home' || g.venue === 'away') &&
+          g.date >= cutoff) {
+        out.push({ id: g.id, date: g.date, time: g.time, venue: g.venue,
+          opponent: String(g.opponent || '').slice(0, 40) });
+      }
+    });
+    games = out;
+    if (out.length !== arr.length) saveGames();
+  } catch (e) { /* unavailable or corrupt: start empty */ }
+  return out;
+}
+function saveGames() {
+  try { localStorage.setItem(LS_GAMES, JSON.stringify(games)); } catch (e) {}
 }
 
 // ---------- Date helpers (string based, no timezone math) ----------
@@ -198,6 +244,7 @@ function followTeam(id) {
 function unfollowTeam(id) {
   var i = followed.indexOf(id);
   if (i !== -1) { followed.splice(i, 1); saveFollowed(); }
+  if (hidden[id]) { delete hidden[id]; saveHidden(); }   // forget its arrangement
 }
 function colorFor(id) {
   var i = followed.indexOf(id);
@@ -248,6 +295,7 @@ function renderMyWeek() {
     footer.hidden = true;
     setHidden('share-follows', true);
     setHidden('week-actions', true);
+    setHidden('add-game', true);
     renderChangesBanner([]);
     return;
   }
@@ -256,26 +304,46 @@ function renderMyWeek() {
   renderFollowChips(followsRow);
   followsRow.hidden = false;
   setHidden('share-follows', false);
+  setHidden('add-game', false);
 
-  // Sessions for the visible week, for followed teams only (day -> time sorted).
-  var weekSessions = weekSessionsFor(viewSunday);
+  // raw = every session of the followed teams; visible = what the player
+  // arranged (hidden trainings removed, personal games added). The list, the
+  // summary and every export all use `visible`.
+  var raw = rawWeekSessionsFor(viewSunday);
+  var visible = weekSessionsFor(viewSunday);
 
   var weekHasData = DATA.weeks.indexOf(viewSunday) !== -1;
 
   renderChangesBanner(followed);
 
+  var multi = followed.length > 1;
+  setHidden('week-actions', visible.length === 0);
+
   if (!weekHasData) {
     content.appendChild(el('div', 'no-data',
       'אין נתונים לשבוע זה')); // אין נתונים לשבוע זה
-    footer.hidden = true;
-    setHidden('week-actions', true);
+    // Personal games still show in a week the club has not published.
+    groupByDate(visible).forEach(function (g) { content.appendChild(renderDayGroup(g, multi)); });
+    if (visible.length) {
+      renderSummary(visible);
+      footer.hidden = false;
+    } else {
+      footer.hidden = true;
+    }
     return;
   }
 
-  setHidden('week-actions', weekSessions.length === 0);
+  // Followed teams with nothing to show: truly none this week vs. all hidden.
+  var hiddenRaw = raw.filter(isHiddenSession);
+  var noneTeams = [], allHiddenTeams = [];
+  followed.forEach(function (id) {
+    var mine = raw.filter(function (x) { return x.team_id === id; });
+    if (!mine.length) noneTeams.push(id);
+    else if (mine.every(isHiddenSession)) allHiddenTeams.push(id);
+  });
+  var weekAllHidden = visible.length === 0 && allHiddenTeams.length > 0;
 
-  var multi = followed.length > 1;
-  var split = splitWeekByToday(weekSessions, viewSunday, todayYmd());
+  var split = splitWeekByToday(visible, viewSunday, todayYmd());
 
   if (split.isCurrentWeek && split.pastGroups.length) {
     content.appendChild(renderExpander(split.pastGroups.length));
@@ -286,25 +354,41 @@ function renderMyWeek() {
 
   if (split.upcomingGroups.length) {
     split.upcomingGroups.forEach(function (g) { content.appendChild(renderDayGroup(g, multi)); });
-  } else if (split.isCurrentWeek && split.pastGroups.length) {
+  } else if (split.isCurrentWeek && split.pastGroups.length && !allHiddenTeams.length) {
     content.appendChild(el('div', 'no-data', 'אין עוד אימונים השבוע'));
   }
 
-  // Followed teams with no session this week.
-  followed.forEach(function (id) {
-    var has = weekSessions.some(function (s) { return s.team_id === id; });
-    if (!has) {
-      var t = DATA.teamsById[id];
-      var name = t ? t.display_name : id;
-      content.appendChild(el('div', 'empty-team',
-        'אין אימונים השבוע לקבוצה זו: ' + name));
-      // אין אימונים השבוע לקבוצה זו: <name>
-    }
+  if (weekAllHidden) {
+    var card = el('div', 'empty-team');
+    card.appendChild(el('div', null, 'כל האימונים של השבוע מוסתרים'));
+    card.appendChild(restoreButton('החזרת כל האימונים (' + hiddenRaw.length + ')',
+      followed.filter(function (id) { return hiddenCount(id) > 0; })));
+    content.appendChild(card);
+  } else {
+    allHiddenTeams.forEach(function (id) {
+      var n = hiddenRaw.filter(function (x) { return x.team_id === id; }).length;
+      var line = el('div', 'empty-team');
+      line.appendChild(el('div', null, 'כל האימונים של ' + teamName(id) + ' מוסתרים השבוע'));
+      line.appendChild(restoreButton('הצג (' + n + ')', [id]));
+      content.appendChild(line);
+    });
+  }
+  noneTeams.forEach(function (id) {
+    content.appendChild(el('div', 'empty-team',
+      'אין אימונים השבוע לקבוצה זו: ' + teamName(id))); // אין אימונים השבוע לקבוצה זו: <name>
   });
 
   // Footer summary.
-  renderSummary(weekSessions);
+  renderSummary(visible);
   footer.hidden = false;
+}
+
+// Inline text button (looks like the "earlier days" expander) that un-hides teams.
+function restoreButton(label, ids) {
+  var b = el('button', 'week-expander restore-btn', label);
+  b.type = 'button';
+  b.addEventListener('click', function () { restoreTeams(ids); });
+  return b;
 }
 
 function renderFollowChips(row) {
@@ -325,11 +409,25 @@ function renderFollowChips(row) {
       var c = el('span', 'chip-coach', '  ·  ' + coaches);
       txt.appendChild(c);
     }
-    chip.appendChild(txt);
+    var nHidden = hiddenCount(id);
+    if (nHidden) {
+      // Tapping the name brings back every hidden training of this team.
+      var main = el('button', 'chip-main');
+      main.type = 'button';
+      main.setAttribute('aria-label', 'הצגת כל האימונים המוסתרים של ' + name);
+      main.appendChild(txt);
+      main.appendChild(el('span', 'chip-hidden',
+        nHidden === 1 ? '1 מוסתר' : nHidden + ' מוסתרים'));
+      main.addEventListener('click', function () { restoreTeams([id]); });
+      chip.appendChild(main);
+    } else {
+      chip.appendChild(txt);
+    }
 
     var rm = el('button', 'chip-remove');
     rm.type = 'button';
     rm.setAttribute('aria-label', 'הסרת ' + name); // הסרת <name>
+    rm.setAttribute('data-team-id', id);
     rm.textContent = '✕';
     rm.addEventListener('click', function () {
       unfollowTeam(id);
@@ -348,15 +446,30 @@ function renderFollowChips(row) {
 }
 
 function renderSession(s, multi) {
+  if (isPersonalGame(s)) return renderGameCard(s);
+
   var card = el('div', 'session');
   if (multi) card.style.borderInlineStartColor = colorFor(s.team_id);
 
-  var timeText = hhmm(s.start) + (s.end ? '–' + hhmm(s.end) : '');
-  card.appendChild(el('span', 'session-time', timeText));
-
-  var line = el('div', 'session-line');
   var t = DATA.teamsById[s.team_id];
   var name = t ? t.display_name : s.team_id;
+
+  var head = el('div', 'session-head');
+  var timeText = hhmm(s.start) + (s.end ? '–' + hhmm(s.end) : '');
+  head.appendChild(el('span', 'session-time', timeText));
+  if (sessKey(s)) {
+    var hide = el('button', 'session-hide');
+    hide.type = 'button';
+    hide.setAttribute('aria-label', 'הסתרת האימון של ' + name + ', יום ' +
+      HE_WEEKDAY_FULL[sessWeekday(s)] + ', ' + hhmm(s.start));
+    hide.setAttribute('title', 'הסתר אימון זה');
+    hide.appendChild(svgIcon('<path d="M6 6l12 12M18 6L6 18"/>'));
+    hide.addEventListener('click', function () { hideTraining(s, hide); });
+    head.appendChild(hide);
+  }
+  card.appendChild(head);
+
+  var line = el('div', 'session-line');
 
   var team = el('span', 'team');
   if (multi) {
@@ -383,6 +496,38 @@ function renderSession(s, multi) {
   }
 
   return card;
+}
+
+// Personal game card: neutral stripe, trophy tag, time, trash (permanent delete).
+function renderGameCard(s) {
+  var card = el('div', 'session session-game');
+  card.setAttribute('data-game-id', s.id);
+  var head = el('div', 'session-head');
+  var meta = el('span', 'session-meta');
+  meta.appendChild(el('span', 'game-tag', '🏆 משחק'));
+  meta.appendChild(el('span', 'session-time', hhmm(s.start) + '–' + hhmm(s.end)));
+  head.appendChild(meta);
+  var del = el('button', 'session-hide session-del');
+  del.type = 'button';
+  del.setAttribute('aria-label', 'מחיקת משחק: ' + s.label + ', יום ' +
+    HE_WEEKDAY_FULL[s.weekday] + ', ' + hhmm(s.start));
+  del.setAttribute('title', 'מחק משחק');
+  del.appendChild(svgIcon('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 12h10l1-12M9 7V4h6v3"/>'));
+  del.addEventListener('click', function () { deleteGame(s.id); });
+  head.appendChild(del);
+  card.appendChild(head);
+  card.appendChild(el('div', 'game-label', s.label));
+  return card;
+}
+
+// Small static inline SVG stroke icon (constant markup only, never user text).
+function svgIcon(paths) {
+  var w = el('span', 'ico');
+  w.setAttribute('aria-hidden', 'true');
+  w.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" ' +
+    'stroke="currentColor" stroke-width="2" stroke-linecap="round" ' +
+    'stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+  return w;
 }
 
 function renderDayGroup(group, multi) {
@@ -418,21 +563,27 @@ function normalizeNotes(notes) {
   return [String(notes)];
 }
 
-function renderSummary(weekSessions) {
-  var count = weekSessions.length;
-  var hStr = hoursStr(sumMinutes(weekSessions));
-
-  var countStr = count === 1
-    ? 'אימון אחד'          // אימון אחד
-    : count + ' אימונים';      // N אימונים
-  var hoursLabel = hStr + ' ' + 'שעות';         // H שעות
-  document.getElementById('summary').textContent = countStr + '  ·  ' + hoursLabel;
+function renderSummary(list) {
+  document.getElementById('summary').textContent = summaryText(list);
 
   var upd = '';
   if (DATA.meta && DATA.meta.generated_at) {
     upd = 'עודכן: ' + fmtGenerated(DATA.meta.generated_at); // עודכן:
   }
   document.getElementById('updated').textContent = upd;
+}
+
+// One summary line for the visible list: trainings and games counted
+// separately, hours = both together. Zero parts are omitted.
+function summaryText(list) {
+  var g = 0, t = 0;
+  list.forEach(function (s) { if (isGameSession(s)) g++; else t++; });
+  if (!g && !t) return '0 אימונים · 0 שעות';
+  var parts = [];
+  if (t) parts.push(t === 1 ? 'אימון אחד' : t + ' אימונים');
+  if (g) parts.push(g === 1 ? 'משחק אחד' : g + ' משחקים');
+  parts.push(hoursStr(sumMinutes(list)) + ' שעות');
+  return parts.join(' · ');
 }
 function toMin(hm) { var p = hm.split(':'); return (+p[0]) * 60 + (+p[1]); }
 
@@ -590,19 +741,210 @@ var nav = (typeof navigator !== 'undefined') ? navigator : null;
 
 // ---------- Shared week helpers ----------
 
-// Followed teams' sessions for a given week, sorted day -> start time.
-// Same filter + sort the on-screen weekly list uses, so every export matches.
-function weekSessionsFor(sunday) {
+// Followed teams' sessions for a given week, sorted day -> start time, BEFORE
+// the player's own arrangement (hidden trainings / personal games).
+function rawWeekSessionsFor(sunday) {
   var arr = DATA.sessions.filter(function (s) {
     return s.team_id && isFollowed(s.team_id) && s.week_key === sunday;
   });
+  sortSessions(arr);
+  return arr;
+}
+// What the player sees: raw minus hidden trainings, plus personal games. The
+// on-screen list, the footer summary and every export all use this one list.
+function weekSessionsFor(sunday) {
+  var arr = rawWeekSessionsFor(sunday).filter(function (s) { return !isHiddenSession(s); });
+  if (followed.length) {
+    games.forEach(function (g) {
+      if (sundayOf(g.date) === sunday) arr.push(gameToSession(g));
+    });
+  }
+  sortSessions(arr);
+  return arr;
+}
+function sortSessions(arr) {
   arr.sort(function (a, b) {
     if (a.date !== b.date) return a.date < b.date ? -1 : 1;
     var sa = hhmm(a.start), sb = hhmm(b.start);
-    return sa < sb ? -1 : (sa > sb ? 1 : 0);
+    if (sa !== sb) return sa < sb ? -1 : 1;
+    var ga = isPersonalGame(a) ? 1 : 0, gb = isPersonalGame(b) ? 1 : 0;
+    return ga - gb;               // trainings before games at the same minute
   });
-  return arr;
 }
+
+// ---------- Hidden trainings ----------
+function isPersonalGame(s) { return !!s && s.kind === 'game' && !s.team_id; }
+function isGameSession(s) { return isPersonalGame(s) || (!!s && s.activity_type === 'game'); }
+function sessWeekday(s) {
+  return typeof s.weekday === 'number' ? s.weekday : new Date(ymdToUTC(s.date)).getUTCDay();
+}
+// "<weekday>:<ordinal>": ordinal = 1-based position among the team's TRAINING
+// sessions on that date, ordered by start. Only trainings can be hidden.
+function sessKey(s) {
+  if (!s || !s.team_id || s.activity_type !== 'training') return null;
+  var same = DATA.sessions.filter(function (x) {
+    return x.team_id === s.team_id && x.date === s.date && x.activity_type === 'training';
+  });
+  same.sort(function (a, b) {
+    var sa = hhmm(a.start), sb = hhmm(b.start);
+    if (sa !== sb) return sa < sb ? -1 : 1;
+    return String(a.id) < String(b.id) ? -1 : (String(a.id) > String(b.id) ? 1 : 0);
+  });
+  var idx = same.indexOf(s);
+  if (idx === -1) {
+    for (var i = 0; i < same.length; i++) if (same[i].id === s.id) { idx = i; break; }
+  }
+  if (idx === -1) idx = 0;
+  return sessWeekday(s) + ':' + (idx + 1);
+}
+function isHiddenSession(s) {
+  var k = sessKey(s);
+  return !!k && !!hidden[s.team_id] && hidden[s.team_id].indexOf(k) !== -1;
+}
+function hiddenCount(id) { return hidden[id] ? hidden[id].length : 0; }
+function addHidden(id, key) {
+  var arr = hidden[id] || (hidden[id] = []);
+  if (arr.indexOf(key) === -1) arr.push(key);
+  saveHidden();
+}
+function removeHidden(id, key) {
+  var arr = hidden[id] || [];
+  var i = arr.indexOf(key);
+  if (i !== -1) arr.splice(i, 1);
+  if (!arr.length) delete hidden[id];
+  saveHidden();
+}
+function restoreTeams(ids) {
+  ids.forEach(function (id) { delete hidden[id]; });
+  saveHidden();
+  render();
+  showToast('הוחזרו כל האימונים: ' + ids.map(teamName).join(', '));
+  var again = ids.length === 1 && document.querySelector('.chip-remove[data-team-id="' + ids[0] + '"]');
+  var fallback = document.getElementById('week-content');
+  var target = again || fallback;
+  if (target && target.focus) target.focus();
+}
+// Real arrays (a browser NodeList has no indexOf).
+function hideButtons() {
+  return Array.prototype.slice.call(document.querySelectorAll('.session-hide'));
+}
+function hideTraining(s, btn) {
+  var key = sessKey(s);
+  if (!key) return;
+  var idx = hideButtons().indexOf(btn);
+  var teamId = s.team_id;
+  addHidden(teamId, key);
+  render();
+  // Keep keyboard / screen-reader focus on a sensible neighbour.
+  var btns = hideButtons();
+  var next = btns.length ? btns[Math.max(0, Math.min(idx, btns.length - 1))] : document.getElementById('week-content');
+  if (next && next.focus) next.focus();
+
+  var tipSeen = false;
+  try { tipSeen = localStorage.getItem(LS_HIDE_TIP) === '1'; } catch (e) {}
+  if (!tipSeen) { try { localStorage.setItem(LS_HIDE_TIP, '1'); } catch (e) {} }
+  showToast(tipSeen ? 'האימון הוסתר' : 'האימון הוסתר. להחזרה לחצו על שם הקבוצה למעלה', {
+    label: 'ביטול',
+    ms: 6000,
+    onClick: function () { removeHidden(teamId, key); render(); }
+  });
+}
+
+// ---------- Personal games ----------
+// "GMT+3", "GMT+03:00", "UTC+02:00", "GMT-1" -> "+03:00" (null if unparsable).
+function parseGmtOffset(str) {
+  var m = /(?:GMT|UTC)\s*([+\-−])\s*(\d{1,2})(?::?(\d{2}))?/.exec(String(str || ''));
+  if (!m) return null;
+  return (m[1] === '-' || m[1] === '−' ? '-' : '+') + pad2(+m[2]) + ':' + (m[3] || '00');
+}
+// Exact Israeli DST rule (last-resort fallback): DST starts 02:00 on the Friday
+// before the last Sunday of March (00:00 UTC) and ends 02:00 on the last Sunday
+// of October (23:00 UTC the evening before).
+function israelDstOffset(ms) {
+  var y = new Date(ms).getUTCFullYear();
+  var marSun = 31 - new Date(Date.UTC(y, 2, 31)).getUTCDay();
+  var octSun = 31 - new Date(Date.UTC(y, 9, 31)).getUTCDay();
+  var start = Date.UTC(y, 2, marSun - 2, 0, 0);
+  var end = Date.UTC(y, 9, octSun - 1, 23, 0);
+  return (ms >= start && ms < end) ? '+03:00' : '+02:00';
+}
+function intlZoneName(ms, style) {
+  var parts = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Jerusalem', timeZoneName: style })
+    .formatToParts(new Date(ms));
+  for (var i = 0; i < parts.length; i++) if (parts[i].type === 'timeZoneName') return parts[i].value;
+  return null;
+}
+// nameFor(ms, style) is injectable so tests can force each fallback branch.
+function jerusalemOffset(ymd, hm, nameFor) {
+  nameFor = nameFor || intlZoneName;
+  function offAt(ms) {
+    var styles = ['longOffset', 'short'];
+    for (var i = 0; i < styles.length; i++) {
+      try {
+        var off = parseGmtOffset(nameFor(ms, styles[i]));
+        if (off) return off;
+      } catch (e) {}
+    }
+    return israelDstOffset(ms);
+  }
+  var noon = offAt(ymdToUTC(ymd) + 12 * 3600000);
+  // Check again at the game's own instant (the DST switch happens at night).
+  var t = Date.parse(ymd + 'T' + hm + ':00' + noon);
+  return isNaN(t) ? noon : offAt(t);
+}
+function gameLabel(g) {
+  var base = g.venue === 'home' ? 'משחק בית' : 'משחק חוץ';
+  var opp = String(g.opponent || '').trim();
+  return opp ? base + ' נגד ' + opp : base;
+}
+// A stored game as a session-shaped object (so grouping/summary/exports work).
+function gameToSession(g) {
+  var off = jerusalemOffset(g.date, g.time);
+  var endMin = toMin(g.time) + 120;
+  var end = pad2(Math.floor(endMin / 60)) + ':' + pad2(endMin % 60);
+  return {
+    id: g.id, team_id: null, kind: 'game', date: g.date,
+    weekday: new Date(ymdToUTC(g.date)).getUTCDay(),
+    week_key: sundayOf(g.date),
+    start: g.date + 'T' + g.time + ':00' + off,
+    end: g.date + 'T' + end + ':00' + off,
+    label: gameLabel(g)
+  };
+}
+function gameDateBounds() {
+  if (!DATA.weeks.length) return { min: '', max: '' };
+  return { min: addDays(DATA.weeks[0], -7), max: addDays(DATA.weeks[DATA.weeks.length - 1], 13) };
+}
+// Returns { date: msg, time: msg } - empty string = valid.
+function validateGame(date, time) {
+  var b = gameDateBounds();
+  var e = { date: '', time: '' };
+  if (!/^\d{4}-\d\d-\d\d$/.test(date || '') || (b.min && date < b.min) || (b.max && date > b.max)) {
+    e.date = 'בחרו תאריך';
+  }
+  if (!/^\d\d:\d\d$/.test(time || '')) e.time = 'בחרו שעת התחלה';
+  else if (time >= '22:00') e.time = 'המשחק נמשך שעתיים ולכן חייב להתחיל לפני 22:00';
+  return e;
+}
+function addGameObj(g) { games.push(g); saveGames(); }
+function deleteGame(id) {
+  var i = -1;
+  games.forEach(function (g, k) { if (g.id === id) i = k; });
+  if (i === -1) return;
+  var removed = games.splice(i, 1)[0];
+  saveGames();
+  var btns = hideButtons();
+  render();
+  var after = hideButtons();
+  var idx = Math.max(0, Math.min(btns.length ? btns.length - 1 : 0, after.length - 1));
+  var f = after.length ? after[idx] : document.getElementById('add-game');
+  if (f && f.focus) f.focus();
+  showToast('המשחק נמחק', {
+    label: 'ביטול', ms: 6000,
+    onClick: function () { games.push(removed); saveGames(); render(); }
+  });
+}
+
 // Split one week's followed sessions into past / upcoming day-groups.
 // "Current week" = the viewed week contains `today`. Whole days only:
 // a day is "past" iff its date string is < today.
@@ -644,6 +986,7 @@ function timeRange(s) {
 // U+2069) so canvas fillText keeps "13:00–15:00" left-to-right in an RTL line.
 function ltrIsolate(s) { return '⁦' + s + '⁩'; }
 function teamName(id) {
+  if (!id) return '';
   var t = DATA.teamsById[id];
   return t ? t.display_name : id;
 }
@@ -658,13 +1001,29 @@ function groupByDate(sessions) {
 }
 
 // ---------- Toast ----------
-function showToast(msg) {
+// Optional `action` = { label, onClick, ms }: adds a button (e.g. Undo) and keeps
+// the toast up longer.
+function showToast(msg, action) {
   var t = document.getElementById('toast');
   if (!t) return;
   t.textContent = msg;
-  t.classList.add('show');
+  t.classList.remove('has-action');
   if (showToast._t) clearTimeout(showToast._t);
-  showToast._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  if (action) {
+    var b = el('button', 'toast-action', action.label);
+    b.type = 'button';
+    b.addEventListener('click', function () {
+      if (showToast._t) clearTimeout(showToast._t);
+      t.classList.remove('show', 'has-action');
+      action.onClick();
+    });
+    t.appendChild(b);
+    t.classList.add('has-action');
+  }
+  t.classList.add('show');
+  showToast._t = setTimeout(function () {
+    t.classList.remove('show', 'has-action');
+  }, (action && action.ms) || 2200);
 }
 
 // ---------- Clipboard ----------
@@ -821,6 +1180,10 @@ function buildWeekText(sunday) {
     L.push('');
     L.push(HE_WEEKDAY_FULL[day[0].weekday] + ' ' + ltrIsolate(dmLabel(pair[0])));
     day.forEach(function (s) {
+      if (isPersonalGame(s)) {
+        L.push('  ' + ltrIsolate(timeRange(s)) + ' · ' + s.label);
+        return;
+      }
       var parts = [ltrIsolate(timeRange(s)), teamName(s.team_id)];
       if (s.coach_text) parts.push(s.coach_text);
       if (s.location) parts.push(s.location);
@@ -830,13 +1193,11 @@ function buildWeekText(sunday) {
     });
   });
 
-  var n = ses.length;
   var teamCount = countTeams(ses);
   L.push('');
   L.push('סה״כ: ' +
-    (teamCount === 1 ? 'קבוצה אחת' : teamCount + ' קבוצות') + ' · ' +
-    (n === 1 ? 'אימון אחד' : n + ' אימונים') + ' · ' +
-    hoursStr(sumMinutes(ses)) + ' שעות');
+    (teamCount === 0 ? '' : (teamCount === 1 ? 'קבוצה אחת' : teamCount + ' קבוצות') + ' · ') +
+    summaryText(ses));
   return L.join('\n');
 }
 
@@ -893,6 +1254,16 @@ function buildICS(sunday) {
     'METHOD:PUBLISH'
   ];
   ses.forEach(function (s) {
+    if (isPersonalGame(s)) {
+      out.push('BEGIN:VEVENT');
+      out.push('UID:' + s.id + '@gilboa-schedule');
+      out.push('DTSTAMP:' + stamp);
+      out.push('DTSTART:' + icsStamp(new Date(s.start)));   // carries the right +02:00 / +03:00
+      out.push('DTEND:' + icsStamp(new Date(s.end)));
+      out.push(foldLine('SUMMARY:' + icsEsc(s.label)));
+      out.push('END:VEVENT');
+      return;
+    }
     var desc = [];
     if (s.coach_text) desc.push('מאמן: ' + s.coach_text);
     normalizeNotes(s.notes).forEach(function (nt) { desc.push(nt); });
@@ -939,6 +1310,10 @@ function drawWeekImage(sunday) {
     groupByDate(ses).forEach(function (pair) {
       rows.push({ k: 'day', t: HE_WEEKDAY_FULL[pair[1][0].weekday] + ' ' + ltrIsolate(dmLabel(pair[0])), h: 34 });
       pair[1].forEach(function (s) {
+        if (isPersonalGame(s)) {
+          rows.push({ k: 'session', game: true, t: ltrIsolate(timeRange(s)) + '  ' + s.label, sub: '', h: 26 });
+          return;
+        }
         var sub = [];
         if (s.coach_text) sub.push(s.coach_text);
         if (s.location) sub.push(s.location);
@@ -955,8 +1330,7 @@ function drawWeekImage(sunday) {
     });
     rows.push({
       k: 'summary',
-      t: (ses.length === 1 ? 'אימון אחד' : ses.length + ' אימונים') +
-        '  ·  ' + hoursStr(sumMinutes(ses)) + ' שעות',
+      t: summaryText(ses),
       h: 38
     });
   }
@@ -997,8 +1371,13 @@ function drawWeekImage(sunday) {
       ctx.fillText(r.t, right, r.y + 10);
       hline(ctx, PAD, W - PAD, r.y + 30, '#e2e4e8');
     } else if (r.k === 'session') {
-      ctx.fillStyle = r.color || '#888888';
-      dot(ctx, right - 4, r.y + 8, 4);
+      if (r.game) {
+        ctx.fillStyle = '#1a1d21';                       // dark square marks a game
+        if (ctx.fillRect) ctx.fillRect(right - 8, r.y + 4, 8, 8);
+      } else {
+        ctx.fillStyle = r.color || '#888888';
+        dot(ctx, right - 4, r.y + 8, 4);
+      }
       ctx.fillStyle = '#1a1d21'; ctx.font = '600 14px ' + FONT;
       ctx.fillText(fitText(ctx, r.t, textMax - 16), right - 16, r.y);
       if (r.sub) {
@@ -1066,6 +1445,13 @@ window.icsEsc = icsEsc;
 window.drawWeekImage = drawWeekImage;
 window.groupByDate = groupByDate;
 window.splitWeekByToday = splitWeekByToday;
+window.summaryText = summaryText;
+window.validateGame = validateGame;
+window.gameToSession = gameToSession;
+window.jerusalemOffset = jerusalemOffset;
+window.weekSessionsFor = weekSessionsFor;
+window.sessKey = sessKey;
+window.loadGames = loadGames;
 // State + re-render hooks used by tests/site_smoke.js.
 window.render = render;
 window.DATA = DATA;
@@ -1126,6 +1512,109 @@ function wireEvents() {
   on('act-share', 'click', shareWeek);
   on('act-ics', 'click', downloadICS);
   on('act-img', 'click', saveWeekImage);
+
+  wireGameDialog();
+}
+
+// ---------- Add-game bottom sheet ----------
+function wireGameDialog() {
+  var btn = document.getElementById('add-game');
+  var dlg = document.getElementById('game-dialog');
+  var form = document.getElementById('game-form');
+  if (!btn || !dlg || !form) return;
+  var dateIn = document.getElementById('game-date');
+  var timeIn = document.getElementById('game-time');
+  var oppIn = document.getElementById('game-opp');
+  var note = document.getElementById('game-note');
+  var errDate = document.getElementById('game-err-date');
+  var errTime = document.getElementById('game-err-time');
+  var radios = dlg.querySelectorAll('.seg-btn');
+  var venue = 'away';
+
+  function setVenue(v) {
+    venue = v;
+    radios.forEach(function (r) {
+      r.setAttribute('aria-checked', r.getAttribute('data-venue') === v ? 'true' : 'false');
+    });
+  }
+  radios.forEach(function (r) {
+    r.addEventListener('click', function () { setVenue(r.getAttribute('data-venue')); });
+  });
+
+  function updateNote() {
+    var t = timeIn.value;
+    var base = 'משך המשחק קבוע: שעתיים';
+    if (/^\d\d:\d\d$/.test(t) && t < '22:00') {
+      var m = toMin(t) + 120;
+      note.textContent = base + ' · מסתיים ב־' + pad2(Math.floor(m / 60)) + ':' + pad2(m % 60);
+    } else {
+      note.textContent = base;
+    }
+  }
+  timeIn.addEventListener('input', updateNote);
+  timeIn.addEventListener('change', updateNote);
+  // Editing a field clears its own error (re-checked on the next submit).
+  dateIn.addEventListener('input', function () { showErr(dateIn, errDate, ''); });
+  timeIn.addEventListener('input', function () { showErr(timeIn, errTime, ''); });
+
+  function showErr(input, box, msg) {
+    box.hidden = !msg;
+    box.textContent = msg ? '⚠️ ' + msg : '';
+    if (msg) input.setAttribute('aria-invalid', 'true');
+    else input.removeAttribute('aria-invalid');
+  }
+  function clearErrs() { showErr(dateIn, errDate, ''); showErr(timeIn, errTime, ''); }
+
+  function openSheet() {
+    var b = gameDateBounds();
+    if (b.min) { dateIn.setAttribute('min', b.min); dateIn.setAttribute('max', b.max); }
+    var today = todayYmd();
+    dateIn.value = sundayOf(today) === viewSunday ? today : viewSunday;
+    timeIn.value = '';
+    oppIn.value = '';
+    setVenue('away');
+    clearErrs();
+    updateNote();
+    if (typeof dlg.showModal === 'function') dlg.showModal();
+    else dlg.setAttribute('open', '');
+  }
+  function closeSheet() {
+    if (typeof dlg.close === 'function') dlg.close();
+    else dlg.removeAttribute('open');
+  }
+  btn.addEventListener('click', openSheet);
+  dlg.addEventListener('close', function () { btn.focus(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) closeSheet(); });
+  on('game-cancel', 'click', closeSheet);
+
+  var saving = false;
+  form.addEventListener('submit', function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (!dlg.open || saving) return;   // double submit: the sheet is already closed / saving
+    var errs = validateGame(dateIn.value, timeIn.value);
+    showErr(dateIn, errDate, errs.date);
+    showErr(timeIn, errTime, errs.time);
+    if (errs.date || errs.time) {
+      (errs.date ? dateIn : timeIn).focus();
+      return;
+    }
+    var g = {
+      id: 'g_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      date: dateIn.value, time: timeIn.value, venue: venue,
+      opponent: oppIn.value.trim().slice(0, 40)
+    };
+    saving = true;
+    try {
+      addGameObj(g);
+      closeSheet();
+      if (sundayOf(g.date) !== viewSunday) viewSunday = sundayOf(g.date);
+      render();
+      showToast('המשחק נוסף ל' + heWeekdayDate(g.date) + ', ' + ltrIsolate(g.time));
+      var card = document.querySelector('[data-game-id="' + g.id + '"]');
+      if (card && card.scrollIntoView) card.scrollIntoView({ block: 'nearest' });
+      btn.focus();
+    } finally { saving = false; }
+  });
 }
 
 function on(id, evt, fn) {

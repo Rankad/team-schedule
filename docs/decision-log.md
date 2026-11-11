@@ -365,6 +365,10 @@
     when `navigator.canShare({files:[…]})` is true (mobile).
   - Builders `buildWeekText(sunday)`, `buildICS(sunday)`, `drawWeekImage(sunday)`
     exposed on `window` and unit-tested.
+- **Amended by DL-044 (2026-11-11):** "the visible week" now means *what is on
+  screen* — hidden trainings are left out and the parent's own games are
+  included; the export row is also hidden when the visible list is empty
+  (e.g. every training hidden), not only when the week has no sessions.
 - **Status:** Accepted. (Phase 5's "share to WhatsApp" + optional ICS items,
   pulled into Phase 3 at stakeholder request — see execution-plan.)
 - **Risk:** Low.
@@ -464,6 +468,9 @@
   keep operating on the **full** week regardless of the toggle. Implemented as a
   pure `splitWeekByToday()` helper + render wiring; no build / data / Python
   change. Spec: `docs/superpowers/specs/2026-09-02-week-view-toggle-design.md`.
+  **Note (DL-044, 2026-11-11):** "full week" here = no day-collapsing effect.
+  Hidden trainings are now removed from the summary and all exports, and the
+  earlier-days expander counts visible rows only.
 - **Status:** Accepted.
 - **Risk:** Low. Pure-function + DOM-harness tested; a real-device RTL glance at
   the toggle row is still worthwhile.
@@ -1234,3 +1241,80 @@
   `2423e54`); PR pending.
 - **Risk:** Low. CI-only change, last step, reversible via git; the only
   side effect is a red run if secrets are missing, which is the point.
+
+## DL-044 — Hide a training + add a game (front end only, per device)
+- **Date:** 2026-11-11 (branch `feat/hide-training-add-game`, commits `7cf2fb6`,
+  `3c8f81e`, `6c9ed01`, `5b2a27e`). DL-043 (purge change) and DL-045 (app
+  rename) live on other branches — number gap is intentional.
+- **Context:** Stakeholder asked for "an option … to delete from the training
+  list this specific training … and an add-game option". Refinements agreed
+  before build: (1) a removal is remembered per team + weekday and applies to
+  every following week, even if the hour changes; (2) restore is done from the
+  team chip at the top; (3) a game has home/away and an optional opponent name.
+- **Decision:**
+  - **Hide a training.** Each TRAINING row on My Week has an ✕ (ringed circle at
+    the inline-end of the hour line). Tap = removed. Stored under
+    `gilboa.hidden` = `{teamId: ["weekday:ordinal"]}` — key is the team +
+    weekday + ordinal-within-the-day (1st, 2nd training that day).
+  - **PM calls:** (a) store the **removed** days, not the kept ones, so a
+    brand-new weekday for a team still appears; (b) ordinal, not the hour, so
+    an hour change does not bring the training back; (c) unfollowing a team
+    forgets its arrangement; (d) an Undo toast follows each hide — the first-ever
+    hide also teaches how to restore (flag `gilboa.hide_tip_seen`); (e) per
+    phone only, no sync, no server.
+  - **Restore.** The team-name chip shows a dashed badge `N מוסתרים` when the
+    team has removed days; pressing the chip restores ALL of that team's
+    trainings (all weeks). Club `game` rows and personal games get no ✕.
+  - **Empty states.** Team all hidden → `כל האימונים של <name> מוסתרים השבוע` +
+    `הצג (N)`. Whole week hidden → card `כל האימונים של השבוע מוסתרים` +
+    `החזרת כל האימונים (N)`. Export row hidden when the visible list is empty
+    (DL-023). A day header disappears when its only training is hidden. The
+    earlier-days expander (DL-027) counts visible rows only.
+  - **Add a game.** `＋ הוסף משחק` (visible whenever ≥1 team is followed, not
+    in onboarding) opens a bottom-sheet `<dialog>`: date (default today, or
+    Sunday of the viewed week; min/max = published weeks −7 / +13 days), start
+    time (required, before 22:00), **בית/חוץ toggle (default חוץ)**, opponent
+    team name (optional, ≤40 chars). Game = fixed 2 hours; title composed by the
+    app: `משחק חוץ/בית נגד <opponent>` (no opponent → `משחק חוץ/בית`). Stored in
+    `gilboa.games` = `[{id,date,time,venue,opponent}]`, device-only, pruned after
+    60 days, shown only while ≥1 team is followed. No edit (delete + re-add);
+    delete has a 6s Undo. List row: dark `🏆 משחק` tag, no team label/dot, trash
+    icon.
+  - **Exports = what's on screen.** One visible list (`weekSessionsFor` = raw
+    minus hidden plus games) feeds the list, the footer (`summaryText`, e.g.
+    `2 אימונים · משחק אחד · 5 שעות`), copy/share text, `.ics` and the PNG.
+    `.ics` game VEVENT: SUMMARY/UID/DTSTART/DTEND, no LOCATION; UTC offset is
+    derived per game instant via Intl `longOffset` → `short` → exact Israeli DST
+    rule fallback (DL-025 stays: instants as UTC `Z`). Every training keeps its
+    team label. No new network calls — still zero `/api/`.
+- **Consequences:**
+  - New localStorage keys: `gilboa.hidden`, `gilboa.hide_tip_seen`,
+    `gilboa.games`. Share link `?teams=` (DL-022) does NOT carry hides or games.
+  - A club `activity_type:'game'` row now counts as "משחק" (not "אימון") in the
+    footer summary.
+  - Amends DL-023 (what the exports act on) and DL-027 (the "full week" note);
+    annotated there, history untouched.
+  - Tests: site smoke 256 checks (new block uses synthetic data, not live data
+    — see LL-027/028), Functions 47, pytest 159.
+  - QA (`qa-reviewer`): ship. Three small fixes applied before merge — toast
+    width at 320px, double-submit guard on the game form, time-zone fallback.
+    A real-browser pass caught a bug the unit tests missed — see LL-029.
+- **Known limits (also in `known-constraints.md`):**
+  - Hiding is by position within the day. A team with trainings at 17:00 and
+    19:00 on a Tuesday, 17:00 hidden: in a week where only the 19:00 one exists,
+    it becomes "#1" and is hidden. The chip badge/tap restores all. Only 2 teams
+    in current data train twice in a day.
+  - Hides and games are per phone: not in the share link, erased by clearing
+    browser data; games older than 60 days are removed.
+  - Games can be added only inside the window (published weeks −7 … +13 days).
+  - Very old browsers without Intl `longOffset`/`short` rely on the exact DST
+    rule; a game starting 00:00–02:00 on a DST-change night could be an hour off
+    in the `.ics` only.
+  - The ✕ toggle radio group has no arrow-key roving (Tab stops only).
+  - The hidden-count badge uses accent red — informational, not a status colour
+    (consistent with DL-037).
+- **Status:** Accepted (stakeholder-approved 2026-11-11); QA verdict ship; PR
+  pending.
+- **Risk:** Low–Medium. Front end only, no data/parser/backend change, fully
+  reversible via git; the residual risk is the by-position hiding surprise
+  and per-phone storage.

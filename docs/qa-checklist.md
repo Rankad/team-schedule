@@ -162,6 +162,42 @@ Nothing calls it any more; kept intact pending a stakeholder decision.
 - [ ] Week-nav arrows: glyph is `var(--text)`, disabled arrow `#8b9096` — no
       brand red on the nav chrome (DL-037).
 
+## Hide a training / add a game (DL-044)
+Real-browser pass REQUIRED (headless Chrome over CDP) — the mock DOM missed a
+NodeList bug once (LL-029).
+- [ ] Tap ✕ on a training: it disappears, Undo toast appears; Undo brings it
+      back. First-ever hide also shows the restore tip (`gilboa.hide_tip_seen`).
+- [ ] Hide persists across reload AND on following weeks, even when that week's
+      hour for the team differs.
+- [ ] Team with two trainings in one day: ordinals (1st/2nd) hide the right row;
+      day header vanishes only when its last training is hidden.
+- [ ] Chip shows dashed `N מוסתרים` badge when hides exist; pressing the chip
+      restores ALL of that team's trainings (all weeks); badge goes away.
+- [ ] Unfollowing a team clears its hides (re-follow shows everything).
+- [ ] A brand-new weekday for a hidden-arrangement team still shows.
+- [ ] Empty states: team all hidden → `כל האימונים של <name> מוסתרים השבוע` +
+      `הצג (N)`; whole week hidden → card + `החזרת כל האימונים (N)`; export row
+      hidden; earlier-days expander counts visible rows only.
+- [ ] Club `game` rows and personal games have no ✕.
+- [ ] Exports match the screen: footer, copy text, share text, `.ics`, PNG all
+      exclude hidden trainings and include games; every training keeps its team
+      label; no "null"/"undefined" anywhere (e.g. game with no opponent).
+- [ ] Footer wording e.g. `2 אימונים · משחק אחד · 5 שעות`.
+- [ ] Game form: `＋ הוסף משחק` only when ≥1 team followed, not in onboarding;
+      default venue חוץ; date min/max = published weeks −7 / +13 days; empty
+      time → `בחרו שעת התחלה`; time ≥22:00 → error; opponent ≤40 chars; note
+      `משך המשחק קבוע: שעתיים` shown; double-tap submit adds ONE game.
+- [ ] Title: `משחק חוץ נגד X` / `משחק בית נגד X`; no opponent → `משחק חוץ/בית`.
+- [ ] Delete a game: 6s Undo works; no edit control.
+- [ ] `.ics` game VEVENT has SUMMARY/UID/DTSTART/DTEND and no LOCATION; check
+      DST dates 2026-03-27 and 2026-10-25 land at the right local time.
+- [ ] 320px width: team-chip row (badge) does not overflow; toast fits.
+- [ ] XSS: opponent `<img src=x onerror=alert(1)>` renders as inert text in
+      list, dialog, toast, copy text, PNG.
+- [ ] Storage tampering (garbage in `gilboa.hidden` / `gilboa.games`) does not
+      crash the app.
+- [ ] Still zero `/api/` requests.
+
 ## Non-functional
 - [ ] A full run over a ~430-event window completes in a few seconds.
 - [ ] Only network call during a run is the calendar fetch.

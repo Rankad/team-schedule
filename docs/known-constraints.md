@@ -280,6 +280,28 @@ it is an OPEN stakeholder decision (DL-042; checklist in `docs/RIDES.md`).
   worktree and re-running the suite locally, without needing the raw log text
   at all.
 
+## Hide a training / add a game (DL-044)
+- **(a) Hiding is by position within the day.** Team trains 17:00 + 19:00 on a
+  Tuesday; parent hides the 17:00. In a week where only the 19:00 exists, it
+  becomes "#1" and is hidden. The chip badge / tap restores all. Only 2 teams in
+  current data train twice in a day.
+- **(b) Per phone.** Hides and games are in localStorage (`gilboa.hidden`,
+  `gilboa.games`): not carried by the `?teams=` share link, erased by clearing
+  browser data; games older than 60 days are pruned.
+- **(c) Games window.** Games can be added only for published weeks −7 … +13
+  days.
+- **(d) Old browsers, `.ics` only.** Without Intl `longOffset`/`short` offsets
+  the exact Israeli DST rule is used; a game starting 00:00–02:00 on a
+  DST-change night could be an hour off in the `.ics` (not on screen).
+- **(e) Keyboard.** The ✕ toggle radio group has no arrow-key roving — Tab stops
+  only.
+- **(f) Colour.** The hidden-count badge uses accent red: informational, not a
+  status colour (consistent with DL-037).
+- **(g) Summary wording.** A club `activity_type:'game'` row now counts as
+  "משחק" (not "אימון") in the footer summary.
+- **Testing:** the smoke test's fake DOM returns arrays, not NodeLists — new DOM
+  code needs a real-browser pass (LL-029).
+
 ## Branding (DL-036)
 - **Brand assets are self-hosted** in the repo, never hotlinked from
   `gilboamaayanot.co.il`. The club's public logo (`assets/img/logo.png`) is only

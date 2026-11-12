@@ -1,4 +1,83 @@
 {
-  "changes": [],
-  "generated_at": "2026-11-11T20:06:47Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-04T20:00:00+02:00",
+        "location": "גן נר",
+        "start": "2026-11-04T17:00:00+02:00",
+        "team_id": "T_042"
+      },
+      "session_id": "0g7c0tfnh2h2sokgnb3i7ck3g6",
+      "team_id": "T_042",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-04T18:30:00+02:00",
+        "location": "מעלה גלבוע",
+        "start": "2026-11-04T17:00:00+02:00",
+        "team_id": "T_126"
+      },
+      "session_id": "28j8rbomd98ekktjjen0108sla",
+      "team_id": "T_126",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-04T18:30:00+02:00",
+        "location": "גן נר",
+        "start": "2026-11-04T16:30:00+02:00",
+        "team_id": "T_039"
+      },
+      "session_id": "4rqnbc8nqiv35sac1idrec5rbg",
+      "team_id": "T_039",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-04T21:00:00+02:00",
+        "location": "אחווה נעורה",
+        "start": "2026-11-04T19:00:00+02:00",
+        "team_id": "T_036"
+      },
+      "session_id": "4usv7l1iecn0hprra8jtucvas4",
+      "team_id": "T_036",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-04T23:00:00+02:00",
+        "location": "נווה איתן",
+        "start": "2026-11-04T21:00:00+02:00",
+        "team_id": "T_041"
+      },
+      "session_id": "5jn69ao2g6n18j4oktv4ao6uc8",
+      "team_id": "T_041",
+      "week_key": "2026-11-01"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-04T17:30:00+02:00",
+        "location": "ביכורה",
+        "start": "2026-11-04T16:00:00+02:00",
+        "team_id": "T_015"
+      },
+      "session_id": "7u5ctp3h3uv4v86h945val672e",
+      "team_id": "T_015",
+      "week_key": "2026-11-01"
+    }
+  ],
+  "generated_at": "2026-11-12T13:36:27Z"
 }

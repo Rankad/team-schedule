@@ -1110,5 +1110,13 @@
     "tier": "לאומית",
     "sport": "basketball",
     "first_seen": "2026-11-12"
+  },
+  "T_140": {
+    "normalized_name": "טרום קט סל עין הנציב ביכורה",
+    "display_name": "טרום קט סל עין הנציב/ביכורה",
+    "category": "pre_mini",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-18"
   }
 }

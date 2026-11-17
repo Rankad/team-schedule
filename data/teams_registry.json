@@ -1118,5 +1118,13 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-11-18"
+  },
+  "T_141": {
+    "normalized_name": "כושר קרבי",
+    "display_name": "כושר קרבי",
+    "category": null,
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-26"
   }
 }

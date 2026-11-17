@@ -4,67 +4,28 @@
       "kind": "removed",
       "new": null,
       "old": {
-        "end": "2026-11-08T18:30:00+02:00",
-        "location": "חמדיה",
-        "start": "2026-11-08T17:00:00+02:00",
-        "team_id": "T_024"
-      },
-      "session_id": "0rejf01s2l4afo3ggolrd9l5r6",
-      "team_id": "T_024",
-      "week_key": "2026-11-08"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-08T20:00:00+02:00",
-        "location": "גן נר",
-        "start": "2026-11-08T18:30:00+02:00",
-        "team_id": "T_061"
-      },
-      "session_id": "2pa1le19fqoem47odl8cgmkmfv",
-      "team_id": "T_061",
-      "week_key": "2026-11-08"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-08T19:30:00+02:00",
-        "location": "ביכורה",
-        "start": "2026-11-08T18:00:00+02:00",
-        "team_id": "T_030"
-      },
-      "session_id": "3480ih4se9njat368q3aoje1n6",
-      "team_id": "T_030",
-      "week_key": "2026-11-08"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-08T20:30:00+02:00",
-        "location": "ניר דוד",
-        "start": "2026-11-08T19:00:00+02:00",
+        "end": "2026-11-09T20:30:00+02:00",
+        "location": "מסילות",
+        "start": "2026-11-09T19:00:00+02:00",
         "team_id": "T_063"
       },
-      "session_id": "6stq0uqvoq145b9q1i150blott",
+      "session_id": "5d9f9e5mg151k5r0n3mq2sdckd",
       "team_id": "T_063",
       "week_key": "2026-11-08"
     },
     {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-08T18:30:00+02:00",
-        "location": "מסילות",
-        "start": "2026-11-08T17:00:00+02:00",
-        "team_id": "T_011"
+      "kind": "added",
+      "new": {
+        "end": "2026-11-26T20:30:00+02:00",
+        "location": "איצטדיון אתלטיקה עין חרוד",
+        "start": "2026-11-26T19:00:00+02:00",
+        "team_id": "T_141"
       },
-      "session_id": "7ih4fnnk5n2orlg5ktnqljdji1",
-      "team_id": "T_011",
-      "week_key": "2026-11-08"
+      "old": null,
+      "session_id": "27ne6nanfhtau6c7p691302seb",
+      "team_id": "T_141",
+      "week_key": "2026-11-22"
     }
   ],
-  "generated_at": "2026-11-16T13:26:16Z"
+  "generated_at": "2026-11-17T00:41:38Z"
 }

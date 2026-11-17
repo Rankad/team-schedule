@@ -1137,5 +1137,17 @@
     "sport": "basketball",
     "team_id": "T_140",
     "tier": null
+  },
+  {
+    "category": null,
+    "coaches": [
+      "ישי דינר",
+      "פלא תמיר"
+    ],
+    "display_name": "כושר קרבי",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_141",
+    "tier": null
   }
 ]

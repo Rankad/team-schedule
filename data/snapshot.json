@@ -2,21 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "יהלי שגב",
-      "date": "2026-11-09",
-      "end": "2026-11-09T20:30:00+02:00",
-      "flags": null,
-      "id": "5d9f9e5mg151k5r0n3mq2sdckd",
-      "location": "מסילות",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-09T19:00:00+02:00",
-      "team_id": "T_063",
-      "week_key": "2026-11-08",
-      "weekday": 1
-    },
-    {
-      "activity_type": "training",
       "coach_text": "טל יזרעאלי",
       "date": "2026-11-10",
       "end": "2026-11-10T17:00:00+02:00",
@@ -3365,6 +3350,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "פלא תמיר/ישי דינר",
+      "date": "2026-11-26",
+      "end": "2026-11-26T20:30:00+02:00",
+      "flags": null,
+      "id": "27ne6nanfhtau6c7p691302seb",
+      "location": "איצטדיון אתלטיקה עין חרוד",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-11-26T19:00:00+02:00",
+      "team_id": "T_141",
+      "week_key": "2026-11-22",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
       "coach_text": "אילון סלוס",
       "date": "2026-11-28",
       "end": "2026-11-28T20:30:00+02:00",
@@ -3409,5 +3409,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-16T13:26:16Z"
+  "generated_at": "2026-11-17T00:41:38Z"
 }

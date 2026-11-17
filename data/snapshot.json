@@ -2,115 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-11-10",
-      "end": "2026-11-10T17:00:00+02:00",
-      "flags": null,
-      "id": "39mi71tsbqupmfel7kvp10k9km",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-10T15:30:00+02:00",
-      "team_id": "T_051",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יובל בר לב",
-      "date": "2026-11-10",
-      "end": "2026-11-10T17:30:00+02:00",
-      "flags": null,
-      "id": "667v3avjdlp0ltrk0cct4adv0v",
-      "location": "דדו",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-10T16:00:00+02:00",
-      "team_id": "T_010",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-11-10",
-      "end": "2026-11-10T19:30:00+02:00",
-      "flags": null,
-      "id": "31138402dhv1ippq9obkjb5u3d",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-10T17:30:00+02:00",
-      "team_id": "T_029",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-11-10",
-      "end": "2026-11-10T20:15:00+02:00",
-      "flags": null,
-      "id": "0dl1fugrnv30l50ucjgnjqv5jo",
-      "location": "מגרש חדש גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-10T18:45:00+02:00",
-      "team_id": "T_062",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "אור רותם",
-      "date": "2026-11-10",
-      "end": "2026-11-10T20:30:00+02:00",
-      "flags": null,
-      "id": "78kbrb1kd2agkr8fijtqvm2co4",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-10T19:00:00+02:00",
-      "team_id": "T_024",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "אילן היימן",
-      "date": "2026-11-10",
-      "end": "2026-11-10T20:30:00+02:00",
-      "flags": null,
-      "id": "3cf7hb648sfar6dlb38l11sv8h",
-      "location": "ניר דוד",
-      "notes": [
-        "משותף עם איתן בן עטיה"
-      ],
-      "sport": "basketball",
-      "start": "2026-11-10T19:00:00+02:00",
-      "team_id": "T_065",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "איתן בן עטיה",
-      "date": "2026-11-10",
-      "end": "2026-11-10T20:30:00+02:00",
-      "flags": null,
-      "id": "0hc1v483a5dbkjh1qlico6uqa4",
-      "location": "ניר דוד",
-      "notes": [
-        "משותף עם נערים ט שקד"
-      ],
-      "sport": "basketball",
-      "start": "2026-11-10T19:00:00+02:00",
-      "team_id": "T_127",
-      "week_key": "2026-11-08",
-      "weekday": 2
-    },
-    {
-      "activity_type": "training",
       "coach_text": "אור רותם",
       "date": "2026-11-11",
       "end": "2026-11-11T19:00:00+02:00",
@@ -3409,5 +3300,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-17T14:12:01Z"
+  "generated_at": "2026-11-17T23:47:34Z"
 }

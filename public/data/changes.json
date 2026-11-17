@@ -1,31 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-09T20:30:00+02:00",
-        "location": "מסילות",
-        "start": "2026-11-09T19:00:00+02:00",
-        "team_id": "T_063"
-      },
-      "session_id": "5d9f9e5mg151k5r0n3mq2sdckd",
-      "team_id": "T_063",
-      "week_key": "2026-11-08"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-11-26T20:30:00+02:00",
-        "location": "איצטדיון אתלטיקה עין חרוד",
-        "start": "2026-11-26T19:00:00+02:00",
-        "team_id": "T_141"
-      },
-      "old": null,
-      "session_id": "27ne6nanfhtau6c7p691302seb",
-      "team_id": "T_141",
-      "week_key": "2026-11-22"
-    }
-  ],
-  "generated_at": "2026-11-17T00:41:38Z"
+  "changes": [],
+  "generated_at": "2026-11-17T14:12:01Z"
 }

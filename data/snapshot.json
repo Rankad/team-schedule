@@ -1,51 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "training",
-      "coach_text": "אור רותם",
-      "date": "2026-11-11",
-      "end": "2026-11-11T19:00:00+02:00",
-      "flags": null,
-      "id": "1g4pa84hk0oe3l3fia7u1io7f0",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-11T17:30:00+02:00",
-      "team_id": "T_024",
-      "week_key": "2026-11-08",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "חוליו שוכמן",
-      "date": "2026-11-11",
-      "end": "2026-11-11T19:30:00+02:00",
-      "flags": null,
-      "id": "40fv98cujprftv4o99uje8kvn6",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-11T18:30:00+02:00",
-      "team_id": "T_129",
-      "week_key": "2026-11-08",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עמית נרדע",
-      "date": "2026-11-11",
-      "end": "2026-11-11T22:00:00+02:00",
-      "flags": null,
-      "id": "05qca4cujh4srui8vatu63udt4",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-11T20:30:00+02:00",
-      "team_id": "T_035",
-      "week_key": "2026-11-08",
-      "weekday": 3
-    },
-    {
       "activity_type": "blocked_hall",
       "coach_text": null,
       "date": "2026-11-12",
@@ -3300,5 +3255,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-18T13:43:33Z"
+  "generated_at": "2026-11-18T23:18:58Z"
 }

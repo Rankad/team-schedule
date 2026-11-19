@@ -1,44 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-11T22:00:00+02:00",
-        "location": "ניר דוד",
-        "start": "2026-11-11T20:30:00+02:00",
-        "team_id": "T_035"
-      },
-      "session_id": "05qca4cujh4srui8vatu63udt4",
-      "team_id": "T_035",
-      "week_key": "2026-11-08"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-11T19:00:00+02:00",
-        "location": "ניר דוד",
-        "start": "2026-11-11T17:30:00+02:00",
-        "team_id": "T_024"
-      },
-      "session_id": "1g4pa84hk0oe3l3fia7u1io7f0",
-      "team_id": "T_024",
-      "week_key": "2026-11-08"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-11T19:30:00+02:00",
-        "location": "עין חרוד",
-        "start": "2026-11-11T18:30:00+02:00",
-        "team_id": "T_129"
-      },
-      "session_id": "40fv98cujprftv4o99uje8kvn6",
-      "team_id": "T_129",
-      "week_key": "2026-11-08"
-    }
-  ],
-  "generated_at": "2026-11-18T23:18:58Z"
+  "changes": [],
+  "generated_at": "2026-11-19T14:12:19Z"
 }

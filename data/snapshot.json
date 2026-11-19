@@ -1,66 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "blocked_hall",
-      "coach_text": null,
-      "date": "2026-11-12",
-      "end": "2026-11-12T14:00:00+02:00",
-      "flags": null,
-      "id": "3g0tjebcqda8lgfm6i9toe6p9v",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "n/a",
-      "start": "2026-11-12T12:00:00+02:00",
-      "team_id": null,
-      "week_key": "2026-11-08",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "עמית נרדע",
-      "date": "2026-11-12",
-      "end": "2026-11-12T17:30:00+02:00",
-      "flags": null,
-      "id": "12s398nc0eajgj6b9k86496thn",
-      "location": "מסילות",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-12T16:00:00+02:00",
-      "team_id": "T_055",
-      "week_key": "2026-11-08",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "נתי כהן",
-      "date": "2026-11-12",
-      "end": "2026-11-12T19:00:00+02:00",
-      "flags": null,
-      "id": "32a79v2k97j98lirnv6rnfokbd",
-      "location": "ניר דוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-12T17:30:00+02:00",
-      "team_id": "T_056",
-      "week_key": "2026-11-08",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-11-12",
-      "end": "2026-11-12T22:30:00+02:00",
-      "flags": null,
-      "id": "1dg9uk19h2ukmt1c43m5js49lg",
-      "location": "עין חרוד",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-12T20:30:00+02:00",
-      "team_id": "T_029",
-      "week_key": "2026-11-08",
-      "weekday": 4
-    },
-    {
       "activity_type": "unknown",
       "coach_text": null,
       "date": "2026-11-13",
@@ -3255,5 +3195,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-19T14:12:19Z"
+  "generated_at": "2026-11-19T23:27:16Z"
 }

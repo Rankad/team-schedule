@@ -1126,5 +1126,29 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-11-26"
+  },
+  "T_142": {
+    "normalized_name": "קט סל א בנות גמ נעה שמעוני",
+    "display_name": "קט סל א בנות ג.מ.-נעה שמעוני",
+    "category": "mini_a",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-11-22"
+  },
+  "T_143": {
+    "normalized_name": "נערות א על + רשאיות מנערות ב על",
+    "display_name": "נערות א על + רשאיות מנערות ב על",
+    "category": "girls_youth",
+    "tier": "על",
+    "sport": "basketball",
+    "first_seen": "2026-11-25"
+  },
+  "T_144": {
+    "normalized_name": "אימון כדוררשת נשים מולדת",
+    "display_name": "אימון כדוררשת נשים מולדת",
+    "category": "women",
+    "tier": null,
+    "sport": "basketball",
+    "first_seen": "2026-12-01"
   }
 }

@@ -2074,7 +2074,7 @@
       "end": "2026-11-25T17:30:00+02:00",
       "flags": null,
       "id": "5r9164ehj809jtedcfdui45jr1",
-      "location": "דדו",
+      "location": "מגרש מקורה רם און",
       "notes": null,
       "sport": "basketball",
       "start": "2026-11-25T16:00:00+02:00",
@@ -2286,7 +2286,7 @@
       "end": "2026-11-25T19:00:00+02:00",
       "flags": null,
       "id": "1v0sca4oa2jb4j0okdf1s1a0ig",
-      "location": "דדו",
+      "location": "מגרש מקורה רם און",
       "notes": null,
       "sport": "basketball",
       "start": "2026-11-25T17:30:00+02:00",
@@ -2371,18 +2371,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "עדי גלמן",
+      "coach_text": "סהר טיבי",
       "date": "2026-11-25",
-      "end": "2026-11-25T19:30:00+02:00",
+      "end": "2026-11-25T20:00:00+02:00",
       "flags": null,
-      "id": "0idfa8jpmvc7rfnu1qm70vgbic",
+      "id": "52fece6lo9en463jhf56m5u4qi",
       "location": "אחווה נעורה",
-      "notes": [
-        "5 שחקניות"
-      ],
+      "notes": null,
       "sport": "basketball",
       "start": "2026-11-25T18:00:00+02:00",
-      "team_id": "T_032",
+      "team_id": "T_038",
       "week_key": "2026-11-22",
       "weekday": 3
     },
@@ -2450,6 +2448,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "עדי גלמן",
+      "date": "2026-11-25",
+      "end": "2026-11-25T20:30:00+02:00",
+      "flags": null,
+      "id": "0idfa8jpmvc7rfnu1qm70vgbic",
+      "location": "גן נר",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-11-25T18:30:00+02:00",
+      "team_id": "T_032",
+      "week_key": "2026-11-22",
+      "weekday": 3
+    },
+    {
+      "activity_type": "training",
       "coach_text": "עמית נרדע",
       "date": "2026-11-25",
       "end": "2026-11-25T20:00:00+02:00",
@@ -2495,21 +2508,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "טל יזרעאלי",
-      "date": "2026-11-25",
-      "end": "2026-11-25T20:30:00+02:00",
-      "flags": null,
-      "id": "2d059l3n1o5p3p7qtmgrnfec6o",
-      "location": "דדו",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-25T19:00:00+02:00",
-      "team_id": "T_059",
-      "week_key": "2026-11-22",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
       "coach_text": "רועי שביט",
       "date": "2026-11-25",
       "end": "2026-11-25T21:00:00+02:00",
@@ -2525,16 +2523,16 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "סהר טיבי",
+      "coach_text": "טל יזרעאלי",
       "date": "2026-11-25",
       "end": "2026-11-25T21:30:00+02:00",
       "flags": null,
-      "id": "52fece6lo9en463jhf56m5u4qi",
+      "id": "2d059l3n1o5p3p7qtmgrnfec6o",
       "location": "אחווה נעורה",
       "notes": null,
       "sport": "basketball",
-      "start": "2026-11-25T19:30:00+02:00",
-      "team_id": "T_038",
+      "start": "2026-11-25T20:00:00+02:00",
+      "team_id": "T_059",
       "week_key": "2026-11-22",
       "weekday": 3
     },
@@ -2773,21 +2771,6 @@
     },
     {
       "activity_type": "training",
-      "coach_text": "עמית נרדע",
-      "date": "2026-11-26",
-      "end": "2026-11-26T17:30:00+02:00",
-      "flags": null,
-      "id": "12s398nc0eajgj6b9k86496thn",
-      "location": "מסילות",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-26T16:00:00+02:00",
-      "team_id": "T_055",
-      "week_key": "2026-11-22",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
       "coach_text": "בן רצין",
       "date": "2026-11-26",
       "end": "2026-11-26T16:45:00+02:00",
@@ -2818,6 +2801,21 @@
     },
     {
       "activity_type": "training",
+      "coach_text": "עמית נרדע",
+      "date": "2026-11-26",
+      "end": "2026-11-26T18:00:00+02:00",
+      "flags": null,
+      "id": "12s398nc0eajgj6b9k86496thn",
+      "location": "ביכורה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-11-26T16:30:00+02:00",
+      "team_id": "T_055",
+      "week_key": "2026-11-22",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
       "coach_text": "סהר טיבי",
       "date": "2026-11-26",
       "end": "2026-11-26T18:45:00+02:00",
@@ -2843,21 +2841,6 @@
       "sport": "basketball",
       "start": "2026-11-26T17:00:00+02:00",
       "team_id": "T_039",
-      "week_key": "2026-11-22",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "אילן היימן",
-      "date": "2026-11-26",
-      "end": "2026-11-26T18:30:00+02:00",
-      "flags": null,
-      "id": "5qson7ofssb3g9do75hj1stmnv",
-      "location": "ביכורה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-26T17:00:00+02:00",
-      "team_id": "T_065",
       "week_key": "2026-11-22",
       "weekday": 4
     },
@@ -2965,6 +2948,21 @@
       "sport": "basketball",
       "start": "2026-11-26T18:00:00+02:00",
       "team_id": "T_058",
+      "week_key": "2026-11-22",
+      "weekday": 4
+    },
+    {
+      "activity_type": "training",
+      "coach_text": "אילן היימן",
+      "date": "2026-11-26",
+      "end": "2026-11-26T19:30:00+02:00",
+      "flags": null,
+      "id": "5qson7ofssb3g9do75hj1stmnv",
+      "location": "ביכורה",
+      "notes": null,
+      "sport": "basketball",
+      "start": "2026-11-26T18:00:00+02:00",
+      "team_id": "T_065",
       "week_key": "2026-11-22",
       "weekday": 4
     },
@@ -3452,5 +3450,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-22T22:20:47Z"
+  "generated_at": "2026-11-23T15:46:12Z"
 }

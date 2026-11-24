@@ -1,31 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-16T11:30:00+02:00",
-        "location": "גן נר",
-        "start": "2026-11-16T09:30:00+02:00",
-        "team_id": "T_042"
-      },
-      "session_id": "3v56148srr9v70qgscljji2ncf",
-      "team_id": "T_042",
-      "week_key": "2026-11-15"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-16T18:30:00+02:00",
-        "location": "עין חרוד",
-        "start": "2026-11-16T16:30:00+02:00",
-        "team_id": "T_039"
-      },
-      "session_id": "6ah505kufg3ot0e0s7edla3p3s",
-      "team_id": "T_039",
-      "week_key": "2026-11-15"
-    }
-  ],
-  "generated_at": "2026-11-24T03:11:59Z"
+  "changes": [],
+  "generated_at": "2026-11-24T15:37:40Z"
 }

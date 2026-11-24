@@ -3341,6 +3341,23 @@
       "weekday": 2
     },
     {
+      "activity_type": "unknown",
+      "coach_text": null,
+      "date": "2026-12-01",
+      "end": "2026-12-01T20:30:00+02:00",
+      "flags": [
+        "unrecognized_title"
+      ],
+      "id": "68issm5nn82nnfp9ej59pqcr0t",
+      "location": "עין חרוד",
+      "notes": null,
+      "sport": "unknown",
+      "start": "2026-12-01T19:00:00+02:00",
+      "team_id": null,
+      "week_key": "2026-11-29",
+      "weekday": 2
+    },
+    {
       "activity_type": "training",
       "coach_text": null,
       "date": "2026-12-01",
@@ -3418,5 +3435,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-24T03:11:59Z"
+  "generated_at": "2026-11-24T15:37:40Z"
 }

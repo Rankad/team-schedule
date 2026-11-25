@@ -1,44 +1,4 @@
 {
-  "changes": [
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-17T20:30:00+02:00",
-        "location": "גבע",
-        "start": "2026-11-17T19:00:00+02:00",
-        "team_id": "T_076"
-      },
-      "session_id": "0l5lndf3dsbrcnmrvu7lh3tevp",
-      "team_id": "T_076",
-      "week_key": "2026-11-15"
-    },
-    {
-      "kind": "removed",
-      "new": null,
-      "old": {
-        "end": "2026-11-17T20:30:00+02:00",
-        "location": "אומן",
-        "start": "2026-11-17T19:00:00+02:00",
-        "team_id": "T_049"
-      },
-      "session_id": "7aq7jkvsfqkq3rvjefrsfq9ppl",
-      "team_id": "T_049",
-      "week_key": "2026-11-15"
-    },
-    {
-      "kind": "added",
-      "new": {
-        "end": "2026-12-22T22:00:00+02:00",
-        "location": "אחווה נעורה",
-        "start": "2026-12-22T20:30:00+02:00",
-        "team_id": "T_144"
-      },
-      "old": null,
-      "session_id": "5ptuoikofv7a5dptpjhmbsj49a",
-      "team_id": "T_144",
-      "week_key": "2026-12-20"
-    }
-  ],
-  "generated_at": "2026-11-25T01:17:32Z"
+  "changes": [],
+  "generated_at": "2026-11-25T15:22:22Z"
 }

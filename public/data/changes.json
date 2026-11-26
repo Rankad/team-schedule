@@ -1,4 +1,31 @@
 {
-  "changes": [],
-  "generated_at": "2026-11-25T15:22:22Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-18T18:30:00+02:00",
+        "location": "מגרש פתוח תל יוסף",
+        "start": "2026-11-18T17:00:00+02:00",
+        "team_id": "T_079"
+      },
+      "session_id": "6er5be6k3n6dl59vkl8op1eshj",
+      "team_id": "T_079",
+      "week_key": "2026-11-15"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-18T14:00:00+02:00",
+        "location": "גן נר",
+        "start": "2026-11-18T10:00:00+02:00",
+        "team_id": "T_042"
+      },
+      "session_id": "70kuihrtobn7lvnmk68kshad67",
+      "team_id": "T_042",
+      "week_key": "2026-11-15"
+    }
+  ],
+  "generated_at": "2026-11-26T00:52:11Z"
 }

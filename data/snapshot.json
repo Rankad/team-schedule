@@ -2,40 +2,6 @@
   "events": [
     {
       "activity_type": "training",
-      "coach_text": "גיא גודס/גולן יבלונבסקי",
-      "date": "2026-11-18",
-      "end": "2026-11-18T14:00:00+02:00",
-      "flags": [
-        "team_name_has_club_token"
-      ],
-      "id": "70kuihrtobn7lvnmk68kshad67",
-      "location": "גן נר",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-18T10:00:00+02:00",
-      "team_id": "T_042",
-      "week_key": "2026-11-15",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "טל גילת",
-      "date": "2026-11-18",
-      "end": "2026-11-18T18:30:00+02:00",
-      "flags": null,
-      "id": "6er5be6k3n6dl59vkl8op1eshj",
-      "location": "מגרש פתוח תל יוסף",
-      "notes": [
-        "כיתות ג-ד"
-      ],
-      "sport": "basketball",
-      "start": "2026-11-18T17:00:00+02:00",
-      "team_id": "T_079",
-      "week_key": "2026-11-15",
-      "weekday": 3
-    },
-    {
-      "activity_type": "training",
       "coach_text": "יואב שנקמן/טל יזרעאלי",
       "date": "2026-11-19",
       "end": "2026-11-19T16:30:00+02:00",
@@ -3420,5 +3386,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-25T15:22:22Z"
+  "generated_at": "2026-11-26T00:52:11Z"
 }

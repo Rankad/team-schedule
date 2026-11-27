@@ -1,4 +1,70 @@
 {
-  "changes": [],
-  "generated_at": "2026-11-26T14:49:47Z"
+  "changes": [
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-19T16:30:00+02:00",
+        "location": "עין חרוד",
+        "start": "2026-11-19T15:00:00+02:00",
+        "team_id": "T_139"
+      },
+      "session_id": "22hrtam4ogudi0tvu4adbvrhcj",
+      "team_id": "T_139",
+      "week_key": "2026-11-15"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-19T18:30:00+02:00",
+        "location": "גן נר",
+        "start": "2026-11-19T17:00:00+02:00",
+        "team_id": "T_057"
+      },
+      "session_id": "2og5m96kqu9v60cll1i8qfmcp7",
+      "team_id": "T_057",
+      "week_key": "2026-11-15"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-19T17:30:00+02:00",
+        "location": "ניר דוד",
+        "start": "2026-11-19T16:00:00+02:00",
+        "team_id": "T_040"
+      },
+      "session_id": "4r5a7s5hhq4ekp3g8ts1iipsjr",
+      "team_id": "T_040",
+      "week_key": "2026-11-15"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-19T18:00:00+02:00",
+        "location": "מסילות",
+        "start": "2026-11-19T16:30:00+02:00",
+        "team_id": "T_063"
+      },
+      "session_id": "5ptitnhjpghiilaf58cbk4turh",
+      "team_id": "T_063",
+      "week_key": "2026-11-15"
+    },
+    {
+      "kind": "removed",
+      "new": null,
+      "old": {
+        "end": "2026-11-19T17:00:00+02:00",
+        "location": "בית השיטה",
+        "start": "2026-11-19T15:30:00+02:00",
+        "team_id": "T_019"
+      },
+      "session_id": "6ov8ua2nbk9tnautghg8rqhupt",
+      "team_id": "T_019",
+      "week_key": "2026-11-15"
+    }
+  ],
+  "generated_at": "2026-11-27T00:58:17Z"
 }

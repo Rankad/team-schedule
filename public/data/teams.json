@@ -340,7 +340,7 @@
       "ירון רוטנברג"
     ],
     "display_name": "נערים ארצית",
-    "sample_note": "במקום שבת כי אין אולם",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_040",
     "tier": "ארצית"
@@ -476,7 +476,7 @@
       "ברק וינריב"
     ],
     "display_name": "קט סל ב גן נר",
-    "sample_note": "מאמן מחליף",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_057",
     "tier": null
@@ -1080,18 +1080,6 @@
     "sport": "basketball",
     "team_id": "T_137",
     "tier": null
-  },
-  {
-    "category": "juniors",
-    "coaches": [
-      "טל יזרעאלי",
-      "יואב שנקמן"
-    ],
-    "display_name": "נוער לאומית/נוער על",
-    "sample_note": "שלא בעמק חרוד",
-    "sport": "basketball",
-    "team_id": "T_139",
-    "tier": "לאומית"
   },
   {
     "category": "pre_mini",

@@ -1,87 +1,6 @@
 {
   "events": [
     {
-      "activity_type": "training",
-      "coach_text": "יואב שנקמן/טל יזרעאלי",
-      "date": "2026-11-19",
-      "end": "2026-11-19T16:30:00+02:00",
-      "flags": null,
-      "id": "22hrtam4ogudi0tvu4adbvrhcj",
-      "location": "עין חרוד",
-      "notes": [
-        "שלא בעמק חרוד"
-      ],
-      "sport": "basketball",
-      "start": "2026-11-19T15:00:00+02:00",
-      "team_id": "T_139",
-      "week_key": "2026-11-15",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יוגב פרטי",
-      "date": "2026-11-19",
-      "end": "2026-11-19T17:00:00+02:00",
-      "flags": null,
-      "id": "6ov8ua2nbk9tnautghg8rqhupt",
-      "location": "בית השיטה",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-19T15:30:00+02:00",
-      "team_id": "T_019",
-      "week_key": "2026-11-15",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ירון רוטנברג",
-      "date": "2026-11-19",
-      "end": "2026-11-19T17:30:00+02:00",
-      "flags": null,
-      "id": "4r5a7s5hhq4ekp3g8ts1iipsjr",
-      "location": "ניר דוד",
-      "notes": [
-        "במקום שבת כי אין אולם"
-      ],
-      "sport": "basketball",
-      "start": "2026-11-19T16:00:00+02:00",
-      "team_id": "T_040",
-      "week_key": "2026-11-15",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "יהלי שגב",
-      "date": "2026-11-19",
-      "end": "2026-11-19T18:00:00+02:00",
-      "flags": null,
-      "id": "5ptitnhjpghiilaf58cbk4turh",
-      "location": "מסילות",
-      "notes": null,
-      "sport": "basketball",
-      "start": "2026-11-19T16:30:00+02:00",
-      "team_id": "T_063",
-      "week_key": "2026-11-15",
-      "weekday": 4
-    },
-    {
-      "activity_type": "training",
-      "coach_text": "ברק וינריב",
-      "date": "2026-11-19",
-      "end": "2026-11-19T18:30:00+02:00",
-      "flags": null,
-      "id": "2og5m96kqu9v60cll1i8qfmcp7",
-      "location": "גן נר",
-      "notes": [
-        "מאמן מחליף"
-      ],
-      "sport": "basketball",
-      "start": "2026-11-19T17:00:00+02:00",
-      "team_id": "T_057",
-      "week_key": "2026-11-15",
-      "weekday": 4
-    },
-    {
       "activity_type": "blocked_hall",
       "coach_text": null,
       "date": "2026-11-21",
@@ -3386,5 +3305,5 @@
       "weekday": 2
     }
   ],
-  "generated_at": "2026-11-26T14:49:47Z"
+  "generated_at": "2026-11-27T00:58:17Z"
 }

@@ -27,7 +27,7 @@
       "עמית נרדע"
     ],
     "display_name": "ילדים לאומית",
-    "sample_note": null,
+    "sample_note": "סהר טיבי מחליף",
     "sport": "basketball",
     "team_id": "T_005",
     "tier": "לאומית"
@@ -251,7 +251,7 @@
       "ניר גוב"
     ],
     "display_name": "נוער על",
-    "sample_note": null,
+    "sample_note": "ללא ילדי שקד",
     "sport": "basketball",
     "team_id": "T_031",
     "tier": "על"
@@ -284,7 +284,7 @@
       "עמית נרדע"
     ],
     "display_name": "נוער ארצית",
-    "sample_note": null,
+    "sample_note": "ניר גוב מחליף",
     "sport": "basketball",
     "team_id": "T_035",
     "tier": "ארצית"
@@ -340,7 +340,7 @@
       "ירון רוטנברג"
     ],
     "display_name": "נערים ארצית",
-    "sample_note": null,
+    "sample_note": "במקום רביעי כי אין אולם",
     "sport": "basketball",
     "team_id": "T_040",
     "tier": "ארצית"
@@ -421,7 +421,7 @@
       "יובל בר לב"
     ],
     "display_name": "ילדים ב מערב",
-    "sample_note": "חד פעמי במקום 16:15",
+    "sample_note": null,
     "sport": "basketball",
     "team_id": "T_049",
     "tier": null
@@ -564,7 +564,7 @@
       "אילן היימן"
     ],
     "display_name": "נערים ט שקד",
-    "sample_note": null,
+    "sample_note": "מור קיקו מחליף",
     "sport": "basketball",
     "team_id": "T_065",
     "tier": null
@@ -983,6 +983,17 @@
     "tier": null
   },
   {
+    "category": null,
+    "coaches": [
+      "חוליו שוכמן"
+    ],
+    "display_name": "ניקיון אולם עין חרוד לפני משחק",
+    "sample_note": null,
+    "sport": "basketball",
+    "team_id": "T_122",
+    "tier": null
+  },
+  {
     "category": "juniors",
     "coaches": [
       "גילי בן זאב"
@@ -999,7 +1010,7 @@
       "עדי גלמן"
     ],
     "display_name": "נערות ב על/ילדות א בוגרות מי שרשאיות",
-    "sample_note": null,
+    "sample_note": "נעה שמעוני מחליפה",
     "sport": "basketball",
     "team_id": "T_125",
     "tier": "על"
@@ -1043,7 +1054,7 @@
       "צוות מערך המצוינות"
     ],
     "display_name": "מצוינות קט סל ב",
-    "sample_note": null,
+    "sample_note": "בניר דוד ובשעה 14:00",
     "sport": "basketball",
     "team_id": "T_134",
     "tier": null
@@ -1054,7 +1065,7 @@
       "צוות מערך המצוינות"
     ],
     "display_name": "מצוינות קט סל א",
-    "sample_note": null,
+    "sample_note": "בניר דוד ובשעה 12:30",
     "sport": "basketball",
     "team_id": "T_135",
     "tier": null
@@ -1132,5 +1143,17 @@
     "sport": "basketball",
     "team_id": "T_144",
     "tier": null
+  },
+  {
+    "category": "juniors",
+    "coaches": [
+      "טל יזרעאלי",
+      "יואב שנקמן"
+    ],
+    "display_name": "נוער על/נוער לאומית",
+    "sample_note": "ללא יב עמק חרוד שבטיול שנתי",
+    "sport": "basketball",
+    "team_id": "T_145",
+    "tier": "לאומית"
   }
 ]

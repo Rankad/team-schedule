@@ -1150,5 +1150,13 @@
     "tier": null,
     "sport": "basketball",
     "first_seen": "2026-12-01"
+  },
+  "T_145": {
+    "normalized_name": "נוער על נוער לאומית",
+    "display_name": "נוער על/נוער לאומית",
+    "category": "juniors",
+    "tier": "לאומית",
+    "sport": "basketball",
+    "first_seen": "2026-11-29"
   }
 }
